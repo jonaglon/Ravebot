@@ -4,13 +4,18 @@ void doLights() {
 
   allOff();
 
-  lightsInTime();
+  //lightsInTime();
 
-  beatLights();
+  //beatLights();
 
-  doTalkingLights();
+  //doTalkingLights();
   
-  //setLedDirect(dropCountdown+114, 0, 255, 0, 0);
+  setLedDirect(2, 255, 0, 0, 0);
+  setLedDirect(3, 0, 255, 0, 0);
+  setLedDirect(4, 0, 0, 255, 0);
+  setLedDirect(5, 0, 0, 0, 255);
+
+  //rgbwSnake();
 
   LEDS.show();
 
