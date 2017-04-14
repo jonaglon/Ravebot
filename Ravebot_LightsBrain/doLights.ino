@@ -10,16 +10,34 @@ void doLights() {
 
   //doTalkingLights();
   
-  setLedDirect(2, 255, 0, 0, 0);
-  setLedDirect(3, 0, 255, 0, 0);
-  setLedDirect(4, 0, 0, 255, 0);
-  setLedDirect(5, 0, 0, 0, 255);
+  /*setLedDirect(12, 255, 0, 0, 0);
+  setLedDirect(13, 0, 255, 0, 0);
+  setLedDirect(14, 0, 0, 255, 0);
+  setLedDirect(15, 0, 0, 0, 255);   */
+
+  //rgbwRainbow(10);
 
   //rgbwSnake();
-
+  bassBinPattern(90);
   LEDS.show();
 
 }
+
+void bassBinPattern(int speedFactor)
+{
+
+  int thisFrame = (timey / speedFactor) % 1900;
+  
+  for (int pixNum = 0; pixNum < numLeds; pixNum++) {
+    if (pixNum % 19 == 0) {
+      for (int port19 = 0; port19 < 19; port19++) {
+        SetRgbwWheel(pixNum+(thisFrame%19)+port19, thisFrame % 255, 0);
+      }
+    }
+  }
+
+}
+
 
 unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
 

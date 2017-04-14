@@ -30,7 +30,7 @@ void OLDOLDOLDOLD_doRgbwLights()
 
    //quarterLights(500);
 
-  doTalkingLights();
+  //doTalkingLights();
 
   //tubeTest();
 
@@ -116,7 +116,7 @@ void rgbwRainbow(int speedFactor) {
   int ticky = (timey / speedFactor);
 
   // forward
-  for (int pixNum = 270; pixNum < numLeds; pixNum++) {
+  for (int pixNum = 0; pixNum < numLeds; pixNum++) {
     SetRgbwWheel(pixNum, (pixNum + ticky) % 255, 0);
   }
 }
@@ -249,6 +249,18 @@ void setLed(int ledNum, int rVal, int gVal, int bVal, int wVal)
 
 void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal)
 {
+  if (true) 
+  {
+    setRgbwLedNoGhettoHead(ledNum, rVal, gVal, bVal, wVal);
+  }
+  else 
+  {
+    setLedDirectGhettoHead(ledNum, rVal, gVal, bVal, wVal);
+  }  
+}
+
+void setLedDirectGhettoHead(int ledNum, int rVal, int gVal, int bVal, int wVal)
+{
   if (ledNum < 0)
     return;
   
@@ -259,7 +271,7 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal)
     rgbwLeds[ledNum].b = bVal;
   }
   else if (ledNum < 113)
-    setRgbwLed(ledNum-21, rVal, gVal, bVal, wVal);
+    setRgbwLedGhettoHead(ledNum-21, rVal, gVal, bVal, wVal);
   else if (ledNum < 197)
   {
     rgbwLeds[ledNum+10].r = rVal;
@@ -267,11 +279,39 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal)
     rgbwLeds[ledNum+9].b = gVal;    
   }
   else
-    setRgbwLed(ledNum-42, rVal, gVal, bVal, wVal);
+    setRgbwLedGhettoHead(ledNum-42, rVal, gVal, bVal, wVal);
                                      
 }
 
-void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal)
+void setRgbwLedNoGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVal)
+{
+  int newNumber = (ledNumber * 4) / 3;
+  short mod = ledNumber % 3;
+
+  if (mod == 0)
+  {
+    rgbwLeds[newNumber].r = gVal;
+    rgbwLeds[newNumber].g = rVal;
+    rgbwLeds[newNumber].b = bVal;
+    rgbwLeds[newNumber+1].r =wVal;
+  }
+  else if (mod == 1)
+  {
+    rgbwLeds[newNumber].g = gVal;
+    rgbwLeds[newNumber].b = rVal;
+    rgbwLeds[newNumber+1].r =bVal;
+    rgbwLeds[newNumber+1].g =wVal;
+  }
+  else 
+  {
+    rgbwLeds[newNumber].b = gVal;
+    rgbwLeds[newNumber+1].r =rVal;
+    rgbwLeds[newNumber+1].g =bVal;
+    rgbwLeds[newNumber+1].b =wVal;
+  }
+}
+
+void setRgbwLedGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVal)
 {
   int newNumber = (ledNumber * 4) / 3;
   short mod = ledNumber % 3;

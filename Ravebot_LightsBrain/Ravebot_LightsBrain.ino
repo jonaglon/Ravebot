@@ -3,6 +3,8 @@
  / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
 / _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
 \/ \_/\__,_| \_/ \___|_.__/ \___/ \__|         \____/_|\__, |_| |_|\__|___/
+     
+                                                       
                                                        |___/                       */
 #include<Arduino.h>
 #include<Wire.h>
@@ -52,9 +54,9 @@ void loop()
 {
   timey = millis();
 
-  listenToAbleton();
+  //listenToAbleton();
 
-  receiveFromMega();
+  //receiveFromMega();
 
   doLights();
 
