@@ -45,10 +45,12 @@ void setup() {
 
   pinMode(12, OUTPUT); // rgb LED Setup
   LEDS.addLeds<WS2812B, 12>(rgbwLeds, numLedsAdj);
-  LEDS.setBrightness(64); // 255 max
+  LEDS.setBrightness(255); // 255 max
 
   setMainVolume(mainVolume);
 }
+
+bool fakeBeat = true;
 
 void loop()
 {

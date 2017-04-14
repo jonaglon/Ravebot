@@ -18,25 +18,21 @@ void doLights() {
   //rgbwRainbow(10);
 
   //rgbwSnake();
-  bassBinPattern(90);
+  bassBinRainbow(5);
   LEDS.show();
 
 }
 
-void bassBinPattern(int speedFactor)
+void bassBinRainbow(int speedFactor)
 {
-
-  int thisFrame = (timey / speedFactor) % 1900;
+  int thisFrame = (timey / speedFactor) % 255;
   
   for (int pixNum = 0; pixNum < numLeds; pixNum++) {
-    if (pixNum % 19 == 0) {
-      for (int port19 = 0; port19 < 19; port19++) {
-        SetRgbwWheel(pixNum+(thisFrame%19)+port19, thisFrame % 255, 0);
-      }
-    }
+    SetRgbwWheel(pixNum, (thisFrame + (pixNum * 2)) % 255, 0);
   }
 
 }
+
 
 
 unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
