@@ -7,6 +7,8 @@ int state=0;  // state machine variable 0 = command waiting : 1 = note waitin : 
 
 // Receive midi from ableton
 void listenToAbleton() {
+  if (fakeBeat)
+    doFakeBeatMessageFromAbleton();
 
   while (Serial.available() > 0) {
     incomingByte = Serial.read();
@@ -42,7 +44,7 @@ void listenToAbleton() {
   }
 }
 
-void processMessageFromAbleton(byte note, byte velocity, int down){
+void processMessageFromAbleton(byte note, byte velocity, int down) {
   if ((note>=24 && note<88) && (velocity == 100)) {
     sixteenth = note - 24; // from 0 to 63 
     sendBeatToMega();
@@ -65,4 +67,25 @@ void processMessageFromAbleton(byte note, byte velocity, int down){
     }         
   }
 }
+
+
+void setBeatTimes() {
+
+  for (int x = 0; x < 9; x++)
+    beatTimes[x+1] = beatTimes[x];
+
+  beatTimes[0] = timey;
+}
+
+unsigned long i = 0;
+unsigned long nextBeat = 0;
+
+void doFakeBeatMessageFromAbleton() {
+  if (timey > nextBeat) {
+    processMessageFromAbleton((i%16)+24, 100, 0);
+    nextBeat = timey+fakeBeatLengh;
+    i++;
+  }
+}
+
 

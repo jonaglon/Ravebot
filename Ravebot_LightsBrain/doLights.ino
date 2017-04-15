@@ -35,17 +35,7 @@ void bassBinRainbow(int speedFactor)
 
 
 
-unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
 
-// this is called from listenToAbleton when there has been a new beat
-void setBeatTimes() {
-
-  for (int x = 0; x < 9; x++)
-    beatTimes[x+1] = beatTimes[x];
-
-  beatTimes[0] = timey;
-}
- 
 void lightsInTime() {
 
   int thisFrame = sixteenth % 4;

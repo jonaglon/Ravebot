@@ -13,6 +13,9 @@
 unsigned long timey;
 int ticky=0;
 
+unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
+int fakeBeatLengh = 240;
+
 // Set by midi in to be 1-16 with beat.
 short sixteenth = 0;
 
@@ -56,7 +59,7 @@ void loop()
 {
   timey = millis();
 
-  //listenToAbleton();
+  listenToAbleton();
 
   //receiveFromMega();
 
