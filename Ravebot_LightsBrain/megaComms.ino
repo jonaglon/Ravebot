@@ -38,7 +38,7 @@ void doSomethingWithPackageFromMega(int package)
   {
     // specific track was chosen on the keypad, play the track
     setLedDirect((message % 100)+114, 0, 255, 0, 0);
-    playAbletonTrack((message / 100), (message % 100));              // TODO WHERE IS THIS MESSSAGE!!!!
+    playAbletonTrack((message / 100), (message % 100));
   }
 }
 

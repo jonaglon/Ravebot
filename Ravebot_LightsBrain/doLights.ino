@@ -25,7 +25,7 @@ void doLights() {
 
 void bassBinRainbow(int speedFactor)
 {
-  int thisFrame = (timey / speedFactor) % 255;
+  unsigned long thisFrame = (timey / speedFactor);
   
   for (int pixNum = 0; pixNum < numLeds; pixNum++) {
     SetRgbwWheel(pixNum, (thisFrame + (pixNum * 2)) % 255, 0);
@@ -54,10 +54,10 @@ void lightsInTime() {
     }
   }
   
-  if (dropCountdown == 0)
+  /*if (dropCountdown == 0)
     LEDS.setBrightness(64);
   else 
-    LEDS.setBrightness(dropCountdown*4);
+    LEDS.setBrightness(dropCountdown*4);*/
 }
 
 void beatLights() {
