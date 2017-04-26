@@ -178,7 +178,7 @@ struct tuneInfo {
   }
 };
 
-tuneInfo tunesLibrary[5][10] = {
+tuneInfo tunesLibrary[6][10] = {
  {{103,  5, 69, 123},  // Moma said knock you out        // 0, 1   Hip-hop
   {101,  5, 25,  81},  // Lets get ill
   { 95,  2, 49, 108},  // Dre California
@@ -232,7 +232,18 @@ tuneInfo tunesLibrary[5][10] = {
   {115, 21, 57,  84}, // RizzleKicks - DownWithTheTrumpets
   {168, 29, 93, 173}, // OneTime
   {000,  0,  0, 000},
-  {000,  0,  0, 000}}    
+  {000,  0,  0, 000}},
+
+ {{ 85,  0,  0,  84}, // Costa del essex
+  {132,  0,  0, 139}, // MC Hammer, cant touch
+  {118,  8,  0,  34}, // Minder
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000}}      
 };
 
 /* 
