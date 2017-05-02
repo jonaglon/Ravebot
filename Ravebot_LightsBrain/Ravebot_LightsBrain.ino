@@ -178,7 +178,7 @@ struct tuneInfo {
   }
 };
 
-tuneInfo tunesLibrary[7][11] = {
+tuneInfo tunesLibrary[8][11] = {
  {{103,  5, 69, 123},  // Moma said knock you out        // 0, 1   Hip-hop
   {101,  5, 25,  81},  // Lets get ill
   { 92,  2, 49, 129},  // Dre&2Pac California
@@ -262,6 +262,19 @@ tuneInfo tunesLibrary[7][11] = {
   {132,  0,  0, 166}, // MasterBlaster-StevieWonder
   {109,  0,  0, 113}, // AllNightLong - LionelRichie
   { 96,  0,  0,  97}},// INeedADollar-AloeBlacc     {122,  0,  0, 124} // GotToGiveItUp-MarvinGaye
+
+ {{124,  0,  0,  71}, // ILoveTheNightlife - Alecia Bridges
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000}}, 
+
 };
 
 /* 
