@@ -178,18 +178,19 @@ struct tuneInfo {
   }
 };
 
-tuneInfo tunesLibrary[6][10] = {
+tuneInfo tunesLibrary[7][11] = {
  {{103,  5, 69, 123},  // Moma said knock you out        // 0, 1   Hip-hop
   {101,  5, 25,  81},  // Lets get ill
-  { 95,  2, 49, 108},  // Dre California
-  { 93,  9, 49, 113},  // No Diggidy
+  { 92,  2, 49, 129},  // Dre&2Pac California
+  { 93,  9, 49, 93},   // No Diggidy
   {100,  5, 25,  54},  // Like it raw
   {162,  7, 65, 143},  // Bigger than hip hop
   { 93,  3, 61,  73},  // Close to me snoop
-  {160,  9, 81, 153},  // Coolio Gansters paradise
-  {100,  5, 47 , 89},  // HipHopHooray
-  {108,  4, 34,  96}}, // Jump Around 
-  
+  {160, 77,  0, 159},  // Coolio Gansters paradise
+  {100,  5, 47,  89},   // HipHopHooray
+  {108,  4, 34,  96},  // Jump Around 
+  {103,  0,  0,  81}}, // Insazlle in the bazzle - Cyprus Hazzle
+    
  {{102,  9, 97, 137},  // Aphex Ageopolis  
   {103,  7, 83, 111},  // Whitetown I could never
   { 96,  9, 53,  76},  // DM Big L 
@@ -199,19 +200,21 @@ tuneInfo tunesLibrary[6][10] = {
   {127,  5, 33, 125},  // Royksop Remind me
   {105, 10, 38, 116},  // Chakka Aint nobody
   {140, 41, 93, 129},  // FOTC The humans are dead
-  { 87,  5, 49,  89}}, // Roos Manuva Again and again
-
+  { 87,  5, 49,  89},  // Roos Manuva Again and again
+  {115,  0,  0, 142}}, // Jamacian Boy - Lone Ranger 
+  
  {{ 86,  9,  0,  51},  // Tenor Saw Ring the Alarm
   {102, 49, 61, 119},  // Toots Funky Kingston
   { 80,  0,  0,  79},  // WayneSmith - UnderMeSleng Teng
   { 86,  0,  0,  67},  // Sis Nancy Bam Bam
-  { 83,  0,  0, 77},  // Althea&Donna Strictly Roots
-  { 77, 27,  0, 52},  // Damian Marley Welcome To Jamrock
-  {147, 13, 59, 147}, // Tanya S - It's a pity
-  { 88,  0,  0,  72}, // Marcia G - Feel like jumping
-  { 82,  0,  0,  72}, // Cant stop now, MajorLazer
-  {000,  0,  0, 000}}, 
- 
+  { 83,  0,  0, 77},   // Althea&Donna Strictly Roots
+  { 77, 27,  0, 52},   // Damian Marley Welcome To Jamrock
+  {147, 13, 59, 147},  // Tanya S - It's a pity
+  { 88,  0,  0,  72},  // Marcia G - Feel like jumping
+  { 82,  0,  0,  72},  // Cant stop now, MajorLazer
+  {148,  0,  0, 106},  // Toots - pressure drop
+  {104,  0,  0,  99}}, // Bob - Could you be loved
+   
  {{160,  0,  0, 113}, // Kim Wilde - Kids in America
   {126,  0,  0,  81}, //Kylie - cant get you out
   {112,  0,  0, 101}, //Hall&Oates - I can't go for that
@@ -221,8 +224,9 @@ tuneInfo tunesLibrary[6][10] = {
   {126, 39,  0,  97}, //PaulSimon&Dylan Stuck in the middle
   {164,  9, 65, 136}, //Martha&Muffins Echo Beach
   {199,  0,  0, 111}, //TheCoral - DreamingOfYou
-  {000,  0,  0, 000}},
-
+  { 99,  0,  0,  58}, // Blister in the sun - Voilent femmes
+  {114,  0,  0,  96}}, // Erasure a little respect
+   
  {{133, 29, 53, 120}, // A rinky dinky
   {136,  5, 45,  93}, // Israelites mix
   {108, 57,  0,  83}, // Kelis - Trick Me
@@ -231,19 +235,33 @@ tuneInfo tunesLibrary[6][10] = {
   {125, 29, 71, 103}, // Dizee Bonkers
   {115, 21, 57,  84}, // RizzleKicks - DownWithTheTrumpets
   {168, 29, 93, 173}, // OneTime
-  {000,  0,  0, 000},
-  {000,  0,  0, 000}},
-
+  {130,  0,  0, 161}, // WileOut - DJ Zinc
+  {145,  0,  0, 171}, // Aphex - Polynomial C
+  {123,  0,  0, 187}},// Aphex WindowLicker
+  
  {{ 85,  0,  0,  84}, // Costa del essex
   {132,  0,  0, 139}, // MC Hammer, cant touch
   {118,  8,  0,  34}, // Minder
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000}}      
+  {172,  0,  0, 112}, // TheClappingSong
+  {120,  0,  0,  87}, // Killer Queen
+  {170,  0,  0,  89}, // Creep RichardCheese
+  {170,  0,  0, 132}, // Crash Primitives
+  { 94,  0,  0,  57}, // TooManyMuthaUkkas - FOTC
+  {172,  0,  0,  89}, // HitTheRoadJack - RayCharles
+  {112,  0,  0,  86}, // Crazy - GnarlesBarkley  
+  {160,  0,  0,  93}}, // DevilInDisguise - Elvis ********
+
+ {{120,  0,  0, 143}, // BackToMyRoots - RichieHavens
+  {104,  0,  0, 116}, // Think - Aretha
+  {100,  0,  0, 182}, // As - Wonder
+  {174,  0,  0, 155}, // Roady - FatFreddyNextmen
+  {130,  0,  0,  89}, // Beggin - FrankieValli *******
+  { 98,  0,  0,  70}, // IGotAWoman - RayCharles
+  {156,  0,  0, 143}, // MilkAndHoney-PrinceFatty
+  {124,  0,  0, 123}, // BackToBlack - Amy 
+  {132,  0,  0, 166}, // MasterBlaster-StevieWonder
+  {109,  0,  0, 113}, // AllNightLong - LionelRichie
+  { 96,  0,  0,  97}},// INeedADollar-AloeBlacc     {122,  0,  0, 124} // GotToGiveItUp-MarvinGaye
 };
 
 /* 
