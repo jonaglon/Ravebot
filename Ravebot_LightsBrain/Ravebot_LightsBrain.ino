@@ -264,10 +264,10 @@ tuneInfo tunesLibrary[8][11] = {
   { 96,  0,  0,  97}},// INeedADollar-AloeBlacc     {122,  0,  0, 124} // GotToGiveItUp-MarvinGaye
 
  {{124,  0,  0,  71}, // ILoveTheNightlife - Alecia Bridges
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
+  {115,  0,  0, 105}, // LoveHangover - DianaRoss
+  {110,  0,  0, 151}, // LastNightADjSavedMyLife-Indeep
+  {134,  0,  0, 148}, // LayAllYourLoveOnMe-Abba
+  {121,  0,  0, 182}, // HotStuff-DonnaSummer
   {000,  0,  0, 000},
   {000,  0,  0, 000},
   {000,  0,  0, 000},
