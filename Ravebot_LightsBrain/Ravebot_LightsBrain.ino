@@ -178,7 +178,8 @@ struct tuneInfo {
   }
 };
 
-tuneInfo tunesLibrary[9][11] = {
+
+tuneInfo tunesLibrary[10][11] = {
  {{103,  5, 69, 123},  // Moma said knock you out        // 0, 1   Hip-hop
   {101,  5, 25,  81},  // Lets get ill
   { 92,  2, 49, 129},  // Dre&2Pac California
@@ -277,15 +278,31 @@ tuneInfo tunesLibrary[9][11] = {
 
  {{124,  0,  0, 124}, // WhatCanYouDoForMe-UtahSaints
   {149,  0,  0, 177}, // TripToTheMoonPt2-Acen
+  {119,  0,  0, 110}, // YouGotTheLove-TheSourceFtCandiStanton
+  {126,  0,  0,  75}, // MrKirsNightmare-4Hero
+  {137,  0,  0, 113}, // Bombscare-2BadMice
   {000,  0,  0, 000},
   {000,  0,  0, 000},
   {000,  0,  0, 000},
   {000,  0,  0, 000},
   {000,  0,  0, 000},
+  {000,  0,  0, 000}},
+
+ {{000,  0,  0, 000},
   {000,  0,  0, 000},
   {000,  0,  0, 000},
-  {000,  0,  0, 000}}, 
+  {000,  0,  0, 000},
+  {175,  0,  0, 189}, // ShakeUrBody-ShyFX
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000},
+  {000,  0,  0, 000}}
+
 };
+
+
 
 /* 
 
