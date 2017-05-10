@@ -196,7 +196,7 @@ tuneInfo tunesLibrary[10][11] = {
   {103,  7, 83, 111},  // Whitetown I could never
   { 96,  9, 53,  76},  // DM Big L 
   {117,  9, 29,  75},  // Air Remember
-  { 86, 13, 69,  77},  // DM Zero7
+  {172,  0,  0, 152},  // DM Zero7
   { 92,  9, 33,  52},  // BOC Roygbiv 
   {127,  5, 33, 125},  // Royksop Remind me
   {105, 10, 38, 116},  // Chakka Aint nobody
@@ -281,18 +281,18 @@ tuneInfo tunesLibrary[10][11] = {
   {119,  0,  0, 110}, // YouGotTheLove-TheSourceFtCandiStanton
   {126,  0,  0,  75}, // MrKirsNightmare-4Hero
   {137,  0,  0, 113}, // Bombscare-2BadMice
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000}},
+  {126,  0,  0, 138}, // LFO-LFO
+  {132,  0,  0, 135}, // Infiltrate202-Altern8 
+  {122,  0,  0, 119}, // DirtyCash-SoldOutMix
+  {122,  0,  0, 133}, // Break4Love-Raze
+  {126,  0,  0,  93}, // IsThereAnybodyOutThere-Bassheads
+  {126,  0,  0,  86}}, //PacificState-808State
 
- {{000,  0,  0, 000},
+ {{174,  0,  0, 264},  // TheNine-BadCompany
+  {174,  0,  0, 166},  // GoldDigger-HighContrast
+  {175,  0,  0, 189},  // ShakeUrBody-ShyFX
+  {180,  0,  0, 185},  // LastNight-BennyPage
   {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {175,  0,  0, 189}, // ShakeUrBody-ShyFX
   {000,  0,  0, 000},
   {000,  0,  0, 000},
   {000,  0,  0, 000},
