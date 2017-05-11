@@ -288,12 +288,12 @@ tuneInfo tunesLibrary[10][11] = {
   {126,  0,  0,  93}, // IsThereAnybodyOutThere-Bassheads
   {126,  0,  0,  86}}, //PacificState-808State
 
- {{174,  0,  0, 264},  // TheNine-BadCompany
+ {{140,  0,  0, 148},  // NextHype-TempaT
+  {175,  0,  0, 191},  // DuppyMan-ChaseAndStatusCapleton
+  {174,  0,  0, 264},  // TheNine-BadCompany
   {174,  0,  0, 166},  // GoldDigger-HighContrast
   {175,  0,  0, 189},  // ShakeUrBody-ShyFX
   {180,  0,  0, 185},  // LastNight-BennyPage
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
   {000,  0,  0, 000},
   {000,  0,  0, 000},
   {000,  0,  0, 000},
