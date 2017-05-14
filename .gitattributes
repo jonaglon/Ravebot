@@ -15,5 +15,4 @@
 *.PDF	 diff=astextplain
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
-*.als filter=zcat
-# *.als filter=unzip
+*.als filter=unzip
