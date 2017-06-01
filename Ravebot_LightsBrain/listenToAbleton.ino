@@ -54,22 +54,36 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       dropCountdown--;
     
     if (sixteenth % 16 == 0) {
+      // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
       currentBar++;
       setBeatTimes();
-      
-      if (currentBar+1 > tunesLibrary[currentGenre][currentTrack].tuneLength)
-        playRandomAbletonTrack(currentGenre);
 
-      if (currentBar+4 ==  tunesLibrary[currentGenre][currentTrack].drop1)
-        dropCountdown = 64;
+      checkForMixStart();
+      checkForMixEnd();
 
-      if (currentBar+2 ==  tunesLibrary[currentGenre][currentTrack].drop1)
-        dropCountdown = 32;
+      //if (currentBar+1 > tunesLibrary[currentGenre][currentTrack].tuneLength)
+      //  playRandomAbletonTrack(currentGenre);
 
+      checkForDropCountdownStart();
     }         
   }
 }
 
+void checkForMixStart() {
+      
+}
+
+void checkForMixEnd() {
+  // here you might have to pick a new song if a mix has ended
+}
+
+void checkForDropCountdownStart() {
+  if (currentBar+4 ==  tunesLibrary[currentGenre][currentTrack].drop1)
+    dropCountdown = 64;
+  
+  if (currentBar+2 ==  tunesLibrary[currentGenre][currentTrack].drop1)
+    dropCountdown = 32;
+}
 
 void setBeatTimes() {
 
@@ -79,6 +93,8 @@ void setBeatTimes() {
   beatTimes[0] = timey;
 }
 
+
+/* Below is the fake beat control code */
 unsigned long ipp = 0;
 unsigned long nextBeat = 0;
 

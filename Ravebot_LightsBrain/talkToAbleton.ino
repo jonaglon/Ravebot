@@ -6,16 +6,19 @@ void playAbletonTrack(int genre, int track) {
   // send stuff to ableton to start the new track  
   stopAllAbletonTracks(); 
   start64BeatTrack(); // start the midi track in ableton which sends midi time codes back here
+  setSongTempo(tunesLibrary[genre][track].bpm);
   sendMidiToAbleton(genre+1, track);
 
   // change the current track in this program
   currentBar = 0;
   currentGenre = genre;
   currentTrack = track;
-  setSongTempo(tunesLibrary[genre][track].bpm);
 
   // tell the other arduino what you're doing
   sendSerialToMega(2,(genre*100)+track);
+
+  // choose the track to mix in to
+  chooseNextTrack();
 }
 
 void stopAllAbletonTracks()

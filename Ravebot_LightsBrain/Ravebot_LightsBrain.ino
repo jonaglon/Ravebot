@@ -30,6 +30,13 @@ const int numLeds = 671;
 const int numLedsAdj = (numLeds * 4) / 3;
 CRGB rgbwLeds[numLedsAdj];
 
+// NEW MIXING VARS
+int nextTrack = 0;
+int nextGenre = 0;
+int nextMixDuration = 0;
+bool stayWithinGenre = false;
+
+
 void setup() {
   delay(500);
 
@@ -174,147 +181,156 @@ struct tuneInfo {
   int drop1;
   int drop2;
   int tuneLength;
-  tuneInfo(int aBpm, int aDrop1, int aDrop2, int aTuneLength) : bpm(aBpm), drop1(aDrop1), drop2(aDrop2), tuneLength(aTuneLength) { 
+  int minFadeIn;
+  int maxFadeIn;
+  int minFadeOut;
+  int maxFadeOut;
+  tuneInfo(int aBpm, int aDrop1, int aDrop2, int aTuneLength, int aMinFadeIn, int aMaxFadeIn, int aMinFadeOut, int aMaxFadeOut) : 
+           bpm(aBpm), drop1(aDrop1), drop2(aDrop2), tuneLength(aTuneLength), minFadeIn(aMinFadeIn), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut) { 
   }
+};
+
+int numTunesByGenre[10] = {11, 11, 11, 11, 11, 11, 11, 11, 11, 11};
+
+tuneInfo tunesLibrary[10][11] = {
+ {{103,  5, 69, 123, 0, 0, 0, 0},  // Moma said knock you out        // 0, 1   Hip-hop
+  {101,  5, 25,  81, 0, 0, 0, 0},  // Lets get ill
+  { 92,  2, 49, 129, 0, 0, 0, 0},  // Dre&2Pac California
+  { 93,  9, 49,  93, 0, 0, 0, 0},   // No Diggidy
+  {100,  5, 25,  54, 0, 0, 0, 0},  // Like it raw
+  {162,  7, 65, 143, 0, 0, 0, 0},  // Bigger than hip hop
+  { 93,  3, 61,  73, 0, 0, 0, 0},  // Close to me snoop
+  {160, 77,  0, 159, 0, 0, 0, 0},  // Coolio Gansters paradise
+  {100,  5, 47,  89, 0, 0, 0, 0},   // HipHopHooray
+  {108,  4, 34,  96, 0, 0, 0, 0},  // Jump Around 
+  {103,  0,  0,  81, 0, 0, 0, 0}}, // Insazlle in the bazzle - Cyprus Hazzle
+    
+ {{102,  9, 97, 137, 0, 0, 0, 0},  // Aphex Ageopolis  
+  {103,  7, 83, 111, 0, 0, 0, 0},  // Whitetown I could never
+  { 96,  9, 53,  76, 0, 0, 0, 0},  // DM Big L 
+  {117,  9, 29,  75, 0, 0, 0, 0},  // Air Remember
+  {172,  0,  0, 152, 0, 0, 0, 0},  // DM Zero7
+  { 92,  9, 33,  52, 0, 0, 0, 0},  // BOC Roygbiv 
+  {127,  5, 33, 125, 0, 0, 0, 0},  // Royksop Remind me
+  {105, 10, 38, 116, 0, 0, 0, 0},  // Chakka Aint nobody
+  {140, 41, 93, 129, 0, 0, 0, 0},  // FOTC The humans are dead
+  { 87,  5, 49,  89, 0, 0, 0, 0},  // Roos Manuva Again and again
+  {115,  0,  0, 142, 0, 0, 0, 0}}, // Jamacian Boy - Lone Ranger 
+  
+ {{ 86,  9,  0,  51, 0, 0, 0, 0},  // Tenor Saw Ring the Alarm
+  {102, 49, 61, 119, 0, 0, 0, 0},  // Toots Funky Kingston
+  { 80,  0,  0,  79, 0, 0, 0, 0},  // WayneSmith - UnderMeSleng Teng
+  { 86,  0,  0,  67, 0, 0, 0, 0},  // Sis Nancy Bam Bam
+  { 83,  0,  0,  77, 0, 0, 0, 0},   // Althea&Donna Strictly Roots
+  { 77, 27,  0,  52, 0, 0, 0, 0},   // Damian Marley Welcome To Jamrock
+  {147, 13, 59, 147, 0, 0, 0, 0},  // Tanya S - It's a pity
+  { 88,  0,  0,  72, 0, 0, 0, 0},  // Marcia G - Feel like jumping
+  { 82,  0,  0,  72, 0, 0, 0, 0},  // Cant stop now, MajorLazer
+  {148,  0,  0, 106, 0, 0, 0, 0},  // Toots - pressure drop
+  {104,  0,  0,  99, 0, 0, 0, 0}}, // Bob - Could you be loved
+   
+ {{160,  0,  0, 113, 0, 0, 0, 0}, // Kim Wilde - Kids in America
+  {126,  0,  0,  81, 0, 0, 0, 0}, //Kylie - cant get you out
+  {112,  0,  0, 101, 0, 0, 0, 0}, //Hall&Oates - I can't go for that
+  { 97,  0,  0,  63, 0, 0, 0, 0}, //George Michael - Faith
+  {122, 49, 87, 107, 0, 0, 0, 0}, //DeeLite - Groove is in the heart
+  {126,  0,  0, 103, 0, 0, 0, 0}, //Euritmics - sweet dreams
+  {126, 39,  0,  97, 0, 0, 0, 0}, //PaulSimon&Dylan Stuck in the middle
+  {164,  9, 65, 136, 0, 0, 0, 0}, //Martha&Muffins Echo Beach
+  {199,  0,  0, 111, 0, 0, 0, 0}, //TheCoral - DreamingOfYou
+  { 99,  0,  0,  58, 0, 0, 0, 0}, // Blister in the sun - Voilent femmes
+  {114,  0,  0,  96, 0, 0, 0, 0}}, // Erasure a little respect
+   
+ {{133, 29, 53, 120, 0, 0, 0, 0}, // A rinky dinky
+  {136,  5, 45,  93, 0, 0, 0, 0}, // Israelites mix
+  {108, 57,  0,  83, 0, 0, 0, 0}, // Kelis - Trick Me
+  {150,  9, 25, 125, 0, 0, 0, 0}, // Dubbleedge - Lips to the floor
+  {134, 17,105, 121, 0, 0, 0, 0}, // Zero Emit Collect
+  {125, 29, 71, 103, 0, 0, 0, 0}, // Dizee Bonkers
+  {115, 21, 57,  84, 0, 0, 0, 0}, // RizzleKicks - DownWithTheTrumpets
+  {168, 29, 93, 173, 0, 0, 0, 0}, // OneTime
+  {130,  0,  0, 161, 0, 0, 0, 0}, // WileOut - DJ Zinc
+  {145,  0,  0, 171, 0, 0, 0, 0}, // Aphex - Polynomial C
+  {123,  0,  0, 187, 0, 0, 0, 0}},// Aphex WindowLicker
+  
+ {{ 85,  0,  0,  84, 0, 0, 0, 0}, // Costa del essex
+  {132,  0,  0, 139, 0, 0, 0, 0}, // MC Hammer, cant touch
+  {118,  8,  0,  34, 0, 0, 0, 0}, // Minder
+  {172,  0,  0, 112, 0, 0, 0, 0}, // TheClappingSong
+  {120,  0,  0,  87, 0, 0, 0, 0}, // Killer Queen
+  {170,  0,  0,  89, 0, 0, 0, 0}, // Creep RichardCheese
+  {170,  0,  0, 132, 0, 0, 0, 0}, // Crash Primitives
+  { 94,  0,  0,  57, 0, 0, 0, 0}, // TooManyMuthaUkkas - FOTC
+  {172,  0,  0,  89, 0, 0, 0, 0}, // HitTheRoadJack - RayCharles
+  {112,  0,  0,  86, 0, 0, 0, 0}, // Crazy - GnarlesBarkley  
+  {160,  0,  0,  93, 0, 0, 0, 0}}, // DevilInDisguise - Elvis ********
+
+ {{120,  0,  0, 143, 0, 0, 0, 0}, // BackToMyRoots - RichieHavens
+  {104,  0,  0, 116, 0, 0, 0, 0}, // Think - Aretha
+  {100,  0,  0, 182, 0, 0, 0, 0}, // As - Wonder
+  {174,  0,  0, 155, 0, 0, 0, 0}, // Roady - FatFreddyNextmen
+  {130,  0,  0,  89, 0, 0, 0, 0}, // Beggin - FrankieValli *******
+  { 98,  0,  0,  70, 0, 0, 0, 0}, // IGotAWoman - RayCharles
+  {156,  0,  0, 143, 0, 0, 0, 0}, // MilkAndHoney-PrinceFatty
+  {124,  0,  0, 123, 0, 0, 0, 0}, // BackToBlack - Amy 
+  {132,  0,  0, 166, 0, 0, 0, 0}, // MasterBlaster-StevieWonder
+  {109,  0,  0, 113, 0, 0, 0, 0}, // AllNightLong - LionelRichie
+  { 96,  0,  0,  97, 0, 0, 0, 0}},// INeedADollar-AloeBlacc     {122,  0,  0, 124} // GotToGiveItUp-MarvinGaye
+
+ {{124,  0,  0,  71, 0, 0, 0, 0}, // ILoveTheNightlife - Alecia Bridges
+  {115,  0,  0, 105, 0, 0, 0, 0}, // LoveHangover - DianaRoss
+  {110,  0,  0, 151, 0, 0, 0, 0}, // LastNightADjSavedMyLife-Indeep
+  {134,  0,  0, 148, 0, 0, 0, 0}, // LayAllYourLoveOnMe-Abba
+  {121,  0,  0, 182, 0, 0, 0, 0}, // HotStuff-DonnaSummer
+  {128,  0,  0, 109, 0, 0, 0, 0}, // RingMyBell-AnitaWard
+  {128,  0,  0, 129, 0, 0, 0, 0}, // EverybodyDance-Chic
+  {111,  0,  0,  97, 0, 0, 0, 0}, // GoodTimes-Chic
+  {101,  0,  0, 110, 0, 0, 0, 0}, // ThinkingOfYou-SisSledge
+  {115,  0,  0, 105, 0, 0, 0, 0}, // SheCantLoveYou-Chemise
+  {112,  0,  0, 131, 0, 0, 0, 0}}, // Automatic-PointerSisters   
+
+ {{124,  0,  0, 124, 0, 0, 0, 0}, // WhatCanYouDoForMe-UtahSaints
+  {149,  0,  0, 177, 0, 0, 0, 0}, // TripToTheMoonPt2-Acen
+  {119,  0,  0, 110, 0, 0, 0, 0}, // YouGotTheLove-TheSourceFtCandiStanton
+  {126,  0,  0,  75, 0, 0, 0, 0}, // MrKirsNightmare-4Hero
+  {137,  0,  0, 113, 0, 0, 0, 0}, // Bombscare-2BadMice
+  {126,  0,  0, 138, 0, 0, 0, 0}, // LFO-LFO
+  {132,  0,  0, 135, 0, 0, 0, 0}, // Infiltrate202-Altern8 
+  {122,  0,  0, 119, 0, 0, 0, 0}, // DirtyCash-SoldOutMix
+  {122,  0,  0, 133, 0, 0, 0, 0}, // Break4Love-Raze
+  {126,  0,  0,  93, 0, 0, 0, 0}, // IsThereAnybodyOutThere-Bassheads
+  {126,  0,  0,  86, 0, 0, 0, 0}}, //PacificState-808State
+
+ {{140,  0,  0, 148, 0, 0, 0, 0},  // NextHype-TempaT
+  {175,  0,  0, 191, 0, 0, 0, 0},  // DuppyMan-ChaseAndStatusCapleton
+  {174,  0,  0, 264, 0, 0, 0, 0},  // TheNine-BadCompany
+  {174,  0,  0, 166, 0, 0, 0, 0},  // GoldDigger-HighContrast
+  {175,  0,  0, 189, 0, 0, 0, 0},  // ShakeUrBody-ShyFX
+  {180,  0,  0, 185, 0, 0, 0, 0},  // LastNight-BennyPage
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {175,  0,  0, 170, 0, 0, 0, 0}} // PassMeTheRizla-Deekline
+
 };
 
 
 tuneInfo tunesLibrary[10][11] = {
- {{103,  5, 69, 123},  // Moma said knock you out        // 0, 1   Hip-hop
-  {101,  5, 25,  81},  // Lets get ill
-  { 92,  2, 49, 129},  // Dre&2Pac California
-  { 93,  9, 49, 93},   // No Diggidy
-  {100,  5, 25,  54},  // Like it raw
-  {162,  7, 65, 143},  // Bigger than hip hop
-  { 93,  3, 61,  73},  // Close to me snoop
-  {160, 77,  0, 159},  // Coolio Gansters paradise
-  {100,  5, 47,  89},   // HipHopHooray
-  {108,  4, 34,  96},  // Jump Around 
-  {103,  0,  0,  81}}, // Insazlle in the bazzle - Cyprus Hazzle
-    
- {{102,  9, 97, 137},  // Aphex Ageopolis  
-  {103,  7, 83, 111},  // Whitetown I could never
-  { 96,  9, 53,  76},  // DM Big L 
-  {117,  9, 29,  75},  // Air Remember
-  {172,  0,  0, 152},  // DM Zero7
-  { 92,  9, 33,  52},  // BOC Roygbiv 
-  {127,  5, 33, 125},  // Royksop Remind me
-  {105, 10, 38, 116},  // Chakka Aint nobody
-  {140, 41, 93, 129},  // FOTC The humans are dead
-  { 87,  5, 49,  89},  // Roos Manuva Again and again
-  {115,  0,  0, 142}}, // Jamacian Boy - Lone Ranger 
-  
- {{ 86,  9,  0,  51},  // Tenor Saw Ring the Alarm
-  {102, 49, 61, 119},  // Toots Funky Kingston
-  { 80,  0,  0,  79},  // WayneSmith - UnderMeSleng Teng
-  { 86,  0,  0,  67},  // Sis Nancy Bam Bam
-  { 83,  0,  0, 77},   // Althea&Donna Strictly Roots
-  { 77, 27,  0, 52},   // Damian Marley Welcome To Jamrock
-  {147, 13, 59, 147},  // Tanya S - It's a pity
-  { 88,  0,  0,  72},  // Marcia G - Feel like jumping
-  { 82,  0,  0,  72},  // Cant stop now, MajorLazer
-  {148,  0,  0, 106},  // Toots - pressure drop
-  {104,  0,  0,  99}}, // Bob - Could you be loved
-   
- {{160,  0,  0, 113}, // Kim Wilde - Kids in America
-  {126,  0,  0,  81}, //Kylie - cant get you out
-  {112,  0,  0, 101}, //Hall&Oates - I can't go for that
-  { 97,  0,  0,  63}, //George Michael - Faith
-  {122, 49, 87, 107}, //DeeLite - Groove is in the heart
-  {126,  0,  0, 103}, //Euritmics - sweet dreams
-  {126, 39,  0,  97}, //PaulSimon&Dylan Stuck in the middle
-  {164,  9, 65, 136}, //Martha&Muffins Echo Beach
-  {199,  0,  0, 111}, //TheCoral - DreamingOfYou
-  { 99,  0,  0,  58}, // Blister in the sun - Voilent femmes
-  {114,  0,  0,  96}}, // Erasure a little respect
-   
- {{133, 29, 53, 120}, // A rinky dinky
-  {136,  5, 45,  93}, // Israelites mix
-  {108, 57,  0,  83}, // Kelis - Trick Me
-  {150,  9, 25, 125}, // Dubbleedge - Lips to the floor
-  {134, 17,105, 121}, // Zero Emit Collect
-  {125, 29, 71, 103}, // Dizee Bonkers
-  {115, 21, 57,  84}, // RizzleKicks - DownWithTheTrumpets
-  {168, 29, 93, 173}, // OneTime
-  {130,  0,  0, 161}, // WileOut - DJ Zinc
-  {145,  0,  0, 171}, // Aphex - Polynomial C
-  {123,  0,  0, 187}},// Aphex WindowLicker
-  
- {{ 85,  0,  0,  84}, // Costa del essex
-  {132,  0,  0, 139}, // MC Hammer, cant touch
-  {118,  8,  0,  34}, // Minder
-  {172,  0,  0, 112}, // TheClappingSong
-  {120,  0,  0,  87}, // Killer Queen
-  {170,  0,  0,  89}, // Creep RichardCheese
-  {170,  0,  0, 132}, // Crash Primitives
-  { 94,  0,  0,  57}, // TooManyMuthaUkkas - FOTC
-  {172,  0,  0,  89}, // HitTheRoadJack - RayCharles
-  {112,  0,  0,  86}, // Crazy - GnarlesBarkley  
-  {160,  0,  0,  93}}, // DevilInDisguise - Elvis ********
-
- {{120,  0,  0, 143}, // BackToMyRoots - RichieHavens
-  {104,  0,  0, 116}, // Think - Aretha
-  {100,  0,  0, 182}, // As - Wonder
-  {174,  0,  0, 155}, // Roady - FatFreddyNextmen
-  {130,  0,  0,  89}, // Beggin - FrankieValli *******
-  { 98,  0,  0,  70}, // IGotAWoman - RayCharles
-  {156,  0,  0, 143}, // MilkAndHoney-PrinceFatty
-  {124,  0,  0, 123}, // BackToBlack - Amy 
-  {132,  0,  0, 166}, // MasterBlaster-StevieWonder
-  {109,  0,  0, 113}, // AllNightLong - LionelRichie
-  { 96,  0,  0,  97}},// INeedADollar-AloeBlacc     {122,  0,  0, 124} // GotToGiveItUp-MarvinGaye
-
- {{124,  0,  0,  71}, // ILoveTheNightlife - Alecia Bridges
-  {115,  0,  0, 105}, // LoveHangover - DianaRoss
-  {110,  0,  0, 151}, // LastNightADjSavedMyLife-Indeep
-  {134,  0,  0, 148}, // LayAllYourLoveOnMe-Abba
-  {121,  0,  0, 182}, // HotStuff-DonnaSummer
-  {128,  0,  0, 109}, // RingMyBell-AnitaWard
-  {128,  0,  0, 129}, // EverybodyDance-Chic
-  {111,  0,  0,  97}, // GoodTimes-Chic
-  {101,  0,  0, 110}, // ThinkingOfYou-SisSledge
-  {115,  0,  0, 105}, // SheCantLoveYou-Chemise
-  {112,  0,  0, 131}}, // Automatic-PointerSisters   
-
- {{124,  0,  0, 124}, // WhatCanYouDoForMe-UtahSaints
-  {149,  0,  0, 177}, // TripToTheMoonPt2-Acen
-  {119,  0,  0, 110}, // YouGotTheLove-TheSourceFtCandiStanton
-  {126,  0,  0,  75}, // MrKirsNightmare-4Hero
-  {137,  0,  0, 113}, // Bombscare-2BadMice
-  {126,  0,  0, 138}, // LFO-LFO
-  {132,  0,  0, 135}, // Infiltrate202-Altern8 
-  {122,  0,  0, 119}, // DirtyCash-SoldOutMix
-  {122,  0,  0, 133}, // Break4Love-Raze
-  {126,  0,  0,  93}, // IsThereAnybodyOutThere-Bassheads
-  {126,  0,  0,  86}}, //PacificState-808State
-
- {{140,  0,  0, 148},  // NextHype-TempaT
-  {175,  0,  0, 191},  // DuppyMan-ChaseAndStatusCapleton
-  {174,  0,  0, 264},  // TheNine-BadCompany
-  {174,  0,  0, 166},  // GoldDigger-HighContrast
-  {175,  0,  0, 189},  // ShakeUrBody-ShyFX
-  {180,  0,  0, 185},  // LastNight-BennyPage
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {175,  0,  0, 170}} // PassMeTheRizla-Deekline
-
-};
-
-
+ {{103,  5, 69, 123, 0, 0, 0, 0},  // Moma said knock you out        // 0, 1   Hip-hop
+  {101,  5, 25,  81, 0, 0, 0, 0},  // Lets get ill
 
 /* 
 
- {{000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000}}, 
+ {{000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0},
+  {000,  0,  0, 000, 0, 0, 0, 0}}, 
 };   */ 
   
