@@ -33,9 +33,11 @@ CRGB rgbwLeds[numLedsAdj];
 // NEW MIXING VARS
 int nextTrack = 0;
 int nextGenre = 0;
-int nextMixDuration = 0;
+int nextMixDuration16 = 0;
+int currentTempo = 0;
 bool stayWithinGenre = false;
-
+bool inTheMix = false;
+bool deckASelected = true;
 
 void setup() {
   delay(500);
@@ -65,6 +67,9 @@ void loop()
   listenToAbleton();
 
   //receiveFromMega();
+
+  if (inTheMix)
+    doMixing();
 
   doLights();
 
@@ -316,9 +321,7 @@ tuneInfo tunesLibrary[10][11] = {
 };
 
 
-tuneInfo tunesLibrary[10][11] = {
- {{103,  5, 69, 123, 0, 0, 0, 0},  // Moma said knock you out        // 0, 1   Hip-hop
-  {101,  5, 25,  81, 0, 0, 0, 0},  // Lets get ill
+
 
 /* 
 

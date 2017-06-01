@@ -70,11 +70,16 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForMixStart() {
-      
+  if (currentBar == (tunesLibrary[currentGenre][currentTrack].tuneLength - (nextMixDuration16/16))) {
+    // start mix
+    inTheMix=true;
+  }
 }
 
 void checkForMixEnd() {
-  // here you might have to pick a new song if a mix has ended
+  // pick a new song if a mix has ended
+  if (currentBar+1 > tunesLibrary[currentGenre][currentTrack].tuneLength)
+    chooseNextTrack();
 }
 
 void checkForDropCountdownStart() {
