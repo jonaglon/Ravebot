@@ -13,7 +13,7 @@ void playAbletonTrack(int genre, int track) {
   currentBar = 0;
   currentGenre = genre;
   currentTrack = track;
-  currentTempo=tunesLibrary[genre][track].bpm;
+  currentBpm=tunesLibrary[genre][track].bpm;
   inTheMix=false;
 
   // tell the other arduino what you're doing

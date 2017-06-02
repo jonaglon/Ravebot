@@ -7,7 +7,7 @@ int state=0;  // state machine variable 0 = command waiting : 1 = note waitin : 
 
 // Receive midi from ableton
 void listenToAbleton() {
-  if (true)
+  if (false)
   {
     doFakeBeatMessageFromAbleton();
   }

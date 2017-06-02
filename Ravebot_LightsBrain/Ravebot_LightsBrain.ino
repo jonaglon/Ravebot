@@ -67,7 +67,7 @@ void loop()
 
   listenToAbleton();
 
-  //receiveFromMega();
+  receiveFromMega();
 
   doLights();
 
