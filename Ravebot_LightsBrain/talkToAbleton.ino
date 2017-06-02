@@ -66,6 +66,11 @@ void setRobotVolume(int volume)  // 0 - 127
   sendMidi(186, 4, volume);
 }
 
+void setCrossfader(int value)  // 0 - 127
+{
+  sendMidi(186, 5, value);
+}
+
 //  plays a MIDI note.  Doesn't check to see that
 //  cmd is greater than 127, or that data values are  less than 127:
 // 176 is channel=1, 190 channel=15

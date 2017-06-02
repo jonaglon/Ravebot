@@ -10,7 +10,11 @@ void doMixing() {
     setSongTempo(newBpm);
 
   // Now do the actual mixing
-  
+  if (deckASelected) {
+    setCrossfader(127 * percentThroughMix);
+  } else () {
+    setCrossfader(127 - (127 * percentThroughMix));
+  }
 }
 
 // Maybe trigger this when you receive a sixteenth
