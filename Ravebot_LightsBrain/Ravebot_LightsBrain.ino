@@ -34,10 +34,11 @@ CRGB rgbwLeds[numLedsAdj];
 int nextTrack = 0;
 int nextGenre = 0;
 int nextMixDuration16 = 0;
-int currentTempo = 0;
+int currentBpm = 0;
 bool stayWithinGenre = false;
 bool inTheMix = false;
 bool deckASelected = true;
+int currentMixerPosition = 0;
 
 void setup() {
   delay(500);
@@ -67,9 +68,6 @@ void loop()
   listenToAbleton();
 
   //receiveFromMega();
-
-  if (inTheMix)
-    doMixing();
 
   doLights();
 
