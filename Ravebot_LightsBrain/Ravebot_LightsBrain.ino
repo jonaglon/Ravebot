@@ -19,6 +19,7 @@ short sixteenth = 0;
 
 int mainVolume = 80; // 127 actual max but we won't exceed 100.
 int currentBar = 0;
+int newCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;
 int currentTrack = 0;
 int dropCountdown = 0;
@@ -43,7 +44,7 @@ int currentMixerPosition = 0;
 void setup() {
   delay(500);
 
-  // Talk to Ableton via midi over USB, or debug.
+  // Talk to Ableton using midi over USB, or debug.
   Serial.begin(9600);
 
   // Listen to the other arduino
@@ -60,7 +61,6 @@ void setup() {
 
   setMainVolume(mainVolume);
 
-  playAbletonTrack(1,1);
 }
 
 void loop()
@@ -195,14 +195,14 @@ struct tuneInfo {
   }
 };
 
-int numTunesByGenre[10] = {11, 11, 11, 11, 11, 11, 11, 11, 11, 11};
+int numTunesByGenre[10] = {4, 11, 11, 11, 11, 11, 11, 11, 11, 11};
 
 tuneInfo tunesLibrary[10][11] = {
- {{103,  5, 69, 123, 4, 4, 4, 4},  // Moma said knock you out        // 0, 1   Hip-hop
-  {101,  5, 25,  81, 4, 4, 4, 4},  // Lets get ill
-  { 92,  2, 49, 129, 4, 4, 4, 4},  // Dre&2Pac California
-  { 93,  9, 49,  93, 4, 4, 4, 4},   // No Diggidy
-  {100,  5, 25,  54, 4, 4, 4, 4},  // Like it raw
+ {{103,  5, 69,  12, 4, 4, 4, 4},  // Moma said knock you out        // 0, 1   Hip-hop
+  {101,  5, 25,  12, 4, 4, 4, 4},  // Lets get ill
+  { 93,  9, 49,  12, 4, 4, 4, 4},   // No Diggidy
+  {100,  5, 25,  12, 4, 4, 4, 4},  // Like it raw
+  { 92,  2, 49,  12, 4, 4, 4, 4},  // Dre&2Pac California
   {162,  7, 65, 143, 4, 4, 4, 4},  // Bigger than hip hop
   { 93,  3, 61,  73, 4, 4, 4, 4},  // Close to me snoop
   {160, 77,  0, 159, 4, 4, 4, 4},  // Coolio Gansters paradise

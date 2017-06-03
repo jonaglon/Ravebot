@@ -59,6 +59,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
     if (sixteenth % 16 == 0) {
       // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
       currentBar++;
+      newCurrentBar++;
       setBeatTimes();
 
       checkForMixStart();
@@ -73,8 +74,8 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForMixStart() {
-  if (currentBar == (tunesLibrary[currentGenre][currentTrack].tuneLength - (nextMixDuration16/16))) {
-    // start mix
+  if (currentBar * 16 == (tunesLibrary[currentGenre][currentTrack].tuneLength * 16 - nextMixDuration16)) {
+    //startNewMix();
     inTheMix=true;
   }
 }
@@ -82,7 +83,12 @@ void checkForMixStart() {
 void checkForMixEnd() {
   // pick a new song if a mix has ended
   if (currentBar+1 > tunesLibrary[currentGenre][currentTrack].tuneLength)
+  {
     chooseNextTrack();
+    currentBar = newCurrentBar;
+    newCurrentBar=0;
+    // TODO PRESS STOP ON THAT TRACK
+  }
 }
 
 void checkForDropCountdownStart() {

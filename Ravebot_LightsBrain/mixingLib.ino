@@ -3,8 +3,11 @@ void doMixing() {
 
   int mixStart = (tunesLibrary[currentGenre][currentTrack].tuneLength * 16) - nextMixDuration16;
   int sixteenthsIntoMix = ((currentBar * 16) + sixteenth) - mixStart;
-  float percentThroughMix = sixteenthsIntoMix / nextMixDuration16;
   int bpmDifference = tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm;
+
+  // Not good to use floats, we're not calling this too often (once per 16th).
+  float percentThroughMix = (float)sixteenthsIntoMix / nextMixDuration16;
+  
   int newBpm = (bpmDifference * percentThroughMix) + tunesLibrary[currentGenre][currentTrack].bpm;
   if (currentBpm != newBpm)
     setSongTempo(newBpm);
@@ -12,26 +15,32 @@ void doMixing() {
   // Now do the actual mixing
   if (deckASelected) {
     setCrossfader(127 * percentThroughMix);
-  } else () {
+  } else {
     setCrossfader(127 - (127 * percentThroughMix));
   }
 }
 
-// Maybe trigger this when you receive a sixteenth
-void doMixingOld() {
+// This isn't called when we're mixing, 
+void startNewMix() {
+  
+  // send stuff to ableton to start the new track  
+  if (deckASelected)
+    sendMidiToAbleton(nextGenre+1, nextTrack);
+  else
+    sendMidiToAbleton(nextGenre, nextTrack);
+    
+  // change the current track in this program
+  newCurrentBar = 0;
+  currentGenre = nextGenre;
+  currentTrack = nextTrack;
+  currentBpm=tunesLibrary[currentGenre][currentTrack].bpm;
+  inTheMix=true;
 
-  // find the percentage through the mix
-  // (tunesLibrary[currentGenre][currentTrack].maxFadeOut * 1600) - ((currentBar * 1600) + (sixteenth*100))
-  // tune length = 100, mix length=16bars. we are at bar 88 so 25% of the way through the mix
-  // percentThrough = 25600 / -44800; //  25600 / 140800 - 160000 - 25600
-  int percentageThroughMix = nextMixDuration16 / (tunesLibrary[currentGenre][currentTrack].tuneLength * 16) - ((currentBar * 1600) + (sixteenth*100));
- //int percentageThroughMix = (nextMixDuration16 * 100) / (((currentBar * 1600) + (sixteenth*100)) - (tunesLibrary[currentGenre][currentTrack].tuneLength * 1600) - (nextMixDuration16 * 100))
-  
-  // old bpm=100 new=120 we need to get a value of 105 for the newBpm;
-  int bpmDifference = (tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm) * 100; // (120 - 100) * 100 = 2000
-  int newBpm = 12; 
-  
+  // tell the other arduino what you're doing
+  //sendSerialToMega(2,(currentGenre*100)+currentTrack);
+
 }
+
 
 void chooseNextTrack() {
   bool nextTrackPicked = false;
@@ -39,7 +48,7 @@ void chooseNextTrack() {
   while (!nextTrackPicked) {
     pickNewGenre();
     
-    nextTrack = random(numTunesByGenre[nextGenre]);
+    nextTrack = random(3); // random(numTunesByGenre[nextGenre]);
     
     // is next track compatible? 
     if (tunesLibrary[nextGenre][nextTrack].minFadeIn > tunesLibrary[currentGenre][currentTrack].maxFadeOut)

@@ -28,7 +28,10 @@ void doSomethingWithPackageFromMega(int package)
   else if (function == 2)
   {
     // in this case message is the button pressed 0-9 - it chooses the genre
-    playRandomAbletonTrack(message);
+    stayWithinGenre = true;
+    // TODO
+    playRandomAbletonTrack(0);
+    //playRandomAbletonTrack(message);
   }
   else if (function == 3)
   {
@@ -38,7 +41,8 @@ void doSomethingWithPackageFromMega(int package)
   {
     // specific track was chosen on the keypad, play the track
     //setLedDirect((message % 100)+114, 0, 255, 0, 0);
-    playAbletonTrack((message / 100), (message % 100));
+    //stayWithinGenre = false;
+    //playAbletonTrack((message / 100), (message % 100));
   }
 }
 
