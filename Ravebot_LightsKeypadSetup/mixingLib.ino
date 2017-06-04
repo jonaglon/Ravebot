@@ -7,7 +7,7 @@ void doMixing() {
   int bpmDifference = tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm;
   int newBpm = (bpmDifference * percentThroughMix) + tunesLibrary[currentGenre][currentTrack].bpm;
   if (currentBpm != newBpm)
-    setSongTempo(newBpm);
+    setAbletonTempo(newBpm);
 
   // Now do the actual mixing
   

@@ -30,7 +30,7 @@ void doSomethingWithPackageFromMega(int package)
     // in this case message is the button pressed 0-9 - it chooses the genre
     stayWithinGenre = true;
     // TODO
-    playRandomAbletonTrack(0);
+    playRandomTune(0);
     //playRandomAbletonTrack(message);
   }
   else if (function == 3)

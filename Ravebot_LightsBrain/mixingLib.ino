@@ -10,7 +10,7 @@ void doMixing() {
   
   int newBpm = (bpmDifference * percentThroughMix) + tunesLibrary[currentGenre][currentTrack].bpm;
   if (currentBpm != newBpm)
-    setSongTempo(newBpm);
+    setAbletonTempo(newBpm);
 
   // Now do the actual mixing
   if (deckASelected) {
@@ -25,9 +25,9 @@ void startNewMix() {
   
   // send stuff to ableton to start the new track  
   if (deckASelected)
-    sendMidiToAbleton(nextGenre+1, nextTrack);
+    PlayAbletonTrack(nextGenre+1, nextTrack);
   else
-    sendMidiToAbleton(nextGenre, nextTrack);
+    PlayAbletonTrack(nextGenre, nextTrack);
     
   // change the current track in this program
   newCurrentBar = 0;

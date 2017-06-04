@@ -1,13 +1,22 @@
 bool newBeat=false;
 
+void playRandomTune(int genre)
+{
+  int newTrackNumber = 0;
+  do
+    newTrackNumber = random(10);
+  while (newTrackNumber == currentTrack);  
+  
+  playTune(genre, newTrackNumber);
+}
 
-void playAbletonTrack(int genre, int track) {
+void playTune(int genre, int track) {
   
   // send stuff to ableton to start the new track  
   stopAllAbletonTracks(); 
-  start64BeatTrack(); // start the midi track in ableton which sends midi time codes back here
-  setSongTempo(tunesLibrary[genre][track].bpm);
-  sendMidiToAbleton(genre+1, track);
+  start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
+  setAbletonTempo(tunesLibrary[genre][track].bpm);
+  PlayAbletonTrack(genre+1, track);
 
   // change the current track in this program
   currentBar = 0;
@@ -23,34 +32,24 @@ void playAbletonTrack(int genre, int track) {
   chooseNextTrack();
 }
 
-void stopAllAbletonTracks()
-{
-  sendMidi(176, 100, 127);
-}
-
-void start64BeatTrack()
-{
-  sendMidi(176, 101, 127);
-}
-
-void playRandomAbletonTrack(int genre)
-{
-  int newTrackNumber = 0;
-  do
-    newTrackNumber = random(10);
-  while (newTrackNumber == currentTrack);  
-  
-  playAbletonTrack(genre, newTrackNumber);
-}
-
-
-void sendMidiToAbleton(int channel, int trackNumber)
+void PlayAbletonTrack(int channel, int trackNumber)
 {
   channel=channel+175;
   sendMidi(channel, trackNumber, 127);
 }
 
-void setSongTempo(int tempo)  // 80 - 207 bpm only
+void stopAllAbletonTracks()
+{
+  sendMidi(176, 100, 127);
+}
+
+void start16BeatAbletonTrack()
+{
+  sendMidi(176, 101, 127);
+}
+
+
+void setAbletonTempo(int tempo)  // 80 - 207 bpm only
 {
     sendMidi(186, 2, tempo-80);
 }

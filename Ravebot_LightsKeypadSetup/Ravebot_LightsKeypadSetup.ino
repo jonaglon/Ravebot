@@ -94,14 +94,19 @@ void doKeypad()
 int uptopos = 0;
 int currChannel = 0;
 int currTrackNum = 0;
+void resetNumber() {
+  int uptopos = 0;
+  int currChannel = 0;
+  int currTrackNum = 0;
+}
 
 void keypadPressed(char key) {
   /*if (key == '#')
     resetNumber();
-  else if (key == '*')
-    sendNumber();
   else */
-  if (key == '1')
+  if (key == '*')
+    resetNumber();
+  else if (key == '1')
     changeNumber(1);
   else if (key == '2')
     changeNumber(2);
@@ -139,7 +144,7 @@ void changeNumber(int inNum) {
     uptopos=4;
   } else if (uptopos == 4) {
     currTrackNum = currTrackNum+ inNum;
-    sendMidiToAbleton(currChannel, currTrackNum);
+    PlayAbletonTrack(currChannel, currTrackNum);
     uptopos=0;
   }
 }
