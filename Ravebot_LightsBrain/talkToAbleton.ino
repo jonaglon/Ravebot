@@ -51,27 +51,26 @@ void start16BeatAbletonTrack()
   sendMidi(176, 126, 127);
 }
 
-
-void setAbletonTempo(int tempo)  // 80 - 207 bpm only
-{
-    sendMidi(186, 2, tempo-80);
-}
-
 void setMainVolume(int volume)  // 0 - 127
 {
   if (volume > 127)
     volume = 127;
-  sendMidi(186, 3, volume);
+  sendMidi(176, 127, volume);
+}
+
+void setAbletonTempo(int tempo)  // 80 - 207 bpm only
+{
+    sendMidi(177, 125, tempo-80);
 }
 
 void setRobotVolume(int volume)  // 0 - 127
 {
-  sendMidi(186, 4, volume);
+  sendMidi(177, 126, volume);
 }
 
 void setCrossfader(int value)  // 0 - 127
 {
-  sendMidi(186, 5, value);
+  sendMidi(177, 127, value);
 }
 
 //  plays a MIDI note.  Doesn't check to see that

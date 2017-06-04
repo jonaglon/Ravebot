@@ -34,6 +34,9 @@ void playTune(int genre, int track) {
 
 void PlayAbletonTrack(int channel, int trackNumber)
 {
+  if ((channel < 1) || (trackNumber > 127))
+    return;
+   
   channel=channel+175;
   sendMidi(channel, trackNumber, 127);
 }
