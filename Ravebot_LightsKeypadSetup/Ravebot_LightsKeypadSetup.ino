@@ -94,17 +94,19 @@ void doKeypad()
 int uptopos = 0;
 int currChannel = 0;
 int currTrackNum = 0;
+int currValue = 0;
+
 void resetNumber() {
   int uptopos = 0;
   int currChannel = 0;
+  int currValue = 0;
   int currTrackNum = 0;
 }
 
 void keypadPressed(char key) {
-  /*if (key == '#')
+  if (key == '#')
     resetNumber();
-  else */
-  if (key == '*')
+  else if (key == '*')
     resetNumber();
   else if (key == '1')
     changeNumber(1);
@@ -145,6 +147,38 @@ void changeNumber(int inNum) {
   } else if (uptopos == 4) {
     currTrackNum = currTrackNum+ inNum;
     PlayAbletonTrack(currChannel, currTrackNum);
+    uptopos=0;
+  }
+}
+
+void changeNumberFull(int inNum) {
+  if (uptopos == 0) {
+    currChannel = (100 * inNum);
+    uptopos=1;
+  } else if (uptopos == 1) {
+    currChannel = currChannel + (10 * inNum);
+    uptopos=2;
+  } else if (uptopos == 2) {
+    currChannel =  currChannel + inNum;
+    uptopos=3;
+  } else if (uptopos == 3) {
+    currTrackNum = 100 * inNum;
+    uptopos=4;
+  } else if (uptopos == 4) {
+    currTrackNum = currTrackNum + (10 * inNum);
+    uptopos=5;
+  } else if (uptopos == 5) {
+    currTrackNum = currTrackNum + inNum;
+    uptopos=6;
+  } else if (uptopos == 6) {
+    currValue = 100 * inNum;
+    uptopos=7;
+  } else if (uptopos == 7) {
+    currValue = currValue + (10 * inNum);
+    uptopos=8;
+  } else if (uptopos == 8) {
+    currValue = currValue + inNum;
+    sendMidi(currChannel, currTrackNum, currValue);
     uptopos=0;
   }
 }

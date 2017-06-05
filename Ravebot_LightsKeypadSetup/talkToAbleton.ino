@@ -34,8 +34,8 @@ void playTune(int genre, int track) {
 
 void PlayAbletonTrack(int channel, int trackNumber)
 {
-  if ((channel < 1) || (trackNumber > 127))
-    return;
+  /*if ((channel < 1) || (trackNumber > 127))
+    return;*/
    
   channel=channel+175;
   sendMidi(channel, trackNumber, 127);
@@ -82,6 +82,12 @@ void sendMidi(int channel, int trackNumber, int velocity)
   Serial.write(channel);
   Serial.write(trackNumber);
   Serial.write(velocity);
+}
+
+//  Send a two byte midi message  
+void midiProg(char statuso, int data) {
+  Serial.write(statuso);
+  Serial.write(data);
 }
 
 void sendMidiTest(int channel, int trackNumber, int velocity)
