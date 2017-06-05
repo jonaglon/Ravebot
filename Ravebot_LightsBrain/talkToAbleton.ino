@@ -16,7 +16,7 @@ void playTune(int genre, int track) {
   stopAllAbletonTracks(); 
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
   setAbletonTempo(tunesLibrary[genre][track].bpm);
-  PlayAbletonTrack(genre+1, track);
+  PlayAbletonTrack(genre, track);
 
   // change the current track in this program
   currentBar = 0;
@@ -34,10 +34,7 @@ void playTune(int genre, int track) {
 
 void PlayAbletonTrack(int channel, int trackNumber)
 {
-  if ((channel < 1) || (trackNumber > 127))
-    return;
-   
-  channel=channel+175;
+  channel=channel+176;
   sendMidi(channel, trackNumber, 127);
 }
 
@@ -78,6 +75,13 @@ void setCrossfader(int value)  // 0 - 127
 // 176 is channel=1, 190 channel=15
 void sendMidi(int channel, int trackNumber, int velocity)
 {
+  if ((channel < 176) || (channel > 192))
+    return;
+  if ((trackNumber < 1) || (trackNumber > 127))
+    return;
+  if ((velocity < 1) || (velocity > 127))
+    return;
+  
   Serial.write(channel);
   Serial.write(trackNumber);
   Serial.write(velocity);

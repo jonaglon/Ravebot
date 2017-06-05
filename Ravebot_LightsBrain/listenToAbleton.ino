@@ -87,6 +87,7 @@ void checkForMixEnd() {
     chooseNextTrack();
     currentBar = newCurrentBar;
     newCurrentBar=0;
+    inTheMix=false;
     // TODO PRESS STOP ON THAT TRACK
   }
 }
