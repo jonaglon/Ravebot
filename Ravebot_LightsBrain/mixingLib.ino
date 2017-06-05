@@ -24,10 +24,7 @@ void doMixing() {
 void startNewMix() {
   
   // send stuff to ableton to start the new track  
-  if (deckASelected)
-    PlayAbletonTrack(nextGenre+1, nextTrack);
-  else
-    PlayAbletonTrack(nextGenre, nextTrack);
+  playAbletonTrack(nextGenre, nextTrack, deckASelected);
     
   // change the current track in this program
   newCurrentBar = 0;
