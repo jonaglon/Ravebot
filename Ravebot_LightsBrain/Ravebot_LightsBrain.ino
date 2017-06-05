@@ -182,25 +182,25 @@ boolean rightEyeQuartAnim [4][95] = {
 };
 
 struct tuneInfo {
-  int bpm;
-  int drop1;
-  int drop2;
-  int tuneLength;
-  int minFadeIn;
-  int maxFadeIn;
-  int minFadeOut;
-  int maxFadeOut;
-  tuneInfo(int aBpm, int aDrop1, int aDrop2, int aTuneLength, int aMinFadeIn, int aMaxFadeIn, int aMinFadeOut, int aMaxFadeOut) : 
+  byte bpm;
+  byte drop1;
+  byte drop2;
+  byte tuneLength;
+  byte minFadeIn;
+  byte maxFadeIn;
+  byte minFadeOut;
+  byte maxFadeOut;
+  tuneInfo(byte aBpm, byte aDrop1, byte aDrop2, byte aTuneLength, byte aMinFadeIn, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut) : 
            bpm(aBpm), drop1(aDrop1), drop2(aDrop2), tuneLength(aTuneLength), minFadeIn(aMinFadeIn), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut) { 
   }
 };
 
 int numTunesByGenre[10] = {4, 11, 11, 11, 11, 11, 11, 11, 11, 11};
 
-tuneInfo tunesLibrary[10][11] = {
- {{103,  5, 69,  12, 4, 4, 4, 4},  // Moma said knock you out        // 0, 1   Hip-hop
-  {101,  5, 25,  12, 4, 4, 4, 4},  // Lets get ill
+tuneInfo tunesLibrary[8][96] = {
+ {{101,  5, 25,  12, 4, 4, 4, 4},  // Lets get ill
   { 93,  9, 49,  12, 4, 4, 4, 4},   // No Diggidy
+  {103,  5, 69,  12, 4, 4, 4, 4},  // Moma said knock you out        // 0, 1   Hip-hop
   {100,  5, 25,  12, 4, 4, 4, 4},  // Like it raw
   { 92,  2, 49,  12, 4, 4, 4, 4},  // Dre&2Pac California
   {162,  7, 65, 143, 4, 4, 4, 4},  // Bigger than hip hop
@@ -208,8 +208,93 @@ tuneInfo tunesLibrary[10][11] = {
   {160, 77,  0, 159, 4, 4, 4, 4},  // Coolio Gansters paradise
   {100,  5, 47,  89, 4, 4, 4, 4},   // HipHopHooray
   {108,  4, 34,  96, 4, 4, 4, 4},  // Jump Around 
-  {103,  0,  0,  81, 4, 4, 4, 4}}, // Insazlle in the bazzle - Cyprus Hazzle
-    
+  {103,  0,  0,  81, 4, 4, 4, 4}, // Insazlle in the bazzle - Cyprus Hazzle
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // Undefined
+
  {{102,  9, 97, 137, 4, 4, 4, 4},  // Aphex Ageopolis  
   {103,  7, 83, 111, 4, 4, 4, 4},  // Whitetown I could never
   { 96,  9, 53,  76, 4, 4, 4, 4},  // DM Big L 
@@ -220,8 +305,93 @@ tuneInfo tunesLibrary[10][11] = {
   {105, 10, 38, 116, 4, 4, 4, 4},  // Chakka Aint nobody
   {140, 41, 93, 129, 4, 4, 4, 4},  // FOTC The humans are dead
   { 87,  5, 49,  89, 4, 4, 4, 4},  // Roos Manuva Again and again
-  {115,  0,  0, 142, 4, 4, 4, 4}}, // Jamacian Boy - Lone Ranger 
-  
+  {115,  0,  0, 142, 4, 4, 4, 4}, // Jamacian Boy - Lone Ranger 
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // Undefined
+
  {{ 86,  9,  0,  51, 4, 4, 4, 4},  // Tenor Saw Ring the Alarm
   {102, 49, 61, 119, 4, 4, 4, 4},  // Toots Funky Kingston
   { 80,  0,  0,  79, 4, 4, 4, 4},  // WayneSmith - UnderMeSleng Teng
@@ -232,7 +402,92 @@ tuneInfo tunesLibrary[10][11] = {
   { 88,  0,  0,  72, 4, 4, 4, 4},  // Marcia G - Feel like jumping
   { 82,  0,  0,  72, 4, 4, 4, 4},  // Cant stop now, MajorLazer
   {148,  0,  0, 106, 4, 4, 4, 4},  // Toots - pressure drop
-  {104,  0,  0,  99, 4, 4, 4, 4}}, // Bob - Could you be loved
+  {104,  0,  0,  99, 4, 4, 4, 4}, // Bob - Could you be loved
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // Undefined
    
  {{160,  0,  0, 113, 4, 4, 4, 4}, // Kim Wilde - Kids in America
   {126,  0,  0,  81, 4, 4, 4, 4}, //Kylie - cant get you out
@@ -244,7 +499,92 @@ tuneInfo tunesLibrary[10][11] = {
   {164,  9, 65, 136, 4, 4, 4, 4}, //Martha&Muffins Echo Beach
   {199,  0,  0, 111, 4, 4, 4, 4}, //TheCoral - DreamingOfYou
   { 99,  0,  0,  58, 4, 4, 4, 4}, // Blister in the sun - Voilent femmes
-  {114,  0,  0,  96, 4, 4, 4, 4}}, // Erasure a little respect
+  {114,  0,  0,  96, 4, 4, 4, 4}, // Erasure a little respect
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // Undefined
    
  {{133, 29, 53, 120, 4, 4, 4, 4}, // A rinky dinky
   {136,  5, 45,  93, 4, 4, 4, 4}, // Israelites mix
@@ -256,7 +596,92 @@ tuneInfo tunesLibrary[10][11] = {
   {168, 29, 93, 173, 4, 4, 4, 4}, // OneTime
   {130,  0,  0, 161, 4, 4, 4, 4}, // WileOut - DJ Zinc
   {145,  0,  0, 171, 4, 4, 4, 4}, // Aphex - Polynomial C
-  {123,  0,  0, 187, 4, 4, 4, 4}},// Aphex WindowLicker
+  {123,  0,  0, 187, 4, 4, 4, 4},// Aphex WindowLicker
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // Undefined
   
  {{ 85,  0,  0,  84, 4, 4, 4, 4}, // Costa del essex
   {132,  0,  0, 139, 4, 4, 4, 4}, // MC Hammer, cant touch
@@ -268,7 +693,92 @@ tuneInfo tunesLibrary[10][11] = {
   { 94,  0,  0,  57, 4, 4, 4, 4}, // TooManyMuthaUkkas - FOTC
   {172,  0,  0,  89, 4, 4, 4, 4}, // HitTheRoadJack - RayCharles
   {112,  0,  0,  86, 4, 4, 4, 4}, // Crazy - GnarlesBarkley  
-  {160,  0,  0,  93, 4, 4, 4, 4}}, // DevilInDisguise - Elvis ********
+  {160,  0,  0,  93, 4, 4, 4, 4}, // DevilInDisguise - Elvis ********
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // Undefined
 
  {{120,  0,  0, 143, 4, 4, 4, 4}, // BackToMyRoots - RichieHavens
   {104,  0,  0, 116, 4, 4, 4, 4}, // Think - Aretha
@@ -280,7 +790,92 @@ tuneInfo tunesLibrary[10][11] = {
   {124,  0,  0, 123, 4, 4, 4, 4}, // BackToBlack - Amy 
   {132,  0,  0, 166, 4, 4, 4, 4}, // MasterBlaster-StevieWonder
   {109,  0,  0, 113, 4, 4, 4, 4}, // AllNightLong - LionelRichie
-  { 96,  0,  0,  97, 4, 4, 4, 4}},// INeedADollar-AloeBlacc     {122,  0,  0, 124} // GotToGiveItUp-MarvinGaye
+  { 96,  0,  0,  97, 4, 4, 4, 4}, // INeedADollar-AloeBlacc     {122,  0,  0, 124} // GotToGiveItUp-MarvinGaye
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // Undefined
 
  {{124,  0,  0,  71, 4, 4, 4, 4}, // ILoveTheNightlife - Alecia Bridges
   {115,  0,  0, 105, 4, 4, 4, 4}, // LoveHangover - DianaRoss
@@ -292,8 +887,94 @@ tuneInfo tunesLibrary[10][11] = {
   {111,  0,  0,  97, 4, 4, 4, 4}, // GoodTimes-Chic
   {101,  0,  0, 110, 4, 4, 4, 4}, // ThinkingOfYou-SisSledge
   {115,  0,  0, 105, 4, 4, 4, 4}, // SheCantLoveYou-Chemise
-  {112,  0,  0, 131, 4, 4, 4, 4}}, // Automatic-PointerSisters   
+  {112,  0,  0, 131, 4, 4, 4, 4}, // Automatic-PointerSisters   
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}} };  // Undefined
 
+/*
  {{124,  0,  0, 124, 4, 4, 4, 4}, // WhatCanYouDoForMe-UtahSaints
   {149,  0,  0, 177, 4, 4, 4, 4}, // TripToTheMoonPt2-Acen
   {119,  0,  0, 110, 4, 4, 4, 4}, // YouGotTheLove-TheSourceFtCandiStanton
@@ -304,7 +985,92 @@ tuneInfo tunesLibrary[10][11] = {
   {122,  0,  0, 119, 4, 4, 4, 4}, // DirtyCash-SoldOutMix
   {122,  0,  0, 133, 4, 4, 4, 4}, // Break4Love-Raze
   {126,  0,  0,  93, 4, 4, 4, 4}, // IsThereAnybodyOutThere-Bassheads
-  {126,  0,  0,  86, 4, 4, 4, 4}}, //PacificState-808State
+  {126,  0,  0,  86, 4, 4, 4, 4}, //PacificState-808State
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // Undefined
 
  {{140,  0,  0, 148, 4, 4, 4, 4},  // NextHype-TempaT
   {175,  0,  0, 191, 4, 4, 4, 4},  // DuppyMan-ChaseAndStatusCapleton
@@ -316,9 +1082,92 @@ tuneInfo tunesLibrary[10][11] = {
   {000,  0,  0, 000, 4, 4, 4, 4},
   {000,  0,  0, 000, 4, 4, 4, 4},
   {000,  0,  0, 000, 4, 4, 4, 4},
-  {175,  0,  0, 170, 4, 4, 4, 4}} // PassMeTheRizla-Deekline
-
-};
+  {175,  0,  0, 170, 4, 4, 4, 4}, // PassMeTheRizla-Deekline
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}} };*/
 
 
 

@@ -20,11 +20,10 @@ void doMixing() {
   }
 }
 
-// This isn't called when we're mixing, 
 void startNewMix() {
   
   // send stuff to ableton to start the new track  
-  playAbletonTrack(nextGenre, nextTrack, deckASelected);
+  playAbletonTrack(nextGenre, nextTrack, !deckASelected);
     
   // change the current track in this program
   newCurrentBar = 0;
@@ -34,7 +33,7 @@ void startNewMix() {
   inTheMix=true;
 
   // tell the other arduino what you're doing
-  //sendSerialToMega(2,(currentGenre*100)+currentTrack);
+  sendSerialToMega(2,(currentGenre*100)+currentTrack);
 
 }
 

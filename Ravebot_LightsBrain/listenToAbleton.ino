@@ -61,13 +61,8 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       currentBar++;
       newCurrentBar++;
       setBeatTimes();
-
       checkForMixStart();
       checkForMixEnd();
-
-      //if (currentBar+1 > tunesLibrary[currentGenre][currentTrack].tuneLength)
-      //  playRandomAbletonTrack(currentGenre);
-
       checkForDropCountdownStart();
     }         
   }
@@ -75,7 +70,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 
 void checkForMixStart() {
   if (currentBar * 16 == (tunesLibrary[currentGenre][currentTrack].tuneLength * 16 - nextMixDuration16)) {
-    //startNewMix();
+    startNewMix();
     inTheMix=true;
   }
 }
@@ -84,11 +79,11 @@ void checkForMixEnd() {
   // pick a new song if a mix has ended
   if (currentBar+1 > tunesLibrary[currentGenre][currentTrack].tuneLength)
   {
+    stopAbletonChannel(currentGenre, deckASelected);
     chooseNextTrack();
     currentBar = newCurrentBar;
     newCurrentBar=0;
     inTheMix=false;
-    // TODO PRESS STOP ON THAT TRACK
   }
 }
 
