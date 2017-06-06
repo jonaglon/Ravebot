@@ -6,7 +6,7 @@ void doMixing() {
   int bpmDifference = tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm;
 
   // Not good to use floats, we're not calling this too often (once per 16th).
-  float percentThroughMix = (float)sixteenthsIntoMix / nextMixDuration16;
+  float percentThroughMix = (float)sixteenthsIntoMix / (float)nextMixDuration16;
   
   int newBpm = (bpmDifference * percentThroughMix) + tunesLibrary[currentGenre][currentTrack].bpm;
   if (currentBpm != newBpm)
@@ -42,9 +42,14 @@ void chooseNextTrack() {
   bool nextTrackPicked = false;
 
   while (!nextTrackPicked) {
-    pickNewGenre();
+    // Pick next genre
+    if (!stayWithinGenre)
+      nextGenre = random(8);
+    else
+      nextGenre = currentGenre;
     
-    nextTrack = random(3); // random(numTunesByGenre[nextGenre]);
+    // Pick next track
+    nextTrack = random(numTunesByGenre[nextGenre]);
     
     // is next track compatible? 
     if (tunesLibrary[nextGenre][nextTrack].minFadeIn > tunesLibrary[currentGenre][currentTrack].maxFadeOut)
@@ -58,12 +63,5 @@ void chooseNextTrack() {
   // set the amount of time we are going to mix from one tune to the other.
   nextMixDuration16 = (((tunesLibrary[currentGenre][currentTrack].maxFadeOut) < (tunesLibrary[nextGenre][nextTrack].minFadeIn)) ? 
     (tunesLibrary[currentGenre][currentTrack].maxFadeOut) : (tunesLibrary[nextGenre][nextTrack].minFadeIn)) * 16;
-}
-
-void pickNewGenre() {
-  if (!stayWithinGenre)
-    nextGenre = random(10);
-  else
-    nextGenre = currentGenre;
 }
 

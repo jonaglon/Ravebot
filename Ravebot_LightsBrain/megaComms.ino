@@ -38,8 +38,8 @@ void doSomethingWithPackageFromMega(int package)
   else if (function == 4)
   {
     // specific track was chosen on the keypad, play the track
-    stayWithinGenre = false;
-    playTune((message / 100), (message % 100));
+    //stayWithinGenre = false;
+    //playTune((message / 100), (message % 100));
   }
 }
 

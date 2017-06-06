@@ -3,7 +3,7 @@ bool newBeat=false;
 void playRandomTune(int genre) {
   int newTrackNumber = 0;
   do
-    newTrackNumber = random(10);
+    newTrackNumber = random(0,numTunesByGenre[genre]); // TODO - pick from max
   while (newTrackNumber == currentTrack);  
   
   playTune(genre, newTrackNumber);
@@ -15,6 +15,7 @@ void playTune(int genre, int track) {
   stopAllAbletonTracks(); 
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
   setAbletonTempo(tunesLibrary[genre][track].bpm);
+  setCrossfader(0);
   playAbletonTrack(genre, track, true);
 
   // change the current track in this program
@@ -40,7 +41,7 @@ void playAbletonTrack(int channel, int trackNumber, bool playSideA) {
     deckASelected = false;
   }
 
-  sendMidi(abletonChannel+176, trackNumber, 127);
+  sendMidi(abletonChannel+176, trackNumber+1, 127);
 }
 
 void stopAbletonChannel(int channel, bool stopSideA) {
@@ -83,9 +84,9 @@ void setCrossfader(int value) { // 0 - 127
 void sendMidi(int channel, int trackNumber, int velocity) {
   if ((channel < 176) || (channel > 192))
     return;
-  if ((trackNumber < 1) || (trackNumber > 127))
+  if ((trackNumber < 0) || (trackNumber > 127))
     return;
-  if ((velocity < 1) || (velocity > 127))
+  if ((velocity < 0) || (velocity > 127))
     return;
   
   Serial.write(channel);

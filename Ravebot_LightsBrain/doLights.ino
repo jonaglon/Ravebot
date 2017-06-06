@@ -40,7 +40,7 @@ void lightsInTime() {
 
   int thisFrame = sixteenth % 4;
 
-  for (int pixNum = 0; pixNum < 95; pixNum++) {
+  /*for (int pixNum = 0; pixNum < 95; pixNum++) {
     if (rightEyeQuartAnim[thisFrame][pixNum]) {
       if (currentBar % 4 == 0) {
         setLedDirect(pixNum, 255, 255, 255, 255);
@@ -52,7 +52,7 @@ void lightsInTime() {
         setLedDirect(pixNum, 0, 0, 255, 0);
       };
     }
-  }
+  }*/
   
   /*if (dropCountdown == 0)
     LEDS.setBrightness(64);

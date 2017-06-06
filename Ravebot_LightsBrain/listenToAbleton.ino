@@ -69,7 +69,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForMixStart() {
-  if (currentBar * 16 == (tunesLibrary[currentGenre][currentTrack].tuneLength * 16 - nextMixDuration16)) {
+  if (currentBar * 16 == ((tunesLibrary[currentGenre][currentTrack].tuneLength * 16) - nextMixDuration16)) {
     startNewMix();
     inTheMix=true;
   }

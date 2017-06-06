@@ -146,8 +146,6 @@ void changeNumber(int inNum) {
     uptopos=4;
   } else if (uptopos == 4) {
     currTrackNum = currTrackNum+ inNum;
-    uptopos=5;
-  } else if (uptopos == 5) {
     playAbletonTrack(currChannel, currTrackNum, inNum==0);
     uptopos=0;
   }

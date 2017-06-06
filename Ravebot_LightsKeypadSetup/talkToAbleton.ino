@@ -33,42 +33,7 @@ void playTune(int genre, int track) {
 
 void playAbletonTrack(int channel, int trackNumber, bool playSideA)
 {
-  int abletonChannel = channel*2;
-  if (playSideA) {
-    deckASelected = true;
-  } else {
-    abletonChannel++;
-    deckASelected = false;
-  }
-
-  if (abletonChannel < 17) {
-    sendMidi(abletonChannel+176, trackNumber, 127);
-    return;
-  }
-  
-  int abletonTrack = (trackNumber%24)+97;
-  int offset=1;
-  if (trackNumber > 72)
-    offset=4;
-  else if (trackNumber > 48)
-    offset=3;
-  else if (trackNumber > 24)
-    offset=2;
-  
-  switch (abletonChannel) {
-    case 17:
-      sendMidi(offset+176, abletonTrack, 127);
-      break;
-    case 18:
-      sendMidi(offset+4+176, abletonTrack, 127);
-      break;
-    case 19:
-      sendMidi(offset+8+176, abletonTrack, 127);
-      break;
-    case 20:
-      sendMidi(offset+12+176, abletonTrack, 127);
-      break;
-  }
+  sendMidi(channel+176, trackNumber, 127);
 }
 
 void stopAbletonChannel(int channel, bool stopSideA) {
