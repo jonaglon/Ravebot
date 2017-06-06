@@ -38,7 +38,7 @@ void bassBinRainbow(int speedFactor)
 
 void lightsInTime() {
 
-  int thisFrame = sixteenth % 4;
+  //int thisFrame = sixteenth % 4;
 
   /*for (int pixNum = 0; pixNum < 95; pixNum++) {
     if (rightEyeQuartAnim[thisFrame][pixNum]) {

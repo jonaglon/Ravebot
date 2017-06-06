@@ -19,15 +19,16 @@ void playTune(int genre, int track) {
   playAbletonTrack(genre, track, true);
 
   // change the current track in this program
+  sixteenBeats = 0;
   currentBar = 0;
   currentGenre = genre;
   currentTrack = track;
   currentBpm=tunesLibrary[genre][track].bpm;
-  inTheMix=false;
+  inTheMix = 0;
 
   // tell the other arduino what you're doing
   sendSerialToMega(2,(genre*100)+track);
-
+ 
   // choose the track to mix in to
   chooseNextTrack();
 }
@@ -57,7 +58,7 @@ void stopAllAbletonTracks() {
 }
 
 void start16BeatAbletonTrack() {
-  sendMidi(176, 126, 127);
+  sendMidi(176, 126, 127); // channel 1, track 126, value 127.
 }
 
 void setMainVolume(int volume) { // 0 - 127
@@ -74,7 +75,7 @@ void setRobotVolume(int volume) { // 0 - 127
   sendMidi(177, 126, volume);
 }
 
-void setCrossfader(int value) { // 0 - 127
+void setCrossfader(int value) { // 0 - 127     176
   sendMidi(177, 127, value);
 }
 
@@ -82,6 +83,11 @@ void setCrossfader(int value) { // 0 - 127
 //  cmd is greater than 127, or that data values are  less than 127:
 // 176 is channel=1, 190 channel=15
 void sendMidi(int channel, int trackNumber, int velocity) {
+  if (testMode) {
+    sendMidiTest(channel, trackNumber, velocity);
+    return;
+  }
+  
   if ((channel < 176) || (channel > 192))
     return;
   if ((trackNumber < 0) || (trackNumber > 127))
@@ -95,18 +101,16 @@ void sendMidi(int channel, int trackNumber, int velocity) {
 }
 
 void sendMidiTest(int channel, int trackNumber, int velocity) {
-  Serial.print("channel:");
-  //Serial.write(channel);
-  Serial.print(channel);
-  Serial.println(" ");
-  Serial.print("track:");
-  //Serial.write(trackNumber);
+  // (176, 126, 127); // channel 1, track 126, value 127.
+  
+  Serial.print("Channel:");
+  Serial.print(channel - 175);
+
+  Serial.print(" Note:");
   Serial.print(trackNumber);
-  Serial.println(" ");
-  Serial.print("velocity:");
-  //Serial.write(velocity);
-  Serial.print(velocity);
-  Serial.println(" ");
+
+  Serial.print(" Value:");
+  Serial.println(velocity);
 }
 
 

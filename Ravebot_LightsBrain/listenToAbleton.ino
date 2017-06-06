@@ -7,9 +7,11 @@ int state=0;  // state machine variable 0 = command waiting : 1 = note waitin : 
 
 // Receive midi from ableton
 void listenToAbleton() {
-  if (false)
+
+  if (testMode)
   {
     doFakeBeatMessageFromAbleton();
+    return;
   }
 
   while (Serial.available() > 0) {
@@ -29,7 +31,7 @@ void listenToAbleton() {
       // get the note to play or stop
       if(incomingByte < 128) {
         note=incomingByte;
-        state=2;  
+        state=2; 
       }
       else{
         state = 0;  // reset state machine as this should be a note number
@@ -48,15 +50,20 @@ void listenToAbleton() {
 
 void processMessageFromAbleton(byte note, byte velocity, int down) {
   if ((note>=24 && note<88) && (velocity == 100)) {
-    sixteenth = note - 24; // from 0 to 63 
+    sixteenBeats = note - 24; // from 0 to 63 
     sendBeatToMega();
     if (dropCountdown != 0)
       dropCountdown--;
 
-    if (inTheMix)
+    Serial.print("****************************************");
+    char boolVal = inTheMix==1 ? 't' : 'f';
+    Serial.println(boolVal);
+
+    if (inTheMix==1) {
       doMixing();
+    }
     
-    if (sixteenth % 16 == 0) {
+    if (sixteenBeats % 4 == 0) {
       // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
       currentBar++;
       newCurrentBar++;
@@ -64,14 +71,20 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       checkForMixStart();
       checkForMixEnd();
       checkForDropCountdownStart();
+      if (testMode) {
+        Serial.print("New bar: ");
+        Serial.println(currentBar);
+      }
     }         
   }
 }
 
 void checkForMixStart() {
-  if (currentBar * 16 == ((tunesLibrary[currentGenre][currentTrack].tuneLength * 16) - nextMixDuration16)) {
+  if (currentBar  == tunesLibrary[currentGenre][currentTrack].tuneLength  - nextMixDuration) {
+    if (testMode) {
+      Serial.println("Starting new mix");
+    }
     startNewMix();
-    inTheMix=true;
   }
 }
 
@@ -79,11 +92,10 @@ void checkForMixEnd() {
   // pick a new song if a mix has ended
   if (currentBar+1 > tunesLibrary[currentGenre][currentTrack].tuneLength)
   {
-    stopAbletonChannel(currentGenre, deckASelected);
-    chooseNextTrack();
-    currentBar = newCurrentBar;
-    newCurrentBar=0;
-    inTheMix=false;
+    if (testMode) {
+      Serial.println("Ending mix");
+    }
+    endMixAndPickNewTune();
   }
 }
 

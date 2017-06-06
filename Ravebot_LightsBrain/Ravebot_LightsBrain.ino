@@ -8,6 +8,8 @@
 #include<Wire.h>
 #include<FastLED.h>
 
+bool testMode = true;
+
 unsigned long timey;
 int ticky=0;
 
@@ -15,9 +17,9 @@ unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
 int fakeBeatLengh = 240;
 
 // Set by midi in to be 1-16 with beat.
-short sixteenth = 0;
+short sixteenBeats = 0;
 
-int mainVolume = 80; // 127 actual max but we won't exceed 100.
+int mainVolume = 100; // 127 actual max but we won't exceed 100.
 int currentBar = 0;
 int newCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;
@@ -34,10 +36,10 @@ CRGB rgbwLeds[numLedsAdj];
 // MIXING VARS
 int nextTrack = 0;
 int nextGenre = 0;
-int nextMixDuration16 = 0;
+int nextMixDuration = 4;
 int currentBpm = 0;
 bool stayWithinGenre = false;
-bool inTheMix = false;
+int inTheMix = 0;
 bool deckASelected = true;
 int currentMixerPosition = 0;
 
@@ -95,6 +97,33 @@ struct tuneInfo {
 
 int numTunesByGenre[8] = {4, 5, 5, 5, 5, 5, 5, 5};
 
+tuneInfo tunesLibrary[4][5] = {
+ {{101,  5, 25,  12, 4, 4, 4, 4},  // Lets get ill
+  { 93,  9, 49,  12, 4, 4, 4, 4},  // No Diggidy
+  {103,  5, 69,  12, 4, 4, 4, 4},  // Moma said knock you out        // 0, 1   Hip-hop
+  {100,  5, 25,  12, 4, 4, 4, 4},  // Like it raw
+  { 92,  2, 49,  12, 4, 4, 4, 4}},  // Dre&2Pac California
+
+ {{102,  9, 97, 137, 4, 4, 4, 4},  // Aphex Ageopolis  
+  {103,  7, 83, 111, 4, 4, 4, 4},  // Whitetown I could never
+  { 96,  9, 53,  76, 4, 4, 4, 4},  // DM Big L 
+  {117,  9, 29,  75, 4, 4, 4, 4},  // Air Remember
+  {172,  0,  0, 152, 4, 4, 4, 4}},  // DM Zero7
+
+ {{ 86,  9,  0,  51, 4, 4, 4, 4},  // Tenor Saw Ring the Alarm
+  {102, 49, 61, 119, 4, 4, 4, 4},  // Toots Funky Kingston
+  { 80,  0,  0,  79, 4, 4, 4, 4},  // WayneSmith - UnderMeSleng Teng
+  { 86,  0,  0,  67, 4, 4, 4, 4},  // Sis Nancy Bam Bam
+  { 83,  0,  0,  77, 4, 4, 4, 4}},   // Althea&Donna Strictly Roots
+
+ {{160,  0,  0, 113, 4, 4, 4, 4}, // Kim Wilde - Kids in America
+  {126,  0,  0,  81, 4, 4, 4, 4}, //Kylie - cant get you out
+  {112,  0,  0, 101, 4, 4, 4, 4}, //Hall&Oates - I can't go for that
+  { 97,  0,  0,  63, 4, 4, 4, 4}, //George Michael - Faith
+  {122, 49, 87, 107, 4, 4, 4, 4}} //DeeLite - Groove is in the heart
+};
+
+/*
 tuneInfo tunesLibrary[8][96] = {
  {{101,  5, 25,  12, 4, 4, 4, 4},  // Lets get ill
   { 93,  9, 49,  12, 4, 4, 4, 4},  // No Diggidy
@@ -871,7 +900,7 @@ tuneInfo tunesLibrary[8][96] = {
   {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
   {100,  0,  0,  60, 4, 4, 4, 4},  // Undefined
   {100,  0,  0,  60, 4, 4, 4, 4}} };  // Undefined
-
+*/
 /*
   {124,  0,  0, 124, 4, 4, 4, 4}, // WhatCanYouDoForMe-UtahSaints
   {149,  0,  0, 177, 4, 4, 4, 4}, // TripToTheMoonPt2-Acen

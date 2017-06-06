@@ -1,23 +1,43 @@
 
 void doMixing() {
 
-  int mixStart = (tunesLibrary[currentGenre][currentTrack].tuneLength * 16) - nextMixDuration16;
-  int sixteenthsIntoMix = ((currentBar * 16) + sixteenth) - mixStart;
+  int mixStart = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;
+  Serial.print("mixStart:");
+  Serial.print(mixStart);
+  Serial.print("   currentBar:");
+  Serial.print(currentBar);
+  Serial.print("   sixteenBeats:");
+  Serial.println(sixteenBeats);
+  
+  int beatsIntoMix = ((currentBar * 4) + (sixteenBeats % 4)) - (mixStart * 4);
   int bpmDifference = tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm;
 
-  // Not good to use floats, we're not calling this too often (once per 16th).
-  float percentThroughMix = (float)sixteenthsIntoMix / (float)nextMixDuration16;
+  // Not good to use floats, we're not calling this too often (once per quarter bar).
+  float percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 4);
   
-  int newBpm = (bpmDifference * percentThroughMix) + tunesLibrary[currentGenre][currentTrack].bpm;
-  if (currentBpm != newBpm)
-    setAbletonTempo(newBpm);
+  //int newBpm = (bpmDifference * percentThroughMix) + tunesLibrary[currentGenre][currentTrack].bpm;
+  //if (currentBpm != newBpm)
+  //  setAbletonTempo(newBpm);
 
   // Now do the actual mixing
+  int crossfaderValue = 127 * percentThroughMix;
+
+
+  Serial.print("%:");
+  Serial.print(percentThroughMix);
+  
+  Serial.print("   (beatsIntoMix:");
+  Serial.print(beatsIntoMix);
+  Serial.print("  / nextMixDuration*4");
+  Serial.print(nextMixDuration);
+  Serial.print("  so the crossfader is at:");
+  Serial.println(crossfaderValue);
+  
   if (deckASelected) {
-    setCrossfader(127 * percentThroughMix);
+    setCrossfader(crossfaderValue);
   } else {
-    setCrossfader(127 - (127 * percentThroughMix));
-  }
+    setCrossfader(127 - crossfaderValue);
+  } 
 }
 
 void startNewMix() {
@@ -30,13 +50,23 @@ void startNewMix() {
   currentGenre = nextGenre;
   currentTrack = nextTrack;
   currentBpm=tunesLibrary[currentGenre][currentTrack].bpm;
-  inTheMix=true;
+  if (testMode) {
+    Serial.println("setting in the mix to 1");
+  }
+  inTheMix=1;
 
   // tell the other arduino what you're doing
   sendSerialToMega(2,(currentGenre*100)+currentTrack);
 
 }
 
+void endMixAndPickNewTune() {
+  stopAbletonChannel(currentGenre, deckASelected);
+  chooseNextTrack();
+  currentBar = newCurrentBar;
+  newCurrentBar=0;
+  inTheMix=0;
+}
 
 void chooseNextTrack() {
   bool nextTrackPicked = false;
@@ -61,7 +91,9 @@ void chooseNextTrack() {
   }
 
   // set the amount of time we are going to mix from one tune to the other.
-  nextMixDuration16 = (((tunesLibrary[currentGenre][currentTrack].maxFadeOut) < (tunesLibrary[nextGenre][nextTrack].minFadeIn)) ? 
-    (tunesLibrary[currentGenre][currentTrack].maxFadeOut) : (tunesLibrary[nextGenre][nextTrack].minFadeIn)) * 16;
+  nextMixDuration = ((tunesLibrary[currentGenre][currentTrack].maxFadeOut) < (tunesLibrary[nextGenre][nextTrack].minFadeIn)) ? 
+    (tunesLibrary[currentGenre][currentTrack].maxFadeOut) : (tunesLibrary[nextGenre][nextTrack].minFadeIn);
+
+  
 }
 
