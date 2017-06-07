@@ -8,10 +8,10 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = false ;
+bool testMode = false;
 
 unsigned long timey;
-unsigned long fakeBeatCount = 0;
+unsigned long fakeBeatCount = 0; 
 int ticky=0;
 
 unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
