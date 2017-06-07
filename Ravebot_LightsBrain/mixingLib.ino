@@ -1,16 +1,7 @@
 
 void doMixing() {
 
-  int mixStart = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;
-  if (testMode) {
-    Serial.print("mixStart:");
-    Serial.print(mixStart);
-    Serial.print("   currentBar:");
-    Serial.print(currentBar);
-    Serial.print("   sixteenBeats:");
-    Serial.println(sixteenBeats);
-  }
-  
+  int mixStart = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;  
   int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
 
   // Not good to use floats, we're not calling this too often (once per quarter bar).
@@ -22,18 +13,6 @@ void doMixing() {
 
   // Now do the actual mixing
   int crossfaderValue = 127 * percentThroughMix;
-
-  if (testMode) {
-    Serial.print("next bpm:");
-    Serial.print(tunesLibrary[nextGenre][nextTrack].bpm);
-    
-    Serial.print("  current bpm:");
-    Serial.print(tunesLibrary[currentGenre][currentTrack].bpm);
-    Serial.print("  diff:");
-    Serial.print(bpmDifference);
-    Serial.print("  NEW=");
-    Serial.println(newBpm);
-  }
   
   if (deckASelected) {
     setCrossfader(crossfaderValue);
@@ -46,6 +25,13 @@ void startNewMix() {
   
   // send stuff to ableton to start the new track  
   playAbletonTrack(nextGenre, nextTrack, !deckASelected);
+
+  if (testMode) {
+    Serial.print("JUST STARTED: ");
+    Serial.print(nextGenre);
+    Serial.print("/");
+    Serial.println(nextTrack);
+  }
     
   // change the current track in this program
   newCurrentBar = 0;
@@ -64,7 +50,6 @@ void endMixAndPickNewTune() {
   }
   setAbletonTempo(tunesLibrary[nextGenre][nextTrack].bpm);
 
-  // choose the next track
   currentGenre = nextGenre;
   currentTrack = nextTrack;
   chooseNextTrack();
@@ -100,10 +85,16 @@ void chooseNextTrack() {
       nextTrackPicked = true;    
   }
 
-  // set the amount of time we are going to mix from one tune to the other.
-  nextMixDuration = ((tunesLibrary[currentGenre][currentTrack].maxFadeOut) < (tunesLibrary[nextGenre][nextTrack].minFadeIn)) ? 
-    (tunesLibrary[currentGenre][currentTrack].maxFadeOut) : (tunesLibrary[nextGenre][nextTrack].minFadeIn);
+  if (testMode) {
+    Serial.print("current-maxFadeOut:");
+    Serial.print(tunesLibrary[currentGenre][currentTrack].maxFadeOut);
+    Serial.print("  next-maxFadeIn:");
+    Serial.print(tunesLibrary[nextGenre][nextTrack].maxFadeIn);
+  }
 
-  
+  // set the amount of time we are going to mix from one tune to the other
+  nextMixDuration = (tunesLibrary[currentGenre][currentTrack].maxFadeOut > tunesLibrary[nextGenre][nextTrack].maxFadeIn) ? 
+    tunesLibrary[nextGenre][nextTrack].maxFadeIn : tunesLibrary[currentGenre][currentTrack].maxFadeOut;
+
 }
 

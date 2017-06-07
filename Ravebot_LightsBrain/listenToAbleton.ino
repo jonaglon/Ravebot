@@ -76,7 +76,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForMixStart() {
-  if (currentBar  == tunesLibrary[currentGenre][currentTrack].tuneLength  - nextMixDuration) {
+  if (currentBar  == tunesLibrary[currentGenre][currentTrack].tuneLength - 1 - nextMixDuration) {
     if (testMode) {
       Serial.println("Starting new mix");
     }

@@ -26,11 +26,10 @@ void playTune(int genre, int track) {
   currentTrack = track;
   if (testMode) {
      Serial.print("NOW PLAYING: ");
-     Serial.print(currentGenre);
+     Serial.print(genre);
      Serial.print("/");
-     Serial.println(currentTrack);
-  }
-        
+     Serial.println(track);
+  }      
   currentlyMixing=false;
   inTheMix = 0;
 

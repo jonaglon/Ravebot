@@ -8,7 +8,7 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = false;
+bool testMode = false ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0;
@@ -84,27 +84,27 @@ void loop()
 
 
 struct tuneInfo {
-  int bpm;
-  int drop1;
-  int drop2;
-  int tuneLength;
-  int minFadeIn;
-  int maxFadeIn;
-  int minFadeOut;
-  int maxFadeOut;
-  tuneInfo(int aBpm, int aDrop1, int aDrop2, int aTuneLength, int aMinFadeIn, int aMaxFadeIn, int aMinFadeOut, int aMaxFadeOut) : 
+  byte bpm;
+  byte drop1;
+  byte drop2;
+  byte tuneLength;
+  byte minFadeIn;
+  byte maxFadeIn;
+  byte minFadeOut; 
+  byte maxFadeOut;
+  tuneInfo(byte aBpm, byte aDrop1, byte aDrop2, byte aTuneLength, byte aMinFadeIn, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut) : 
            bpm(aBpm), drop1(aDrop1), drop2(aDrop2), tuneLength(aTuneLength), minFadeIn(aMinFadeIn), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut) { 
   }
 };
 
-int numTunesByGenre[8] = {4, 5, 5, 5, 5, 5, 5, 5};
+int numTunesByGenre[8] = {5, 5, 5, 5, 5, 5, 5, 5};
 
 tuneInfo tunesLibrary[4][5] = {
- {{101,  5, 25,  12, 4, 4, 4, 4},  // Lets get ill
-  { 93,  9, 49,  12, 4, 4, 4, 4},  // No Diggidy
-  {103,  5, 69,  12, 4, 4, 4, 4},  // Moma said knock you out        // 0, 1   Hip-hop
-  {100,  5, 25,  12, 4, 4, 4, 4},  // Like it raw
-  { 92,  2, 49,  12, 4, 4, 4, 4}},  // Dre&2Pac California
+ {{101,  5, 25,  25, 0, 4, 0, 0},  // Lets get ill                       // 1   Hip-hop
+  { 93,  9, 49,  21, 0, 4, 8, 8},  // No Diggidy 
+  {100,  5, 25,  21, 0, 8, 4, 8},  // Like it raw
+  {103,  5, 69,  17, 0, 4, 0, 8},  // Moma said knock you out         
+  {162,  7, 65,  21, 0, 6, 4, 8}}, // Dead Prez
 
  {{102,  9, 97, 137, 4, 4, 4, 4},  // Aphex Ageopolis  
   {103,  7, 83, 111, 4, 4, 4, 4},  // Whitetown I could never
@@ -115,9 +115,9 @@ tuneInfo tunesLibrary[4][5] = {
  {{ 86,  9,  0,  51, 4, 4, 4, 4},  // Tenor Saw Ring the Alarm
   {102, 49, 61, 119, 4, 4, 4, 4},  // Toots Funky Kingston
   { 80,  0,  0,  79, 4, 4, 4, 4},  // WayneSmith - UnderMeSleng Teng
-  { 86,  0,  0,  67, 4, 4, 4, 4},  // Sis Nancy Bam Bam
+  { 86,  0,  0,  67, 4, 4, 4, 4},  // Sis Nancy Bam Bam 
   { 83,  0,  0,  77, 4, 4, 4, 4}},   // Althea&Donna Strictly Roots
-
+ 
  {{160,  0,  0, 113, 4, 4, 4, 4}, // Kim Wilde - Kids in America
   {126,  0,  0,  81, 4, 4, 4, 4}, //Kylie - cant get you out
   {112,  0,  0, 101, 4, 4, 4, 4}, //Hall&Oates - I can't go for that
