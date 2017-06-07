@@ -24,7 +24,13 @@ void playTune(int genre, int track) {
   fakeBeatCount = 0;
   currentGenre = genre;
   currentTrack = track;
-  currentBpm=tunesLibrary[genre][track].bpm;
+  if (testMode) {
+     Serial.print("NOW PLAYING: ");
+     Serial.print(currentGenre);
+     Serial.print("/");
+     Serial.println(currentTrack);
+  }
+        
   currentlyMixing=false;
   inTheMix = 0;
 
@@ -66,7 +72,11 @@ void setMainVolume(int volume) { // 0 - 127
 }
 
 void setAbletonTempo(int tempo) { // 80 - 207 bpm only
-    sendMidi(177, 125, tempo-80);
+  if (abletonBpm == tempo)
+    return;
+  
+  sendMidi(177, 125, tempo-80);
+  abletonBpm = tempo;
 }
 
 void setRobotVolume(int volume) { // 0 - 127

@@ -38,7 +38,7 @@ CRGB rgbwLeds[numLedsAdj];
 int nextTrack = 0;
 int nextGenre = 0;
 int nextMixDuration = 4;
-int currentBpm = 0;
+int abletonBpm = 0;
 bool stayWithinGenre = false;
 bool currentlyMixing=false;
 int inTheMix = 0;
