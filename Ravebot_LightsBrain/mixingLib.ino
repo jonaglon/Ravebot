@@ -9,7 +9,7 @@ void doMixing() {
   Serial.print("   sixteenBeats:");
   Serial.println(sixteenBeats);
   
-  int beatsIntoMix = ((currentBar * 4) + (sixteenBeats % 4)) - (mixStart * 4);
+  int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
   int bpmDifference = tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm;
 
   // Not good to use floats, we're not calling this too often (once per quarter bar).
@@ -63,6 +63,14 @@ void startNewMix() {
 
 void endMixAndPickNewTune() {
   stopAbletonChannel(currentGenre, deckASelected);
+  if (deckASelected) {
+    setCrossfader(127);
+    deckASelected = false;
+  } else {
+    setCrossfader(0);
+    deckASelected = true;
+  } 
+  
   chooseNextTrack();
   currentBar = newCurrentBar;
   newCurrentBar=0;

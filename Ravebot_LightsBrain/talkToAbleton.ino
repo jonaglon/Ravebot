@@ -3,7 +3,7 @@ bool newBeat=false;
 void playRandomTune(int genre) {
   int newTrackNumber = 0;
   do
-    newTrackNumber = random(0,numTunesByGenre[genre]); // TODO - pick from max
+    newTrackNumber = random(0,numTunesByGenre[genre]);
   while (newTrackNumber == currentTrack);  
   
   playTune(genre, newTrackNumber);
@@ -21,6 +21,7 @@ void playTune(int genre, int track) {
   // change the current track in this program
   sixteenBeats = 0;
   currentBar = 0;
+  fakeBeatCount = 0;
   currentGenre = genre;
   currentTrack = track;
   currentBpm=tunesLibrary[genre][track].bpm;
@@ -36,12 +37,8 @@ void playTune(int genre, int track) {
 
 void playAbletonTrack(int channel, int trackNumber, bool playSideA) {
   int abletonChannel = channel*2;
-  if (playSideA) {
-    deckASelected = true;
-  } else {
+  if (!playSideA)
     abletonChannel++;
-    deckASelected = false;
-  }
 
   sendMidi(abletonChannel+176, trackNumber+1, 127);
 }

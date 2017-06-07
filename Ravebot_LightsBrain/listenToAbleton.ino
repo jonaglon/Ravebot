@@ -63,7 +63,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
     else
       Serial.println("..................NOT in the mix");
 
-    if (inTheMix==1) {
+    if (currentlyMixing) {
       doMixing();
     }
     
@@ -121,14 +121,13 @@ void setBeatTimes() {
 
 
 /* Below is the fake beat control code */
-unsigned long ipp = 0;
 unsigned long nextBeat = 0;
 
 void doFakeBeatMessageFromAbleton() {
   if (timey > nextBeat) {
-    processMessageFromAbleton((ipp%16)+24, 100, 0);
+    processMessageFromAbleton((fakeBeatCount%16)+24, 100, 0);
     nextBeat = timey+fakeBeatLengh;
-    ipp++;
+    fakeBeatCount++;
   }
 }
 
