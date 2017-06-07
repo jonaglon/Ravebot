@@ -2,12 +2,14 @@
 void doMixing() {
 
   int mixStart = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;
-  Serial.print("mixStart:");
-  Serial.print(mixStart);
-  Serial.print("   currentBar:");
-  Serial.print(currentBar);
-  Serial.print("   sixteenBeats:");
-  Serial.println(sixteenBeats);
+  if (testMode) {
+    Serial.print("mixStart:");
+    Serial.print(mixStart);
+    Serial.print("   currentBar:");
+    Serial.print(currentBar);
+    Serial.print("   sixteenBeats:");
+    Serial.println(sixteenBeats);
+  }
   
   int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
   int bpmDifference = tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm;
@@ -22,16 +24,17 @@ void doMixing() {
   // Now do the actual mixing
   int crossfaderValue = 127 * percentThroughMix;
 
-
-  Serial.print("%:");
-  Serial.print(percentThroughMix);
-  
-  Serial.print("   (beatsIntoMix:");
-  Serial.print(beatsIntoMix);
-  Serial.print("  / nextMixDuration*4");
-  Serial.print(nextMixDuration);
-  Serial.print("  so the crossfader is at:");
-  Serial.println(crossfaderValue);
+  if (testMode) {
+    Serial.print("%:");
+    Serial.print(percentThroughMix);
+    
+    Serial.print("   (beatsIntoMix:");
+    Serial.print(beatsIntoMix);
+    Serial.print("  / nextMixDuration*4");
+    Serial.print(nextMixDuration);
+    Serial.print("  so the crossfader is at:");
+    Serial.println(crossfaderValue);
+  }
   
   if (deckASelected) {
     setCrossfader(crossfaderValue);
