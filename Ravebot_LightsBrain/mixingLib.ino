@@ -1,7 +1,7 @@
 
 void doMixing() {
 
-  int mixStart = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;  
+  int mixStart = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;
   int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
 
   // Not good to use floats, we're not calling this too often (once per quarter bar).
@@ -30,7 +30,7 @@ void startNewMix() {
     Serial.print("JUST STARTED: ");
     Serial.print(nextGenre);
     Serial.print("/");
-    Serial.println(nextTrack);
+    Serial.println(nextTrack); 
   }
     
   // change the current track in this program
@@ -58,9 +58,7 @@ void endMixAndPickNewTune() {
   sendSerialToMega(2,(currentGenre*100)+currentTrack);
   
   currentBar = newCurrentBar;
-  newCurrentBar=0;
   currentlyMixing=false;
-  inTheMix=0;
 }
 
 void chooseNextTrack() {
@@ -75,7 +73,9 @@ void chooseNextTrack() {
     
     // Pick next track
     nextTrack = random(numTunesByGenre[nextGenre]);
-    
+
+    // { 93,  9, 49,  21, 0, 4, 8, 8},  // No Diggidy 
+    // {100,  5, 25,  21, 0, 8, 4, 8},  // Like it raw
     // is next track compatible? 
     if (tunesLibrary[nextGenre][nextTrack].minFadeIn > tunesLibrary[currentGenre][currentTrack].maxFadeOut)
       continue;

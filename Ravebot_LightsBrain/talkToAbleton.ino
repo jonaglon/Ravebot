@@ -20,7 +20,7 @@ void playTune(int genre, int track) {
 
   // change the current track in this program
   sixteenBeats = 0;
-  currentBar = 0;
+  currentBar = -1;
   fakeBeatCount = 0;
   currentGenre = genre;
   currentTrack = track;
@@ -31,7 +31,6 @@ void playTune(int genre, int track) {
      Serial.println(track);
   }      
   currentlyMixing=false;
-  inTheMix = 0;
 
   // tell the other arduino what you're doing
   sendSerialToMega(2,(genre*100)+track);

@@ -1,4 +1,4 @@
-/* __                 _           _               __ _       _     _  
+  /* __                 _           _               __ _       _     _  
   /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
  / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
 / _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
@@ -37,11 +37,10 @@ CRGB rgbwLeds[numLedsAdj];
 // MIXING VARS
 int nextTrack = 0;
 int nextGenre = 0;
-int nextMixDuration = 4;
+int nextMixDuration = 0;
 int abletonBpm = 0;
 bool stayWithinGenre = false;
 bool currentlyMixing=false;
-int inTheMix = 0;
 bool deckASelected = true;
 int currentMixerPosition = 0;
 
@@ -97,32 +96,36 @@ struct tuneInfo {
   }
 };
 
-int numTunesByGenre[8] = {5, 5, 5, 5, 5, 5, 5, 5};
+int numTunesByGenre[8] = {6, 5, 5, 5, 5, 5, 5, 5};
 
-tuneInfo tunesLibrary[4][5] = {
- {{101,  5, 25,  25, 0, 4, 0, 0},  // Lets get ill                       // 1   Hip-hop
-  { 93,  9, 49,  21, 0, 4, 8, 8},  // No Diggidy 
-  {100,  5, 25,  21, 0, 8, 4, 8},  // Like it raw
-  {103,  5, 69,  17, 0, 4, 0, 8},  // Moma said knock you out         
-  {162,  7, 65,  21, 0, 6, 4, 8}}, // Dead Prez
+tuneInfo tunesLibrary[4][6] = {
+ {{101,  5, 25,  24, 0, 4, 4, 8},  // Lets get ill                       // 1   Hip-hop
+  { 93,  9, 49,  20, 0, 4, 8, 8},  // No Diggidy 
+  {100,  5, 25,  20, 0, 8, 4, 8},  // Like it raw
+  {103,  5, 69,  16, 0, 4, 0, 8},  // Moma said knock you out          
+  {162,  7, 65,  16, 0, 0, 4, 8},  // Dead Prez
+  { 93,  3, 61,  24, 4, 8, 4, 8}}, // Close to me snoop  
 
  {{102,  9, 97, 137, 4, 4, 4, 4},  // Aphex Ageopolis  
   {103,  7, 83, 111, 4, 4, 4, 4},  // Whitetown I could never
   { 96,  9, 53,  76, 4, 4, 4, 4},  // DM Big L 
   {117,  9, 29,  75, 4, 4, 4, 4},  // Air Remember
-  {172,  0,  0, 152, 4, 4, 4, 4}},  // DM Zero7
+  {172,  0,  0, 152, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},  // DM Zero7
 
  {{ 86,  9,  0,  51, 4, 4, 4, 4},  // Tenor Saw Ring the Alarm
   {102, 49, 61, 119, 4, 4, 4, 4},  // Toots Funky Kingston
   { 80,  0,  0,  79, 4, 4, 4, 4},  // WayneSmith - UnderMeSleng Teng
   { 86,  0,  0,  67, 4, 4, 4, 4},  // Sis Nancy Bam Bam 
-  { 83,  0,  0,  77, 4, 4, 4, 4}},   // Althea&Donna Strictly Roots
+  { 83,  0,  0,  77, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}},   // Althea&Donna Strictly Roots
  
  {{160,  0,  0, 113, 4, 4, 4, 4}, // Kim Wilde - Kids in America
   {126,  0,  0,  81, 4, 4, 4, 4}, //Kylie - cant get you out
   {112,  0,  0, 101, 4, 4, 4, 4}, //Hall&Oates - I can't go for that
   { 97,  0,  0,  63, 4, 4, 4, 4}, //George Michael - Faith
-  {122, 49, 87, 107, 4, 4, 4, 4}} //DeeLite - Groove is in the heart
+  {122, 49, 87, 107, 4, 4, 4, 4},  // Undefined
+  {100,  0,  0,  60, 4, 4, 4, 4}} //DeeLite - Groove is in the heart
 };
 
 /*
