@@ -54,7 +54,6 @@ void startNewMix() {
     Serial.println("setting in the mix to 1");
   }
   inTheMix=1;
-  currentlyMixing=true;
 
   // tell the other arduino what you're doing
   sendSerialToMega(2,(currentGenre*100)+currentTrack);
@@ -66,7 +65,6 @@ void endMixAndPickNewTune() {
   chooseNextTrack();
   currentBar = newCurrentBar;
   newCurrentBar=0;
-  currentlyMixing=false;
   inTheMix=0;
 }
 

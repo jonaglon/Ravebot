@@ -39,7 +39,6 @@ int nextGenre = 0;
 int nextMixDuration = 4;
 int currentBpm = 0;
 bool stayWithinGenre = false;
-bool currentlyMixing=false;
 int inTheMix = 0;
 bool deckASelected = true;
 int currentMixerPosition = 0;

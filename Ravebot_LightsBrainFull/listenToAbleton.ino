@@ -55,13 +55,9 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
     if (dropCountdown != 0)
       dropCountdown--;
 
-    /*Serial.print("****************************************");
+    Serial.print("****************************************");
     char boolVal = inTheMix==1 ? 't' : 'f';
-    Serial.println(boolVal);*/
-    if (currentlyMixing)
-      Serial.println("..................in the mix");
-    else
-      Serial.println("..................NOT in the mix");
+    Serial.println(boolVal);
 
     if (inTheMix==1) {
       doMixing();

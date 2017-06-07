@@ -24,7 +24,6 @@ void playTune(int genre, int track) {
   currentGenre = genre;
   currentTrack = track;
   currentBpm=tunesLibrary[genre][track].bpm;
-  currentlyMixing=false;
   inTheMix = 0;
 
   // tell the other arduino what you're doing
