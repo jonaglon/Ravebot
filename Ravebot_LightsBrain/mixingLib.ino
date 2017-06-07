@@ -65,7 +65,7 @@ void startNewMix() {
 }
 
 void endMixAndPickNewTune() {
-  stopAbletonChannel(currentGenre, deckASelected);
+  stopAbletonChannel(currentGenre, !deckASelected);
   if (deckASelected) {
     setCrossfader(127);
     deckASelected = false;
