@@ -84,49 +84,48 @@ void loop()
   
 struct tuneInfo {   
   byte bpm;
-  byte drop1;
-  byte drop2;
+  byte drop;
   byte tuneLength;
   byte minFadeIn;
   byte maxFadeIn;
   byte minFadeOut; 
   byte maxFadeOut;
   byte dropOffset; // The drop offset is where the tune should finish with respect to the max fade out.
-  tuneInfo(byte aBpm, byte aDrop1, byte aDrop2, byte aTuneLength, byte aMinFadeIn, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut, byte aDropOffset) : 
-           bpm(aBpm), drop1(aDrop1), drop2(aDrop2), tuneLength(aTuneLength), minFadeIn(aMinFadeIn), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), dropOffset(aDropOffset) { 
+  tuneInfo(byte aBpm, byte aDrop, byte aTuneLength, byte aMinFadeIn, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut, byte aDropOffset) : 
+           bpm(aBpm), drop(aDrop), tuneLength(aTuneLength), minFadeIn(aMinFadeIn), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), dropOffset(aDropOffset) { 
   }
 };
-
+ 
 int numTunesByGenre[8] = {4, 5, 5, 5, 5, 5, 5, 5};
 
 tuneInfo tunesLibrary[4][6] = {
- {{101,  5, 25,  24, 0, 10, 4, 8, 0},  // Lets get ill                       // 1   Hip-hop
-  { 93,  9, 49,  20, 0, 4, 10, 12, 0},  // No Diggidy 
-  {100,  5, 25,  20, 0, 10, 4, 10, 4},  // Like it raw
-  {103,  5, 69,  16, 0, 12, 0, 0, 0},  // Moma said knock you out          
-  {162,  7, 65,  16, 0, 0, 4, 8, 0},  // Dead Prez
-  { 93,  3, 61,  24, 4, 8, 4, 8, 0}}, // Close to me snoop  
+ {{101, 25,  24, 0, 10, 4, 8, 0},  // Lets get ill                       // 1   Hip-hop
+  { 93, 49,  20, 0, 4, 10, 12, 0},  // No Diggidy 
+  {100, 25,  20, 0, 10, 4, 10, 4},  // Like it raw
+  {103, 69,  16, 0, 12, 0, 0, 0},  // Moma said knock you out          
+  {162, 65,  16, 0, 0, 4, 8, 0},  // Dead Prez
+  { 93, 61,  24, 4, 8, 4, 8, 0}}, // Close to me snoop  
 
- {{102,  9, 97, 137, 4, 4, 4, 4, 0},  // Aphex Ageopolis  
-  {103,  7, 83, 111, 4, 4, 4, 4, 0},  // Whitetown I could never
-  { 96,  9, 53,  76, 4, 4, 4, 4, 0},  // DM Big L 
-  {117,  9, 29,  75, 4, 4, 4, 4, 0},  // Air Remember
-  {172,  0,  0, 152, 4, 4, 4, 4, 0},  // Undefined
-  {100,  0,  0,  60, 4, 4, 4, 4, 0}},  // DM Zero7
+ {{176,  16, 128, 0,  8, 0, 16,  0},  // KingOfTheBeats2016-Aphrodite
+  {176, 128, 176, 0, 16, 0, 16,  0},  // TurnDownTheLights-BennyPage
+  {176, 148, 220, 0, 16, 0, 16, 16},  // DuppyMan-ChaseAndStatusCapleton
+  {176, 112, 216, 8,  8, 0, 16, 16},  // TheNine-BadCompany
+  {176,  48, 166, 0, 16, 4,  4, 0},  // GoldDigger-HighContrast
+  {175,  0, 189,   4, 4, 4, 4, 0}},  // Undefined
 
- {{ 86,  9,  0,  51, 4, 4, 4, 4, 0},  // Tenor Saw Ring the Alarm
-  {102, 49, 61, 119, 4, 4, 4, 4, 0},  // Toots Funky Kingston
-  { 80,  0,  0,  79, 4, 4, 4, 4, 0},  // WayneSmith - UnderMeSleng Teng
-  { 86,  0,  0,  67, 4, 4, 4, 4, 0},  // Sis Nancy Bam Bam 
-  { 83,  0,  0,  77, 4, 4, 4, 4, 0},  // Undefined
-  {100,  0,  0,  60, 4, 4, 4, 4, 0}},   // Althea&Donna Strictly Roots
+ {{ 86,  9,  51, 4, 4, 4, 4, 0},  // Tenor Saw Ring the Alarm
+  {102, 49, 119, 4, 4, 4, 4, 0},  // Toots Funky Kingston
+  { 80,  0,  79, 4, 4, 4, 4, 0},  // WayneSmith - UnderMeSleng Teng
+  { 86,  0,  67, 4, 4, 4, 4, 0},  // Sis Nancy Bam Bam 
+  { 83,  0,  77, 4, 4, 4, 4, 0},  // Undefined
+  {100,  0,  60, 4, 4, 4, 4, 0}},   // Althea&Donna Strictly Roots
  
- {{160,  0,  0, 113, 4, 4, 4, 4, 0}, // Kim Wilde - Kids in America
-  {126,  0,  0,  81, 4, 4, 4, 4, 0}, //Kylie - cant get you out
-  {112,  0,  0, 101, 4, 4, 4, 4, 0}, //Hall&Oates - I can't go for that
-  { 97,  0,  0,  63, 4, 4, 4, 4, 0}, //George Michael - Faith
-  {122, 49, 87, 107, 4, 4, 4, 4, 0},  // Undefined
-  {100,  0,  0,  60, 4, 4, 4, 4, 0}} //DeeLite - Groove is in the heart
+ {{160,  0, 113, 4, 4, 4, 4, 0}, // Kim Wilde - Kids in America
+  {126,  0,  81, 4, 4, 4, 4, 0}, //Kylie - cant get you out
+  {112,  0, 101, 4, 4, 4, 4, 0}, //Hall&Oates - I can't go for that
+  { 97,  0,  63, 4, 4, 4, 4, 0}, //George Michael - Faith
+  {122, 87, 107, 4, 4, 4, 4, 0},  // Undefined
+  {100,  0,  60, 4, 4, 4, 4, 0}} //DeeLite - Groove is in the heart
 };
 
 /*

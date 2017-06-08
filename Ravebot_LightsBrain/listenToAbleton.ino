@@ -97,10 +97,10 @@ void checkForMixEnd() {
 }
 
 void checkForDropCountdownStart() {
-  if (currentBar+4 ==  tunesLibrary[currentGenre][currentTrack].drop1)
+  if (currentBar+4 ==  tunesLibrary[currentGenre][currentTrack].drop)
     dropCountdown = 64;
   
-  if (currentBar+2 ==  tunesLibrary[currentGenre][currentTrack].drop1)
+  if (currentBar+2 ==  tunesLibrary[currentGenre][currentTrack].drop)
     dropCountdown = 32;
 }
 

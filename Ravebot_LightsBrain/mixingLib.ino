@@ -97,7 +97,9 @@ void chooseNextTrack() {
       nextGenre = currentGenre;
     
     // Pick next track
-    nextTrack = random(numTunesByGenre[nextGenre]);
+    do
+      nextTrack = random(numTunesByGenre[nextGenre]);
+    while (nextTrack == currentTrack);  
 
     // { 93,  9, 49,  21, 0, 4, 8, 8},  // No Diggidy 
     // {100,  5, 25,  21, 0, 8, 4, 8},  // Like it raw
