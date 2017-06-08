@@ -76,7 +76,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForMixStart() {
-  if (currentBar == tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration) {
+  if (currentBar == calculateMixStart()) {
     if (nextMixDuration == 0) {
       playTune(nextGenre, nextTrack);
     } else {
@@ -87,7 +87,7 @@ void checkForMixStart() {
 
 void checkForMixEnd() {
   // pick a new song if a mix has ended
-  if (currentBar > tunesLibrary[currentGenre][currentTrack].tuneLength)
+  if (currentBar > (calculateMixStart() + nextMixDuration))
   {
     if (testMode) {
       Serial.println("Ending mix");
