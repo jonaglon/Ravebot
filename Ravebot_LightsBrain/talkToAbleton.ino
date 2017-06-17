@@ -3,7 +3,7 @@ bool newBeat=false;
 void playRandomTune(int genre) {
   int newTrackNumber = 0;
   do
-    newTrackNumber = random(0,numTunesByGenre[genre]);
+    newTrackNumber = random(numTunesByGenre[genre]);
   while (newTrackNumber == currentTrack);  
   
   playTune(genre, newTrackNumber);

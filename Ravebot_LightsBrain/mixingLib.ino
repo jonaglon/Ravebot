@@ -1,11 +1,7 @@
 
 void doMixing() {
 
-  int mixStart = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;
-  int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
-
-  // Not good to use floats, we're not calling this too often (once per quarter bar).
-  float percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 4);
+  float percentThroughMix = getPercentThroughMix();
   
   int bpmDifference = tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm;
   int newBpm = ((float)bpmDifference * percentThroughMix) + tunesLibrary[currentGenre][currentTrack].bpm;
@@ -19,6 +15,26 @@ void doMixing() {
   } else {
     setCrossfader(127 - crossfaderValue);
   } 
+}
+
+// Not good to use floats but we're not calling this too often (once per quarter bar).
+float getPercentThroughMix() {
+  float percentThroughMix = 0.0;
+
+  int mixStart = calculateMixStart();
+  int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
+
+  if (nextMixDuration < 9)
+    return (float)beatsIntoMix / (nextMixDuration * 4);
+
+  // if this is a long mix (>8 bars) we'll hold in the middle for a while so we use a different calculation
+  if (beatsIntoMix < 16)
+    return ((float)beatsIntoMix / 16.0) * 0.5;
+  else if (beatsIntoMix > (nextMixDuration * 4) - 16)
+    return (((float)(beatsIntoMix - ((nextMixDuration * 4) - 16)) / 16.0) * 0.5) + 0.5;
+  else
+    return 0.5;
+  
 }
 
 void startNewMix() {
@@ -61,6 +77,15 @@ void endMixAndPickNewTune() {
   currentlyMixing=false;
 }
 
+int calculateMixStart() {
+  int lastPossibleMixPoint = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;
+  int idealMixPoint = (tunesLibrary[currentGenre][currentTrack].tuneLength - tunesLibrary[currentGenre][currentTrack].maxFadeOut) + tunesLibrary[currentGenre][currentTrack].dropOffset;
+  if (lastPossibleMixPoint < idealMixPoint)
+    return lastPossibleMixPoint;
+  else
+   return idealMixPoint;
+}
+
 void chooseNextTrack() {
   bool nextTrackPicked = false;
 
@@ -72,7 +97,9 @@ void chooseNextTrack() {
       nextGenre = currentGenre;
     
     // Pick next track
-    nextTrack = random(numTunesByGenre[nextGenre]);
+    do
+      nextTrack = random(numTunesByGenre[nextGenre]);
+    while (nextTrack == currentTrack);  
 
     // { 93,  9, 49,  21, 0, 4, 8, 8},  // No Diggidy 
     // {100,  5, 25,  21, 0, 8, 4, 8},  // Like it raw
