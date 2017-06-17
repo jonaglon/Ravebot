@@ -16,4 +16,5 @@
 *.rtf	 diff=astextplain
 *.RTF	 diff=astextplain
 *.als filter=zcat
+*.asd filter=zcat
 # *.als filter=unzip
