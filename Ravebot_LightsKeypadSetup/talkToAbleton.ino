@@ -14,14 +14,14 @@ void playTune(int genre, int track) {
   // send stuff to ableton to start the new track  
   stopAllAbletonTracks(); 
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
-  setAbletonTempo(tunesLibrary[genre][track].bpm);
+  setAbletonTempo(120);
   playAbletonTrack(genre, track, true);
 
   // change the current track in this program
   currentBar = 0;
   currentGenre = genre;
   currentTrack = track;
-  currentBpm=tunesLibrary[genre][track].bpm;
+  currentBpm=120;
   inTheMix=false;
 
   // tell the other arduino what you're doing
