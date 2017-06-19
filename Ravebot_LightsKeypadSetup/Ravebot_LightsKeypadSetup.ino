@@ -85,6 +85,7 @@ void doKeypad()
   }
 }
 
+
 int uptopos = 0;
 int currChannel = 0;
 int currTrackNum = 0;
@@ -97,11 +98,13 @@ void resetNumber() {
   int currTrackNum = 0;
 }
 
+// TODO - make it so the * button just adds one to the track and sends that stragit away x Nice x
+
 void keypadPressed(char key) {
   if (key == '#')
     resetNumber();
   else if (key == '*')
-    resetNumber();
+    sendNextNumber();
   else if (key == '1')
     changeNumber(1);
   else if (key == '2')
@@ -121,8 +124,13 @@ void keypadPressed(char key) {
   else if (key == '9')
     changeNumber(9);
   else if (key == '0')
-    changeNumber(0);
-    
+    changeNumber(0);    
+}
+
+void sendNextNumber() {
+  currTrackNum = currTrackNum+1;
+  playAbletonTrack(currChannel, currTrackNum);
+  uptopos=0;
 }
 
 void changeNumber(int inNum) {
@@ -140,7 +148,7 @@ void changeNumber(int inNum) {
     uptopos=4;
   } else if (uptopos == 4) {
     currTrackNum = currTrackNum+ inNum;
-    playAbletonTrack(currChannel, currTrackNum, inNum==0);
+    playAbletonTrack(currChannel, currTrackNum);
     uptopos=0;
   }
 }

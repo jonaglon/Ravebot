@@ -53,8 +53,6 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
     if (dropCountdown != 0)
       dropCountdown--;
 
-    if (inTheMix)
-      doMixing();
     
     if (sixteenth % 16 == 0) {
       // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
