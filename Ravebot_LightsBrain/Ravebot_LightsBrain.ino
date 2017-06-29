@@ -80,7 +80,7 @@ void loop()
 
 
 
-
+// Jesus, ok this needs bools for fadeInBusy, fadeOutBusy and requiresMixIn, requiresMixOut
   
 struct tuneInfo {   
   byte bpm;
