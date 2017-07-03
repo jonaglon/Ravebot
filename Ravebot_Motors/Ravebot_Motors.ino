@@ -105,10 +105,19 @@ void loop()
 
   doJukebox();
 
-  doWheels(); 
+  doWheels();
 
   doArcadeBtn();
 }
 
 
-  
+struct servoInfo {
+  int minPosition;
+  int maxPosition;
+  int servoSpeed;
+  int servoPos;
+    servoInfo(int aMinPosition, int aMaxPosition, int aServoSpeed, int aServoPos) :
+    minPosition(aMinPosition), maxPosition(aMaxPosition), servoSpeed(aServoSpeed), servoPos(aServoPos) {
+  }
+};
+
