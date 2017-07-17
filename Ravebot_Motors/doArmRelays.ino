@@ -4,8 +4,6 @@ int lastPosR = 0;
 
 void doArmRelays() {
 
-  //      
-
   if (ps2.readButton(PS2_TRIANGLE)==0) {
     if (lastPosL==2) {
       digitalWrite(28,HIGH);

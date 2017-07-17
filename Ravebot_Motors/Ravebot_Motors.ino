@@ -17,7 +17,7 @@
 unsigned long timey;
 
 // switches in arade buttons
-int switchPins[10] = {35, 37, 39, 41, 43, 45, 47, 49, 51, 53};
+int switchPins[14] = { 27, 29, 31, 33, 35, 37, 39, 41, 45, 43, 53, 51, 49, 47 };
 
 // Big main motor driver
 SoftwareSerial SabretoothSerial(NOT_A_PIN, 9); // RX on no pin (unused), TX on pin 9 (to S1).
@@ -91,6 +91,10 @@ void setup() {
   pinMode(switchPins[7], INPUT_PULLUP);       
   pinMode(switchPins[8], INPUT_PULLUP);       
   pinMode(switchPins[9], INPUT_PULLUP); 
+  pinMode(switchPins[10], INPUT_PULLUP); 
+  pinMode(switchPins[11], INPUT_PULLUP); 
+  pinMode(switchPins[12], INPUT_PULLUP); 
+  pinMode(switchPins[13], INPUT_PULLUP); 
 }
 
 void loop()
