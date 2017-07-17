@@ -63,11 +63,9 @@ void setup() {
   LEDS.setBrightness(255); // 255 max
 
   setMainVolume(mainVolume);
-
 }
 
-void loop()
-{
+void loop() {
   timey = millis();
 
   listenToAbleton();
@@ -212,6 +210,7 @@ tuneInfo tuneLibHipHop[11] = {
 
 tuneInfo currentTune = tuneLibRave[1];
 tuneInfo nextTune = tuneLibRave[2];
+int currentGenre = 0;
 
 
 

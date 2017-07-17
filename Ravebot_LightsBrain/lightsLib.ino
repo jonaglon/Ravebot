@@ -320,8 +320,7 @@ void solidHeadColors() {
  * 5  - RGBW  Casette         34
  * 6  - RGBW  4                4
  * 7  - RGBW  Dial            24       */
-void setLedBySet(int ledSet, int ledNum, int rVal, int gVal, int bVal, int wVal)
-{
+void setLedBySet(int ledSet, int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (ledNum < 0)
     return;
 
@@ -346,13 +345,11 @@ void setLedBySet(int ledSet, int ledNum, int rVal, int gVal, int bVal, int wVal)
 }
 
 
-void setLed(int ledNum, int rVal, int gVal, int bVal, int wVal)
-{
+void setLed(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   setLedDirect(ledNum, rVal, gVal, bVal, wVal);
 }
 
-void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal)
-{
+void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (true) 
   {
     setRgbwLedNoGhettoHead(ledNum, rVal, gVal, bVal, wVal);
@@ -363,8 +360,7 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal)
   }  
 }
 
-void setLedDirectGhettoHead(int ledNum, int rVal, int gVal, int bVal, int wVal)
-{
+void setLedDirectGhettoHead(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (ledNum < 0)
     return;
   
@@ -387,8 +383,7 @@ void setLedDirectGhettoHead(int ledNum, int rVal, int gVal, int bVal, int wVal)
                                      
 }
 
-void setRgbwLedNoGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVal)
-{
+void setRgbwLedNoGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
   int newNumber = (ledNumber * 4) / 3;
   short mod = ledNumber % 3;
 
@@ -415,8 +410,7 @@ void setRgbwLedNoGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVa
   }
 }
 
-void setRgbwLedGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVal)
-{
+void setRgbwLedGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
   int newNumber = (ledNumber * 4) / 3;
   short mod = ledNumber % 3;
 

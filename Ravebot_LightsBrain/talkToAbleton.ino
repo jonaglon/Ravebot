@@ -1,5 +1,10 @@
 bool newBeat=false;
 
+void playRandomTune() {
+ currentGenre = random(8);
+ playRandomTune();
+}
+
 void playRandomTune(int genre) {
   int newTrackNumber = 0;
   do
@@ -10,12 +15,26 @@ void playRandomTune(int genre) {
 }
 
 void playTune(int genre, int track) {
+
+  currentGenre = genre;
+  
   // pick the tune
   if (genre == 0)
-   currentTune = tuneLibRave[track];
+    currentTune = tuneLibRave[track];
+  else if (genre == 1)
+    currentTune = tuneLibDisco[track];
+  else if (genre == 2)
+    currentTune = tuneLibReggae[track];
+  else if (genre == 3)
+    currentTune = tuneLibRockAndPop[track];
+  else if (genre == 4)
+    currentTune = tuneLibEasy[track];
+  else if (genre == 5)
+    currentTune = tuneLibDance[track];
+  else if (genre == 6)
+    currentTune = tuneLibDrumAndBass[track];
   else
-   currentTune = tuneLibRave[track];
-  
+    currentTune = tuneLibHipHop[track];
   
   // send stuff to ableton to start the new track  
   stopAllAbletonTracks(); 
@@ -28,9 +47,7 @@ void playTune(int genre, int track) {
   sixteenBeats = 0;
   currentBar = -1;
   fakeBeatCount = 0;
-  /*
-  currentGenre = genre;
-  currentTrack = track; */
+
   if (testMode) {
      Serial.print("NOW PLAYING: ");
      Serial.print(genre);
@@ -71,10 +88,17 @@ void start16BeatAbletonTrack() {
   sendMidi(176, 126, 127); // channel 1, track 126, value 127.
 }
 
-void setMainVolume(int volume) { // 0 - 127
+void setMainVolume(int newVolume) {
+
+  if (volume < 0)
+    newVolume = 0;
+  
   if (volume > 127)
-    volume = 127;
-  sendMidi(176, 127, volume);
+    newVolume = 127;
+
+  mainVolume = newVolume;
+  
+  sendMidi(176, 127, mainVolume);
 }
 
 void setAbletonTempo(int tempo) { // 80 - 207 bpm only

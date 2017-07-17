@@ -16,14 +16,14 @@ void listenToAbleton() {
 
   while (Serial.available() > 0) {
     incomingByte = Serial.read();
-    switch (state){
+    switch (state) {
     case 0:
       // look for as status-byte, our channel, note on
-      if (incomingByte== (144 | channel)){ 
+      if (incomingByte== (144 | channel)) { 
         state=1;
       }
       // look for as status-byte, our channel, note off
-      if (incomingByte== (128 | channel)){ 
+      if (incomingByte== (128 | channel)) { 
         state=1;
       }
 
@@ -33,7 +33,7 @@ void listenToAbleton() {
         note=incomingByte;
         state=2; 
       }
-      else{
+      else {
         state = 0;  // reset state machine as this should be a note number
       }
       break;

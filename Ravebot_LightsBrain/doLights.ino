@@ -23,8 +23,7 @@ void doLights() {
 
 }
 
-void bassBinRainbow(int speedFactor)
-{
+void bassBinRainbow(int speedFactor) {
   unsigned long thisFrame = (timey / speedFactor);
   
   for (int pixNum = 0; pixNum < numLeds; pixNum++) {
@@ -74,35 +73,35 @@ void beatLights() {
 
 void doTalkingLights() {
 
-  if (robotTalking)
-  {
+  if (robotTalking) {
     setLedBySet(2, 8, 255, 60, 60, 100);
     setLedBySet(2, 9, 255, 60, 60, 100);
-    if (timey > (robotTalkingOnTime + 40)) 
-    {
+    
+    if (timey > (robotTalkingOnTime + 40)) {
       setLedBySet(2, 7, 255, 60, 60, 100);
       setLedBySet(2, 10, 255, 60, 60, 100);
     }
-    if (timey > (robotTalkingOnTime + 80)) 
-    {
+    
+    if (timey > (robotTalkingOnTime + 80)) {
       setLedBySet(2, 6, 255, 60, 60, 100);
       setLedBySet(2, 11, 255, 60, 60, 100);
     }
-    if (timey > (robotTalkingOnTime + 110)) 
-    {
+    
+    if (timey > (robotTalkingOnTime + 110)) {
       setLedBySet(2, 5, 255, 60, 60, 100);
       setLedBySet(2, 12, 255, 60, 60, 100);
     }
-    if (timey > (robotTalkingOnTime + 135)) 
-    {
+    
+    if (timey > (robotTalkingOnTime + 135)) {
       setLedBySet(2, 4, 255, 60, 60, 100);
       setLedBySet(2, 13, 255, 60, 60, 100);
     }
-    if (timey > (robotTalkingOnTime + 150)) 
-    {
+    
+    if (timey > (robotTalkingOnTime + 150)) {
       setLedBySet(2, 3, 255, 60, 60, 100);
       setLedBySet(2, 14, 255, 60, 60, 100);
     }
+    
   }
 }
 

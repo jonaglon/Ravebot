@@ -3,8 +3,7 @@
 ************************* */
 char str[4]; // the message from the mega
 
-void receiveFromMega()
-{
+void receiveFromMega() {
   while (Serial2.available()) {
     int i=0;
     delay(5); //allows all serial sent to be received together
@@ -16,8 +15,7 @@ void receiveFromMega()
   }
 }
 
-void doSomethingWithPackageFromMega(int package)
-{  
+void doSomethingWithPackageFromMega(int package) {  
   int function = package / 1000;
   int message = package % 1000;
 
@@ -27,9 +25,8 @@ void doSomethingWithPackageFromMega(int package)
   }
   else if (function == 2)
   {
-    // in this case message is the button pressed 0-9 - it chooses the genre
-    stayWithinGenre = true;
-    playRandomTune(message);
+    // Button pressed 0-9 - it chooses the genre
+    arcadeButtonPressed(message);
   }
   else if (function == 3)
   {
@@ -43,8 +40,54 @@ void doSomethingWithPackageFromMega(int package)
   }
 }
 
-void doRobotTalkingLights(int btnOnOffMessage)
-{
+void arcadeButtonPressed(int buttonNumber) {
+
+  // Genre arcade button pressed
+  if (buttonNumber < 8) {
+    stayWithinGenre = true;
+    playRandomTune(buttonNumber);
+  }
+
+  // Stop button
+  if (buttonNumber == 8) {
+    stopAllAbletonTracks();
+  } 
+
+  // Next button
+  if (buttonNumber == 9) {
+    if (stayWithinGenre)
+      playRandomTune(currentGenre);
+    else
+      playRandomTune();
+  }
+
+  // Vol down button
+  if (buttonNumber == 10) {
+    mainVolume = mainVolume - 8;
+    setMainVolume(mainVolume);
+  }
+
+  // Vol up button
+  if (buttonNumber == 11) {
+    mainVolume = mainVolume + 8;
+    setMainVolume(mainVolume);
+  }
+
+  // Play button
+  if (buttonNumber == 12) {    
+    stayWithinGenre = false;
+    playRandomTune();
+  }
+
+  // Last tune                    // TODO remember the last x tunes played
+  if (buttonNumber == 13) {
+    stayWithinGenre = false;
+    playRandomTune();
+  } 
+
+}
+
+void doRobotTalkingLights(int btnOnOffMessage) {
     if (btnOnOffMessage == 0)
     {
       robotTalking = true;
@@ -56,8 +99,7 @@ void doRobotTalkingLights(int btnOnOffMessage)
     }
 }
 
-void unmuteRobotVoice(int btnOnOffMessage)
-{
+void unmuteRobotVoice(int btnOnOffMessage) {
     if (btnOnOffMessage == 0)
     {
       setRobotVolume(100);
