@@ -90,10 +90,10 @@ void start16BeatAbletonTrack() {
 
 void setMainVolume(int newVolume) {
 
-  if (volume < 0)
+  if (newVolume < 0)
     newVolume = 0;
   
-  if (volume > 127)
+  if (newVolume > 127)
     newVolume = 127;
 
   mainVolume = newVolume;

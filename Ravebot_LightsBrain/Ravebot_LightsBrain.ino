@@ -93,62 +93,61 @@ struct tuneInfo {
  
 // Genre 0, RAVE!
 tuneInfo tuneLibRave[11] = {
-  {124,  0, 124, 4, 4, 4, 4, 0},  // WhatCanYouDoForMe-UtahSaints
-  {149,  0, 177, 4, 4, 4, 4, 0},  // TripToTheMoonPt2-Acen
-  {119,  0, 110, 4, 4, 4, 4, 0},  // YouGotTheLove-TheSourceFtCandiStanton
-  {126,  0, 75,  4, 4, 4, 4, 0},   // MrKirsNightmare-4Hero
-  {137,  0, 113, 4, 4, 4, 4, 0},  // Bombscare-2BadMice
-  {126,  0, 138, 4, 4, 4, 4, 0},  // LFO-LFO
-  {132,  0, 135, 4, 4, 4, 4, 0},  // Infiltrate202-Altern8 
-  {122,  0, 119, 4, 4, 4, 4, 0},  // DirtyCash-SoldOutMix
-  {122,  0, 133, 4, 4, 4, 4, 0},  // Break4Love-Raze
-  {126,  0,  93, 4, 4, 4, 4, 0},  // IsThereAnybodyOutThere-Bassheads
-  {126,  0,  86, 4, 4, 4, 4, 0}   //PacificState-808State
+  {149,  0, 210, 4, 4, 4, 4, 0},  // TripToTheMoonPt2-Acen
+  {126,  0, 74,  4, 4, 4, 4, 0},  // MrKirsNightmare-4Hero
+  {136,  0, 112, 4, 4, 4, 4, 0},  // Bombscare-2BadMice
+  {126,  0, 165, 4, 4, 4, 4, 0},  // LFO-LFO
+  {132,  0, 179, 4, 4, 4, 4, 0},  // Infiltrate202-Altern8 
+  {122,  0, 118, 4, 4, 4, 4, 0},  // DirtyCash-SoldOutMix
+  {122,  0, 132, 4, 4, 4, 4, 0},  // Break4Love-Raze
+  {126,  0,  95, 4, 4, 4, 4, 0},  // IsThereAnybodyOutThere-Bassheads
+  {128,  0,  85, 4, 4, 4, 4, 0},   // PacificState-808State
+  {150,  0, 182, 4, 4, 4, 4, 0},  // OutOfSpace-Prodigy
+  {124,  0, 183, 4, 4, 4, 4, 0}  // WhatCanYouDoForMe-UtahSaints
 };
 
 // Genre 1, Disco
-tuneInfo tuneLibDisco[11] = {
-  {124,  0,  71, 4, 4, 4, 4, 0},  // ILoveTheNightlife - Alecia Bridges
-  {115,  0, 105, 4, 4, 4, 4, 0},  // LoveHangover - DianaRoss
-  {110,  0, 151, 4, 4, 4, 4, 0},  // LastNightADjSavedMyLife-Indeep
+tuneInfo tuneLibDisco[10] = {
+  {125,  0, 102, 4, 4, 4, 4, 0},  // ILoveTheNightlife - Alecia Bridges
+  {110,  0, 150, 4, 4, 4, 4, 0},  // LastNightADjSavedMyLife-Indeep
   {134,  0, 148, 4, 4, 4, 4, 0},  // LayAllYourLoveOnMe-Abba
-  {121,  0, 182, 4, 4, 4, 4, 0},  // HotStuff-DonnaSummer
-  {128,  0, 109, 4, 4, 4, 4, 0},  // RingMyBell-AnitaWard
-  {128,  0, 129, 4, 4, 4, 4, 0},  // EverybodyDance-Chic
-  {111,  0,  97, 4, 4, 4, 4, 0},  // GoodTimes-Chic
-  {101,  0, 110, 4, 4, 4, 4, 0},  // ThinkingOfYou-SisSledge
-  {115,  0, 105, 4, 4, 4, 4, 0},  // SheCantLoveYou-Chemise
-  {112,  0, 131, 4, 4, 4, 4, 0}   // Automatic-PointerSisters   
+  {121,  0, 158, 4, 4, 4, 4, 0},  // HotStuff-DonnaSummer
+  {128,  0, 110, 4, 4, 4, 4, 0},  // RingMyBell-AnitaWard
+  {128,  0, 212, 4, 4, 4, 4, 0},  // EverybodyDance-Chic
+  {111,  0, 100, 4, 4, 4, 4, 0},  // GoodTimes-Chic
+  {101,  0, 112, 4, 4, 4, 4, 0},  // ThinkingOfYou-SisSledge
+  {115,  0, 104, 4, 4, 4, 4, 0},  // SheCantLoveYou-Chemise
+  {112,  0, 130, 4, 4, 4, 4, 0}   // Automatic-PointerSisters   
 };
 
 // Genre 2, Reggae
 tuneInfo tuneLibReggae[11] = {
-  { 86,  9,  51, 4, 4, 4, 4, 0},  // Tenor Saw Ring the Alarm
-  {102, 49, 119, 4, 4, 4, 4, 0},  // Toots Funky Kingston
-  { 80,  0,  79, 4, 4, 4, 4, 0},  // WayneSmith - UnderMeSleng Teng
-  { 86,  0,  67, 4, 4, 4, 4, 0},  // Sis Nancy Bam Bam
-  { 83,  0,  77, 4, 4, 4, 4, 0},  // Althea&Donna Strictly Roots
-  { 77, 27,  52, 4, 4, 4, 4, 0},  // Damian Marley Welcome To Jamrock
-  {147, 59, 147, 4, 4, 4, 4, 0},  // Tanya S - It's a pity
-  { 88,  0,  72, 4, 4, 4, 4, 0},  // Marcia G - Feel like jumping
-  { 82,  0,  72, 4, 4, 4, 4, 0},  // Cant stop now, MajorLazer
-  {148,  0, 106, 4, 4, 4, 4, 0},  // Toots - pressure drop
-  {104,  0,  99, 4, 4, 4, 4, 0}   // Bob - Could you be loved
+  {170,  0, 134, 4, 4, 4, 4, 0},  // RingTheAlarm-TenorSaw
+  {102,  0, 118, 4, 4, 4, 4, 0},  // FunkyKingston-Toots
+  {164,  0, 164, 4, 4, 4, 4, 0},  // UnderMeSlengTeng-WayneSmith
+  {162,  0, 163, 4, 4, 4, 4, 0},  // BamBam-SisNancy
+  {162,  0, 152, 4, 4, 4, 4, 0},  // StrictlyRoots-Althea&Donna 
+  {154,  0, 102, 4, 4, 4, 4, 0},  // WelcomeToJamrock-DamianMarley
+  {148,  0, 146, 4, 4, 4, 4, 0},  // ItsAPity-TanyaStevens
+  {177,  0, 142, 4, 4, 4, 4, 0},  // FeelLikeJumping-MarciaG 
+  {164,  0, 164, 4, 4, 4, 4, 0},  // CantStopNow-MajorLazer
+  {148,  0, 105, 4, 4, 4, 4, 0},  // PressureDrop-Toots
+  {104,  0, 100, 4, 4, 4, 4, 0}   // CouldYouBeLoved-BobMarley
 };
 
 // Genre 3, Rock&Pop
 tuneInfo tuneLibRockAndPop[11] = {
-  {160,  0, 113, 4, 4, 4, 4, 0},  // Kim Wilde - Kids in America
-  {126,  0,  81, 4, 4, 4, 4, 0},  //Kylie - cant get you out
-  {112,  0, 101, 4, 4, 4, 4, 0},  //Hall&Oates - I can't go for that
-  { 97,  0,  63, 4, 4, 4, 4, 0},  //George Michael - Faith
-  {122, 49, 107, 4, 4, 4, 4, 0},  //DeeLite - Groove is in the heart
-  {126,  0, 103, 4, 4, 4, 4, 0},  //Euritmics - sweet dreams
-  {126, 39,  97, 4, 4, 4, 4, 0},  //PaulSimon&Dylan Stuck in the middle
-  {164,  9, 136, 4, 4, 4, 4, 0},  //Martha&Muffins Echo Beach
-  {199,  0, 111, 4, 4, 4, 4, 0},  //TheCoral - DreamingOfYou
-  { 99,  0,  58, 4, 4, 4, 4, 0},  // Blister in the sun - Voilent femmes
-  {114,  0,  96, 4, 4, 4, 4, 0}   // Erasure a little respect  
+  {160,  0, 112, 4, 4, 4, 4, 0},  // KidsInAmerica-KimWilde
+  {126,  0,  80, 4, 4, 4, 4, 0},  // CantGetYouOut-Kylie
+  {112,  0, 100, 4, 4, 4, 4, 0},  // ICantGoForThat-Hall&Oates
+  { 97,  0,  62, 4, 4, 4, 4, 0},  // Faith-GeorgeMichael
+  {122, 49, 106, 4, 4, 4, 4, 0},  // GrooveIsInTheHeart-DeeLite
+  {126,  0, 108, 4, 4, 4, 4, 0},  // SweetDreams-Euritmics
+  {122, 39, 106, 4, 4, 4, 4, 0},  // PaulSimon&Dylan Stuck in the middle
+  {164,  9, 136, 4, 4, 4, 4, 0},  // Martha&Muffins Echo Beach
+  {199,  0, 111, 4, 4, 4, 4, 0},  // DreamingOfYou-TheCoral
+  { 99,  0,  58, 4, 4, 4, 4, 0},  // BlisterInTheSun-VoilentFemmes
+  {114,  0,  96, 4, 4, 4, 4, 0}   // ALittleRespect-Erasure  
 };
 
 // Genre 4, Easy
@@ -210,7 +209,7 @@ tuneInfo tuneLibHipHop[11] = {
 
 tuneInfo currentTune = tuneLibRave[1];
 tuneInfo nextTune = tuneLibRave[2];
-int currentGenre = 0;
+
 
 
 
