@@ -3,18 +3,24 @@ bool newBeat=false;
 void playRandomTune(int genre) {
   int newTrackNumber = 0;
   do
-    newTrackNumber = random(numTunesByGenre[genre]);
+    newTrackNumber = random(numberOfTunesInGenre(genre));
   while (newTrackNumber == currentTrack);  
   
   playTune(genre, newTrackNumber);
 }
 
 void playTune(int genre, int track) {
+  // pick the tune
+  if (genre == 0)
+   currentTune = tuneLibRave[track];
+  else
+   currentTune = tuneLibRave[track];
+  
   
   // send stuff to ableton to start the new track  
   stopAllAbletonTracks(); 
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
-  setAbletonTempo(tunesLibrary[genre][track].bpm);
+  setAbletonTempo(currentTune.bpm);
   setCrossfader(0);
   playAbletonTrack(genre, track, true);
 
@@ -22,8 +28,9 @@ void playTune(int genre, int track) {
   sixteenBeats = 0;
   currentBar = -1;
   fakeBeatCount = 0;
+  /*
   currentGenre = genre;
-  currentTrack = track;
+  currentTrack = track; */
   if (testMode) {
      Serial.print("NOW PLAYING: ");
      Serial.print(genre);
@@ -38,6 +45,7 @@ void playTune(int genre, int track) {
   // choose the track to mix in to
   chooseNextTrack();
 }
+
 
 void playAbletonTrack(int channel, int trackNumber, bool playSideA) {
   int abletonChannel = channel*2;

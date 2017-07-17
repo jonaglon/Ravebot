@@ -48,7 +48,7 @@ void checkButtonsSendInfoToLights() {
     ps2Right1On = true;
     sendSerialToLights(1, 0);
   }  
-  if (ps2Right1On && (ps2.readButton(PS2_RIGHT_1)==1))
+  if (ps2Right1On && ps2.readButton(PS2_RIGHT_1)==1)
   {
     ps2Right1On = false;
     sendSerialToLights(1, 1);
@@ -59,7 +59,7 @@ void checkButtonsSendInfoToLights() {
     ps2Right2On = true;
     sendSerialToLights(3, 0);
   }  
-  if (ps2Right2On && (ps2.readButton(PS2_RIGHT_2)==1))
+  if (ps2Right2On && ps2.readButton(PS2_RIGHT_2)==1)
   {
     ps2Right2On = false;
     sendSerialToLights(3, 1);

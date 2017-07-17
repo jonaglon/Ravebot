@@ -3,8 +3,8 @@ void doMixing() {
 
   float percentThroughMix = getPercentThroughMix();
   
-  int bpmDifference = tunesLibrary[nextGenre][nextTrack].bpm - tunesLibrary[currentGenre][currentTrack].bpm;
-  int newBpm = ((float)bpmDifference * percentThroughMix) + tunesLibrary[currentGenre][currentTrack].bpm;
+  int bpmDifference = nextTune.bpm - currentTune.bpm;
+  int newBpm = ((float)bpmDifference * percentThroughMix) + currentTune.bpm;
   setAbletonTempo(newBpm);
 
   // Now do the actual mixing
@@ -64,7 +64,7 @@ void endMixAndPickNewTune() {
     setCrossfader(0);
     deckASelected = true;
   }
-  setAbletonTempo(tunesLibrary[nextGenre][nextTrack].bpm);
+  setAbletonTempo(nextTune.bpm);
 
   currentGenre = nextGenre;
   currentTrack = nextTrack;
@@ -78,8 +78,8 @@ void endMixAndPickNewTune() {
 }
 
 int calculateMixStart() {
-  int lastPossibleMixPoint = tunesLibrary[currentGenre][currentTrack].tuneLength - nextMixDuration;
-  int idealMixPoint = (tunesLibrary[currentGenre][currentTrack].tuneLength - tunesLibrary[currentGenre][currentTrack].maxFadeOut) + tunesLibrary[currentGenre][currentTrack].dropOffset;
+  int lastPossibleMixPoint = currentTune.tuneLength - nextMixDuration;
+  int idealMixPoint = (currentTune.tuneLength - currentTune.maxFadeOut) + currentTune.dropOffset;
   if (lastPossibleMixPoint < idealMixPoint)
     return lastPossibleMixPoint;
   else
@@ -95,18 +95,20 @@ void chooseNextTrack() {
       nextGenre = random(8);
     else
       nextGenre = currentGenre;
+
+    int numTunesInNextGenre = numberOfTunesInGenre(nextGenre);
     
     // Pick next track
     do
-      nextTrack = random(numTunesByGenre[nextGenre]);
+      nextTrack = random(numTunesInNextGenre);
     while (nextTrack == currentTrack);  
 
     // { 93,  9, 49,  21, 0, 4, 8, 8},  // No Diggidy 
     // {100,  5, 25,  21, 0, 8, 4, 8},  // Like it raw
     // is next track compatible? 
-    if (tunesLibrary[nextGenre][nextTrack].minFadeIn > tunesLibrary[currentGenre][currentTrack].maxFadeOut)
+    if (nextTune.minFadeIn > currentTune.maxFadeOut)
       continue;
-    else if (tunesLibrary[nextGenre][nextTrack].maxFadeIn < tunesLibrary[currentGenre][currentTrack].minFadeOut)         
+    else if (nextTune.maxFadeIn < currentTune.minFadeOut)         
       continue;
     else
       nextTrackPicked = true;    
@@ -114,14 +116,32 @@ void chooseNextTrack() {
 
   if (testMode) {
     Serial.print("current-maxFadeOut:");
-    Serial.print(tunesLibrary[currentGenre][currentTrack].maxFadeOut);
+    Serial.print(currentTune.maxFadeOut);
     Serial.print("  next-maxFadeIn:");
-    Serial.print(tunesLibrary[nextGenre][nextTrack].maxFadeIn);
+    Serial.print(nextTune.maxFadeIn);
   }
 
   // set the amount of time we are going to mix from one tune to the other
-  nextMixDuration = (tunesLibrary[currentGenre][currentTrack].maxFadeOut > tunesLibrary[nextGenre][nextTrack].maxFadeIn) ? 
-    tunesLibrary[nextGenre][nextTrack].maxFadeIn : tunesLibrary[currentGenre][currentTrack].maxFadeOut;
+  nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
 
+}
+
+int numberOfTunesInGenre(int genre) {
+  if (genre == 0)
+    return sizeof(tuneLibRave);
+  else if (genre == 1)
+    return sizeof(tuneLibDisco);
+  else if (genre == 2)
+    return sizeof(tuneLibReggae);
+  else if (genre == 3)
+    return sizeof(tuneLibRockAndPop);
+  else if (genre == 4)
+    return sizeof(tuneLibEasy);
+  else if (genre == 5)
+    return sizeof(tuneLibDance);
+  else if (genre == 6)
+    return sizeof(tuneLibDrumAndBass);
+  else
+    return sizeof(tuneLibHipHop);
 }
 
