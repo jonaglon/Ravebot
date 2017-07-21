@@ -152,11 +152,11 @@ tuneInfo tuneLibRockAndPop[11] = {
 
 // Genre 4, Easy
 tuneInfo tuneLibEasy[12] = {
-  {120,  0, 143, 4, 4, 4, 4, 0}, // BackToMyRoots - RichieHavens
-  {104,  0, 116, 4, 4, 4, 4, 0}, // Think - Aretha
-  {100,  0, 182, 4, 4, 4, 4, 0}, // As - Wonder
-  {174,  0, 155, 4, 4, 4, 4, 0}, // Roady - FatFreddyNextmen
-  {130,  0,  89, 4, 4, 4, 4, 0}, // Beggin - FrankieValli *******
+  {122,  0, 142, 4, 4, 4, 4, 0}, // BackToMyRoots - RichieHavens
+  {104,  0,  59, 4, 4, 4, 4, 0}, // Think - Aretha
+  {100,  0, 181, 4, 4, 4, 4, 0}, // As - Wonder
+  {174,  0, 154, 4, 4, 4, 4, 0}, // Roady - FatFreddyNextmen
+  {132,  0,  90, 4, 4, 4, 4, 0}, // Beggin - FrankieValli *******
   { 98,  0,  70, 4, 4, 4, 4, 0}, // IGotAWoman - RayCharles
   {156,  0, 143, 4, 4, 4, 4, 0}, // MilkAndHoney-PrinceFatty
   {124,  0, 123, 4, 4, 4, 4, 0}, // BackToBlack - Amy 
