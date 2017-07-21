@@ -157,54 +157,55 @@ tuneInfo tuneLibEasy[12] = {
   {100,  0, 181, 4, 4, 4, 4, 0}, // As - Wonder
   {174,  0, 154, 4, 4, 4, 4, 0}, // Roady - FatFreddyNextmen
   {132,  0,  90, 4, 4, 4, 4, 0}, // Beggin - FrankieValli *******
-  { 98,  0,  70, 4, 4, 4, 4, 0}, // IGotAWoman - RayCharles
-  {156,  0, 143, 4, 4, 4, 4, 0}, // MilkAndHoney-PrinceFatty
-  {124,  0, 123, 4, 4, 4, 4, 0}, // BackToBlack - Amy 
+  { 98,  0,  72, 4, 4, 4, 4, 0}, // IGotAWoman - RayCharles
+  {156,  0, 144, 4, 4, 4, 4, 0}, // MilkAndHoney-PrinceFatty
+  {126,  0, 123, 4, 4, 4, 4, 0}, // BackToBlack - Amy 
   {132,  0, 166, 4, 4, 4, 4, 0}, // MasterBlaster-StevieWonder
   {109,  0, 113, 4, 4, 4, 4, 0}, // AllNightLong - LionelRichie
-  { 96,  0,  97, 4, 4, 4, 4, 0}, // INeedADollar-AloeBlacc     
+  { 96,  0,  96, 4, 4, 4, 4, 0}, // INeedADollar-AloeBlacc     
   {122,  0, 124, 4, 4, 4, 4, 0}  // GotToGiveItUp-MarvinGaye
 };
 
 // Genre 5, Dance
-tuneInfo tuneLibDance[11] = {
-  {133,  29, 120, 4, 4, 4, 4, 0},  // A rinky dinky
-  {136,  45,  93, 4, 4, 4, 4, 0},  // Israelites mix
-  {108,  57,  83, 4, 4, 4, 4, 0},  // Kelis - Trick Me
-  {150,  25, 125, 4, 4, 4, 4, 0},  // Dubbleedge - Lips to the floor
-  {134, 105, 121, 4, 4, 4, 4, 0},  // Zero Emit Collect
-  {125,  71, 103, 4, 4, 4, 4, 0},  // Dizee Bonkers
-  {115,  57,  84, 4, 4, 4, 4, 0},  // RizzleKicks - DownWithTheTrumpets
-  {168,  93, 173, 4, 4, 4, 4, 0},  // OneTime
-  {130,   0, 161, 4, 4, 4, 4, 0},  // WileOut - DJ Zinc
-  {145,   0, 171, 4, 4, 4, 4, 0},  // Aphex - Polynomial C
-  {123,   0, 187, 4, 4, 4, 4, 0}   // Aphex WindowLicker
+tuneInfo tuneLibDance[10] = {
+  {134,  29, 119, 4, 4, 4, 4, 0},  // A rinky dinky
+  {110,  58,  91, 4, 4, 4, 4, 0},  // Kelis - Trick Me
+  {150,  25, 134, 4, 4, 4, 4, 0},  // Dubbleedge - Lips to the floor
+  {134, 105, 169, 4, 4, 4, 4, 0},  // Zero Emit Collect
+  {125,  70, 102, 4, 4, 4, 4, 0},  // Dizee Bonkers
+  {115,  56,  88, 4, 4, 4, 4, 0},  // RizzleKicks - DownWithTheTrumpets
+  {168,  92, 181, 4, 4, 4, 4, 0},  // OneTime
+  {130,   0, 162, 4, 4, 4, 4, 0},  // WileOut - DJ Zinc
+  {145,   0, 170, 4, 4, 4, 4, 0},  // Aphex - Polynomial C
+  {124,   0, 189, 4, 4, 4, 4, 0}   // Aphex WindowLicker
 };
 
 // Genre 6, Drum&Bass
-tuneInfo tuneLibDrumAndBass[7] = {
-  {140,  0, 148, 4, 4, 4, 4, 0},  // NextHype-TempaT
-  {175,  0, 191, 4, 4, 4, 4, 0},  // DuppyMan-ChaseAndStatusCapleton
-  {174,  0, 264, 4, 4, 4, 4, 0},  // TheNine-BadCompany
-  {174,  0, 166, 4, 4, 4, 4, 0},  // GoldDigger-HighContrast
-  {175,  0, 189, 4, 4, 4, 4, 0},  // ShakeUrBody-ShyFX
-  {180,  0, 185, 4, 4, 4, 4, 0},  // LastNight-BennyPage
-  {175,  0, 170, 4, 4, 4, 4, 0},  // PassMeTheRizla-Deekline
+tuneInfo tuneLibDrumAndBass[10] = {
+  {176,  0, 220, 4, 4, 4, 4, 0},  // Girls-DJHypeAndPotential
+  {176,  0, 190, 4, 4, 4, 4, 0},  // DuppyMan-ChaseAndStatusCapleton
+  {176,  0, 255, 4, 4, 4, 4, 0},  // TheNine-BadCompany
+  {176,  0, 200, 4, 4, 4, 4, 0},  // GoldDigger-HighContrast
+  {176,  0, 188, 4, 4, 4, 4, 0},  // ShakeUrBody-ShyFX
+  {176,  0, 128, 4, 4, 4, 4, 0},  // KingOfTheBeats2016-Aphrodite
+  {176,  0, 189, 4, 4, 4, 4, 0},  // LastNight-BennyPage
+  {176,  0, 212, 4, 4, 4, 4, 0},  // TurnDownTheLights-BennyPage
+  {176,  0, 157, 4, 4, 4, 4, 0},  // PassTheKutchie-BennyPage
+  {176,  0, 169, 4, 4, 4, 4, 0},  // PassMeTheRizla-Deekline
 };
 
 // Genre 7, HipHop
-tuneInfo tuneLibHipHop[11] = {
-  {101, 25,  12, 4, 4, 4, 4, 0},  // Lets get ill
-  { 93, 49,  12, 4, 4, 4, 4, 0},  // No Diggidy
-  {103, 69,  12, 4, 4, 4, 4, 0},  // Moma said knock you out     
-  {100, 25,  12, 4, 4, 4, 4, 0},  // Like it raw
-  { 92, 49,  12, 4, 4, 4, 4, 0},  // Dre&2Pac California
-  {162, 65, 143, 4, 4, 4, 4, 0},  // Bigger than hip hop
-  { 93, 61,  73, 4, 4, 4, 4, 0},  // Close to me snoop
-  {160, 77, 159, 4, 4, 4, 4, 0},  // Coolio Gansters paradise
-  {100, 47,  89, 4, 4, 4, 4, 0},  // HipHopHooray
-  {108, 34,  96, 4, 4, 4, 4, 0},  // Jump Around 
-  {103,  0,  81, 4, 4, 4, 4, 0},  // Insazlle in the bazzle - Cyprus Hazzle
+tuneInfo tuneLibHipHop[10] = {
+  {101, 25,  81, 4, 4, 4, 4, 0},  // Lets get ill
+  { 90,  0, 113, 4, 4, 4, 4, 0},  // No Diggidy
+  { 97, 49,  66, 4, 4, 4, 4, 0},  // ShimmyHimmyYa-ODB
+  {103, 69, 122, 4, 4, 4, 4, 0},  // Moma said knock you out    
+  {154, 65, 144, 4, 4, 4, 4, 0},  // Bigger than hip hop
+  { 93, 61, 108, 4, 4, 4, 4, 0},  // DropItLikeItsCloseToMe-Snoop
+  { 98,  0, 101, 4, 4, 4, 4, 0},  // OPP-NaughtyByNature
+  {100,  0, 105, 4, 4, 4, 4, 0},  // HipHopHooray
+  {106,  0,  95, 4, 4, 4, 4, 0},  // JumpAround-HouseOfPain
+  {106,  0,  88, 4, 4, 4, 4, 0},  // InsazlleInTheBazzle-CyprusHazzle
 };
 
 tuneInfo currentTune = tuneLibRave[1];
