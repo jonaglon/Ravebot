@@ -76,7 +76,7 @@ void loop() {
 
 }
 
-// this needs bools for fadeInBusy, fadeOutBusy and isInSync  
+// this needs bools for fadeInBusy, fadeOutBusy and isInSync  - also needs mixing, meaning requires the crossfader or if it can just join.
 struct tuneInfo {   
   byte bpm;
   byte drop;
@@ -101,9 +101,9 @@ tuneInfo tuneLibRave[11] = {
   {122,  0, 118, 4, 4, 4, 4, 0},  // DirtyCash-SoldOutMix
   {122,  0, 132, 4, 4, 4, 4, 0},  // Break4Love-Raze
   {126,  0,  95, 4, 4, 4, 4, 0},  // IsThereAnybodyOutThere-Bassheads
-  {128,  0,  85, 4, 4, 4, 4, 0},   // PacificState-808State
+  {128,  0,  85, 4, 4, 4, 4, 0},  // PacificState-808State
   {150,  0, 182, 4, 4, 4, 4, 0},  // OutOfSpace-Prodigy
-  {124,  0, 183, 4, 4, 4, 4, 0}  // WhatCanYouDoForMe-UtahSaints
+  {124,  0, 183, 4, 4, 4, 4, 0}   // WhatCanYouDoForMe-UtahSaints
 };
 
 // Genre 1, Disco

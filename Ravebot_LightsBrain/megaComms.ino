@@ -19,13 +19,12 @@ void doSomethingWithPackageFromMega(int package) {
   int function = package / 1000;
   int message = package % 1000;
 
-  if (function == 1) 
+  if (function == 1)
   {
     doRobotTalkingLights(message);
   }
   else if (function == 2)
   {
-    // Button pressed 0-9 - it chooses the genre
     arcadeButtonPressed(message);
   }
   else if (function == 3)
@@ -35,8 +34,8 @@ void doSomethingWithPackageFromMega(int package) {
   else if (function == 4)
   {
     // specific track was chosen on the keypad, play the track
-    //stayWithinGenre = false;
-    //playTune((message / 100), (message % 100));
+    // stayWithinGenre = false;
+    // playTune((message / 100), (message % 100));
   }
 }
 
