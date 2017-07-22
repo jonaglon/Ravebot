@@ -21,7 +21,7 @@ int fakeBeatLengh = 240;
 short sixteenBeats = 0;
 
 int mainVolume = 100; // 127 actual max but we won't exceed 100.
-int currentBar = 0;
+int currentBar;
 int newCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;
 int currentTrack = 0;
@@ -45,6 +45,8 @@ bool deckASelected = true;
 int currentMixerPosition = 0;
 
 void setup() {
+  currentBar=0;
+  
   delay(500);
 
   // Talk to Ableton using midi over USB, or debug.
@@ -140,10 +142,10 @@ tuneInfo tuneLibRockAndPop[11] = {
   {160,  0, 112, 4, 4, 4, 4, 0},  // KidsInAmerica-KimWilde
   {126,  0,  80, 4, 4, 4, 4, 0},  // CantGetYouOut-Kylie
   {112,  0, 100, 4, 4, 4, 4, 0},  // ICantGoForThat-Hall&Oates
-  { 97,  0,  62, 4, 4, 4, 4, 0},  // Faith-GeorgeMichael
+  { 97,  0,  63, 4, 4, 4, 4, 0},  // Faith-GeorgeMichael
   {122, 49, 106, 4, 4, 4, 4, 0},  // GrooveIsInTheHeart-DeeLite
   {126,  0, 108, 4, 4, 4, 4, 0},  // SweetDreams-Euritmics
-  {122, 39, 106, 4, 4, 4, 4, 0},  // PaulSimon&Dylan Stuck in the middle
+  {122, 39, 106, 4, 4, 4, 4, 0},  // StuckInTheMiddle-SteelersWheel
   {164,  9, 136, 4, 4, 4, 4, 0},  // Martha&Muffins Echo Beach
   {199,  0, 111, 4, 4, 4, 4, 0},  // DreamingOfYou-TheCoral
   { 99,  0,  58, 4, 4, 4, 4, 0},  // BlisterInTheSun-VoilentFemmes
@@ -188,7 +190,7 @@ tuneInfo tuneLibDrumAndBass[10] = {
   {176,  0, 200, 4, 4, 4, 4, 0},  // GoldDigger-HighContrast
   {176,  0, 188, 4, 4, 4, 4, 0},  // ShakeUrBody-ShyFX
   {176,  0, 128, 4, 4, 4, 4, 0},  // KingOfTheBeats2016-Aphrodite
-  {176,  0, 189, 4, 4, 4, 4, 0},  // LastNight-BennyPage
+  {176,  0, 181, 4, 4, 4, 4, 0},  // LastNight-BennyPage
   {176,  0, 212, 4, 4, 4, 4, 0},  // TurnDownTheLights-BennyPage
   {176,  0, 157, 4, 4, 4, 4, 0},  // PassTheKutchie-BennyPage
   {176,  0, 169, 4, 4, 4, 4, 0},  // PassMeTheRizla-Deekline
@@ -197,7 +199,7 @@ tuneInfo tuneLibDrumAndBass[10] = {
 // Genre 7, HipHop
 tuneInfo tuneLibHipHop[10] = {
   {101, 25,  81, 4, 4, 4, 4, 0},  // Lets get ill
-  { 90,  0, 113, 4, 4, 4, 4, 0},  // No Diggidy
+  { 90,  0, 109, 4, 4, 4, 4, 0},  // No Diggidy
   { 97, 49,  66, 4, 4, 4, 4, 0},  // ShimmyHimmyYa-ODB
   {103, 69, 122, 4, 4, 4, 4, 0},  // Moma said knock you out    
   {154, 65, 144, 4, 4, 4, 4, 0},  // Bigger than hip hop

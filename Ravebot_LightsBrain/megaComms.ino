@@ -25,6 +25,10 @@ void doSomethingWithPackageFromMega(int package) {
   }
   else if (function == 2)
   {
+    if (testMode) {
+      Serial.print("Button pressed! Num:");
+      Serial.println(message);
+    }    
     arcadeButtonPressed(message);
   }
   else if (function == 3)

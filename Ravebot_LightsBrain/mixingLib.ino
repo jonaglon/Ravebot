@@ -56,6 +56,10 @@ void startNewMix() {
 
 void endMixAndPickNewTune() {
   // finish the mix
+  if (testMode) {
+    Serial.println("EndingMixPickingNew"); 
+  }
+  
   stopAbletonChannel(currentGenre, !deckASelected);
   if (deckASelected) {
     setCrossfader(127);
@@ -128,20 +132,21 @@ void chooseNextTrack() {
 
 int numberOfTunesInGenre(int genre) {
   if (genre == 0)
-    return sizeof(tuneLibRave);
+    return sizeof(tuneLibRave) / sizeof(tuneInfo);
   else if (genre == 1)
-    return sizeof(tuneLibDisco);
+    return sizeof(tuneLibDisco) / sizeof(tuneInfo);
   else if (genre == 2)
-    return sizeof(tuneLibReggae);
+    return sizeof(tuneLibReggae) / sizeof(tuneInfo);
   else if (genre == 3)
-    return sizeof(tuneLibRockAndPop);
+    return sizeof(tuneLibRockAndPop) / sizeof(tuneInfo);
   else if (genre == 4)
-    return sizeof(tuneLibEasy);
+    return sizeof(tuneLibEasy) / sizeof(tuneInfo);
   else if (genre == 5)
-    return sizeof(tuneLibDance);
+    return sizeof(tuneLibDance) / sizeof(tuneInfo);
   else if (genre == 6)
-    return sizeof(tuneLibDrumAndBass);
+    return sizeof(tuneLibDrumAndBass) / sizeof(tuneInfo);
   else
-    return sizeof(tuneLibHipHop);
+    return sizeof(tuneLibHipHop) / sizeof(tuneInfo);
 }
+
 

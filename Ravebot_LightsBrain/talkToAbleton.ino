@@ -16,7 +16,9 @@ void playRandomTune(int genre) {
 
 void playTune(int genre, int track) {
 
-  currentGenre = genre;
+  currentGenre = genre % 8;
+
+  track = (track % numberOfTunesInGenre(genre));
   
   // pick the tune
   if (genre == 0)
