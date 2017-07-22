@@ -1,10 +1,10 @@
-int ledValue, switchNum;
+int ledValue;
 
 void doArcadeBtn() {
 
   readArcadeSwitches();
 
-  for (switchNum = 0; switchNum < 14; switchNum++) {
+  for (int switchNum = 0; switchNum < 14; switchNum++) {
     if (digitalRead(switchPins[switchNum]) == 0) {
       ledValue = 0; //4095;
     }
@@ -13,14 +13,13 @@ void doArcadeBtn() {
     }
     ledPwm.setPWM(switchNum, 0, ledValue);
   }
-  
 }
 
 bool messageSent[14] = {false, false, false, false, false, false, false, false, false, false, false, false, false, false};
 
 void readArcadeSwitches() {
 
-  for (switchNum = 0; switchNum < 14; switchNum++) { 
+  for (int switchNum = 0; switchNum < 14; switchNum++) { 
     if (digitalRead(switchPins[switchNum]) == 0 && !messageSent[switchNum])
     {
       sendSerialToLights(2, switchNum);

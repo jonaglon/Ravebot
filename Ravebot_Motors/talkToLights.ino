@@ -26,11 +26,9 @@ void doSomethingWithMessageFromLights(int messageInt) {
 
   if (function == 1) // this is a beat message
   {
-    for (switchNum = 0; switchNum < 10; switchNum++) {
+    for (int switchNum = 0; switchNum < 14; switchNum++) {
       if (switchNum==message)
         ledPwm.setPWM(switchNum, 0, 4095);
-      else
-        ledPwm.setPWM(switchNum, 0, 0);
     }
   }
   else if (function == 2) // this is a message to tell us what song is playing
