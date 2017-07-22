@@ -158,8 +158,8 @@ tuneInfo tuneLibEasy[12] = {
   {104,  0,  59, 4, 4, 4, 4, 0}, // Think - Aretha
   {100,  0, 181, 4, 4, 4, 4, 0}, // As - Wonder
   {174,  0, 154, 4, 4, 4, 4, 0}, // Roady - FatFreddyNextmen
-  {132,  0,  90, 4, 4, 4, 4, 0}, // Beggin - FrankieValli *******
-  { 98,  0,  72, 4, 4, 4, 4, 0}, // IGotAWoman - RayCharles
+  {132,  0,  88, 4, 4, 4, 4, 0}, // Beggin - FrankieValli
+  { 98,  0,  72, 4, 4, 4, 4, 0}, // IGotAWoman - RayCharles 
   {156,  0, 144, 4, 4, 4, 4, 0}, // MilkAndHoney-PrinceFatty
   {126,  0, 123, 4, 4, 4, 4, 0}, // BackToBlack - Amy 
   {132,  0, 166, 4, 4, 4, 4, 0}, // MasterBlaster-StevieWonder
@@ -186,10 +186,10 @@ tuneInfo tuneLibDance[10] = {
 tuneInfo tuneLibDrumAndBass[10] = {
   {176,  0, 220, 4, 4, 4, 4, 0},  // Girls-DJHypeAndPotential
   {176,  0, 190, 4, 4, 4, 4, 0},  // DuppyMan-ChaseAndStatusCapleton
-  {176,  0, 255, 4, 4, 4, 4, 0},  // TheNine-BadCompany
+  {176,  0, 252, 4, 4, 4, 4, 0},  // TheNine-BadCompany
   {176,  0, 200, 4, 4, 4, 4, 0},  // GoldDigger-HighContrast
-  {176,  0, 188, 4, 4, 4, 4, 0},  // ShakeUrBody-ShyFX
-  {176,  0, 128, 4, 4, 4, 4, 0},  // KingOfTheBeats2016-Aphrodite
+  {176,  0, 248, 4, 4, 4, 4, 0},  // ShakeUrBody-ShyFX
+  {176,  0, 132, 4, 4, 4, 4, 0},  // KingOfTheBeats2016-Aphrodite
   {176,  0, 181, 4, 4, 4, 4, 0},  // LastNight-BennyPage
   {176,  0, 212, 4, 4, 4, 4, 0},  // TurnDownTheLights-BennyPage
   {176,  0, 157, 4, 4, 4, 4, 0},  // PassTheKutchie-BennyPage

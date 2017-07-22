@@ -2,14 +2,14 @@ bool newBeat=false;
 
 void playRandomTune() {
  currentGenre = random(8);
- playRandomTune();
+ playRandomTune(currentGenre);
 }
 
 void playRandomTune(int genre) {
   int newTrackNumber = 0;
-  do
+  //do
     newTrackNumber = random(numberOfTunesInGenre(genre));
-  while (newTrackNumber == currentTrack);  
+  //while (newTrackNumber == currentTrack);  
   
   playTune(genre, newTrackNumber);
 }
@@ -18,7 +18,7 @@ void playTune(int genre, int track) {
 
   currentGenre = genre % 8;
 
-  track = (track % numberOfTunesInGenre(genre));
+  //track = (track % numberOfTunesInGenre(genre));
   
   // pick the tune
   if (genre == 0)
