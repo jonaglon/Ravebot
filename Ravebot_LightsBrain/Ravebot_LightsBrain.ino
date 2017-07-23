@@ -44,6 +44,8 @@ bool currentlyMixing=false;
 bool deckASelected = true;
 int currentMixerPosition = 0;
 
+bool abletonPaused = false;
+
 void setup() {
   currentBar=0;
   

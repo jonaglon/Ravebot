@@ -44,6 +44,7 @@ void playTune(int genre, int track) {
   setAbletonTempo(currentTune.bpm);
   setCrossfader(0);
   playAbletonTrack(genre, track, true);
+  abletonPaused=false;
 
   // change the current track in this program
   sixteenBeats = 0;
@@ -83,6 +84,12 @@ void stopAbletonChannel(int channel, bool stopSideA) {
 }
 
 void pauseAbleton() {
+
+  if (abletonPaused)
+    abletonPaused=false;
+  else
+    abletonPaused=true;
+    
   sendMidi(176, 124, 127);
 }
 

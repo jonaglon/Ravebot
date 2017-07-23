@@ -53,7 +53,7 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Stop button
   if (buttonNumber == 8) {
-    stopAllAbletonTracks();
+    pauseAbleton();
   }
 
   // Next button
@@ -78,13 +78,17 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Previous tune
   if (buttonNumber == 12) {    
-    pauseAbleton();
+    //pauseAbleton();
   }
 
   // Play button
   if (buttonNumber == 13) {
-    stayWithinGenre = false;
-    playRandomTune();
+    if (abletonPaused)
+      pauseAbleton();
+    else {
+      stayWithinGenre = false;
+      playRandomTune();
+    }
   }
 
 }
