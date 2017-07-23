@@ -76,13 +76,12 @@ void arcadeButtonPressed(int buttonNumber) {
     setMainVolume(mainVolume);
   }
 
-  // Play button
+  // Previous tune
   if (buttonNumber == 12) {    
-    stayWithinGenre = false;
-    playRandomTune();
+    pauseAbleton();
   }
 
-  // Last tune                    // TODO remember the last x tunes played
+  // Play button
   if (buttonNumber == 13) {
     stayWithinGenre = false;
     playRandomTune();

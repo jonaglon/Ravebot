@@ -82,6 +82,10 @@ void stopAbletonChannel(int channel, bool stopSideA) {
   sendMidi(abletonChannel+176, 0, 127);
 }
 
+void pauseAbleton() {
+  sendMidi(176, 124, 127);
+}
+
 void stopAllAbletonTracks() {
   sendMidi(176, 125, 127);
 }
