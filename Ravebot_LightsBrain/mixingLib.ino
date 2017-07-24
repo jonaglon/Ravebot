@@ -74,6 +74,7 @@ void endMixAndPickNewTune() {
 
   currentGenre = nextGenre;
   currentTrack = nextTrack;
+  setCurrentTune(currentGenre, currentTrack);
   chooseNextTrack();
 
   // tell the other arduino what you're doing

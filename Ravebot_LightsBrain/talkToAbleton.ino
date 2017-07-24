@@ -30,6 +30,7 @@ void playTune(int genre, int track, bool alterHistory) {
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
   setAbletonTempo(currentTune.bpm);
   setCrossfader(0);
+  deckASelected = true;
   playAbletonTrack(genre, track, true);
   abletonPaused=false;
 

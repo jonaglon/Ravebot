@@ -74,6 +74,10 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       if (testMode) {
         Serial.print("New bar: ");
         Serial.println(currentBar);
+        Serial.print("CurrentTuneBpm:");
+        Serial.print(currentTune.bpm);
+        Serial.print("  NextTuneBpm:");
+        Serial.println(nextTune.bpm);
       }
     }         
   }
