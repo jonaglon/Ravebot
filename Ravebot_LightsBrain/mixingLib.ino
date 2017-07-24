@@ -52,7 +52,7 @@ void startNewMix() {
   updateGenreAndTrackHistory(nextGenre, nextTrack);
     
   // change the current track in this program
-  newCurrentBar = 0;
+  mixCurrentBar = 0;
   currentlyMixing=true;
 }
 
@@ -80,7 +80,7 @@ void endMixAndPickNewTune() {
   // tell the other arduino what you're doing
   sendSerialToMega(2,(currentGenre*100)+currentTrack);
   
-  currentBar = newCurrentBar;
+  currentBar = mixCurrentBar;
   currentlyMixing=false;
 }
 
@@ -104,13 +104,12 @@ void chooseNextTrack() {
       nextGenre = currentGenre;
 
     // Pick next track
+    // TODO - do while until the next track doesn't appear in the last 10 tunes played.
     nextTrack = random(numberOfTunesInGenre(nextGenre));
 
     setNextTune(nextGenre, nextTrack);
     
-    if (nextTune.minFadeIn > currentTune.maxFadeOut)
-      continue;
-    else if (nextTune.maxFadeIn < currentTune.minFadeOut)         
+    if (nextTune.maxFadeIn < currentTune.minFadeOut)         
       continue;
     else
       nextTrackPicked = true;    

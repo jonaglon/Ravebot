@@ -66,7 +66,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
     if (sixteenBeats % 4 == 0) {
       // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
       currentBar++; // = currentBar+3;
-      newCurrentBar++;
+      mixCurrentBar++;
       setBeatTimes();
       checkForMixStart();
       checkForMixEnd();
