@@ -48,6 +48,8 @@ void startNewMix() {
     Serial.print("/");
     Serial.println(nextTrack); 
   }
+
+  updateGenreAndTrackHistory(nextGenre, nextTrack);
     
   // change the current track in this program
   newCurrentBar = 0;
@@ -100,16 +102,11 @@ void chooseNextTrack() {
     else
       nextGenre = currentGenre;
 
-    int numTunesInNextGenre = numberOfTunesInGenre(nextGenre);
-    
     // Pick next track
-    do
-      nextTrack = random(numTunesInNextGenre);
-    while (nextTrack == currentTrack);  
+    nextTrack = random(numberOfTunesInGenre(nextGenre));
 
-    // { 93,  9, 49,  21, 0, 4, 8, 8},  // No Diggidy 
-    // {100,  5, 25,  21, 0, 8, 4, 8},  // Like it raw
-    // is next track compatible? 
+    setNextTune(nextGenre, nextTrack);
+    
     if (nextTune.minFadeIn > currentTune.maxFadeOut)
       continue;
     else if (nextTune.maxFadeIn < currentTune.minFadeOut)         
@@ -122,12 +119,82 @@ void chooseNextTrack() {
     Serial.print("current-maxFadeOut:");
     Serial.print(currentTune.maxFadeOut);
     Serial.print("  next-maxFadeIn:");
-    Serial.print(nextTune.maxFadeIn);
+    Serial.println(nextTune.maxFadeIn);
   }
 
   // set the amount of time we are going to mix from one tune to the other
   nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
 
+}
+
+void setNextTune(int genre, int track) {
+  if (genre == 0)
+    nextTune = tuneLibRave[track];
+  else if (genre == 1)
+    nextTune = tuneLibDisco[track];
+  else if (genre == 2)
+    nextTune = tuneLibReggae[track];
+  else if (genre == 3)
+    nextTune = tuneLibRockAndPop[track];
+  else if (genre == 4)
+    nextTune = tuneLibEasy[track];
+  else if (genre == 5)
+    nextTune = tuneLibDance[track];
+  else if (genre == 6)
+    nextTune = tuneLibDrumAndBass[track];
+  else
+    nextTune = tuneLibHipHop[track];    
+}
+
+void setCurrentTune(int genre, int track) {
+  if (genre == 0)
+    currentTune = tuneLibRave[track];
+  else if (genre == 1)
+    currentTune = tuneLibDisco[track];
+  else if (genre == 2)
+    currentTune = tuneLibReggae[track];
+  else if (genre == 3)
+    currentTune = tuneLibRockAndPop[track];
+  else if (genre == 4)
+    currentTune = tuneLibEasy[track];
+  else if (genre == 5)
+    currentTune = tuneLibDance[track];
+  else if (genre == 6)
+    currentTune = tuneLibDrumAndBass[track];
+  else
+    currentTune = tuneLibHipHop[track];
+}
+
+void playNextTrack() {
+  playTune(last10Genres[9], last10Tracks[9], true);
+}
+
+void playPreviousTrack() {
+
+  // shuffle the order of the history
+  for (int x = 0; x < 9; x++)
+    last10Genres[x] = last10Genres[x+1];    
+  last10Genres[9] = currentGenre;
+
+  for (int x = 0; x < 9; x++)
+    last10Tracks[x] = last10Tracks[x+1];    
+  last10Tracks[9] = currentTrack;
+  
+  // play the tune setting changeHistory to false
+  playTune(last10Genres[0], last10Tracks[0], false);
+
+  if (testMode)
+    showLast10Tracks();
+}
+
+void showLast10Tracks() {
+  for  (int x = 0; x < 9; x++) {
+    Serial.print(x);
+    Serial.print(":");
+    Serial.print(last10Tracks[x]);
+    Serial.print(" ");    
+  }
+  Serial.println("");
 }
 
 int numberOfTunesInGenre(int genre) {

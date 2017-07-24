@@ -11,32 +11,19 @@ void playRandomTune(int genre) {
     newTrackNumber = random(numberOfTunesInGenre(genre));
   //while (newTrackNumber == currentTrack);  
   
-  playTune(genre, newTrackNumber);
+  playTune(genre, newTrackNumber, true);
 }
 
-void playTune(int genre, int track) {
+void playTune(int genre, int track, bool alterHistory) {
+
+  if (alterHistory)
+    updateGenreAndTrackHistory(genre, track);
 
   currentGenre = genre % 8;
 
-  //track = (track % numberOfTunesInGenre(genre));
+  track = (track % numberOfTunesInGenre(genre));
   
-  // pick the tune
-  if (genre == 0)
-    currentTune = tuneLibRave[track];
-  else if (genre == 1)
-    currentTune = tuneLibDisco[track];
-  else if (genre == 2)
-    currentTune = tuneLibReggae[track];
-  else if (genre == 3)
-    currentTune = tuneLibRockAndPop[track];
-  else if (genre == 4)
-    currentTune = tuneLibEasy[track];
-  else if (genre == 5)
-    currentTune = tuneLibDance[track];
-  else if (genre == 6)
-    currentTune = tuneLibDrumAndBass[track];
-  else
-    currentTune = tuneLibHipHop[track];
+  setCurrentTune(genre, track);
   
   // send stuff to ableton to start the new track  
   stopAllAbletonTracks(); 
@@ -62,10 +49,23 @@ void playTune(int genre, int track) {
   // tell the other arduino what you're doing
   sendSerialToMega(2,(genre*100)+track);
  
-  // choose the track to mix in to
   chooseNextTrack();
+
+  if (testMode)
+    showLast10Tracks();
+
 }
 
+void updateGenreAndTrackHistory(int genre, int track) {
+
+  for (int x = 9; x > 0; x--)
+    last10Genres[x] = last10Genres[x-1];  
+  last10Genres[0] = genre;
+
+  for (int x = 9; x > 0; x--)
+    last10Tracks[x] = last10Tracks[x-1];    
+  last10Tracks[0] = track;
+}
 
 void playAbletonTrack(int channel, int trackNumber, bool playSideA) {
   int abletonChannel = channel*2;
@@ -106,8 +106,8 @@ void setMainVolume(int newVolume) {
   if (newVolume < 0)
     newVolume = 0;
   
-  if (newVolume > 127)
-    newVolume = 127;
+  if (newVolume > 110)
+    newVolume = 110;
 
   mainVolume = newVolume;
   

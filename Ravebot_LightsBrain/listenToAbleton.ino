@@ -82,7 +82,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 void checkForMixStart() {
   if (currentBar == calculateMixStart()) {
     if (nextMixDuration == 0) {
-      playTune(nextGenre, nextTrack);
+      playTune(nextGenre, nextTrack, true);
     } else {
       startNewMix();
     }
@@ -108,7 +108,7 @@ void checkForDropCountdownStart() {
     dropCountdown = 32;
 }
 
-void setBeatTimes() {
+void setBeatTimes() { // TODO - I suspect this doesnt work
 
   for (int x = 0; x < 9; x++)
     beatTimes[x+1] = beatTimes[x];

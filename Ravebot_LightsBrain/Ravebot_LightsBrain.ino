@@ -1,4 +1,4 @@
-/* __                 _           _               __ _       _     _  
+ /* __                 _           _               __ _       _     _  
   /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
  / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
 / _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
@@ -8,7 +8,7 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = false;
+bool testMode = false                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0; 
@@ -45,6 +45,8 @@ bool deckASelected = true;
 int currentMixerPosition = 0;
 
 bool abletonPaused = false;
+int last10Genres[10] = {0,0,0,0,0,0,0,0,0,0};
+int last10Tracks[10] = {0,0,0,0,0,0,0,0,0,0};
 
 void setup() {
   currentBar=0;

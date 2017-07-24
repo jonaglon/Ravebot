@@ -58,10 +58,7 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Next button
   if (buttonNumber == 9) {
-    if (stayWithinGenre)
-      playRandomTune(currentGenre);
-    else
-      playRandomTune();
+    playNextTrack();
   }
 
   // Vol down button
@@ -78,7 +75,7 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Previous tune
   if (buttonNumber == 12) {    
-    //pauseAbleton();
+    playPreviousTrack();
   }
 
   // Play button
