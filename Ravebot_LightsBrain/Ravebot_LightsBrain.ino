@@ -98,11 +98,12 @@ struct tuneInfo {
 };
  
 // Genre 0, RAVE!
-tuneInfo tuneLibRave[11] = {
+tuneInfo tuneLibRave[4] = {
   {149,  0, 210, 4, 4, 4, 4, 0},  // TripToTheMoonPt2-Acen
   {126,  0, 74,  4, 4, 4, 4, 0},  // MrKirsNightmare-4Hero
   {136,  0, 112, 4, 4, 4, 4, 0},  // Bombscare-2BadMice
   {126,  0, 165, 4, 4, 4, 4, 0},  // LFO-LFO
+};/*
   {132,  0, 179, 4, 4, 4, 4, 0},  // Infiltrate202-Altern8 
   {122,  0, 118, 4, 4, 4, 4, 0},  // DirtyCash-SoldOutMix
   {122,  0, 132, 4, 4, 4, 4, 0},  // Break4Love-Raze
@@ -110,7 +111,7 @@ tuneInfo tuneLibRave[11] = {
   {128,  0,  85, 4, 4, 4, 4, 0},  // PacificState-808State
   {150,  0, 182, 4, 4, 4, 4, 0},  // OutOfSpace-Prodigy
   {124,  0, 183, 4, 4, 4, 4, 0}   // WhatCanYouDoForMe-UtahSaints
-};
+};*/
 
 // Genre 1, Disco
 tuneInfo tuneLibDisco[10] = {
