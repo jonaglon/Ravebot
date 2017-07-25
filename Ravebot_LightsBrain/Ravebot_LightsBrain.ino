@@ -113,7 +113,7 @@ tuneInfo tuneLibRave[14] = {
 };
 
 // Genre 1, Disco
-    tuneInfo tuneLibDisco[11] = {
+    tuneInfo tuneLibDisco[14] = {
   {125,  0, 102,  8,  0,  8,  8},  // ILoveTheNightlife - Alecia Bridges
   {110,  0, 152,  8,  4, 16,  0},  // LastNightADjSavedMyLife-Indeep
   {134,  0, 149,  8,  0, 16,  4},  // LayAllYourLoveOnMe-Abba
@@ -125,39 +125,47 @@ tuneInfo tuneLibRave[14] = {
   {115,  0, 104,  8,  0, 16, 16},  // SheCantLoveYou-Chemise
   {112,  0, 130,  8,  0, 16, 16},  // Automatic-PointerSisters   
   {105,  0, 120,  8,  0,  8,  8},  // StayinAlive-BeeGees
+  {114,  0, 103,  4,  0, 10,  8},  // BestOfMyLove-TheEmotions
+  {125,  0,  96,  4,  0, 10, 10},  // ILoveTheNightlife-AliciaBridges
+  {110,  0,  96,  8,  0, 16, 12},  // NightFever-BeeGees
 };
 
-//  {199,  0, 199, 16, 0, 16, 16},  // SomeSong-Someone
-
-// Genre 2, Reggae
-tuneInfo tuneLibReggae[11] = {
-  {170,  0, 130,  4,  4,  4,  0},  // RingTheAlarm-TenorSaw
-  {102,  0, 118,  0,  4,  4,  0},  // FunkyKingston-Toots
-  {164,  0, 160,  4,  4,  4,  0},  // UnderMeSlengTeng-WayneSmith
-  {162,  0, 163,  0,  4,  4,  0},  // BamBam-SisNancy
-  {162,  0, 152,  0,  4,  4,  0},  // StrictlyRoots-Althea&Donna 
-  {154,  0, 102,  0,  4,  4,  0},  // WelcomeToJamrock-DamianMarley
-  {148,  0, 146,  0,  4,  4,  0},  // ItsAPity-TanyaStevens
-  {177,  0, 142,  0,  4,  4,  0},  // FeelLikeJumping-MarciaG 
-  {164,  0, 160,  4,  4,  4,  0},  // CantStopNow-MajorLazer
-  {148,  0, 105,  0,  4,  4,  0},  // PressureDrop-Toots
-  {104,  0, 100,  0,  4,  4,  0},  // CouldYouBeLoved-BobMarley
+// Genre 2, Reggae 
+tuneInfo tuneLibReggae[14] = {
+  {170,  0, 132,  8,  0, 16, 16},  // RingTheAlarm-TenorSaw
+  {102,  0, 118,  8,  0,  8,  8},  // FunkyKingston-Toots
+  {164,  0, 164,  8,  0, 16, 16},  // UnderMeSlengTeng-WayneSmith
+  {162,  0, 128, 16,  0, 16, 12},  // BamBam-SisNancy
+  {162,  0, 152,  8,  0, 16, 12},  // StrictlyRoots-Althea&Donna 
+  {154,  0, 102,  0,  0, 16, 16},  // WelcomeToJamrock-DamianMarley
+  {146,  0, 146,  0,  0, 16, 16},  // ItsAPity-TanyaStevens
+  {177,  0, 142,  8,  0, 16, 16},  // FeelLikeJumping-MarciaG 
+  {164,  0, 160,  8,  0, 16, 16},  // CantStopNow-MajorLazer
+  {148,  0, 106,  8,  0, 16, 14},  // PressureDrop-Toots
+  {104,  0, 100,  4,  0, 16, 14},  // CouldYouBeLoved-BobMarley
+  { 90,  0, 101,  8,  0, 16, 16},  // DidYouReallyKnow-MungoHiFi
+  {131,  0, 129,  0,  0,  8,  8},  // ThingsInLife-BarryBrown
+  { 90,  0,  89,  8 , 0,  4,  4},  // StandUp-MrBenn
 };
 
 // Genre 3, Rock&Pop
 tuneInfo tuneLibRockAndPop[11] = {
-  {160,  0, 117,  0,  4,  4,  0},  // KidsInAmerica-KimWilde
-  {126,  0,  80,  0,  4,  4,  0},  // CantGetYouOut-Kylie
-  {112,  0, 100,  0,  4,  4,  0},  // ICantGoForThat-Hall&Oates
-  { 97,  0,  63,  0,  4,  4,  0},  // Faith-GeorgeMichael
-  {122, 49, 106,  0,  4,  4,  0},  // GrooveIsInTheHeart-DeeLite
-  {126,  0, 108,  0,  4,  4,  0},  // SweetDreams-Euritmics
-  {122, 39, 106,  0,  4,  4,  0},  // StuckInTheMiddle-SteelersWheel
-  {164,  9, 136,  0,  4,  4,  0},  // Martha&Muffins Echo Beach
-  {199,  0, 111,  0,  4,  4,  0},  // DreamingOfYou-TheCoral
+  {160,  0, 117,  0,  0, 16, 16},  // KidsInAmerica-KimWilde
+  {126,  0, 120,  8,  0, 16, 12},  // CantGetYouOut-Kylie
+  {112,  0, 102,  8,  0,  8,  6},  // ICantGoForThat-Hall&Oates
+  { 97,  0,  63,  0,  0,  0,  0},  // Faith-GeorgeMichael
+  {122, 48, 106,  0,  0,  8,  8},  // GrooveIsInTheHeart-DeeLite
+  {126,  0, 108,  4,  0, 16, 12},  // SweetDreams-Euritmics
+  {122, 38, 100,  4,  0,  8,  8},  // StuckInTheMiddle-SteelersWheel
+  {164,  0, 135,  8,  0,  8,  6},  // Martha&Muffins Echo Beach
+  {199,  0, 111,  0,  0,  0,  0},  // DreamingOfYou-TheCoral
+
+  
   { 99,  0,  58,  0,  4,  4,  0},  // BlisterInTheSun-VoilentFemmes
   {114,  0,  96,  0,  4,  4,  0},  // ALittleRespect-Erasure  
 };
+
+//  {199,  0, 199, 16, 0, 16, 16},  // SomeSong-Someone
 
 // Genre 4, Easy
 tuneInfo tuneLibEasy[12] = {
