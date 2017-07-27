@@ -63,14 +63,16 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Vol down button
   if (buttonNumber == 10) {
-    mainVolume = mainVolume - 8;
-    setMainVolume(mainVolume);
+    //mainVolume = mainVolume - 8;
+    //setMainVolume(mainVolume);
+    sendQuantisationOff();
   }
 
   // Vol up button
   if (buttonNumber == 11) {
-    mainVolume = mainVolume + 8;
-    setMainVolume(mainVolume);
+    //mainVolume = mainVolume + 8;
+    //setMainVolume(mainVolume);
+    sendQuantisationOn();
   }
 
   // Previous tune

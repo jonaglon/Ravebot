@@ -16,6 +16,7 @@ void playRandomTune(int genre) {
 
 void playTune(int genre, int track, bool alterHistory) {
 
+  sendQuantisationOff();
   if (alterHistory)
     updateGenreAndTrackHistory(genre, track);
 
@@ -27,16 +28,16 @@ void playTune(int genre, int track, bool alterHistory) {
   
   // send stuff to ableton to start the new track  
   stopAllAbletonTracks(); 
-  start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
   setAbletonTempo(currentTune.bpm);
   setCrossfader(0);
   deckASelected = true;
   playAbletonTrack(genre, track, true);
+  start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
   abletonPaused=false;
 
   // change the current track in this program
   sixteenBeats = 0;
-  currentBar = -1;
+  currentBar = 0;
   fakeBeatCount = 0;
 
   if (testMode) {
@@ -84,7 +85,7 @@ void stopAbletonChannel(int channel, bool stopSideA) {
   sendMidi(abletonChannel+176, 0, 127);
 }
 
-void pauseAbleton() {
+void pauseAbleton() { // Uses Bomes to send shift space
 
   if (abletonPaused)
     abletonPaused=false;
@@ -92,6 +93,14 @@ void pauseAbleton() {
     abletonPaused=true;
     
   sendMidi(176, 124, 127);
+}
+
+void sendQuantisationOff() { // Uses Bomes to send ctrl-0
+  sendMidi(176, 120, 127);
+}
+
+void sendQuantisationOn() { // Uses Bomes to send ctrl-9
+  sendMidi(176, 121, 127);
 }
 
 void stopAllAbletonTracks() {

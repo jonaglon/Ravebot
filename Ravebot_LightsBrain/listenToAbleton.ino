@@ -68,9 +68,8 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       currentBar++; // = currentBar+3;
       mixCurrentBar++;
       setBeatTimes();
-      checkForMixStart();
-      checkForMixEnd();
       checkForDropCountdownStart();
+      checkForMixEnd();
       if (testMode) {
         Serial.print("New bar: ");
         Serial.println(currentBar);
@@ -79,7 +78,23 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
         Serial.print("  NextTuneBpm:");
         Serial.println(nextTune.bpm);
       }
+    } if (sixteenBeats % 4 == 1) {
+      checkForQuantisationStart();
+    } else if (sixteenBeats % 4 == 2) {
+      checkForMixStart();
     }         
+  }
+}
+
+void checkForQuantisationStart() {
+  if (currentBar == calculateMixStart()) {
+    sendQuantisationOn();
+  }
+}
+
+void checkForQuantisationEnd() {
+  if (currentBar == (calculateMixStart() + 1)) {
+    sendQuantisationOff();
   }
 }
 
@@ -95,7 +110,7 @@ void checkForMixStart() {
 
 void checkForMixEnd() {
   // pick a new song if a mix has ended
-  if (currentBar > (calculateMixStart() + nextMixDuration))
+  if ((currentBar + 1) > (calculateMixStart() + nextMixDuration))
   {
     if (testMode) {
       Serial.println("Ending mix");

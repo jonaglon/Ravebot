@@ -97,23 +97,29 @@ void chooseNextTrack() {
   bool nextTrackPicked = false;
 
   while (!nextTrackPicked) {
+
     // Pick next genre
     if (!stayWithinGenre)
       nextGenre = random(8);
     else
       nextGenre = currentGenre;
 
-    // Pick next track
-    // TODO - do while until the next track doesn't appear in the last 10 tunes played.
+    // pick next track
     nextTrack = random(numberOfTunesInGenre(nextGenre));
-
-    setNextTune(nextGenre, nextTrack);
+    // check it's not in the last 10 tunes played
+    for (int x = 0; x < 9; x++) {
+      if ((last10Genres[x] == nextGenre) && (last10Tracks[x] == nextTrack))
+        continue;
+    }
     
     if (nextTune.maxFadeIn < currentTune.minFadeOut)         
       continue;
-    else
-      nextTrackPicked = true;    
+
+    nextTrackPicked = true;    
   }
+  
+  setNextTune(nextGenre, nextTrack);
+  nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
 
   if (testMode) {
     Serial.print("current-maxFadeOut:");
@@ -121,10 +127,6 @@ void chooseNextTrack() {
     Serial.print("  next-maxFadeIn:");
     Serial.println(nextTune.maxFadeIn);
   }
-
-  // set the amount of time we are going to mix from one tune to the other
-  nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
-
 }
 
 void setNextTune(int genre, int track) {
