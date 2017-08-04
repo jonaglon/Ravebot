@@ -6,12 +6,14 @@ void playRandomTune() {
 }
 
 void playRandomTune(int genre) {
-  int newTrackNumber = 0;
-  //do
-    newTrackNumber = random(numberOfTunesInGenre(genre));
-  //while (newTrackNumber == currentTrack);  
+  int track = 0;
+
+  do {
+    // pick next track
+    track = random(numberOfTunesInGenre(genre));
+  } while (playedTuneHistoryContainsTrack(genre, track));
   
-  playTune(genre, newTrackNumber, true);
+  playTune(genre, track, true);
 }
 
 void playTune(int genre, int track, bool alterHistory) {

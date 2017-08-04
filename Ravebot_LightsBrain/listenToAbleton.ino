@@ -87,19 +87,19 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForQuantisationStart() {
-  if (currentBar == calculateMixStart()) {
+  if ((currentBar + 1) == calculateMixStart()) {
     sendQuantisationOn();
   }
 }
 
 void checkForQuantisationEnd() {
-  if (currentBar == (calculateMixStart() + 1)) {
+  if (currentBar == calculateMixStart()) {
     sendQuantisationOff();
   }
 }
 
 void checkForMixStart() {
-  if (currentBar == calculateMixStart()) {
+  if ((currentBar + 1) == calculateMixStart()) {
     if (nextMixDuration == 0) {
       playTune(nextGenre, nextTrack, true);
     } else {
@@ -109,22 +109,18 @@ void checkForMixStart() {
 }
 
 void checkForMixEnd() {
-  // pick a new song if a mix has ended
-  if ((currentBar + 1) > (calculateMixStart() + nextMixDuration))
+  if ((currentBar + 1) == (calculateMixStart() + nextMixDuration))
   {
-    if (testMode) {
-      Serial.println("Ending mix");
-    }
     endMixAndPickNewTune();
   }
 }
 
 void checkForDropCountdownStart() {
   if (currentBar+4 ==  currentTune.drop)
-    dropCountdown = 64;
+    dropCountdown = 16;
   
   if (currentBar+2 ==  currentTune.drop)
-    dropCountdown = 32;
+    dropCountdown = 8;
 }
 
 void setBeatTimes() { // TODO - I suspect this doesnt work

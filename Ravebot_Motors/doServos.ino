@@ -28,24 +28,38 @@ void initServos() {
 }
 
 void doServos() {
-  
+  /*
   // Nod
   if(ps2.readButton(PS2_UP)==0)
     moveServo(0, servos[0].servoSpeed);
   else if(ps2.readButton(PS2_DOWN)==0)
     moveServo(0, -servos[0].servoSpeed);
 
-  // Nod
-  /*if(ps2.readButton(PS2_LEFT)==0)
-    doServo(1);
-  else if(ps2.readButton(PS2_RIGHT)==0)
-    doServo(1);*/
-
   // Neck
   if(ps2.readButton(PS2_LEFT)==0)
-    moveServo(2, servos[2].servoSpeed);
+    moveServo(1, servos[2].servoSpeed);
   else if(ps2.readButton(PS2_RIGHT)==0)
-    moveServo(2, -servos[2].servoSpeed);
+    moveServo(1, -servos[2].servoSpeed);   */
+
+  if(ps2.readButton(PS2_LEFT)==0)
+    moveServo(12, servos[2].servoSpeed);
+  else if(ps2.readButton(PS2_RIGHT)==0)
+    moveServo(12, -servos[2].servoSpeed);
+
+  if(ps2.readButton(PS2_UP)==0)
+    moveServo(13, servos[2].servoSpeed);
+  else if(ps2.readButton(PS2_DOWN)==0)
+    moveServo(13, -servos[2].servoSpeed);
+
+  if(ps2.readButton(PS2_TRIANGLE)==0)
+    moveServo(14, servos[2].servoSpeed);
+  else if(ps2.readButton(PS2_CROSS)==0)
+    moveServo(14, -servos[2].servoSpeed);
+
+  if(ps2.readButton(PS2_SQUARE)==0)
+    moveServo(15, servos[2].servoSpeed);
+  else if(ps2.readButton(PS2_CIRCLE)==0)
+    moveServo(15, -servos[2].servoSpeed);
 
 }
 

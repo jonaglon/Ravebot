@@ -95,30 +95,32 @@ int calculateMixStart() {
 
 void chooseNextTrack() {
   bool nextTrackPicked = false;
+  int genre, track;
 
   while (!nextTrackPicked) {
 
     // Pick next genre
     if (!stayWithinGenre)
-      nextGenre = random(8);
+      genre = random(8);
     else
-      nextGenre = currentGenre;
+      genre = currentGenre;
 
     // pick next track
-    nextTrack = random(numberOfTunesInGenre(nextGenre));
+    track = random(numberOfTunesInGenre(genre));
+
     // check it's not in the last 10 tunes played
-    for (int x = 0; x < 9; x++) {
-      if ((last10Genres[x] == nextGenre) && (last10Tracks[x] == nextTrack))
-        continue;
-    }
-    
+    if (playedTuneHistoryContainsTrack(genre, track))
+      continue;
+
+    setNextTune(genre, track);
+
     if (nextTune.maxFadeIn < currentTune.minFadeOut)         
       continue;
 
+  
     nextTrackPicked = true;    
   }
   
-  setNextTune(nextGenre, nextTrack);
   nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
 
   if (testMode) {
@@ -129,7 +131,20 @@ void chooseNextTrack() {
   }
 }
 
+bool playedTuneHistoryContainsTrack(int genre, int track) {
+  bool trackExistsInHistory = false;
+  for (int x = 0; x < 9; x++) {
+    if ((last10Genres[x] == genre) && (last10Tracks[x] == track)) {
+      trackExistsInHistory = true;
+      break;
+    }
+  }
+  return trackExistsInHistory;
+}
+
 void setNextTune(int genre, int track) {
+  nextGenre = genre;
+  nextTrack = track;
   if (genre == 0)
     nextTune = tuneLibRave[track];
   else if (genre == 1)
