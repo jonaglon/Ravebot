@@ -4,7 +4,8 @@ void talkToLights() {
   
   receiveSerialFromLights();
 
-  checkButtonsSendInfoToLights();
+  // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // checkButtonsSendInfoToLights();
 }
 
 void receiveSerialFromLights() {

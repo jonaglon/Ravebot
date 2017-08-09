@@ -1,21 +1,21 @@
 
 servoInfo servos[16] = {
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},  // HDKJS3150D settings
-  {   0, 360, 6, 180},  // Hand servo settings
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210},
-  {   0, 420, 6, 210}
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},  // HDKJS3150D settings
+  {   0, 360, 4, 180},  // Hand servo settings
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210},
+  {   0, 420, 4, 210}
 };
 
 // called from init, set all servos to their initial position
@@ -40,6 +40,18 @@ void doServos() {
     moveServo(1, servos[2].servoSpeed);
   else if(ps2.readButton(PS2_RIGHT)==0)
     moveServo(1, -servos[2].servoSpeed);   */
+
+// PS2_RIGHT_1
+
+  if(ps2.readButton(PS2_RIGHT_1)==0)
+    moveServo(6, servos[2].servoSpeed);
+  else if(ps2.readButton(PS2_RIGHT_2)==0)
+    moveServo(6, -servos[2].servoSpeed);
+
+  if(ps2.readButton(PS2_LEFT_1)==0)
+    moveServo(7, servos[2].servoSpeed);
+  else if(ps2.readButton(PS2_LEFT_2)==0)
+    moveServo(7, -servos[2].servoSpeed);
 
   if(ps2.readButton(PS2_LEFT)==0)
     moveServo(12, servos[2].servoSpeed);
