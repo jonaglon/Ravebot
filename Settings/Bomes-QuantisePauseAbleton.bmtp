@@ -1,0 +1,19 @@
+[Project]
+Version=1
+
+[Preset.0]
+Name=(always active)
+Active=1
+Name0=PauseAbleton
+Incoming0=MID1BF7900
+Outgoing0=KAM10100KSQ10004010020220210
+Options0=Actv01Stop00OutO00
+Name1=QuantiseOff
+Incoming1=MID1B0787F
+Outgoing1=KAM10100KSQ10004011030230211
+Options1=Actv01Stop00OutO00
+Name2=Quantise1Bar
+Incoming2=MID1B0797F
+Outgoing2=KAM10100KSQ10004011039239211
+Options2=Actv01Stop00OutO00
+

@@ -109,8 +109,9 @@ void chooseNextTrack() {
     track = random(numberOfTunesInGenre(genre));
 
     // check it's not in the last 10 tunes played
-    if (playedTuneHistoryContainsTrack(genre, track))
-      continue;
+    // TODO - put this back
+    //if (playedTuneHistoryContainsTrack(genre, track))
+    //  continue;
 
     setNextTune(genre, track);
 
