@@ -44,34 +44,34 @@ void doServos() {
 // PS2_RIGHT_1
 
   if(ps2.readButton(PS2_RIGHT_1)==0)
-    moveServo(6, servos[2].servoSpeed);
+    moveServo(0, servos[2].servoSpeed);
   else if(ps2.readButton(PS2_RIGHT_2)==0)
-    moveServo(6, -servos[2].servoSpeed);
+    moveServo(0, -servos[2].servoSpeed);
 
   if(ps2.readButton(PS2_LEFT_1)==0)
-    moveServo(7, servos[2].servoSpeed);
+    moveServo(1, servos[2].servoSpeed);
   else if(ps2.readButton(PS2_LEFT_2)==0)
-    moveServo(7, -servos[2].servoSpeed);
+    moveServo(1, -servos[2].servoSpeed);
 
   if(ps2.readButton(PS2_LEFT)==0)
-    moveServo(12, servos[2].servoSpeed);
+    moveServo(2, servos[2].servoSpeed);
   else if(ps2.readButton(PS2_RIGHT)==0)
-    moveServo(12, -servos[2].servoSpeed);
+    moveServo(2, -servos[2].servoSpeed);
 
   if(ps2.readButton(PS2_UP)==0)
-    moveServo(13, servos[2].servoSpeed);
+    moveServo(3, servos[2].servoSpeed);
   else if(ps2.readButton(PS2_DOWN)==0)
-    moveServo(13, -servos[2].servoSpeed);
+    moveServo(3, -servos[2].servoSpeed);
 
   if(ps2.readButton(PS2_TRIANGLE)==0)
-    moveServo(14, servos[2].servoSpeed);
+    moveServo(4, servos[2].servoSpeed);
   else if(ps2.readButton(PS2_CROSS)==0)
-    moveServo(14, -servos[2].servoSpeed);
+    moveServo(4, -servos[2].servoSpeed);
 
   if(ps2.readButton(PS2_SQUARE)==0)
-    moveServo(15, servos[2].servoSpeed);
+    moveServo(5, servos[2].servoSpeed);
   else if(ps2.readButton(PS2_CIRCLE)==0)
-    moveServo(15, -servos[2].servoSpeed);
+    moveServo(5, -servos[2].servoSpeed);
 
 }
 

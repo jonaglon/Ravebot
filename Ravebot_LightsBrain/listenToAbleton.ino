@@ -99,7 +99,7 @@ void checkForQuantisationEnd() {
 }
 
 void checkForMixStart() {
-  if ((currentBar + 1) == calculateMixStart()) {
+  if ((currentBar) == calculateMixStart()) {
     if (nextMixDuration == 0) {
       playTune(nextGenre, nextTrack, true);
     } else {
@@ -109,7 +109,7 @@ void checkForMixStart() {
 }
 
 void checkForMixEnd() {
-  if ((currentBar + 1) == (calculateMixStart() + nextMixDuration))
+  if ((currentBar + 0) == (calculateMixStart() + nextMixDuration))
   {
     endMixAndPickNewTune();
   }

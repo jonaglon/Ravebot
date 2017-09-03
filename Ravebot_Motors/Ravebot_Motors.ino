@@ -25,7 +25,7 @@ SabertoothSimplified ST(SabretoothSerial); // Use SoftwareSerial as the serial p
 
 Cytron_PS2Shield ps2(10,11);
 
-// 7 segment led setup
+// 7 segmehnt led setup
 Adafruit_LEDBackpack matrix = Adafruit_LEDBackpack();
 
 // PCA9685 Led driver for arcade buttons
@@ -88,7 +88,7 @@ void setup() {
   pinMode(switchPins[4], INPUT_PULLUP);       
   pinMode(switchPins[5], INPUT_PULLUP);       
   pinMode(switchPins[6], INPUT_PULLUP);       
-  pinMode(switchPins[7], INPUT_PULLUP);       
+  pinMode(switchPins[7], INPUT_PULLUP);        
   pinMode(switchPins[8], INPUT_PULLUP);       
   pinMode(switchPins[9], INPUT_PULLUP); 
   pinMode(switchPins[10], INPUT_PULLUP); 
