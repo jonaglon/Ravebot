@@ -94,12 +94,22 @@ struct tuneInfo {
 };
  
 // Genre 0, RAVE!
-tuneInfo tuneLibRave[4] = {
-  {149,128, 16, 4,  0, 4, 4},  // TripToTheMoonPt2-Acen
-  {136, 40, 16, 4,  0, 4, 4},  // Bombscare-2BadMice
-  {126,  0, 16, 4,  0, 4, 4},  // LFO-LFO  
-  {132,  0, 16, 4,  0, 4, 4},  // Infiltrate202-Altern8 
-
+tuneInfo tuneLibRave[14] = {
+  {149,128, 16,  4,  0, 4, 4},  // TripToTheMoonPt2-Acen
+  {136, 40, 16,  4,  0, 4, 4},  // Bombscare-2BadMice
+  {126,  0, 16,  4,  0, 4, 4},  // LFO-LFO  
+  {132,  0, 16,  4,  0, 4, 4},  // Infiltrate202-Altern8 
+  {122,  0, 16, 4,  0, 4, 4},  // DirtyCash-SoldOutMix
+  {122,  0, 16, 4,  0, 4, 4},  // Break4Love-Raze
+  {126,  0, 16, 4,  0, 4, 4},  // IsThereAnybodyOutThere-Bassheads
+  {128,  0, 16, 4,  0, 4, 4},  // PacificState-808State
+  {150,  0, 16, 4,  0, 4, 4},  // OutOfSpace-Prodigy
+  {124,  0, 16, 4,  0, 4, 4},  // WhatCanYouDoForMe-UtahSaints
+  {132,  0, 16, 4,  0, 4, 4},  // Breathe-Prodigy
+  {138,  0, 16, 4,  0, 4,  4},  // SmackMyBitchUp-Prodigy
+  {128,  0, 16, 4,  0, 4,  4},  // BreakOfDawn-RhythmOnTheLoose
+  {132,  0, 16, 4,  0, 4, 4},  // BlueMonday-NewOrder  
+  
   /*{149,128, 144, 16,  0, 16, 16},  // TripToTheMoonPt2-Acen
   {136, 40, 112, 16,  0, 16, 16},  // Bombscare-2BadMice
   {126,  0, 136,  8,  0, 16,  0},  // LFO-LFO  
@@ -117,7 +127,7 @@ tuneInfo tuneLibRave[4] = {
 };
 
 // Genre 1, Disco
-    tuneInfo tuneLibDisco[14] = {
+tuneInfo tuneLibDisco[14] = {
   {125,  0, 102,  8,  0,  8,  8},  // ILoveTheNightlife - Alecia Bridges
   {110,  0, 152,  8,  4, 16,  0},  // LastNightADjSavedMyLife-Indeep
   {134,  0, 149,  8,  0, 16,  4},  // LayAllYourLoveOnMe-Abba
@@ -163,8 +173,6 @@ tuneInfo tuneLibRockAndPop[11] = {
   {122, 38, 100,  4,  0,  8,  8},  // StuckInTheMiddle-SteelersWheel
   {164,  0, 135,  8,  0,  8,  6},  // Martha&Muffins Echo Beach
   {199,  0, 111,  0,  0,  0,  0},  // DreamingOfYou-TheCoral
-
-  
   { 99,  0,  58,  0,  4,  4,  0},  // BlisterInTheSun-VoilentFemmes
   {114,  0,  96,  0,  4,  4,  0},  // ALittleRespect-Erasure  
 };
@@ -173,18 +181,18 @@ tuneInfo tuneLibRockAndPop[11] = {
 
 // Genre 4, Easy
 tuneInfo tuneLibEasy[12] = {
-  {122,  0, 142,  0,  4,  4,  0}, // BackToMyRoots - RichieHavens
-  {104,  0,  59,  0,  4,  4,  0}, // Think - Aretha
-  {100,  0, 181,  0,  4,  4,  0}, // As - Wonder
-  {174,  0, 150,  4,  4,  4,  0}, // Roady - FatFreddyNextmen
-  {132,  0,  88,  0,  4,  4,  0}, // Beggin - FrankieValli
-  { 98,  0,  72,  0,  4,  4,  0}, // IGotAWoman - RayCharles 
-  {156,  0, 140,  4,  4,  4,  0}, // MilkAndHoney-PrinceFatty
-  {126,  0, 123,  0,  4,  4,  0}, // BackToBlack - Amy 
-  {132,  0, 166,  0,  4,  4,  0}, // MasterBlaster-StevieWonder
-  {109,  0, 113,  0,  4,  4,  0}, // AllNightLong - LionelRichie
-  { 96,  0,  96,  0,  4,  4,  0}, // INeedADollar-AloeBlacc     
-  {122,  0, 120,  4,  4,  4,  0}, // GotToGiveItUp-MarvinGaye
+  {122,  0, 142,  0,  4,  4,  0},  // BackToMyRoots - RichieHavens
+  {104,  0,  59,  0,  4,  4,  0},  // Think - Aretha
+  {100,  0, 181,  0,  4,  4,  0},  // As - Wonder
+  {174,  0, 150,  4,  4,  4,  0},  // Roady - FatFreddyNextmen
+  {132,  0,  88,  0,  4,  4,  0},  // Beggin - FrankieValli
+  { 98,  0,  72,  0,  4,  4,  0},  // IGotAWoman - RayCharles 
+  {156,  0, 140,  4,  4,  4,  0},  // MilkAndHoney-PrinceFatty
+  {126,  0, 123,  0,  4,  4,  0},  // BackToBlack - Amy 
+  {132,  0, 166,  0,  4,  4,  0},  // MasterBlaster-StevieWonder
+  {109,  0, 113,  0,  4,  4,  0},  // AllNightLong - LionelRichie
+  { 96,  0,  96,  0,  4,  4,  0},  // INeedADollar-AloeBlacc     
+  {122,  0, 120,  4,  4,  4,  0},  // GotToGiveItUp-MarvinGaye
 };
 
 // Genre 5, Dance

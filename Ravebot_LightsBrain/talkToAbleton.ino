@@ -2,6 +2,7 @@ bool newBeat=false;
 
 void playRandomTune() {
  currentGenre = random(8);
+ 
  playRandomTune(currentGenre);
 }
 

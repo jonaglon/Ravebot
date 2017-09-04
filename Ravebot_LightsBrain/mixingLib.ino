@@ -104,24 +104,22 @@ void chooseNextTrack() {
       genre = random(8);
     else
       genre = currentGenre;
-
+ 
     // pick next track
     track = random(numberOfTunesInGenre(genre));
 
     // check it's not in the last 10 tunes played
-    // TODO - put this back
-    //if (playedTuneHistoryContainsTrack(genre, track))
-    //  continue;
+    if (playedTuneHistoryContainsTrack(genre, track))
+      continue;
 
     setNextTune(genre, track);
 
     if (nextTune.maxFadeIn < currentTune.minFadeOut)         
       continue;
-
   
     nextTrackPicked = true;    
   }
-  
+
   nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
 
   if (testMode) {
@@ -132,7 +130,7 @@ void chooseNextTrack() {
   }
 }
 
-bool playedTuneHistoryContainsTrack(int genre, int track) {
+bool playedTuneHistoryContainsTrack(int genre, int track) {  // TODO - il because this never returns false for rave genre sometimes
   bool trackExistsInHistory = false;
   for (int x = 0; x < 9; x++) {
     if ((last10Genres[x] == genre) && (last10Tracks[x] == track)) {

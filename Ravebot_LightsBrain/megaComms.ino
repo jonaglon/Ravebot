@@ -45,9 +45,13 @@ void doSomethingWithPackageFromMega(int package) {
 
 void arcadeButtonPressed(int buttonNumber) {
 
+  // TODO 
+  Serial.println("1");
+  
   // Genre arcade button pressed
   if (buttonNumber < 8) {
     stayWithinGenre = true;
+    Serial.println("1b");
     playRandomTune(buttonNumber);
   }
 
@@ -63,16 +67,14 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Vol down button
   if (buttonNumber == 10) {
-    //mainVolume = mainVolume - 8;
-    //setMainVolume(mainVolume);
-    sendQuantisationOff();
+    mainVolume = mainVolume - 8;
+    setMainVolume(mainVolume);
   }
 
   // Vol up button
   if (buttonNumber == 11) {
-    //mainVolume = mainVolume + 8;
-    //setMainVolume(mainVolume);
-    sendQuantisationOn();
+    mainVolume = mainVolume + 8;
+    setMainVolume(mainVolume);
   }
 
   // Previous tune
