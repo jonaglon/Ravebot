@@ -95,7 +95,7 @@ struct tuneInfo {
  
 // Genre 0, RAVE!
 tuneInfo tuneLibRave[14] = {
-  {149,128, 16,  4,  0, 4, 4},  // TripToTheMoonPt2-Acen
+  /*{149,128, 16,  4,  0, 4, 4},  // TripToTheMoonPt2-Acen
   {136, 40, 16,  4,  0, 4, 4},  // Bombscare-2BadMice
   {126,  0, 16,  4,  0, 4, 4},  // LFO-LFO  
   {132,  0, 16,  4,  0, 4, 4},  // Infiltrate202-Altern8 
@@ -108,9 +108,9 @@ tuneInfo tuneLibRave[14] = {
   {132,  0, 16, 4,  0, 4, 4},  // Breathe-Prodigy
   {138,  0, 16, 4,  0, 4,  4},  // SmackMyBitchUp-Prodigy
   {128,  0, 16, 4,  0, 4,  4},  // BreakOfDawn-RhythmOnTheLoose
-  {132,  0, 16, 4,  0, 4, 4},  // BlueMonday-NewOrder  
+  {132,  0, 16, 4,  0, 4, 4},  // BlueMonday-NewOrder  */
   
-  /*{149,128, 144, 16,  0, 16, 16},  // TripToTheMoonPt2-Acen
+  {149,128, 144, 16,  0, 16, 16},  // TripToTheMoonPt2-Acen
   {136, 40, 112, 16,  0, 16, 16},  // Bombscare-2BadMice
   {126,  0, 136,  8,  0, 16,  0},  // LFO-LFO  
   {132,  0, 136, 16,  0, 16, 16},  // Infiltrate202-Altern8 
@@ -123,7 +123,7 @@ tuneInfo tuneLibRave[14] = {
   {132,  0, 162, 16,  0, 16, 16},  // Breathe-Prodigy
   {138,  0, 165, 16,  0, 16,  4},  // SmackMyBitchUp-Prodigy
   {128,  0, 124,  8,  0,  8,  0},  // BreakOfDawn-RhythmOnTheLoose
-  {132,  0, 116, 16,  0, 16, 16},  // BlueMonday-NewOrder  */
+  {132,  0, 116, 16,  0, 16, 16},  // BlueMonday-NewOrder
 };
 
 // Genre 1, Disco
