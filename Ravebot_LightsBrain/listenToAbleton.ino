@@ -65,7 +65,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
     
     if (sixteenBeats % 4 == 0) {
       // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
-      currentBar++; // = currentBar+3;
+      currentBar++;
       mixCurrentBar++;
       setBeatTimes();
       checkForDropCountdownStart();
@@ -78,8 +78,9 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
         Serial.print("  NextTuneBpm:");
         Serial.println(nextTune.bpm);
       }
-    } if (sixteenBeats % 4 == 1) {
+    } else if (sixteenBeats % 4 == 1) {
       checkForQuantisationStart();
+      checkForQuantisationEnd();
     } else if (sixteenBeats % 4 == 2) {
       checkForMixStart();
     }         
@@ -87,13 +88,13 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForQuantisationStart() {
-  if ((currentBar + 1) == calculateMixStart()) {
+  if (currentBar == calculateMixStart()) {
     sendQuantisationOn();
   }
 }
 
 void checkForQuantisationEnd() {
-  if (currentBar == calculateMixStart()) {
+  if (currentBar == calculateMixStart()+1) {
     sendQuantisationOff();
   }
 }
@@ -109,7 +110,7 @@ void checkForMixStart() {
 }
 
 void checkForMixEnd() {
-  if ((currentBar + 0) == (calculateMixStart() + nextMixDuration))
+  if (currentBar == (calculateMixStart() + nextMixDuration + 1))
   {
     endMixAndPickNewTune();
   }

@@ -21,7 +21,7 @@ void doMixing() {
 float getPercentThroughMix() {
   float percentThroughMix = 0.0;
 
-  int mixStart = calculateMixStart();
+  int mixStart = calculateMixStart()+1;
   int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
 
   if (nextMixDuration < 9)
