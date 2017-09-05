@@ -18,8 +18,9 @@ void playRandomTune(int genre) {
 }
 
 void playTune(int genre, int track, bool alterHistory) {
+  sendFullStop();
+  stopAllAbletonClips(); 
 
-  //sendQuantisationOff();
   if (alterHistory)
     updateGenreAndTrackHistory(genre, track);
 
@@ -29,14 +30,9 @@ void playTune(int genre, int track, bool alterHistory) {
   
   setCurrentTune(genre, track);
   
-  // send stuff to ableton to start the new track  
-  stopAllAbletonClips(); 
   setAbletonTempo(currentTune.bpm);
   setCrossfader(0);
   deckASelected = true;
-  playAbletonTrack(genre, track, true);
-  start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
-  abletonPaused=false;
 
   // change the current track in this program
   sixteenBeats = 0;
@@ -53,6 +49,12 @@ void playTune(int genre, int track, bool alterHistory) {
 
   // tell the other arduino what you're doing
   sendSerialToMega(2,(genre*100)+track);
+
+  // send stuff to ableton to start the new track  
+  delay(200);
+  playAbletonTrack(genre, track, true);
+  start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
+  abletonPaused=false;
  
   chooseNextTrack();
 
@@ -98,7 +100,7 @@ void pauseAbleton() { // Uses Bomes to send shift space
   sendMidi(176, 124, 127);
 }
 
-void sendFullStop() { // Uses Bomes to send ctrl-0
+void sendFullStop() {
   sendMidi(176, 120, 127);
 }
 
@@ -107,7 +109,7 @@ void sendQuantisationOn() { // Uses Bomes to send ctrl-9
 }
 
 void stopAllAbletonClips() {
-  sendMidi(176, 121, 127);
+  sendMidi(176, 125, 127);
 }
 
 void start16BeatAbletonTrack() {
