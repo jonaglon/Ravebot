@@ -19,7 +19,7 @@ void playRandomTune(int genre) {
 
 void playTune(int genre, int track, bool alterHistory) {
 
-  sendQuantisationOff();
+  //sendQuantisationOff();
   if (alterHistory)
     updateGenreAndTrackHistory(genre, track);
 
@@ -30,7 +30,7 @@ void playTune(int genre, int track, bool alterHistory) {
   setCurrentTune(genre, track);
   
   // send stuff to ableton to start the new track  
-  stopAllAbletonTracks(); 
+  stopAllAbletonClips(); 
   setAbletonTempo(currentTune.bpm);
   setCrossfader(0);
   deckASelected = true;
@@ -98,16 +98,16 @@ void pauseAbleton() { // Uses Bomes to send shift space
   sendMidi(176, 124, 127);
 }
 
-void sendQuantisationOff() { // Uses Bomes to send ctrl-0
+void sendFullStop() { // Uses Bomes to send ctrl-0
   sendMidi(176, 120, 127);
 }
 
 void sendQuantisationOn() { // Uses Bomes to send ctrl-9
-  sendMidi(176, 121, 127);
+  // sendMidi(176, 121, 127);
 }
 
-void stopAllAbletonTracks() {
-  sendMidi(176, 125, 127);
+void stopAllAbletonClips() {
+  sendMidi(176, 121, 127);
 }
 
 void start16BeatAbletonTrack() {

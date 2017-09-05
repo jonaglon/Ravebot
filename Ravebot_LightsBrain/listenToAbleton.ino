@@ -69,7 +69,6 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       mixCurrentBar++;
       setBeatTimes();
       checkForDropCountdownStart();
-      checkForMixEnd();
       if (testMode) {
         Serial.print("New bar: ");
         Serial.println(currentBar);
@@ -80,7 +79,8 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       }
     } else if (sixteenBeats % 4 == 1) {
       checkForQuantisationStart();
-      checkForQuantisationEnd();
+      //checkForQuantisationEnd();
+      checkForMixEnd();
     } else if (sixteenBeats % 4 == 2) {
       checkForMixStart();
     }         
@@ -93,11 +93,11 @@ void checkForQuantisationStart() {
   }
 }
 
-void checkForQuantisationEnd() {
+/*void checkForQuantisationEnd() {
   if (currentBar == calculateMixStart()+1) {
     sendQuantisationOff();
   }
-}
+}*/
 
 void checkForMixStart() {
   if ((currentBar) == calculateMixStart()) {
@@ -124,7 +124,7 @@ void checkForDropCountdownStart() {
     dropCountdown = 8;
 }
 
-void setBeatTimes() { // TODO - I suspect this doesnt work
+void setBeatTimes() {
 
   for (int x = 0; x < 9; x++)
     beatTimes[x+1] = beatTimes[x];

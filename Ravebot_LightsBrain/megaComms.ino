@@ -38,20 +38,16 @@ void doSomethingWithPackageFromMega(int package) {
   else if (function == 4)
   {
     // specific track was chosen on the keypad, play the track
-    // stayWithinGenre = false;
-    // playTune((message / 100), (message % 100));
+    //stayWithinGenre = false;
+    //playTune((message / 100), (message % 100));
   }
 }
 
 void arcadeButtonPressed(int buttonNumber) {
 
-  // TODO 
-  Serial.println("1");
-  
   // Genre arcade button pressed
   if (buttonNumber < 8) {
     stayWithinGenre = true;
-    Serial.println("1b");
     playRandomTune(buttonNumber);
   }
 
@@ -79,7 +75,8 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Previous tune
   if (buttonNumber == 12) {    
-    playPreviousTrack();
+    //playPreviousTrack();
+    sendFullStop();
   }
 
   // Play button

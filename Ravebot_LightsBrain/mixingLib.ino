@@ -33,8 +33,7 @@ float getPercentThroughMix() {
   else if (beatsIntoMix > (nextMixDuration * 4) - 16)
     return (((float)(beatsIntoMix - ((nextMixDuration * 4) - 16)) / 16.0) * 0.5) + 0.5;
   else
-    return 0.5;
-  
+    return 0.5; 
 }
 
 void startNewMix() {
@@ -130,7 +129,7 @@ void chooseNextTrack() {
   }
 }
 
-bool playedTuneHistoryContainsTrack(int genre, int track) {  // TODO - il because this never returns false for rave genre sometimes
+bool playedTuneHistoryContainsTrack(int genre, int track) {
   bool trackExistsInHistory = false;
   for (int x = 0; x < 9; x++) {
     if ((last10Genres[x] == genre) && (last10Tracks[x] == track)) {
