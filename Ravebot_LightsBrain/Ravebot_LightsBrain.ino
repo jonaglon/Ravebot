@@ -94,7 +94,7 @@ struct tuneInfo {
 };
  
 // Genre 0, RAVE!
-tuneInfo tuneLibRave[14] = {
+tuneInfo tuneLibRave[13] = {
   /*{149,128, 16,  4,  0, 4, 4},  // TripToTheMoonPt2-Acen
   {136, 40, 16,  4,  0, 4, 4},  // Bombscare-2BadMice
   {126,  0, 16,  4,  0, 4, 4},  // LFO-LFO  
@@ -104,7 +104,6 @@ tuneInfo tuneLibRave[14] = {
   {126,  0, 16, 4,  0, 4, 4},  // IsThereAnybodyOutThere-Bassheads
   {128,  0, 16, 4,  0, 4, 4},  // PacificState-808State
   {150,  0, 16, 4,  0, 4, 4},  // OutOfSpace-Prodigy
-  {124,  0, 16, 4,  0, 4, 4},  // WhatCanYouDoForMe-UtahSaints
   {132,  0, 16, 4,  0, 4, 4},  // Breathe-Prodigy
   {138,  0, 16, 4,  0, 4,  4},  // SmackMyBitchUp-Prodigy
   {128,  0, 16, 4,  0, 4,  4},  // BreakOfDawn-RhythmOnTheLoose
@@ -113,15 +112,14 @@ tuneInfo tuneLibRave[14] = {
   {149,128, 144, 16,  0, 16, 16},  // TripToTheMoonPt2-Acen
   {136, 40, 112, 16,  0, 16, 16},  // Bombscare-2BadMice
   {126,  0, 136,  8,  0, 16,  0},  // LFO-LFO  
-  {132,  0, 136, 16,  0, 16, 16},  // Infiltrate202-Altern8 
+  {132,  0, 136,  8,  0, 16, 16},  // Infiltrate202-Altern8 
   {122,  0, 118, 16,  0, 16, 16},  // DirtyCash-SoldOutMix
   {122,  0, 108,  8,  8, 16,  0},  // Break4Love-Raze
   {126,  0,  96,  8,  0, 16, 12},  // IsThereAnybodyOutThere-Bassheads
   {128,  0,  80,  8,  4,  8,  0},  // PacificState-808State
   {150,  0, 155,  0,  0, 16, 16},  // OutOfSpace-Prodigy
-  {124,  0, 168, 16,  0, 16,  0},  // WhatCanYouDoForMe-UtahSaints
   {132,  0, 162, 16,  0, 16, 16},  // Breathe-Prodigy
-  {138,  0, 165, 16,  0, 16,  4},  // SmackMyBitchUp-Prodigy
+  {138,  0, 148, 16,  0, 16,  4},  // SmackMyBitchUp-Prodigy
   {128,  0, 124,  8,  0,  8,  0},  // BreakOfDawn-RhythmOnTheLoose
   {132,  0, 116, 16,  0, 16, 16},  // BlueMonday-NewOrder
 };
