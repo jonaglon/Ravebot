@@ -23,15 +23,9 @@ void playTune(int genre, int track, bool alterHistory) {
 
   if (alterHistory)
     updateGenreAndTrackHistory(genre, track);
-
   currentGenre = genre % 8;
-
-  track = (track % numberOfTunesInGenre(genre));
-  
+  track = (track % numberOfTunesInGenre(genre));  
   setCurrentTune(genre, track);
-  
-  setAbletonTempo(currentTune.bpm);
-  setCrossfader(0);
   deckASelected = true;
 
   // change the current track in this program
@@ -46,6 +40,10 @@ void playTune(int genre, int track, bool alterHistory) {
      Serial.println(track);
   }      
   currentlyMixing=false;
+
+  // Send new bpm and 
+  setAbletonTempo(currentTune.bpm);
+  setCrossfader(0);
 
   // tell the other arduino what you're doing
   sendSerialToMega(2,(genre*100)+track);

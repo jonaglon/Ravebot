@@ -101,11 +101,11 @@ void checkForQuantisationStart() {
 
 void checkForMixStart() {
   if ((currentBar) == calculateMixStart()) {
-    if (nextMixDuration == 0) {
-      playTune(nextGenre, nextTrack, true);
-    } else {
+    //if (nextMixDuration == 0) {
+    //  playTune(nextGenre, nextTrack, true);    TODO were you right to remove this??!
+    //} else {
       startNewMix();
-    }
+    //}
   }
 }
 
