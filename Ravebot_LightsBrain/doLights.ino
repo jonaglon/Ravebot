@@ -9,16 +9,33 @@ void doLights() {
   //beatLights();
 
   //doTalkingLights();
+
+  int x = 880;
   
-  /*setLedDirect(12, 255, 0, 0, 0);
-  setLedDirect(13, 0, 255, 0, 0);
-  setLedDirect(14, 0, 0, 255, 0);
-  setLedDirect(15, 0, 0, 0, 255);   */
+  setLedDirect(x + 0, 255, 0, 0, 0);
+  setLedDirect(x + 1, 255, 0, 0, 0);
+  setLedDirect(x + 2, 255, 0, 0, 0);
+  setLedDirect(x + 3, 255, 0, 0, 0);
+  
+  setLedDirect(x + 4, 0, 255, 0, 0);
+  setLedDirect(x + 5, 0, 255, 0, 0);
+  setLedDirect(x + 6, 0, 255, 0, 0);
+  setLedDirect(x + 7, 0, 255, 0, 0);
+  
+  setLedDirect(x + 8, 0, 0, 255, 0);
+  setLedDirect(x + 9, 0, 0, 255, 0);
+  setLedDirect(x +10, 0, 0, 255, 0);
+  setLedDirect(x +11, 0, 0, 255, 0);
+  
+  setLedDirect(x +12, 0, 0, 0, 255);
+  setLedDirect(x +13, 0, 0, 0, 255);
+  setLedDirect(x +14, 0, 0, 0, 255);
+  setLedDirect(x +15, 0, 0, 0, 255);
 
   //rgbwRainbow(10);
 
   //rgbwSnake();
-  bassBinRainbow(5);
+  //bassBinRainbow(20);
   LEDS.show();
 
 }
@@ -27,7 +44,7 @@ void bassBinRainbow(int speedFactor) {
   unsigned long thisFrame = (timey / speedFactor);
   
   for (int pixNum = 0; pixNum < numLeds; pixNum++) {
-    SetRgbwWheel(pixNum, (thisFrame + (pixNum * 2)) % 255, 0);
+    SetRgbwWheel(pixNum, (thisFrame + (pixNum / 8)) % 255, 0);
   }
 
 }

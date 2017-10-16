@@ -199,7 +199,7 @@ void sweepTestRainbow(int speedFactor) {
   }
 }
 
-
+/*
 void doTapePattern(int speedFactor) {
   int animSteps = 224;
 
@@ -213,7 +213,7 @@ void doTapePattern(int speedFactor) {
     SetRgbwWheelSet(tapePattern[(ticky+i+112)%animSteps][0], tapePattern[(ticky+i+112)%animSteps][1], (i+160) % animSteps, 0);
     SetRgbwWheelSet(tapePattern[(ticky+i+168)%animSteps][0], tapePattern[(ticky+i+168)%animSteps][1], (i+240) % animSteps, 0);
   } 
-}
+}  */
 
 void rgbwRainbow(int speedFactor) {
 
@@ -241,6 +241,7 @@ void SetRgbwWheel(int pixNum, byte WheelPos, short whiteVal) {
   return;
 }
 
+/*
 void SetRgbwWheelSet(int ledSet, int pixNum, byte WheelPos, short whiteVal) {
   WheelPos = 255 - WheelPos;
   if(WheelPos < 85) {
@@ -272,7 +273,7 @@ void rgbwSnake() {
 
 void solidHeadColors() {
 
-  /*for(int j = 0; j < numLedsSet[0]; j++) {
+  for(int j = 0; j < numLedsSet[0]; j++) {
     setLedBySet(0, j, 255, 0, 255, 0);
   }
 
@@ -306,11 +307,11 @@ void solidHeadColors() {
 
   for(int j = 0; j < numLedsSet[8]; j++) {
     setLedBySet(8, j, 0, 0, 0, 255);
-  }*/
+  }
   for(int j = 0; j < numLedsSet[8]; j++) {
     setLedBySet(8, j, 255, 0, 0, 0);
   }  
-}
+}     */
 
 /* 0  - RGB   Left Eye Outer  84
  * 1  - RGBW  Left Eye Inner  11
@@ -350,67 +351,29 @@ void setLed(int ledNum, int rVal, int gVal, int bVal, int wVal) {
 }
 
 void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
-  if (true) 
-  {
-    setRgbwLedNoGhettoHead(ledNum, rVal, gVal, bVal, wVal);
-  }
-  else 
-  {
-    setLedDirectGhettoHead(ledNum, rVal, gVal, bVal, wVal);
-  }  
-}
-
-void setLedDirectGhettoHead(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (ledNum < 0)
     return;
   
-  if (ledNum < 84)
+  if (ledNum < 882)
+    setRgbwLed(ledNum, rVal, gVal, bVal, wVal);
+  else if (ledNum < 966)
   {
-    rgbwLeds[ledNum].r = gVal;
-    rgbwLeds[ledNum].g = rVal;
-    rgbwLeds[ledNum].b = bVal;
+    rgbwLeds[ledNum+295].b = rVal;
+    rgbwLeds[ledNum+295].g = gVal;
+    rgbwLeds[ledNum+296].r = bVal;
   }
-  else if (ledNum < 113)
-    setRgbwLedGhettoHead(ledNum-21, rVal, gVal, bVal, wVal);
-  else if (ledNum < 197)
+  else if (ledNum < 1200)
+    setRgbwLed(ledNum-42, rVal, gVal, bVal, wVal);
+  else if (ledNum < 1966)
   {
     rgbwLeds[ledNum+10].r = rVal;
     rgbwLeds[ledNum+10].g = bVal;
     rgbwLeds[ledNum+9].b = gVal;    
   }
-  else
-    setRgbwLedGhettoHead(ledNum-42, rVal, gVal, bVal, wVal);
                                      
 }
 
-void setRgbwLedNoGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
-  int newNumber = (ledNumber * 4) / 3;
-  short mod = ledNumber % 3;
-
-  if (mod == 0)
-  {
-    rgbwLeds[newNumber].r = gVal;
-    rgbwLeds[newNumber].g = rVal;
-    rgbwLeds[newNumber].b = bVal;
-    rgbwLeds[newNumber+1].r =wVal;
-  }
-  else if (mod == 1)
-  {
-    rgbwLeds[newNumber].g = gVal;
-    rgbwLeds[newNumber].b = rVal;
-    rgbwLeds[newNumber+1].r =bVal;
-    rgbwLeds[newNumber+1].g =wVal;
-  }
-  else 
-  {
-    rgbwLeds[newNumber].b = gVal;
-    rgbwLeds[newNumber+1].r =rVal;
-    rgbwLeds[newNumber+1].g =bVal;
-    rgbwLeds[newNumber+1].b =wVal;
-  }
-}
-
-void setRgbwLedGhettoHead(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
+void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
   int newNumber = (ledNumber * 4) / 3;
   short mod = ledNumber % 3;
 

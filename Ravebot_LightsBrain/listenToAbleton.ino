@@ -78,8 +78,6 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
         Serial.println(nextTune.bpm);
       }
     } else if (sixteenBeats % 4 == 1) {
-      checkForQuantisationStart();
-      //checkForQuantisationEnd();
       checkForMixEnd();
     } else if (sixteenBeats % 4 == 2) {
       checkForMixStart();
@@ -102,7 +100,7 @@ void checkForQuantisationStart() {
 void checkForMixStart() {
   if ((currentBar) == calculateMixStart()) {
     //if (nextMixDuration == 0) {
-    //  playTune(nextGenre, nextTrack, true);    TODO were you right to remove this??!
+    //  playTune(nextGenre, nextTrack, true);    TODO were you right to remove this??! No. TODO, put back later
     //} else {
       startNewMix();
     //}
