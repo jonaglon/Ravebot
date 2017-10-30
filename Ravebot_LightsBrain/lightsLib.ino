@@ -106,6 +106,23 @@ int numLedsSet[9] = {84, 11, 18, 84, 11, 34, 4, 24, 120};
 
 void OLDOLDOLDOLD_doRgbwLights()
 {
+
+
+  //allOn();
+  //rgbwRainbow(20);
+
+  //lightsInTime();
+
+  //beatLights();
+
+  //doTalkingLights();
+
+
+  //rgbwRainbow(1);
+
+  //rgbwSnake();
+  //bassBinRainbow(20);
+  
   //rgbwSnake();
 
   //rgbwRainbow(10);
@@ -256,7 +273,7 @@ void SetRgbwWheelSet(int ledSet, int pixNum, byte WheelPos, short whiteVal) {
   WheelPos -= 170;
   setLedBySet(ledSet, pixNum, WheelPos * 3, 255 - WheelPos * 3, 0, whiteVal);
   return;
-}
+}  */
 
 int test=0;
 void rgbwSnake() {
@@ -268,6 +285,89 @@ void rgbwSnake() {
   test++;
 }
 
+
+
+void bassBinRainbow(int speedFactor) {
+  unsigned long thisFrame = (timey / speedFactor);
+  
+  for (int pixNum = 0; pixNum < numLeds; pixNum++) {
+    SetRgbwWheel(pixNum, (thisFrame + (pixNum / 8)) % 255, 0);
+  }
+
+}
+
+
+
+
+void lightsInTime() {
+
+  //int thisFrame = sixteenth % 4;
+
+  /*for (int pixNum = 0; pixNum < 95; pixNum++) {
+    if (rightEyeQuartAnim[thisFrame][pixNum]) {
+      if (currentBar % 4 == 0) {
+        setLedDirect(pixNum, 255, 255, 255, 255);
+      } else if (currentBar % 4 == 1) {
+        setLedDirect(pixNum, 255, 0, 0, 0);
+      } else if (currentBar % 4 == 2) {
+        setLedDirect(pixNum, 0, 255, 0, 0);
+      } else if (currentBar % 4 == 3) { 
+        setLedDirect(pixNum, 0, 0, 255, 0);
+      };
+    }
+  }*/
+  
+  /*if (dropCountdown == 0)
+    LEDS.setBrightness(64);
+  else 
+    LEDS.setBrightness(dropCountdown*4);*/
+}
+
+void beatLights() {
+
+  if (timey - beatTimes[0] < 255) {
+    int ledValue = (beatTimes[0] + 255)-timey;
+    setLedDirect(dropCountdown+114, 0, ledValue, 0, 0);
+  }
+  
+}
+
+
+
+
+void doTalkingLights() {
+
+  if (robotTalking) {
+    setLedBySet(2, 8, 255, 60, 60, 100);
+    setLedBySet(2, 9, 255, 60, 60, 100);
+    
+    if (timey > (robotTalkingOnTime + 40)) {
+      setLedBySet(2, 7, 255, 60, 60, 100);
+      setLedBySet(2, 10, 255, 60, 60, 100);
+    }
+    
+    if (timey > (robotTalkingOnTime + 80)) {
+      setLedBySet(2, 6, 255, 60, 60, 100);
+      setLedBySet(2, 11, 255, 60, 60, 100);
+    }
+    
+    if (timey > (robotTalkingOnTime + 110)) {
+      setLedBySet(2, 5, 255, 60, 60, 100);
+      setLedBySet(2, 12, 255, 60, 60, 100);
+    }
+    
+    if (timey > (robotTalkingOnTime + 135)) {
+      setLedBySet(2, 4, 255, 60, 60, 100);
+      setLedBySet(2, 13, 255, 60, 60, 100);
+    }
+    
+    if (timey > (robotTalkingOnTime + 150)) {
+      setLedBySet(2, 3, 255, 60, 60, 100);
+      setLedBySet(2, 14, 255, 60, 60, 100);
+    }
+    
+  }
+}
 
 
 
@@ -311,7 +411,7 @@ void solidHeadColors() {
   for(int j = 0; j < numLedsSet[8]; j++) {
     setLedBySet(8, j, 255, 0, 0, 0);
   }  
-}     */
+}   
 
 /* 0  - RGB   Left Eye Outer  84
  * 1  - RGBW  Left Eye Inner  11
@@ -348,56 +448,6 @@ void setLedBySet(int ledSet, int ledNum, int rVal, int gVal, int bVal, int wVal)
 
 void setLed(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   setLedDirect(ledNum, rVal, gVal, bVal, wVal);
-}
-
-void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
-  if (ledNum < 0)
-    return;
-  
-  if (ledNum < 882)
-    setRgbwLed(ledNum, rVal, gVal, bVal, wVal);
-  else if (ledNum < 966)
-  {
-    rgbwLeds[ledNum+295].b = rVal;
-    rgbwLeds[ledNum+295].g = gVal;
-    rgbwLeds[ledNum+296].r = bVal;
-  }
-  else if (ledNum < 1200)
-    setRgbwLed(ledNum-42, rVal, gVal, bVal, wVal);
-  else if (ledNum < 1966)
-  {
-    rgbwLeds[ledNum+10].r = rVal;
-    rgbwLeds[ledNum+10].g = bVal;
-    rgbwLeds[ledNum+9].b = gVal;    
-  }
-                                     
-}
-
-void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
-  int newNumber = (ledNumber * 4) / 3;
-  short mod = ledNumber % 3;
-
-  if (mod == 0)
-  {
-    rgbwLeds[newNumber].r = gVal;
-    rgbwLeds[newNumber].g = rVal;
-    rgbwLeds[newNumber].b = bVal;
-    rgbwLeds[newNumber+1].r =wVal;
-  }
-  else if (mod == 1)
-  {
-    rgbwLeds[newNumber].g = gVal;
-    rgbwLeds[newNumber].b = rVal;
-    rgbwLeds[newNumber+1].r =bVal;
-    rgbwLeds[newNumber+1].g =wVal;
-  }
-  else 
-  {
-    rgbwLeds[newNumber].b = gVal;
-    rgbwLeds[newNumber+1].r =rVal;
-    rgbwLeds[newNumber+1].g =bVal;
-    rgbwLeds[newNumber+1].b =wVal;
-  }
 }
 
 

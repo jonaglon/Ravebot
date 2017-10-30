@@ -30,7 +30,7 @@ int dropCountdown = 0;
 bool robotTalking = false;
 unsigned long robotTalkingOnTime;
 
-const int numLeds = 1420;
+const int numLeds = 2420; // 484 * 5
 const int numLedsAdj = (numLeds * 4) / 3;
 CRGB rgbwLeds[numLedsAdj];
 
@@ -55,17 +55,17 @@ void setup() {
   // Talk to Ableton using midi over USB, or debug.
   Serial.begin(9600);
 
-  // Listen to the other arduino
+  // Communicate with the Mega
   Serial2.begin(57600);
   // Talk to the other arduino
-  Serial3.begin(9600);
+  //Serial3.begin(9600);
 
-  // Make random more random?!
+  // Make random more random
   randomSeed(analogRead(0));
 
-  pinMode(12, OUTPUT); // rgb LED Setup
-  LEDS.addLeds<WS2812B, 12>(rgbwLeds, numLedsAdj);
-  LEDS.setBrightness(50); // 255 max
+  //pinMode(12, OUTPUT); // rgb LED Setup
+  LEDS.addLeds<WS2811_PORTD, 5>(rgbwLeds, 484); // Hardcoded to ports:25,26,27,28,14,15
+  LEDS.setBrightness(30); // 255 max
 
   setMainVolume(mainVolume);
 }

@@ -4,7 +4,7 @@ void talkToLights() {
   
   receiveSerialFromLights();
 
-  // TODO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  // TODO!!!!!!!!!!!!!!
   // checkButtonsSendInfoToLights();
 }
 
@@ -46,7 +46,7 @@ void checkButtonsSendInfoToLights() {
   {
     ps2Right1On = true;
     sendSerialToLights(1, 0);
-  }  
+  }
   if (ps2Right1On && ps2.readButton(PS2_RIGHT_1)==1)
   {
     ps2Right1On = false;
@@ -57,7 +57,7 @@ void checkButtonsSendInfoToLights() {
   {
     ps2Right2On = true;
     sendSerialToLights(3, 0);
-  }  
+  }
   if (ps2Right2On && ps2.readButton(PS2_RIGHT_2)==1)
   {
     ps2Right2On = false;

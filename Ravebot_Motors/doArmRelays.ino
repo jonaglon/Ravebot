@@ -1,10 +1,9 @@
-
 int lastPosL = 0;
 int lastPosR = 0;
 
 void doArmRelays() {
 
-  if (ps2.readButton(PS2_TRIANGLE)==0) {
+  if (ps2.readButton(PS2_RIGHT_1)==0) {
     if (lastPosL==2) {
       digitalWrite(28,HIGH);
       digitalWrite(26,HIGH);
@@ -12,7 +11,7 @@ void doArmRelays() {
     }
     digitalWrite(28,LOW);
     lastPosL=1;
-  } else if (ps2.readButton(PS2_CROSS)==0) {
+  } else if (ps2.readButton(PS2_RIGHT_2)==0) {
     if (lastPosL==1) {
       digitalWrite(28,HIGH);
       digitalWrite(26,HIGH);
@@ -26,7 +25,7 @@ void doArmRelays() {
     lastPosL=3;
   }
 
-  if (ps2.readButton(PS2_CIRCLE)==0) {
+  if (ps2.readButton(PS2_LEFT_1)==0) {
     if (lastPosR==2) {
       digitalWrite(24,HIGH);
       digitalWrite(22,HIGH);
@@ -34,7 +33,7 @@ void doArmRelays() {
     }
     digitalWrite(24,LOW);
     lastPosR=1;
-  } else if (ps2.readButton(PS2_SQUARE)==0) {
+  } else if (ps2.readButton(PS2_LEFT_2)==0) {
     if (lastPosR==1) {
       digitalWrite(24,HIGH);
       digitalWrite(22,HIGH);
@@ -47,7 +46,5 @@ void doArmRelays() {
     digitalWrite(22,HIGH);
     lastPosR=3;
   }
-
-
 }
 

@@ -78,7 +78,7 @@ void showNumber() {
 
 short get7SegmentNumber(short actualNumber) {
   switch (actualNumber) {
-     case 0: return 63;
+     case 0: return 63;   // JR TODO - you can just change these until you find ones you wanty
      case 1: return 6;
      case 2: return 91;
      case 3: return 79;

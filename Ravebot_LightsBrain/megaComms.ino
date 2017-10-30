@@ -126,7 +126,7 @@ void sendSerialToMega(int function, int message) {
   int value = (function * 1000) + message;
   
   itoa(value, str, 10); //Turn value into a character array
-  Serial3.write(str, 4);
+  Serial2.write(str, 4);
 
 }
 
