@@ -1,11 +1,17 @@
 int lastDropCountdown;
 
 void doLights() {
+  allOff();
 
-  int x = 1;
+  int x = 0;
+
+  /*for(int j = 0; j < 200; j++) {
+    setLedDirect(j, 0, 255, 0, 0);
+  }
+  */
   
   setLedDirect(x + 0, 255, 0, 0, 0);
-/*setLedDirect(x + 1, 255, 0, 0, 0);
+  setLedDirect(x + 1, 255, 0, 0, 0);
   setLedDirect(x + 2, 255, 0, 0, 0);
   setLedDirect(x + 3, 255, 0, 0, 0);
   
@@ -22,7 +28,9 @@ void doLights() {
   setLedDirect(x +12, 0, 0, 0, 255);
   setLedDirect(x +13, 0, 0, 0, 255);
   setLedDirect(x +14, 0, 0, 0, 255);
-  setLedDirect(x +15, 0, 0, 0, 255);*/
+  setLedDirect(x +15, 0, 0, 0, 255);
+
+
 
   LEDS.show();
 }
@@ -65,17 +73,26 @@ void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
   }
   else if (mod == 1)
   {
-    rgbwLeds[newNumber].g = wVal;
+    rgbwLeds[newNumber].r = gVal;
     rgbwLeds[newNumber].b = rVal;
-    rgbwLeds[newNumber+1].r =bVal;
-    rgbwLeds[newNumber+1].g =gVal;
+    rgbwLeds[newNumber+1].r =wVal;
+    rgbwLeds[newNumber+1].g =bVal;
   }
   else 
   {
     rgbwLeds[newNumber].b = gVal;
-    rgbwLeds[newNumber+1].r =rVal;
-    rgbwLeds[newNumber+1].g =bVal;
+    rgbwLeds[newNumber+1].r =bVal;
+    rgbwLeds[newNumber+1].g =rVal;
     rgbwLeds[newNumber+1].b =wVal;
   }
 }
+
+void allOff() {
+  for(int j = 0; j < numLeds; j++) {
+    setLedDirect(j, 0, 0, 0, 0);
+  }
+}
+
+
+
 

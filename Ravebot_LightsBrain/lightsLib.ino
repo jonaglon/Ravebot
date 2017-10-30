@@ -457,12 +457,5 @@ void allOn() {
   }
 }
 
-void allOff() {
-  for(int j = 0; j < numLeds; j++) {
-    setLedDirect(j, 0, 0, 0, 0);
-  }
-}
-
-
 
 
