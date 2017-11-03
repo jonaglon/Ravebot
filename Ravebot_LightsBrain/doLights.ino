@@ -1,21 +1,29 @@
-int lastDropCountdown;
 
 void doLights() {
+  
   allOff();
 
-  int x = 0;
-
-  /*for(int j = 0; j < 200; j++) {
-    setLedDirect(j, 0, 255, 0, 0);
+  for(int j = 0; j < 78; j++) {
+    setRgbwLed(j, 0, 0, 80, 0);
   }
-  */
   
-  setLedDirect(x + 0, 255, 0, 0, 0);
-  setLedDirect(x + 1, 255, 0, 0, 0);
-  setLedDirect(x + 2, 255, 0, 0, 0);
-  setLedDirect(x + 3, 255, 0, 0, 0);
-  
+  int x = 500;
+  /*for(int j = 0; j < 10; j++) {
+    setRgbwLed(j+x, 0, 50, 0, 0);
+  }*/
+
+  setLedDirect(x + 0, 0, 255, 0, 0);
+  setLedDirect(x + 1, 0, 255, 0, 0);
+  setLedDirect(x + 2, 0, 255, 0, 0);
+  setLedDirect(x + 3, 0, 255, 0, 0);
   setLedDirect(x + 4, 0, 255, 0, 0);
+  setLedDirect(x + 5, 0, 255, 0, 0);
+  setLedDirect(x + 6, 0, 255, 0, 0);
+  setLedDirect(x + 7, 0, 255, 0, 0);
+  setLedDirect(x + 8, 0, 255, 0, 0);
+  setLedDirect(x + 9, 0, 255, 0, 0);
+  
+  /* setLedDirect(x + 4, 0, 255, 0, 0);
   setLedDirect(x + 5, 0, 255, 0, 0);
   setLedDirect(x + 6, 0, 255, 0, 0);
   setLedDirect(x + 7, 0, 255, 0, 0);
@@ -28,9 +36,7 @@ void doLights() {
   setLedDirect(x +12, 0, 0, 0, 255);
   setLedDirect(x +13, 0, 0, 0, 255);
   setLedDirect(x +14, 0, 0, 0, 255);
-  setLedDirect(x +15, 0, 0, 0, 255);
-
-
+  setLedDirect(x +15, 0, 0, 0, 255); */
 
   LEDS.show();
 }
@@ -39,7 +45,18 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (ledNum < 0)
     return;
 
-  setRgbwLed(ledNum, rVal, gVal, bVal, wVal);
+  if (ledNum < 203) // Big bottom ring
+    setRgbwLed(ledNum, rVal, gVal, bVal, wVal);
+  else if (ledNum < 463) // Body hearts
+    setRgbwLed(ledNum+166, rVal, gVal, bVal, wVal);
+  else if (ledNum < 507) // Left arm
+    setRgbwLed(ledNum+268, rVal, gVal, bVal, wVal);
+  else if (ledNum < 9999) // Eyes!
+  {    
+    rgbwLeds[ledNum+528].r = bVal;
+    rgbwLeds[ledNum+528].g = rVal;
+    rgbwLeds[ledNum+529].r = gVal;
+  }
   
   /*if (ledNum < 882)
     setRgbwLed(ledNum, rVal, gVal, bVal, wVal);
@@ -89,7 +106,7 @@ void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
 
 void allOff() {
   for(int j = 0; j < numLeds; j++) {
-    setLedDirect(j, 0, 0, 0, 0);
+    setRgbwLed(j, 0, 0, 0, 0);
   }
 }
 
