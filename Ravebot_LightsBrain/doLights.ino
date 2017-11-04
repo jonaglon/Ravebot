@@ -1,19 +1,13 @@
 
 void doLights() {
   
-  allOff();
+  //allOff();
   //everySingleLight();
-  //everySingleLightRed();
+  everySingleLightRed2();
   //sweepTestRainbowTorso(50);
 
-  /*for(int j = 0; j < 8; j++) {
-    setRgbwLed(j, 80, 18, 20, 5);
-  }*/
-  
-  int x = 690;
-  for(int j = 0; j < 10; j++) {
-    setRgbwLed(j+x, 0, 50, 0, 0);
-  }
+  int x = 0;
+
   setLedDirect(x + 0, 255, 0, 0, 0);
   setLedDirect(x + 1, 255, 0, 0, 0);
   setLedDirect(x + 2, 255, 0, 0, 0);
@@ -34,8 +28,6 @@ void doLights() {
   setLedDirect(x +14, 0, 0, 0, 255);
   setLedDirect(x +15, 0, 0, 0, 255);
 
-  //setLedDirect(695, 0, 255, 0, 0);
-
   LEDS.show();
 }
 
@@ -55,6 +47,19 @@ void everySingleLightRed() {
   rgbwLeds[start%2440].r = 255;
   start++;
 }
+void everySingleLightRed2() {
+  for(int j = 0; j < numLeds; j++) { // JR TODO - put num leds here
+    setLedDirect(j, 255, 0, 0, 0);
+  }
+}
+
+
+void allOff() {
+  for(int j = 0; j < numLeds; j++) { // JR TODO - put num leds here
+    setLedDirect(j, 0, 0, 0, 0);
+  }
+}
+
 
 void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (ledNum < 0)
@@ -73,50 +78,29 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     // Left arm
     setRgbwLed(ledNum+274, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 693) // Eyes!693
+  else if (ledNum < 693) 
   {  
+    // Eyes!693
     rgbwLeds[ledNum+535].b = gVal;
     rgbwLeds[ledNum+536].g = rVal;
     rgbwLeds[ledNum+536].r = bVal;
   }
-  else if (ledNum < 9999)
+  else if (ledNum < 822)
   {
-    //setRgbwLed(3, 80, 18, 20, 5);
+    // Rest of head and right arm
     setRgbwLedAfterEyes(ledNum+229, rVal, gVal, bVal, wVal);
-    //setRgbwLedAfterEyes(694, 0, 0, 255, 0);
   }
-  else
+  else if (ledNum < 1090)
   {
-    return;
+    // Body tubes
+    setRgbwLed(ledNum+371, rVal, gVal, bVal, wVal);
+  }
+  else if (ledNum < 1353)
+  {
+    // Body tubes
+    setRgbwLed(ledNum+374, rVal, gVal, bVal, wVal);
   }
                                      
-}
-
-void setRgbwLedAfterEyes(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
-  int newNumber = (ledNumber * 4) / 3;
-  short mod = ledNumber % 3;
-
-  if (mod == 0)
-  {
-    rgbwLeds[newNumber-1].b = rVal;
-    rgbwLeds[newNumber-1].r = gVal;
-    rgbwLeds[newNumber].g = bVal;
-    rgbwLeds[newNumber].r = wVal;
-  }
-  else if (mod == 1)
-  {
-    rgbwLeds[newNumber].g = rVal;
-    rgbwLeds[newNumber-1].b = gVal;
-    rgbwLeds[newNumber].r = bVal;
-    rgbwLeds[newNumber].b = wVal;
-  }
-  else 
-  {
-    rgbwLeds[newNumber].r = rVal;
-    rgbwLeds[newNumber].g = gVal;
-    rgbwLeds[newNumber].b = bVal;
-    rgbwLeds[newNumber+1].g = wVal;
-  }
 }
 
 void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
@@ -145,10 +129,31 @@ void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
     rgbwLeds[newNumber+1].b =wVal;
   }
 }
- 
-void allOff() {
-  for(int j = 0; j < numLeds; j++) { // JR TODO - put num leds here
-    setRgbwLed(j, 0, 0, 0, 0);
+
+void setRgbwLedAfterEyes(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
+  int newNumber = (ledNumber * 4) / 3;
+  short mod = ledNumber % 3;
+
+  if (mod == 0)
+  {
+    rgbwLeds[newNumber-1].b = rVal;
+    rgbwLeds[newNumber-1].r = gVal;
+    rgbwLeds[newNumber].g = bVal;
+    rgbwLeds[newNumber].r = wVal;
+  }
+  else if (mod == 1)
+  {
+    rgbwLeds[newNumber].g = rVal;
+    rgbwLeds[newNumber-1].b = gVal;
+    rgbwLeds[newNumber].r = bVal;
+    rgbwLeds[newNumber].b = wVal;
+  }
+  else 
+  {
+    rgbwLeds[newNumber].r = rVal;
+    rgbwLeds[newNumber].g = gVal;
+    rgbwLeds[newNumber].b = bVal;
+    rgbwLeds[newNumber+1].g = wVal;
   }
 }
 

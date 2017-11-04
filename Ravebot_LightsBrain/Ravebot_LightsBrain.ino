@@ -30,7 +30,7 @@ int dropCountdown = 0;
 bool robotTalking = false;
 unsigned long robotTalkingOnTime;
 
-const int numLeds = 1830;
+const int numLeds = 1353;
 CRGB rgbwLeds[2440]; // 488 * 5
 
 // MIXING VARS
