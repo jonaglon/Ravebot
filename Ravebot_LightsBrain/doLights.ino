@@ -3,10 +3,10 @@ void doLights() {
   
   //allOff();
   //everySingleLight();
-  everySingleLightRed2();
+  //everySingleLightRed2();
   //sweepTestRainbowTorso(50);
 
-  int x = 0;
+  int x = 1178;
 
   setLedDirect(x + 0, 255, 0, 0, 0);
   setLedDirect(x + 1, 255, 0, 0, 0);
@@ -90,15 +90,15 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     // Rest of head and right arm
     setRgbwLedAfterEyes(ledNum+229, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1090)
+  else if (ledNum < 1180)
   {
     // Body tubes
-    setRgbwLed(ledNum+371, rVal, gVal, bVal, wVal);
+    setRgbwLed(ledNum+281, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1353)
+  else if (ledNum < 1351)
   {
-    // Body tubes
-    setRgbwLed(ledNum+374, rVal, gVal, bVal, wVal);
+    // Bass holes!
+    setRgbwLed(ledNum+284, rVal, gVal, bVal, wVal);
   }
                                      
 }
