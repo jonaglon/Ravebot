@@ -1,8 +1,9 @@
 
 void doLights() {
   
-  //allOff();
+  allOff();
   //everySingleLight();
+  everySingleLightRed();
   //sweepTestRainbowTorso(50);
 
   /*for(int j = 0; j < 8; j++) {
@@ -44,20 +45,16 @@ int start=1;
 void everySingleLight() {
   int ledNumber = (start / 3) % 3000;
   short mod = ledNumber % 3;
-
   if (mod == 0)
-  {
     rgbwLeds[ledNumber].r = 255;
-  }
   else if (mod == 1)
-  {
     rgbwLeds[ledNumber].g = 255;
-  }
   else 
-  {
     rgbwLeds[ledNumber].b = 255;
-  }
-  //delay(10);
+  start++;
+}
+void everySingleLightRed() {
+  rgbwLeds[start%2440].r = 255;
   start++;
 }
 
