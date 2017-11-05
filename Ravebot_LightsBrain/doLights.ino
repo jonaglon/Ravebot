@@ -6,9 +6,32 @@ void doLights() {
   
   //lightEyes(25, 25, 200, 10);
   
-  everySingleLight(200, 0, 0, 0);
+  //everySingleLight(200, 0, 0, 0);
 
   //sweepTestRainbowTorso(45);
+
+  int x = 1177;
+
+  setLedDirect(x + 0, 255, 0, 0, 0);
+  setLedDirect(x + 1, 255, 0, 0, 0);
+  setLedDirect(x + 2, 255, 0, 0, 0);
+  setLedDirect(x + 3, 255, 0, 0, 0);
+
+  setLedDirect(x + 4, 0, 255, 0, 0);
+  setLedDirect(x + 5, 0, 255, 0, 0);
+  setLedDirect(x + 6, 0, 255, 0, 0);
+  setLedDirect(x + 7, 0, 255, 0, 0);
+  
+  setLedDirect(x + 8, 0, 0, 255, 0);
+  setLedDirect(x + 9, 0, 0, 255, 0);
+  setLedDirect(x +10, 0, 0, 255, 0);
+  setLedDirect(x +11, 0, 0, 255, 0);
+  
+  setLedDirect(x +12, 0, 0, 0, 255);
+  setLedDirect(x +13, 0, 0, 0, 255);
+  setLedDirect(x +14, 0, 0, 0, 255);
+  setLedDirect(x +15, 0, 0, 0, 255);
+  
 
   LEDS.show();
 }
@@ -48,31 +71,31 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     // Body hearts
     setRgbwLed(ledNum+170, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 507) {
+  else if (ledNum < 506) {
     // Left arm
-    setRgbwLed(ledNum+274, rVal, gVal, bVal, wVal);
+    setRgbwLed(ledNum+275, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 693) 
+  else if (ledNum < 692) 
   {  
     // Eyes!693
-    rgbwLeds[ledNum+535].b = gVal % 256;
-    rgbwLeds[ledNum+536].g = rVal % 256;
-    rgbwLeds[ledNum+536].r = bVal % 256;
+    rgbwLeds[ledNum+536].b = gVal % 256;
+    rgbwLeds[ledNum+537].g = rVal % 256;
+    rgbwLeds[ledNum+537].r = bVal % 256;
   }
-  else if (ledNum < 822)
+  else if (ledNum < 821)
   {
     // Rest of head and right arm
-    setRgbwLedAfterEyes(ledNum+229, rVal, gVal, bVal, wVal);
+    setRgbwLedAfterEyes(ledNum+230, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1180)
+  else if (ledNum < 1179)
   {
     // Body tubes
-    setRgbwLed(ledNum+281, rVal, gVal, bVal, wVal);
+    setRgbwLed(ledNum+282, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1443)
+  else if (ledNum < 1442)
   {
     // Bass holes!
-    setRgbwLed(ledNum+284, rVal, gVal, bVal, wVal);
+    setRgbwLed(ledNum+285, rVal, gVal, bVal, wVal);
   }
                                      
 }
