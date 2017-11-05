@@ -2,13 +2,13 @@
 void doLights() {
 
   
-  allOff();
+  //allOff();
   
   //lightEyes(25, 25, 200, 10);
   
-  //everySingleLight(10, 150, 200, 60);
+  everySingleLight(200, 0, 0, 0);
 
-  sweepTestRainbowTorso(45);
+  //sweepTestRainbowTorso(45);
 
   LEDS.show();
 }
@@ -29,7 +29,6 @@ void allOff() {
   for(int j = 0; j < numLeds; j++) {
     setLedDirect(j, 0, 0, 0, 0);
   }
-  setLedDirect(3, 0, 0, 0, 0);
 }
 
 
