@@ -241,21 +241,6 @@ void rgbwRainbow(int speedFactor) {
   }
 }
 
-void SetRgbwWheel(int pixNum, byte WheelPos, short whiteVal) {
-  WheelPos = 255 - WheelPos;
-  if(WheelPos < 85) {
-    setLedDirect(pixNum, 255 - WheelPos * 3, 0, WheelPos * 3, whiteVal);
-    return;
-  }
-  if(WheelPos < 170) {
-    WheelPos -= 85;
-    setLedDirect(pixNum, 0, WheelPos * 3, 255 - WheelPos * 3, whiteVal);
-    return;
-  }
-  WheelPos -= 170;
-  setLedDirect(pixNum, WheelPos * 3, 255 - WheelPos * 3, 0, whiteVal);
-  return;
-}
 
 /*
 void SetRgbwWheelSet(int ledSet, int pixNum, byte WheelPos, short whiteVal) {
@@ -329,18 +314,6 @@ void beatLights() {
     setLedDirect(dropCountdown+114, 0, ledValue, 0, 0);
   }
   
-}
-
-
-void sweepTestRainbowTorso(int speedFactor) {
-  int j, pixNum;
-
-  int rainbowFactor = (timey / speedFactor) % 255;
-
-  // forward
-  for (pixNum = 0; pixNum < 900; pixNum++) {
-      SetRgbwWheel(pixNum, rainbowFactor, 100);
-  }
 }
 
 

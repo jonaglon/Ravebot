@@ -30,7 +30,7 @@ int dropCountdown = 0;
 bool robotTalking = false;
 unsigned long robotTalkingOnTime;
 
-const int numLeds = 1353;
+const int numLeds = 1443;
 CRGB rgbwLeds[2440]; // 488 * 5
 
 // MIXING VARS
@@ -64,7 +64,7 @@ void setup() {
 
   //pinMode(12, OUTPUT); // rgb LED Setup
   LEDS.addLeds<WS2811_PORTD, 5>(rgbwLeds, 488); // Hardcoded to ports:25,26,27,28,14,15
-  LEDS.setBrightness(30); // 255 max
+  LEDS.setBrightness(10); // 255 max
 
   setMainVolume(mainVolume);
 }

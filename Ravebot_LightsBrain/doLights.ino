@@ -1,69 +1,44 @@
 
 void doLights() {
-  
-  //allOff();
-  //everySingleLight();
-  //everySingleLightRed2();
-  //sweepTestRainbowTorso(50);
 
-  int x = 1178;
-
-  setLedDirect(x + 0, 255, 0, 0, 0);
-  setLedDirect(x + 1, 255, 0, 0, 0);
-  setLedDirect(x + 2, 255, 0, 0, 0);
-  setLedDirect(x + 3, 255, 0, 0, 0);
-
-  setLedDirect(x + 4, 0, 255, 0, 0);
-  setLedDirect(x + 5, 0, 255, 0, 0);
-  setLedDirect(x + 6, 0, 255, 0, 0);
-  setLedDirect(x + 7, 0, 255, 0, 0);
   
-  setLedDirect(x + 8, 0, 0, 255, 0);
-  setLedDirect(x + 9, 0, 0, 255, 0);
-  setLedDirect(x +10, 0, 0, 255, 0);
-  setLedDirect(x +11, 0, 0, 255, 0);
+  allOff();
   
-  setLedDirect(x +12, 0, 0, 0, 255);
-  setLedDirect(x +13, 0, 0, 0, 255);
-  setLedDirect(x +14, 0, 0, 0, 255);
-  setLedDirect(x +15, 0, 0, 0, 255);
+  //lightEyes(25, 25, 200, 10);
+  
+  //everySingleLight(10, 150, 200, 60);
+
+  sweepTestRainbowTorso(45);
 
   LEDS.show();
 }
 
-int start=1;
-void everySingleLight() {
-  int ledNumber = (start / 3) % 3000;
-  short mod = ledNumber % 3;
-  if (mod == 0)
-    rgbwLeds[ledNumber].r = 255;
-  else if (mod == 1)
-    rgbwLeds[ledNumber].g = 255;
-  else 
-    rgbwLeds[ledNumber].b = 255;
-  start++;
-}
-void everySingleLightRed() {
-  rgbwLeds[start%2440].r = 255;
-  start++;
-}
-void everySingleLightRed2() {
-  for(int j = 0; j < numLeds; j++) { // JR TODO - put num leds here
-    setLedDirect(j, 255, 0, 0, 0);
+void everySingleLight(int r, int g, int b, int w) {
+  for(int j = 0; j < numLeds; j++) { 
+    setLedDirect(j, r, g, b, w);
   }
 }
 
+void lightEyes(int r, int g, int b, int w) {
+  for(int j = 506; j < 693; j++) { 
+    setLedDirect(j, r, g, b, w);
+  }
+}
 
 void allOff() {
-  for(int j = 0; j < numLeds; j++) { // JR TODO - put num leds here
+  for(int j = 0; j < numLeds; j++) {
     setLedDirect(j, 0, 0, 0, 0);
   }
+  setLedDirect(3, 0, 0, 0, 0);
 }
 
 
 void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (ledNum < 0)
     return;
+
+  //if (ledNum == 506 || ledNum == 507)
+  //  return;
 
   if (ledNum < 203)
   {
@@ -81,9 +56,9 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   else if (ledNum < 693) 
   {  
     // Eyes!693
-    rgbwLeds[ledNum+535].b = gVal;
-    rgbwLeds[ledNum+536].g = rVal;
-    rgbwLeds[ledNum+536].r = bVal;
+    rgbwLeds[ledNum+535].b = gVal % 256;
+    rgbwLeds[ledNum+536].g = rVal % 256;
+    rgbwLeds[ledNum+536].r = bVal % 256;
   }
   else if (ledNum < 822)
   {
@@ -95,7 +70,7 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     // Body tubes
     setRgbwLed(ledNum+281, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1351)
+  else if (ledNum < 1443)
   {
     // Bass holes!
     setRgbwLed(ledNum+284, rVal, gVal, bVal, wVal);
@@ -109,24 +84,24 @@ void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
 
   if (mod == 0)
   {
-    rgbwLeds[newNumber].r = rVal;
-    rgbwLeds[newNumber].g = gVal;
-    rgbwLeds[newNumber].b = bVal;
-    rgbwLeds[newNumber+1].g =wVal;
+    rgbwLeds[newNumber].r = rVal % 256;
+    rgbwLeds[newNumber].g = gVal % 256;
+    rgbwLeds[newNumber].b = bVal % 256;
+    rgbwLeds[newNumber+1].g =wVal % 256;
   }
   else if (mod == 1)
   {
-    rgbwLeds[newNumber].r = gVal;
-    rgbwLeds[newNumber].b = rVal;
-    rgbwLeds[newNumber+1].r =wVal;
-    rgbwLeds[newNumber+1].g =bVal;
+    rgbwLeds[newNumber].r = gVal % 256;
+    rgbwLeds[newNumber].b = rVal % 256;
+    rgbwLeds[newNumber+1].r =wVal % 256;
+    rgbwLeds[newNumber+1].g =bVal % 256;
   }
   else 
   {
-    rgbwLeds[newNumber].b = gVal;
-    rgbwLeds[newNumber+1].r =bVal;
-    rgbwLeds[newNumber+1].g =rVal;
-    rgbwLeds[newNumber+1].b =wVal;
+    rgbwLeds[newNumber].b = gVal % 256;
+    rgbwLeds[newNumber+1].r =bVal % 256;
+    rgbwLeds[newNumber+1].g =rVal % 256;
+    rgbwLeds[newNumber+1].b =wVal % 256;
   }
 }
 
@@ -136,24 +111,24 @@ void setRgbwLedAfterEyes(int ledNumber, int rVal, int gVal, int bVal, int wVal) 
 
   if (mod == 0)
   {
-    rgbwLeds[newNumber-1].b = rVal;
-    rgbwLeds[newNumber-1].r = gVal;
-    rgbwLeds[newNumber].g = bVal;
-    rgbwLeds[newNumber].r = wVal;
+    rgbwLeds[newNumber-1].b = rVal % 256;
+    rgbwLeds[newNumber-1].r = gVal % 256;
+    rgbwLeds[newNumber].g = bVal % 256;
+    rgbwLeds[newNumber].r = wVal % 256;
   }
   else if (mod == 1)
   {
-    rgbwLeds[newNumber].g = rVal;
-    rgbwLeds[newNumber-1].b = gVal;
-    rgbwLeds[newNumber].r = bVal;
-    rgbwLeds[newNumber].b = wVal;
+    rgbwLeds[newNumber].g = rVal % 256;
+    rgbwLeds[newNumber-1].b = gVal % 256;
+    rgbwLeds[newNumber].r = bVal % 256;
+    rgbwLeds[newNumber].b = wVal % 256;
   }
   else 
   {
-    rgbwLeds[newNumber].r = rVal;
-    rgbwLeds[newNumber].g = gVal;
-    rgbwLeds[newNumber].b = bVal;
-    rgbwLeds[newNumber+1].g = wVal;
+    rgbwLeds[newNumber].r = rVal % 256;
+    rgbwLeds[newNumber].g = gVal % 256;
+    rgbwLeds[newNumber].b = bVal % 256;
+    rgbwLeds[newNumber+1].g = wVal % 256;
   }
 }
 
