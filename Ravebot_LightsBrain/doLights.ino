@@ -1,3 +1,4 @@
+int ledSections[19] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
 
 void doLights() {
   
@@ -7,32 +8,74 @@ void doLights() {
   
   //everySingleLight(200, 0, 0, 0);
 
-  sweepTestRainbowTorso(10);
+  sweepTestRainbowTorso(20);
 
   int x = 1177;
 
-  /*setLedDirect(x + 0, 255, 0, 0, 0);
-  setLedDirect(x + 1, 255, 0, 0, 0);
-  setLedDirect(x + 2, 255, 0, 0, 0);
-  setLedDirect(x + 3, 255, 0, 0, 0);
-
-  setLedDirect(x + 4, 0, 255, 0, 0);
-  setLedDirect(x + 5, 0, 255, 0, 0);
-  setLedDirect(x + 6, 0, 255, 0, 0);
-  setLedDirect(x + 7, 0, 255, 0, 0);
+  setSection(0, 0, 0, 0, 255);
+  setSection(1, 255, 0, 0, 0);
+  setSection(2, 0, 255, 0, 0);
+  setSection(3, 0, 0, 255, 0);
+  setSection(4, 0, 0, 0, 255);
   
-  setLedDirect(x + 8, 0, 0, 255, 0);
-  setLedDirect(x + 9, 0, 0, 255, 0);
-  setLedDirect(x +10, 0, 0, 255, 0);
-  setLedDirect(x +11, 0, 0, 255, 0);
+  setSection(5, 255, 0, 0, 0);
+  setSection(6, 0, 255, 0, 0);
+  setSection(7, 0, 0, 255, 0);
+  setSection(8, 0, 0, 0, 255);
   
-  setLedDirect(x +12, 0, 0, 0, 255);
-  setLedDirect(x +13, 0, 0, 0, 255);
-  setLedDirect(x +14, 0, 0, 0, 255);
-  setLedDirect(x +15, 0, 0, 0, 255);*/
+  setSection(9, 255, 0, 0, 0);
+  setSection(10, 0, 255, 0, 0);
+  setSection(11, 0, 0, 255, 0);
+  setSection(12, 0, 0, 0, 255);
+  
+  setSection(13, 255, 0, 0, 0);
+  setSection(14, 0, 255, 0, 0);
+  setSection(15, 0, 0, 255, 0);
+  setSection(16, 0, 0, 0, 255);
+  
+  setSection(17, 255, 0, 0, 0);
+  setSection(18, 0, 255, 0, 0);
   
 
   LEDS.show();
+}
+
+void setSection(int section, int r, int g, int b, int w) {
+  int from, to = 0;
+  
+  // bottom ring
+  // underarm left
+  // overarm left
+  // eye left 
+  // eye right
+  // mouth
+  // tape
+  // tuner
+  // indiciator
+  // overarm right
+  // underarm right
+  // big heart
+  // small heart
+  // tube topleft
+  // tube topright
+  // tube bottomleft
+  // tube bottomright
+  // port left
+  // port right
+  
+  if (section < 2) {
+    to = 202;
+  } else if  (section < 3) {
+    from = 203;
+    to = 463;
+  } else {
+    from = 464;
+    to = 700;
+  }
+  for(int j = from; j < to+1; j++) { 
+    setLedDirect(j, r, g, b, w);
+  }
+  
 }
 
 void everySingleLight(int r, int g, int b, int w) {
