@@ -1,18 +1,17 @@
 
 void doLights() {
-
   
-  //allOff();
+  allOff();
   
   //lightEyes(25, 25, 200, 10);
   
   //everySingleLight(200, 0, 0, 0);
 
-  //sweepTestRainbowTorso(45);
+  sweepTestRainbowTorso(10);
 
   int x = 1177;
 
-  setLedDirect(x + 0, 255, 0, 0, 0);
+  /*setLedDirect(x + 0, 255, 0, 0, 0);
   setLedDirect(x + 1, 255, 0, 0, 0);
   setLedDirect(x + 2, 255, 0, 0, 0);
   setLedDirect(x + 3, 255, 0, 0, 0);
@@ -30,7 +29,7 @@ void doLights() {
   setLedDirect(x +12, 0, 0, 0, 255);
   setLedDirect(x +13, 0, 0, 0, 255);
   setLedDirect(x +14, 0, 0, 0, 255);
-  setLedDirect(x +15, 0, 0, 0, 255);
+  setLedDirect(x +15, 0, 0, 0, 255);*/
   
 
   LEDS.show();
