@@ -1,4 +1,4 @@
-int ledSections[19] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+int ledSections[20] = {0,203,347,453,553,603,700,800,900,1000,1050,1100,1200,1250,1300,1325,1350,1375,1400,1441};
 
 void doLights() {
   
@@ -10,22 +10,20 @@ void doLights() {
 
   sweepTestRainbowTorso(20);
 
-  int x = 1177;
-
   setSection(0, 0, 0, 0, 255);
   setSection(1, 255, 0, 0, 0);
   setSection(2, 0, 255, 0, 0);
-  setSection(3, 0, 0, 255, 0);
+  //setSection(3, 0, 0, 255, 0);
   setSection(4, 0, 0, 0, 255);
   
   setSection(5, 255, 0, 0, 0);
-  setSection(6, 0, 255, 0, 0);
+  //setSection(6, 0, 255, 0, 0);
   setSection(7, 0, 0, 255, 0);
   setSection(8, 0, 0, 0, 255);
   
   setSection(9, 255, 0, 0, 0);
   setSection(10, 0, 255, 0, 0);
-  setSection(11, 0, 0, 255, 0);
+  //setSection(11, 0, 0, 255, 0);
   setSection(12, 0, 0, 0, 255);
   
   setSection(13, 255, 0, 0, 0);
@@ -33,15 +31,13 @@ void doLights() {
   setSection(15, 0, 0, 255, 0);
   setSection(16, 0, 0, 0, 255);
   
-  setSection(17, 255, 0, 0, 0);
-  setSection(18, 0, 255, 0, 0);
-  
+  setSection(17, 0, 255, 0, 0);
+  setSection(18, 0, 255, 0, 0); 
 
   LEDS.show();
 }
 
 void setSection(int section, int r, int g, int b, int w) {
-  int from, to = 0;
   
   // bottom ring
   // underarm left
@@ -63,19 +59,9 @@ void setSection(int section, int r, int g, int b, int w) {
   // port left
   // port right
   
-  if (section < 2) {
-    to = 202;
-  } else if  (section < 3) {
-    from = 203;
-    to = 463;
-  } else {
-    from = 464;
-    to = 700;
-  }
-  for(int j = from; j < to+1; j++) { 
+  for(int j = ledSections[section]; j < ledSections[section+1]+1; j++) { 
     setLedDirect(j, r, g, b, w);
   }
-  
 }
 
 void everySingleLight(int r, int g, int b, int w) {
