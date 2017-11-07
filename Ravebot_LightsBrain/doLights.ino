@@ -1,4 +1,25 @@
-int ledSections[20] = {0,203,347,453,553,603,700,800,900,1000,1050,1100,1200,1250,1300,1325,1350,1375,1400,1441};
+
+int ledSections[20] = {
+  0,     // 0  bottom ring
+  203,   // 1  big heart
+  348,   // 2  small heart
+  463,   // 3 underarm left
+  482,   // 4 overarm left
+  506,   // 5  eye left 
+  599,   // 6  eye right
+  692,   // 7  mouth
+  710,   // 8  tape
+  744,   // 9  indiciator
+  748,   // 10 tuner
+  773,   // 11 underarm right
+  797,   // 12 overarm right
+  821,   // 13 tube bottomright
+  911,   // 14 tube bottomleft
+  1001,  // 15 tube topleft
+  1090,  // 16 tube topright
+  1179,  // 17 port left
+  1302,  // 18 port right
+  1441};
 
 void doLights() {
   
@@ -13,17 +34,17 @@ void doLights() {
   setSection(0, 0, 0, 0, 255);
   setSection(1, 255, 0, 0, 0);
   setSection(2, 0, 255, 0, 0);
-  //setSection(3, 0, 0, 255, 0);
-  setSection(4, 0, 0, 0, 255);
+  setSection(3, 0, 0, 255, 0);
+  setSection(4, 0, 255, 0, 0);
   
   setSection(5, 255, 0, 0, 0);
-  //setSection(6, 0, 255, 0, 0);
+  setSection(6, 0, 255, 0, 0);
   setSection(7, 0, 0, 255, 0);
   setSection(8, 0, 0, 0, 255);
   
   setSection(9, 255, 0, 0, 0);
   setSection(10, 0, 255, 0, 0);
-  //setSection(11, 0, 0, 255, 0);
+  setSection(11, 0, 0, 255, 0);
   setSection(12, 0, 0, 0, 255);
   
   setSection(13, 255, 0, 0, 0);
@@ -31,34 +52,20 @@ void doLights() {
   setSection(15, 0, 0, 255, 0);
   setSection(16, 0, 0, 0, 255);
   
-  setSection(17, 0, 255, 0, 0);
-  setSection(18, 0, 255, 0, 0); 
+  setSection(17, 255, 0, 0, 0);
+  setSection(18, 0, 255, 0, 0);
+
+  drawMovingStripe(60, 300, 1, 10, 0, 100, 0, 0,  0);
+  drawMovingStripe(30, 150, 2, 50, 0, 0, 100,  0, 0);
+  drawMovingStripe(23, 300, 3, 10, 12, 0, 0,120,  0);
+  drawMovingStripe(12, 500, 2, 15, 12, 0, 80,30,  0);
+  drawMovingStripe(22, 700, 4, 20, 24, 20, 30,  80,0);
+  drawMovingStripe(40, 950, 3, 5, 24,  30, 80,  0,  0);   
 
   LEDS.show();
 }
 
 void setSection(int section, int r, int g, int b, int w) {
-  
-  // bottom ring
-  // underarm left
-  // overarm left
-  // eye left 
-  // eye right
-  // mouth
-  // tape
-  // tuner
-  // indiciator
-  // overarm right
-  // underarm right
-  // big heart
-  // small heart
-  // tube topleft
-  // tube topright
-  // tube bottomleft
-  // tube bottomright
-  // port left
-  // port right
-  
   for(int j = ledSections[section]; j < ledSections[section+1]+1; j++) { 
     setLedDirect(j, r, g, b, w);
   }
