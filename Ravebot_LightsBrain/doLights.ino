@@ -22,14 +22,17 @@ int ledSections[20] = {
   1441};
 
 void doLights() {
-  
+
   allOff();
+
+  //setLedDirect(7, 255 , 0, 0, 0);
   
   //lightEyes(25, 25, 200, 10);
   
   //everySingleLight(200, 0, 0, 0);
 
-  sweepTestRainbowTorso(20);
+  //sweepTestRainbowTorso(20);
+  sectionsInTime();
 
   setSection(0, 0, 0, 0, 255);
   setSection(1, 255, 0, 0, 0);
@@ -43,30 +46,70 @@ void doLights() {
   setSection(8, 0, 0, 0, 255);
   
   setSection(9, 255, 0, 0, 0);
-  setSection(10, 0, 255, 0, 0);
+  //setSection(10, 0, 255, 0, 0);
   setSection(11, 0, 0, 255, 0);
   setSection(12, 0, 0, 0, 255);
   
   setSection(13, 255, 0, 0, 0);
   setSection(14, 0, 255, 0, 0);
   setSection(15, 0, 0, 255, 0);
-  setSection(16, 0, 0, 0, 255);
+  //setSection(16, 0, 0, 0, 255);
   
   setSection(17, 255, 0, 0, 0);
   setSection(18, 0, 255, 0, 0);
+  
 
-  drawMovingStripe(60, 300, 1, 10, 0, 100, 0, 0,  0);
+  /*drawMovingStripe(60, 300, 1, 10, 0, 100, 0, 0,  0);
   drawMovingStripe(30, 150, 2, 50, 0, 0, 100,  0, 0);
   drawMovingStripe(23, 300, 3, 10, 12, 0, 0,120,  0);
   drawMovingStripe(12, 500, 2, 15, 12, 0, 80,30,  0);
   drawMovingStripe(22, 700, 4, 20, 24, 20, 30,  80,0);
-  drawMovingStripe(40, 950, 3, 5, 24,  30, 80,  0,  0);   
+  drawMovingStripe(40, 950, 3, 5, 24,  30, 80,  0,  0);*/
+
+  /*rgbwSnake(0, 10);   // crawling with ants!
+  rgbwSnake(100, 5);
+  rgbwSnake(200, 20);
+  rgbwSnake(300, 40);
+  rgbwSnake(400, 10);
+  rgbwSnake(500, 25);
+  rgbwSnake(600, 20);
+  rgbwSnake(700, 5);
+  rgbwSnake(800, 10);
+  rgbwSnake(900, 50);
+  rgbwSnake(1000, 20);
+  rgbwSnake(1100, 15);
+  rgbwSnake(1200, 10);*/
 
   LEDS.show();
 }
 
+void sectionsInTime() {
+  int beat4 = sixteenBeats % 4;  
+  if (beat4 == 0) {
+    setSection(13, 255, 0, 0, 0);
+    setSection(14, 0, 255, 0, 0);
+    setSection(15, 0, 0, 255, 0);
+    setSection(16, 0, 0, 0, 255);
+  } else if (beat4 == 1) {
+    setSection(14, 255, 0, 0, 0);
+    setSection(15, 0, 255, 0, 0);
+    setSection(16, 0, 0, 255, 0);
+    setSection(13, 0, 0, 0, 255);  
+  } else if (beat4 == 2) {
+    setSection(15, 255, 0, 0, 0);
+    setSection(16, 0, 255, 0, 0);
+    setSection(13, 0, 0, 255, 0);
+    setSection(14, 0, 0, 0, 255);  
+  } else if (beat4 == 3) {
+    setSection(16, 255, 0, 0, 0);
+    setSection(13, 0, 255, 0, 0);
+    setSection(14, 0, 0, 255, 0);
+    setSection(15, 0, 0, 0, 255);  
+  };
+}
+
 void setSection(int section, int r, int g, int b, int w) {
-  for(int j = ledSections[section]; j < ledSections[section+1]+1; j++) { 
+  for(int j = ledSections[section]; j < ledSections[section+1]; j++) { 
     setLedDirect(j, r, g, b, w);
   }
 }

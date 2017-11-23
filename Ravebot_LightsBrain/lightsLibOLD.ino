@@ -259,14 +259,21 @@ void SetRgbwWheelSet(int ledSet, int pixNum, byte WheelPos, short whiteVal) {
   return;
 }  */
 
-int test=0;
-void rgbwSnake() {
-  setLedDirect((test % numLeds) + 4, 40, 10, 10, 5);
-  setLedDirect((test % numLeds) + 3, 80, 10, 0, 50);
-  setLedDirect((test % numLeds) + 2, 80, 10, 0, 60);
-  setLedDirect((test % numLeds) + 1, 120, 10, 0, 50);
-  setLedDirect((test % numLeds) + 0, 0, 0, 0, 0);
-  test++;
+//int test=0;
+void rgbwSnake(int offSet, int speedFactor) {
+
+  int rainbowFactor = (timey / speedFactor);
+
+  /*setLedDirect((test % numLeds) + 4 + offSet, 255, 10, 10, 5);
+  setLedDirect((test % numLeds) + 3 + offSet, 80, 155, 0, 50);
+  setLedDirect((test % numLeds) + 2 + offSet, 80, 10, 255, 60);
+  setLedDirect((test % numLeds) + 1 + offSet, 120, 10, 0, 255);*/
+  setLedDirect((rainbowFactor + 4 + offSet) % numLeds, 0, 0, 0, 0);
+  setLedDirect((rainbowFactor + 3 + offSet) % numLeds, 0, 0, 0, 0);
+  setLedDirect((rainbowFactor + 2 + offSet) % numLeds, 0, 0, 0, 0);
+  setLedDirect((rainbowFactor + 1 + offSet) % numLeds, 0, 0, 0, 0);
+  setLedDirect((rainbowFactor + offSet) % numLeds, 0, 0, 0, 0);
+
 }
 
 

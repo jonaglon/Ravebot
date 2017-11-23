@@ -8,14 +8,13 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0;
-int ticky=0;
 
 unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
-int fakeBeatLengh = 240;
+int fakeBeatLengh = 500;
 
 // Set by midi in to be 1-16 with beat.
 short sixteenBeats = 0;
@@ -62,9 +61,8 @@ void setup() {
   // Make random more random
   randomSeed(analogRead(0));
 
-  //pinMode(12, OUTPUT); // rgb LED Setup
   LEDS.addLeds<WS2811_PORTD, 5>(rgbwLeds, 488); // Hardcoded to ports:25,26,27,28,14,15
-  LEDS.setBrightness(8); // 255 max
+  LEDS.setBrightness(20); // 255 max
 
   setMainVolume(mainVolume);
 }
