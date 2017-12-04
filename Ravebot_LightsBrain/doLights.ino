@@ -32,7 +32,6 @@ void doLights() {
   //everySingleLight(200, 0, 0, 0);
 
   //sweepTestRainbowTorso(20);
-  sectionsInTime();
 
   setSection(0, 0, 0, 0, 255);
   setSection(1, 255, 0, 0, 0);
@@ -46,18 +45,19 @@ void doLights() {
   setSection(8, 0, 0, 0, 255);
   
   setSection(9, 255, 0, 0, 0);
-  //setSection(10, 0, 255, 0, 0);
+  setSection(10, 0, 255, 0, 0);
   setSection(11, 0, 0, 255, 0);
   setSection(12, 0, 0, 0, 255);
   
   setSection(13, 255, 0, 0, 0);
   setSection(14, 0, 255, 0, 0);
   setSection(15, 0, 0, 255, 0);
-  //setSection(16, 0, 0, 0, 255);
+  setSection(16, 0, 0, 0, 255);
   
   setSection(17, 255, 0, 0, 0);
   setSection(18, 0, 255, 0, 0);
   
+  sectionsInTime();
 
   /*drawMovingStripe(60, 300, 1, 10, 0, 100, 0, 0,  0);
   drawMovingStripe(30, 150, 2, 50, 0, 0, 100,  0, 0);
@@ -66,7 +66,7 @@ void doLights() {
   drawMovingStripe(22, 700, 4, 20, 24, 20, 30,  80,0);
   drawMovingStripe(40, 950, 3, 5, 24,  30, 80,  0,  0);*/
 
-  /*rgbwSnake(0, 10);   // crawling with ants!
+  rgbwSnake(0, 10);   // crawling with ants!
   rgbwSnake(100, 5);
   rgbwSnake(200, 20);
   rgbwSnake(300, 40);
@@ -78,7 +78,7 @@ void doLights() {
   rgbwSnake(900, 50);
   rgbwSnake(1000, 20);
   rgbwSnake(1100, 15);
-  rgbwSnake(1200, 10);*/
+  rgbwSnake(1200, 10);
 
   LEDS.show();
 }
