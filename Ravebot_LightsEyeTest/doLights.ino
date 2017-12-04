@@ -14,8 +14,11 @@ void doLights() {
 }
 
 void everySingleLight(int r, int g, int b, int w) {
-  for(int j = 0; j < numLeds; j++) { 
+  for(int j = 0; j < 93; j++) { 
+    allOff();
     setLedDirect(j, r, g, b, w);
+    LEDS.show();
+    //delay(100);
   }
 }
 
@@ -27,8 +30,9 @@ void lightEyes(int r, int g, int b, int w) {
 
 void allOff() {
   for(int j = 0; j < numLeds; j++) {
-    setLedDirect(j, 0, 0, 0, 0);
-  }
+    rgbwLeds[j].r = 0;
+    rgbwLeds[j].g = 0;
+    rgbwLeds[j].b = 0;  }
 }
 
 

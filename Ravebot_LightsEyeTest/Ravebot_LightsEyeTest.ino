@@ -27,6 +27,18 @@ int currentGenre = 0;
 int currentTrack = 0;
 int dropCountdown = 0;
 
+int tapePattern[93][2] = {
+  {22,43}, {26,43}, {30,41}, {34,39}, {37,37}, {40,34}, {41,30}, {43,26}, {43,22}, {43,18},   // TODO - swap x and y and do 44-x
+  {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx},
+  {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx},
+  {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx},
+  {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx},
+  {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx},
+  {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx},
+  {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx},
+  {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx}, {xx,xx},
+  {xx,xx}, {xx,xx}, {xx,xx} };
+
 bool robotTalking = false;
 unsigned long robotTalkingOnTime;
 
