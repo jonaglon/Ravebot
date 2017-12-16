@@ -1,17 +1,31 @@
 
 void doLights() {
-
   
   allOff();
   
   //lightEyes(25, 25, 200, 10);
   
-  everySingleLight(0, 0, 255, 0);
+  //everySingleLight(0, 0, 255, 0);
 
   //sweepTestRainbowTorso(45);
 
+  eyeSweep(10);
+
   LEDS.show();
 }
+
+void eyeSweep(int speedFactor) {
+  int rainbowFactor = (timey / speedFactor) % 44;
+
+  for(int j = 0; j < 94; j++) { 
+    if (eyeCoords[j][0] < rainbowFactor) {
+      setLedDirect(j, 255, 0, 0, 0);
+    } else {
+      setLedDirect(j, 0, 255, 0, 0);
+    }
+  }
+}
+
 
 void everySingleLight(int r, int g, int b, int w) {
   for(int j = 0; j < 93; j++) { 
