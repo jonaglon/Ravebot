@@ -25,7 +25,7 @@ int currentBar = 0;
 int mixCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;
 int currentTrack = 0;
-int dropCountdown = 0;
+int dropCountdown = 0; 
 
 bool robotTalking = false;
 unsigned long robotTalkingOnTime;
@@ -37,13 +37,13 @@ CRGB rgbwLeds[2440]; // 488 * 5
 int nextTrack = 0;
 int nextGenre = 0;
 int nextMixDuration = 0;
+int nextMixStart = 0;
 int abletonBpm = 0;
-bool stayWithinGenre = false;
+bool stayWithinGenre = true;
 bool currentlyMixing=false;
 bool deckASelected = true;
 int currentMixerPosition = 0;
-
-bool abletonPaused = false;
+float percentThroughMix = 0.0;
 int last10Genres[10] = {0,0,0,0,0,0,0,0,0,0};
 int last10Tracks[10] = {0,0,0,0,0,0,0,0,0,0};
 
@@ -67,6 +67,9 @@ void setup() {
   LEDS.setBrightness(10); // 255 max
 
   setMainVolume(mainVolume);
+
+  // TODO 
+  playTune(7, 0, true);
 }
 
 void loop() {
@@ -86,23 +89,30 @@ struct tuneInfo {
   byte maxFadeIn;
   byte minFadeOut; 
   byte maxFadeOut;
-  byte dropOffset; // The drop offset is where the tune should finish with respect to the max fade out.
-  tuneInfo(byte aBpm, byte aDrop, byte aTuneLength, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut, byte aDropOffset) : 
-           bpm(aBpm), drop(aDrop), tuneLength(aTuneLength), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), dropOffset(aDropOffset) { 
+  byte dropOffset; // The drop offset is where the tune should finish if it's not being mixed or the mix is shorter.
+  bool playOut;
+  tuneInfo(byte aBpm, byte aDrop, byte aTuneLength, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut, byte aDropOffset, bool aPlayOut) : 
+    bpm(aBpm), drop(aDrop), tuneLength(aTuneLength), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), dropOffset(aDropOffset), playOut(aPlayOut) { 
   }
 };
  
-tuneInfo tuneLibRave[1] = { {120, 16, 129, 16,  8, 16, 16} };
-tuneInfo tuneLibDisco[1] = { {120, 16, 129, 16,  8, 16, 16} };
-tuneInfo tuneLibReggae[1] = { {120, 16, 129, 16,  8, 16, 16} };
-tuneInfo tuneLibRockAndPop[1] = { {120, 16, 129, 16,  8, 16, 16} };
-tuneInfo tuneLibEasy[1] = { {120, 16, 129, 16,  8, 16, 16} };
-tuneInfo tuneLibDance[1] = { {120, 16, 129, 16,  8, 16, 16} };
-tuneInfo tuneLibDrumAndBass[1] = { {120, 16, 129, 16,  8, 16, 16} };
-tuneInfo tuneLibHipHop[1] = { {120, 16, 129, 16,  8, 16, 16} };
+tuneInfo tuneLibRave[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
+tuneInfo tuneLibDisco[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
+tuneInfo tuneLibReggae[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
+tuneInfo tuneLibRockAndPop[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
+tuneInfo tuneLibEasy[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
+tuneInfo tuneLibDance[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
+tuneInfo tuneLibDrumAndBass[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 
-tuneInfo currentTune = tuneLibRave[1];
-tuneInfo nextTune = tuneLibRave[2];
+tuneInfo tuneLibHipHop[4] = { 
+  { 89,  0,  10,  2,  0,  8,  8, true},
+  { 89,  0,  16,  4,  4,  4,  4, false},
+  {111,  0,  16,  4,  4,  4,  4, false},
+  {120, 16,  16,  8,  0,  8,  8, true},
+};
+
+tuneInfo currentTune = tuneLibHipHop[0];
+tuneInfo nextTune = tuneLibHipHop[1];
 
 
 

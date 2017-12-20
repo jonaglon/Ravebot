@@ -53,7 +53,7 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Stop button
   if (buttonNumber == 8) {
-    pauseAbleton();
+    sendFullStop();
   }
 
   // Next button
@@ -75,18 +75,14 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Previous tune
   if (buttonNumber == 12) {    
-    //playPreviousTrack();
-    sendFullStop();
+    playPreviousTrack();
+    //sendFullStop();
   }
 
   // Play button
   if (buttonNumber == 13) {
-    if (abletonPaused)
-      pauseAbleton();
-    else {
-      stayWithinGenre = false;
-      playRandomTune();
-    }
+    stayWithinGenre = false;
+    playRandomTune();
   }
 
 }
@@ -126,7 +122,8 @@ void sendSerialToMega(int function, int message) {
   int value = (function * 1000) + message;
   
   itoa(value, str, 10); //Turn value into a character array
-  Serial2.write(str, 4);
+  // JR TODO - you're not sending anything to the mega
+  //Serial2.write(str, 4);
 
 }
 
