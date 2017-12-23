@@ -55,11 +55,12 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       Serial.print("16: ");
       Serial.println(sixteenBeats);
     }
-    sendBeatToMega();
+    //sendBeatToMega();
     if (dropCountdown != 0)
       dropCountdown--;
 
     if (currentlyMixing) {
+      setPercentThroughMix();
       doMixing();
     }
     
@@ -86,19 +87,28 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForQuantisationStart() {
-  if (currentBar == calculateMixStart()) {
+  if (currentBar == nextMixStart) {
+    if (testMode)
+        Serial.println("sending quantisation on");
     sendQuantisationOn();
   }
 }
 
 /*void checkForQuantisationEnd() {
-  if (currentBar == calculateMixStart()+1) {
+  if (currentBar == nextMixStart+1) {
     sendQuantisationOff();
   }
 }*/
 
 void checkForMixStart() {
-  if ((currentBar) == calculateMixStart()) {
+  if (testMode) {
+    Serial.print("checking for mix start. current bar:");
+    Serial.print(currentBar);
+    Serial.print("  next mix start:");
+    Serial.println(nextMixStart);
+  }
+    
+  if (currentBar == nextMixStart) {
     //if (nextMixDuration == 0) {
     //  playTune(nextGenre, nextTrack, true);    TODO were you right to remove this??! No. TODO, put back later
     //} else {
@@ -108,7 +118,7 @@ void checkForMixStart() {
 }
 
 void checkForMixEnd() {
-  if (currentBar == (calculateMixStart() + nextMixDuration + 1))
+  if (currentBar == (nextMixStart + nextMixDuration + 1))
   {
     endMixAndPickNewTune();
   }

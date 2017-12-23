@@ -4,11 +4,36 @@ void doLights() {
   allOff();
 
   // make the first led red
-  setLedDirect(1, 255, 0, 0, 0);
+  //setLedDirect(1, 255, 0, 0, 0);
   
-  eyeSweep(10);
+  //eyeSweep(10);
+
+  //drawLightsNear(35, 15, 6);
+  drawLightsNearAnimation(50);
 
   LEDS.show();
+}
+
+void drawLightsNearAnimation(int speedFactor) {
+
+  int rainbowFactor = (timey / speedFactor) % 30;
+
+  drawLightsNear(22, 22, rainbowFactor);
+  
+}
+
+void drawLightsNear(int xCoord, int  yCoord, int radius) {
+
+  for(int j = 0; j < 94; j++) { 
+    if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) 
+    {
+      if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) 
+      {
+        setLedDirect(j, 255, 0, 0, 0);
+      }
+    }
+  }
+  
 }
 
 void eyeSweep(int speedFactor) {
@@ -37,7 +62,8 @@ void allOff() {
   for(int j = 0; j < numLeds; j++) {
     rgbwLeds[j].r = 0;
     rgbwLeds[j].g = 0;
-    rgbwLeds[j].b = 0;  }
+    rgbwLeds[j].b = 0;
+  }
 }
 
 // There are no white leds on the eyes but leave this in please

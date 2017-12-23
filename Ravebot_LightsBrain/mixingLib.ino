@@ -1,7 +1,5 @@
 
 void doMixing() {
-
-  float percentThroughMix = getPercentThroughMix();
   
   int bpmDifference = nextTune.bpm - currentTune.bpm;
   int newBpm = ((float)bpmDifference * percentThroughMix) + currentTune.bpm;
@@ -9,6 +7,8 @@ void doMixing() {
 
   // Now do the actual mixing
   int crossfaderValue = 127 * percentThroughMix;
+  if ((crossfaderValue > 63) && currentTune.playOut)
+    crossfaderValue = 63;
   
   if (deckASelected) {
     setCrossfader(crossfaderValue);
@@ -17,23 +17,23 @@ void doMixing() {
   } 
 }
 
-// Not good to use floats but we're not calling this too often (once per quarter bar).
-float getPercentThroughMix() {
-  float percentThroughMix = 0.0;
+// Not good to use floats but we're not calling this too often (once per beat).
+void setPercentThroughMix() {
 
-  int mixStart = calculateMixStart()+1;
+  int mixStart = nextMixStart+1;
   int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
 
-  if (nextMixDuration < 9)
-    return (float)beatsIntoMix / (nextMixDuration * 4);
-
+  if (nextMixDuration < 9) {
+    percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 4);
+  }
+  
   // if this is a long mix (>8 bars) we'll hold in the middle for a while so we use a different calculation
   if (beatsIntoMix < 16)
-    return ((float)beatsIntoMix / 16.0) * 0.5;
+    percentThroughMix = ((float)beatsIntoMix / 16.0) * 0.5;
   else if (beatsIntoMix > (nextMixDuration * 4) - 16)
-    return (((float)(beatsIntoMix - ((nextMixDuration * 4) - 16)) / 16.0) * 0.5) + 0.5;
+    percentThroughMix = (((float)(beatsIntoMix - ((nextMixDuration * 4) - 16)) / 16.0) * 0.5) + 0.5;
   else
-    return 0.5; 
+    percentThroughMix = 0.5; 
 }
 
 void startNewMix() {
@@ -62,6 +62,8 @@ void endMixAndPickNewTune() {
   }
   
   stopAbletonChannel(currentGenre, !deckASelected);
+  if (testMode)
+    Serial.println("1"); 
   if (deckASelected) {
     setCrossfader(127);
     deckASelected = false;
@@ -69,12 +71,24 @@ void endMixAndPickNewTune() {
     setCrossfader(0);
     deckASelected = true;
   }
+  if (testMode)
+    Serial.println("2"); 
   setAbletonTempo(nextTune.bpm);
+  if (testMode)
+    Serial.println("3"); 
 
   currentGenre = nextGenre;
   currentTrack = nextTrack;
+  if (testMode)
+    Serial.println("4"); 
   setCurrentTune(currentGenre, currentTrack);
-  chooseNextTrack();
+  if (testMode)
+    Serial.println("5"); 
+  chooseNextTrack();  // JR TODO - this is where it breaks...
+  if (testMode)
+    Serial.println("6"); 
+
+  calculateMixDurationAndStart();
 
   // tell the other arduino what you're doing
   sendSerialToMega(2,(currentGenre*100)+currentTrack);
@@ -83,18 +97,23 @@ void endMixAndPickNewTune() {
   currentlyMixing=false;
 }
 
-int calculateMixStart() {
+void calculateMixDurationAndStart() {
+
+  nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
+  
   int lastPossibleMixPoint = currentTune.tuneLength - nextMixDuration;
-  int idealMixPoint = (currentTune.tuneLength - currentTune.maxFadeOut) + currentTune.dropOffset;
+  int idealMixPoint = (currentTune.tuneLength - currentTune.maxFadeOut) + (currentTune.dropOffset - nextTune.maxFadeIn);
   if (lastPossibleMixPoint < idealMixPoint)
-    return lastPossibleMixPoint;
+    nextMixStart = lastPossibleMixPoint;
   else
-   return idealMixPoint;
+    nextMixStart = idealMixPoint;
 }
 
 void chooseNextTrack() {
   bool nextTrackPicked = false;
   int genre, track;
+
+  // Also pick next lights pattern here
 
   while (!nextTrackPicked) {
 
@@ -117,15 +136,6 @@ void chooseNextTrack() {
       continue;
   
     nextTrackPicked = true;    
-  }
-
-  nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
-
-  if (testMode) {
-    Serial.print("current-maxFadeOut:");
-    Serial.print(currentTune.maxFadeOut);
-    Serial.print("  next-maxFadeIn:");
-    Serial.println(nextTune.maxFadeIn);
   }
 }
 

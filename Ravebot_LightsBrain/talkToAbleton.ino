@@ -52,7 +52,6 @@ void playTune(int genre, int track, bool alterHistory) {
   delay(200);
   playAbletonTrack(genre, track, true);
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
-  abletonPaused=false;
  
   chooseNextTrack();
 
@@ -88,15 +87,6 @@ void stopAbletonChannel(int channel, bool stopSideA) {
   sendMidi(abletonChannel+176, 0, 127);
 }
 
-void pauseAbleton() { // Uses Bomes to send shift space
-
-  if (abletonPaused)
-    abletonPaused=false;
-  else
-    abletonPaused=true;
-    
-  sendMidi(176, 124, 127);
-}
 
 void sendFullStop() {
   sendMidi(176, 120, 127);
