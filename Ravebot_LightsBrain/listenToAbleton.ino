@@ -70,6 +70,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       mixCurrentBar++;
       setBeatTimes();
       checkForDropCountdownStart();
+      
       if (testMode) {
         Serial.print("New bar: ");
         Serial.println(currentBar);
@@ -78,10 +79,10 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
         Serial.print("  NextTuneBpm:");
         Serial.println(nextTune.bpm);
       }
-    } else if (sixteenBeats % 4 == 2) {
+    } else if (sixteenBeats % 4 == 3) {
       checkForMixEnd();
       checkForMixStart();
-    }         
+    }
   }
 }
 
