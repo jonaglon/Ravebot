@@ -8,7 +8,7 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0;
@@ -105,10 +105,10 @@ tuneInfo tuneLibDance[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDrumAndBass[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 
 tuneInfo tuneLibHipHop[4] = { 
-  { 89,  0,  10,  2,  0,  8,  8, true},
-  { 89,  0,  16,  4,  4,  4,  4, false},
-  {111,  0,  16,  4,  4,  4,  4, false},
-  {120, 16,  16,  8,  0,  8,  8, true},
+  { 89,  0,  10,  2,  0,  8,  8, true},  // LetsGetIll
+  { 89,  0,  16,  4,  4,  4,  4, false}, // NoDiggidy
+  {111,  0,  16,  4,  4,  4,  4, false}, // ShimShimmer
+  {120,  0,  16,  8,  0,  8,  8, true},  // Mama said knock 
 };
 
 tuneInfo currentTune = tuneLibHipHop[0];

@@ -2,6 +2,8 @@
 void doMixing() {
   
   int bpmDifference = nextTune.bpm - currentTune.bpm;
+  // JR TODO - percent throuh mix needs 2 values, one for bpm which transitions smoothly
+  // and another for the crosssfader / lights 
   int newBpm = ((float)bpmDifference * percentThroughMix) + currentTune.bpm;
   setAbletonTempo(newBpm);
 
@@ -82,8 +84,6 @@ void endMixAndPickNewTune() {
   if (testMode)
     Serial.println("4"); 
   setCurrentTune(currentGenre, currentTrack);
-  if (testMode)
-    Serial.println("5"); 
   chooseNextTrack();  // JR TODO - this is where it breaks...
   if (testMode)
     Serial.println("6"); 
@@ -100,6 +100,11 @@ void endMixAndPickNewTune() {
 void calculateMixDurationAndStart() {
 
   nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
+
+  if (testMode) {
+    Serial.print("Calculating mmix start, next duration:"); 
+    Serial.println(nextMixDuration); 
+  }
   
   int lastPossibleMixPoint = currentTune.tuneLength - nextMixDuration;
   int idealMixPoint = (currentTune.tuneLength - currentTune.maxFadeOut) + (currentTune.dropOffset - nextTune.maxFadeIn);
@@ -126,9 +131,9 @@ void chooseNextTrack() {
     // pick next track
     track = random(numberOfTunesInGenre(genre));
 
-    // check it's not in the last 10 tunes played
-    if (playedTuneHistoryContainsTrack(genre, track))
-      continue;
+    // check it's not in the last 10 tunes played      JR TODO - put this back
+    //if (playedTuneHistoryContainsTrack(genre, track))
+    //  continue;
 
     setNextTune(genre, track);
 
