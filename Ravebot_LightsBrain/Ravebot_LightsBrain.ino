@@ -103,12 +103,12 @@ tuneInfo tuneLibRockAndPop[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibEasy[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDance[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDrumAndBass[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
-
+// bpm, drop, tuneLength, maxFadeIn, minFadeOut, maxFadeOut, dropOffset, playOut
 tuneInfo tuneLibHipHop[4] = { 
-  { 89,  0,  10,  2,  0,  8,  8, true},  // LetsGetIll
+  { 89,  0,  16,  4,  4,  4,  4, false},  // shimmyshimmy
   { 89,  0,  16,  4,  4,  4,  4, false}, // NoDiggidy
-  {111,  0,  16,  4,  4,  4,  4, false}, // ShimShimmer
-  {120,  0,  16,  8,  0,  8,  8, true},  // Mama said knock 
+  {111,  0,  16,  4,  4,  4,  4, false}, // Automatic
+  {120,  0,  16,  4,  4,  4,  4, false},  // Like a g6
 };
 
 tuneInfo currentTune = tuneLibHipHop[0];

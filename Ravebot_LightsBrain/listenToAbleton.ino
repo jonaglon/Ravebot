@@ -78,9 +78,8 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
         Serial.print("  NextTuneBpm:");
         Serial.println(nextTune.bpm);
       }
-    } else if (sixteenBeats % 4 == 3) {
-      checkForMixEnd();
     } else if (sixteenBeats % 4 == 2) {
+      checkForMixEnd();
       checkForMixStart();
     }         
   }
@@ -108,7 +107,7 @@ void checkForMixStart() {
     Serial.println(nextMixStart);
   }
     
-  if (currentBar-1 == nextMixStart) {
+  if (currentBar == nextMixStart) {
     //if (nextMixDuration == 0) {
     //  playTune(nextGenre, nextTrack, true);    TODO were you right to remove this??! No. TODO, put back later
     //} else {

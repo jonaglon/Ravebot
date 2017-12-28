@@ -58,14 +58,12 @@ void startNewMix() {
 }
 
 void endMixAndPickNewTune() {
-  // finish the mix
   if (testMode) {
     Serial.println("EndingMixPickingNew"); 
   }
   
+  // finish the mix
   stopAbletonChannel(currentGenre, !deckASelected);
-  if (testMode)
-    Serial.println("1"); 
   if (deckASelected) {
     setCrossfader(127);
     deckASelected = false;
@@ -73,20 +71,13 @@ void endMixAndPickNewTune() {
     setCrossfader(0);
     deckASelected = true;
   }
-  if (testMode)
-    Serial.println("2"); 
   setAbletonTempo(nextTune.bpm);
-  if (testMode)
-    Serial.println("3"); 
 
   currentGenre = nextGenre;
   currentTrack = nextTrack;
-  if (testMode)
-    Serial.println("4"); 
+
   setCurrentTune(currentGenre, currentTrack);
-  chooseNextTrack();  // JR TODO - this is where it breaks...
-  if (testMode)
-    Serial.println("6"); 
+  chooseNextTrack();
 
   calculateMixDurationAndStart();
 
