@@ -22,20 +22,24 @@ void doMixing() {
 // Not good to use floats but we're not calling this too often (once per beat).
 void setPercentThroughMix() {
 
-  int mixStart = nextMixStart+1;
-  int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4);
+  int mixStart = nextMixStart;
+  int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4) - 5;
 
   if (nextMixDuration < 9) {
     percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 4);
+    return;
   }
   
   // if this is a long mix (>8 bars) we'll hold in the middle for a while so we use a different calculation
-  if (beatsIntoMix < 16)
+  if (beatsIntoMix < 16) {
     percentThroughMix = ((float)beatsIntoMix / 16.0) * 0.5;
-  else if (beatsIntoMix > (nextMixDuration * 4) - 16)
+  }
+  else if (beatsIntoMix > (nextMixDuration * 4) - 16) {
     percentThroughMix = (((float)(beatsIntoMix - ((nextMixDuration * 4) - 16)) / 16.0) * 0.5) + 0.5;
-  else
+  }
+  else {
     percentThroughMix = 0.5; 
+  }
 }
 
 void startNewMix() {
