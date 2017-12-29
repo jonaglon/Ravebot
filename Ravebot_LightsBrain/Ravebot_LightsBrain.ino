@@ -21,7 +21,7 @@ int fakeBeatLengh = 240;
 short sixteenBeats = 0;
  
 int mainVolume = 100; // 127 actual max but we won't exceed 100.
-int currentBar = 0;
+int currentBar = 1;
 int mixCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;
 int currentTrack = 0;
