@@ -29,7 +29,7 @@ void playTune(int genre, int track, bool alterHistory) {
   deckASelected = true;
 
   // change the current track in this program
-  sixteenBeats = 0;
+  sixteenHalfBeats = 0;
   currentBar = 0;
   fakeBeatCount = 0;
 

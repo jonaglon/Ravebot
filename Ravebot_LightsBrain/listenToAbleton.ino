@@ -50,12 +50,12 @@ void listenToAbleton() {
 
 void processMessageFromAbleton(byte note, byte velocity, int down) {
   if ((note>=24 && note<88) && (velocity == 100)) {
-    sixteenBeats = note - 24; // from 0 to 63 
+    sixteenHalfBeats = note - 24; // from 0 to 63 
     if (testMode) {
       Serial.print("16: ");
-      Serial.println(sixteenBeats);
+      Serial.println(sixteenHalfBeats);
     }
-    //sendBeatToMega();
+    //sendBeatToMega();        JR TODO - this is send beat to mega - needs uncommenting and maybe send less
     if (dropCountdown != 0)
       dropCountdown--;
 
@@ -64,13 +64,12 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       doMixing();
     }
     
-    if (sixteenBeats % 4 == 0) {
+    if (sixteenHalfBeats % 8 == 0) {
       // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
       currentBar++;
       mixCurrentBar++;
       setBeatTimes();
       checkForDropCountdownStart();
-      
       if (testMode) {
         Serial.print("New bar: ");
         Serial.println(currentBar);
@@ -79,8 +78,9 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
         Serial.print("  NextTuneBpm:");
         Serial.println(nextTune.bpm);
       }
-    } else if (sixteenBeats % 4 == 3) {
+    } else if (sixteenHalfBeats % 8 == 1) {
       checkForMixEnd();
+    } else if (sixteenHalfBeats % 8 == 5) {
       checkForMixStart();
     }
   }
@@ -118,7 +118,7 @@ void checkForMixStart() {
 }
 
 void checkForMixEnd() {
-  if (currentBar == nextMixStart + nextMixDuration)
+  if (currentBar == nextMixStart + nextMixDuration + 1)
   {
     endMixAndPickNewTune();
   }

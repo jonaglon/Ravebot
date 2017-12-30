@@ -2,8 +2,6 @@
 void doMixing() {
   
   int bpmDifference = nextTune.bpm - currentTune.bpm;
-  // JR TODO - percent throuh mix needs 2 values, one for bpm which transitions smoothly
-  // and another for the crosssfader / lights 
   int newBpm = ((float)bpmDifference * percentThroughMix) + currentTune.bpm;
   setAbletonTempo(newBpm);
 
@@ -21,25 +19,38 @@ void doMixing() {
 
 // Not good to use floats but we're not calling this too often (once per beat).
 void setPercentThroughMix() {
+  if (nextMixDuration == 0)
+    return;
 
   int mixStart = nextMixStart;
-  int beatsIntoMix = ((currentBar * 4) + ((sixteenBeats+3) % 4)) - (mixStart * 4) - 5;
+  int beatsIntoMix = (((currentBar-1)-mixStart) * 8) + sixteenHalfBeats;
 
+  percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 8);
+
+  Serial.print("currentBar:");
+  Serial.print(currentBar * 8);
+  Serial.print("    shbmod8:");
+  Serial.print(sixteenHalfBeats % 8);
+  Serial.print("          mixStart:");
+  Serial.println(mixStart * 8);
+  Serial.println(percentThroughMix);
+/*
   if (nextMixDuration < 9) {
-    percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 4);
+    percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 8);
     return;
   }
   
   // if this is a long mix (>8 bars) we'll hold in the middle for a while so we use a different calculation
-  if (beatsIntoMix < 16) {
-    percentThroughMix = ((float)beatsIntoMix / 16.0) * 0.5;
+  if (beatsIntoMix < 32) {
+    percentThroughMix = ((float)beatsIntoMix / 32.0) * 0.5;
   }
-  else if (beatsIntoMix > (nextMixDuration * 4) - 16) {
-    percentThroughMix = (((float)(beatsIntoMix - ((nextMixDuration * 4) - 16)) / 16.0) * 0.5) + 0.5;
+  else if (beatsIntoMix > (nextMixDuration * 8) - 32) {
+    percentThroughMix = (((float)(beatsIntoMix - ((nextMixDuration * 8) - 32)) / 32.0) * 0.5) + 0.5;
   }
   else {
     percentThroughMix = 0.5; 
   }
+  */
 }
 
 void startNewMix() {

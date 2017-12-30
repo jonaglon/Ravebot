@@ -8,17 +8,17 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0;
 int ticky=0;
 
 unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
-int fakeBeatLengh = 240;
+int fakeBeatLengh = 120;
 
 // Set by midi in to be 1-16 with beat.
-short sixteenBeats = 0;
+short sixteenHalfBeats = 0;
  
 int mainVolume = 100; // 127 actual max but we won't exceed 100.
 int currentBar = 1;
@@ -105,10 +105,10 @@ tuneInfo tuneLibDance[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDrumAndBass[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 // bpm, drop, tuneLength, maxFadeIn, minFadeOut, maxFadeOut, dropOffset, playOut
 tuneInfo tuneLibHipHop[4] = { 
-  { 89,  0,  16,  4,  4,  4,  4, false},  // shimmyshimmy
-  { 89,  0,  16,  4,  4,  4,  4, false}, // NoDiggidy
-  {111,  0,  16,  4,  4,  4,  4, false}, // Automatic
-  {120,  0,  16,  4,  4,  4,  4, false},  // Like a g6
+  { 89,  0,  16, 4,  4,  4,  4, false},  // shimmyshimmy
+  { 89,  0,  16, 4,  4,  4,  4, false}, // NoDiggidy
+  {111,  0,  16, 4,  4,  4,  4, true}, // Automatic
+  {120,  0,  16, 4,  4,  4,  4, true},  // Like a g6
 };
 
 tuneInfo currentTune = tuneLibHipHop[0];

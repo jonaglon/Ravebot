@@ -114,7 +114,9 @@ void unmuteRobotVoice(int btnOnOffMessage) {
        SEND TO MEGA
 ************************* */
 void sendBeatToMega() {
-  sendSerialToMega(1, sixteenBeats);
+  if (sixteenHalfBeats % 2 == 0) {
+    sendSerialToMega(1, sixteenHalfBeats);
+  }
 }
 
 void sendSerialToMega(int function, int message) {

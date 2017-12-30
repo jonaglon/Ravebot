@@ -3,7 +3,7 @@ void doLights() {
 
   
   allOff();
-  setLedDirect(sixteenBeats, 255, 0, 0, 0);
+  setLedDirect(sixteenHalfBeats, 255, 0, 0, 0);
   
   //lightEyes(25, 25, 200, 10);
   
