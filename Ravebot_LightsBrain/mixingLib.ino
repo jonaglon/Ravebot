@@ -2,11 +2,11 @@
 void doMixing() {
   
   int bpmDifference = nextTune.bpm - currentTune.bpm;
-  int newBpm = ((float)bpmDifference * percentThroughMix) + currentTune.bpm;
+  int newBpm = ((bpmDifference * percentThroughMix) / 256) + currentTune.bpm;
   setAbletonTempo(newBpm);
 
   // Now do the actual mixing
-  int crossfaderValue = 127 * percentThroughMix;
+  int crossfaderValue = (127 * percentThroughMix) / 256;
   if ((crossfaderValue > 63) && currentTune.playOut)
     crossfaderValue = 63;
   
@@ -19,21 +19,38 @@ void doMixing() {
 
 // Not good to use floats but we're not calling this too often (once per beat).
 void setPercentThroughMix() {
-  if (nextMixDuration == 0)
+  int percentThroughCalc = 0;
+  if (nextMixDuration == 0  || currentBar == nextMixStart) { // JR TODO - this stops mixing before the tune comes in =) {
+    if (testMode)
+      Serial.println("* pass");
+    percentThroughMix=0;
     return;
+  }
 
   int mixStart = nextMixStart;
-  int beatsIntoMix = (((currentBar-1)-mixStart) * 8) + sixteenHalfBeats;
+  int beatsIntoMix = ((currentBar-mixStart) * 8) + (sixteenHalfBeats % 8) - 8;
 
-  percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 8);
+  percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 8);
+  if (percentThroughCalc > 255)
+    percentThroughMix = 255;
+  else
+    percentThroughMix = percentThroughCalc;
 
-  Serial.print("currentBar:");
-  Serial.print(currentBar * 8);
-  Serial.print("    shbmod8:");
-  Serial.print(sixteenHalfBeats % 8);
-  Serial.print("          mixStart:");
-  Serial.println(mixStart * 8);
-  Serial.println(percentThroughMix);
+  if (testMode) {
+    Serial.print("*** currentBar:");
+    Serial.print(currentBar);
+    Serial.print("    mixStart:");
+    Serial.print(mixStart);
+    Serial.print("          sixteenHalfBeats:");
+    Serial.println(sixteenHalfBeats);
+    Serial.print("beatsIntoMix:");
+    Serial.print(beatsIntoMix);
+    Serial.print("    nextMixDuration:");
+    Serial.print(nextMixDuration);
+    Serial.print("          percentThroughCalc:");
+    Serial.println(percentThroughCalc);
+    Serial.println(percentThroughMix);
+  }
 /*
   if (nextMixDuration < 9) {
     percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 8);

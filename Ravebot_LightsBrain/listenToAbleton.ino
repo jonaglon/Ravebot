@@ -59,17 +59,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
     if (dropCountdown != 0)
       dropCountdown--;
 
-    if (currentlyMixing) {
-      setPercentThroughMix();
-      doMixing();
-    }
-    
     if (sixteenHalfBeats % 8 == 0) {
-      // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
-      currentBar++;
-      mixCurrentBar++;
-      setBeatTimes();
-      checkForDropCountdownStart();
       if (testMode) {
         Serial.print("New bar: ");
         Serial.println(currentBar);
@@ -78,11 +68,23 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
         Serial.print("  NextTuneBpm:");
         Serial.println(nextTune.bpm);
       }
-    } else if (sixteenHalfBeats % 8 == 1) {
+      // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
+      currentBar++;
+      mixCurrentBar++;
+      setBeatTimes();
+      checkForDropCountdownStart();
       checkForMixEnd();
-    } else if (sixteenHalfBeats % 8 == 5) {
+    }
+    
+    if (currentlyMixing) {
+      setPercentThroughMix();
+      doMixing();
+    }
+
+    if (sixteenHalfBeats % 8 == 6) {
       checkForMixStart();
     }
+    
   }
 }
 
@@ -146,7 +148,7 @@ unsigned long nextBeat = 0;
 
 void doFakeBeatMessageFromAbleton() {
   if (timey > nextBeat) {
-    processMessageFromAbleton((fakeBeatCount%16)+24, 100, 0);
+    processMessageFromAbleton(((fakeBeatCount+2)%16)+24, 100, 0);
     nextBeat = timey+fakeBeatLengh;
     fakeBeatCount++;
   }

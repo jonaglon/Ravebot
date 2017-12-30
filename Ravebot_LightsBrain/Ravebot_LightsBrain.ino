@@ -8,7 +8,7 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0;
@@ -43,7 +43,7 @@ bool stayWithinGenre = true;
 bool currentlyMixing=false;
 bool deckASelected = true;
 int currentMixerPosition = 0;
-float percentThroughMix = 0.0;
+int percentThroughMix = 0;  // not really % through, it's 0-256
 int last10Genres[10] = {0,0,0,0,0,0,0,0,0,0};
 int last10Tracks[10] = {0,0,0,0,0,0,0,0,0,0};
 
