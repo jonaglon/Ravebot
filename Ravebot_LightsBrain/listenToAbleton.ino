@@ -110,7 +110,7 @@ void checkForMixStart() {
     Serial.println(nextMixStart);
   }
     
-  if (currentBar == nextMixStart) {
+  if (currentBar+1 == nextMixStart) {
     //if (nextMixDuration == 0) {
     //  playTune(nextGenre, nextTrack, true);    TODO were you right to remove this??! No. TODO, put back later
     //} else {
@@ -120,7 +120,7 @@ void checkForMixStart() {
 }
 
 void checkForMixEnd() {
-  if (currentBar == nextMixStart + nextMixDuration + 1)
+  if (currentBar == nextMixStart + nextMixDuration)
   {
     endMixAndPickNewTune();
   }

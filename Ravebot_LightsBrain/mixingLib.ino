@@ -1,6 +1,6 @@
 
 void doMixing() {
-  
+
   int bpmDifference = nextTune.bpm - currentTune.bpm;
   int newBpm = ((bpmDifference * percentThroughMix) / 256) + currentTune.bpm;
   setAbletonTempo(newBpm);
@@ -9,26 +9,25 @@ void doMixing() {
   int crossfaderValue = (127 * percentThroughMix) / 256;
   if ((crossfaderValue > 63) && currentTune.playOut)
     crossfaderValue = 63;
-  
+
   if (deckASelected) {
     setCrossfader(crossfaderValue);
   } else {
     setCrossfader(127 - crossfaderValue);
-  } 
+  }
 }
 
 // Not good to use floats but we're not calling this too often (once per beat).
 void setPercentThroughMix() {
   int percentThroughCalc = 0;
-  if (nextMixDuration == 0  || currentBar == nextMixStart) { // JR TODO - this stops mixing before the tune comes in =) {
+  if (nextMixDuration == 0) {
     if (testMode)
       Serial.println("* pass");
-    percentThroughMix=0;
+    percentThroughMix = 0;
     return;
   }
 
-  int mixStart = nextMixStart;
-  int beatsIntoMix = ((currentBar-mixStart) * 8) + (sixteenHalfBeats % 8) - 9;
+  int beatsIntoMix = ((currentBar - nextMixStart + 1) * 8) + (sixteenHalfBeats % 8) - 7;
 
   percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 8);
   if (percentThroughCalc > 255)
@@ -44,7 +43,7 @@ void setPercentThroughMix() {
     Serial.print("*** currentBar:");
     Serial.print(currentBar);
     Serial.print("    mixStart:");
-    Serial.print(mixStart);
+    Serial.print(nextMixStart);
     Serial.print("          sixteenHalfBeats:");
     Serial.println(sixteenHalfBeats);
     Serial.print("beatsIntoMix:");
@@ -55,49 +54,49 @@ void setPercentThroughMix() {
     Serial.println(percentThroughCalc);
     Serial.println(percentThroughMix);
   }
-/*
-  if (nextMixDuration < 9) {
-    percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 8);
-    return;
-  }
-  
-  // if this is a long mix (>8 bars) we'll hold in the middle for a while so we use a different calculation
-  if (beatsIntoMix < 32) {
-    percentThroughMix = ((float)beatsIntoMix / 32.0) * 0.5;
-  }
-  else if (beatsIntoMix > (nextMixDuration * 8) - 32) {
-    percentThroughMix = (((float)(beatsIntoMix - ((nextMixDuration * 8) - 32)) / 32.0) * 0.5) + 0.5;
-  }
-  else {
-    percentThroughMix = 0.5; 
-  }
+  /*
+    if (nextMixDuration < 9) {
+      percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 8);
+      return;
+    }
+
+    // if this is a long mix (>8 bars) we'll hold in the middle for a while so we use a different calculation
+    if (beatsIntoMix < 32) {
+      percentThroughMix = ((float)beatsIntoMix / 32.0) * 0.5;
+    }
+    else if (beatsIntoMix > (nextMixDuration * 8) - 32) {
+      percentThroughMix = (((float)(beatsIntoMix - ((nextMixDuration * 8) - 32)) / 32.0) * 0.5) + 0.5;
+    }
+    else {
+      percentThroughMix = 0.5;
+    }
   */
 }
 
 void startNewMix() {
-  
-  // send stuff to ableton to start the new track  
+
+  // send stuff to ableton to start the new track
   playAbletonTrack(nextGenre, nextTrack, !deckASelected);
 
   if (testMode) {
     Serial.print("JUST STARTED: ");
     Serial.print(nextGenre);
     Serial.print("/");
-    Serial.println(nextTrack); 
+    Serial.println(nextTrack);
   }
 
   updateGenreAndTrackHistory(nextGenre, nextTrack);
-    
+
   // change the current track in this program
-  mixCurrentBar = 0;
-  currentlyMixing=true;
+  mixCurrentBar = -1;
+  currentlyMixing = true;
 }
 
 void endMixAndPickNewTune() {
   if (testMode) {
-    Serial.println("EndingMixPickingNew"); 
+    Serial.println("EndingMixPickingNew");
   }
-  
+
   // finish the mix
   stopAbletonChannel(currentGenre, !deckASelected);
   if (deckASelected) {
@@ -118,10 +117,10 @@ void endMixAndPickNewTune() {
   calculateMixDurationAndStart();
 
   // tell the other arduino what you're doing
-  sendSerialToMega(2,(currentGenre*100)+currentTrack);
-  
+  sendSerialToMega(2, (currentGenre * 100) + currentTrack);
+
   currentBar = mixCurrentBar;
-  currentlyMixing=false;
+  currentlyMixing = false;
 }
 
 void calculateMixDurationAndStart() {
@@ -129,10 +128,10 @@ void calculateMixDurationAndStart() {
   nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
 
   if (testMode) {
-    Serial.print("Calculating mmix start, next duration:"); 
-    Serial.println(nextMixDuration); 
+    Serial.print("Calculating mmix start, next duration:");
+    Serial.println(nextMixDuration);
   }
-  
+
   int lastPossibleMixPoint = currentTune.tuneLength - nextMixDuration;
   int idealMixPoint = (currentTune.tuneLength - currentTune.maxFadeOut) + (currentTune.dropOffset - nextTune.maxFadeIn);
   if (lastPossibleMixPoint < idealMixPoint)
@@ -154,7 +153,7 @@ void chooseNextTrack() {
       genre = random(8);
     else
       genre = currentGenre;
- 
+
     // pick next track
     track = random(numberOfTunesInGenre(genre));
 
@@ -164,10 +163,10 @@ void chooseNextTrack() {
 
     setNextTune(genre, track);
 
-    if (nextTune.maxFadeIn < currentTune.minFadeOut)         
+    if (nextTune.maxFadeIn < currentTune.minFadeOut)
       continue;
-  
-    nextTrackPicked = true;    
+
+    nextTrackPicked = true;
   }
 }
 
@@ -200,7 +199,7 @@ void setNextTune(int genre, int track) {
   else if (genre == 6)
     nextTune = tuneLibDrumAndBass[track];
   else
-    nextTune = tuneLibHipHop[track];    
+    nextTune = tuneLibHipHop[track];
 }
 
 void setCurrentTune(int genre, int track) {
@@ -230,13 +229,13 @@ void playPreviousTrack() {
 
   // shuffle the order of the history
   for (int x = 0; x < 9; x++)
-    last10Genres[x] = last10Genres[x+1];    
+    last10Genres[x] = last10Genres[x + 1];
   last10Genres[9] = currentGenre;
 
   for (int x = 0; x < 9; x++)
-    last10Tracks[x] = last10Tracks[x+1];    
+    last10Tracks[x] = last10Tracks[x + 1];
   last10Tracks[9] = currentTrack;
-  
+
   // play the tune setting changeHistory to false
   playTune(last10Genres[0], last10Tracks[0], false);
 
@@ -249,7 +248,7 @@ void showLast10Tracks() {
     Serial.print(x);
     Serial.print(":");
     Serial.print(last10Tracks[x]);
-    Serial.print(" ");    
+    Serial.print(" ");
   }
   Serial.println("");
 }

@@ -49,8 +49,9 @@ void playTune(int genre, int track, bool alterHistory) {
   sendSerialToMega(2,(genre*100)+track);
 
   // send stuff to ableton to start the new track  
-  delay(200);
+  delay(100);
   playAbletonTrack(genre, track, true);
+  delay(20);
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
  
   chooseNextTrack();
