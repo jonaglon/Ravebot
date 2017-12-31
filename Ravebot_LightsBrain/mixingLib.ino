@@ -28,13 +28,17 @@ void setPercentThroughMix() {
   }
 
   int mixStart = nextMixStart;
-  int beatsIntoMix = ((currentBar-mixStart) * 8) + (sixteenHalfBeats % 8) - 8;
+  int beatsIntoMix = ((currentBar-mixStart) * 8) + (sixteenHalfBeats % 8) - 9;
 
   percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 8);
   if (percentThroughCalc > 255)
     percentThroughMix = 255;
+  else if (percentThroughCalc < 0)
+    percentThroughMix = 0;
   else
     percentThroughMix = percentThroughCalc;
+
+  // JR TODO - dont' forget to put a return in the above
 
   if (testMode) {
     Serial.print("*** currentBar:");

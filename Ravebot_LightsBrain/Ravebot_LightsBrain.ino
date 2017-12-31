@@ -105,10 +105,10 @@ tuneInfo tuneLibDance[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDrumAndBass[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 // bpm, drop, tuneLength, maxFadeIn, minFadeOut, maxFadeOut, dropOffset, playOut
 tuneInfo tuneLibHipHop[4] = { 
-  { 89,  0,  16, 4,  4,  4,  4, false},  // shimmyshimmy
-  { 89,  0,  16, 4,  4,  4,  4, false}, // NoDiggidy
-  {111,  0,  16, 4,  4,  4,  4, true}, // Automatic
-  {120,  0,  16, 4,  4,  4,  4, true},  // Like a g6
+  { 89,  0, 10, 3, 3, 3, 3, false},  // shimmyshimmy
+  { 89,  0, 10, 3, 3, 3, 3, false}, // NoDiggidy
+  {111,  0, 10, 3, 3, 3, 3, true}, // Automatic
+  {120,  0, 10, 3, 3, 3, 3, true},  // Like a g6
 };
 
 tuneInfo currentTune = tuneLibHipHop[0];
