@@ -17,19 +17,32 @@ void doMixing() {
   }
 }
 
-// Not good to use floats but we're not calling this too often (once per beat).
+// Percent through mix is actually 0-255.
 void setPercentThroughMix() {
   int percentThroughCalc = 0;
+
   if (nextMixDuration == 0) {
-    if (testMode)
-      Serial.println("* pass");
     percentThroughMix = 0;
     return;
   }
 
   int beatsIntoMix = ((currentBar - nextMixStart + 1) * 8) + (sixteenHalfBeats % 8) - 7;
 
-  percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 8);
+  if (nextMixDuration < 12) {
+    // straight mix if less than 12 bars
+    percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 8);
+  }
+  else if (beatsIntoMix < 48) {
+    // beginning of mix where we hold in the middle for a bit
+    percentThroughCalc = ((beatsIntoMix  * 255) / 96);
+  }
+  else if (beatsIntoMix > (nextMixDuration * 8) - 48) {
+    percentThroughCalc = (((beatsIntoMix - ((nextMixDuration * 8) - 48)) * 255) / 96) + 127;
+  }
+  else {
+    percentThroughCalc = 127;
+  }
+
   if (percentThroughCalc > 255)
     percentThroughMix = 255;
   else if (percentThroughCalc < 0)
@@ -37,40 +50,24 @@ void setPercentThroughMix() {
   else
     percentThroughMix = percentThroughCalc;
 
-  // JR TODO - dont' forget to put a return in the above
+  if (testMode)
+    printMixDebugInfo(currentBar, nextMixStart, sixteenHalfBeats, beatsIntoMix, nextMixDuration, percentThroughCalc, percentThroughMix);
+}
 
-  if (testMode) {
-    Serial.print("*** currentBar:");
-    Serial.print(currentBar);
-    Serial.print("    mixStart:");
-    Serial.print(nextMixStart);
-    Serial.print("          sixteenHalfBeats:");
-    Serial.println(sixteenHalfBeats);
-    Serial.print("beatsIntoMix:");
-    Serial.print(beatsIntoMix);
-    Serial.print("    nextMixDuration:");
-    Serial.print(nextMixDuration);
-    Serial.print("          percentThroughCalc:");
-    Serial.println(percentThroughCalc);
-    Serial.println(percentThroughMix);
-  }
-  /*
-    if (nextMixDuration < 9) {
-      percentThroughMix = (float)beatsIntoMix / (nextMixDuration * 8);
-      return;
-    }
-
-    // if this is a long mix (>8 bars) we'll hold in the middle for a while so we use a different calculation
-    if (beatsIntoMix < 32) {
-      percentThroughMix = ((float)beatsIntoMix / 32.0) * 0.5;
-    }
-    else if (beatsIntoMix > (nextMixDuration * 8) - 32) {
-      percentThroughMix = (((float)(beatsIntoMix - ((nextMixDuration * 8) - 32)) / 32.0) * 0.5) + 0.5;
-    }
-    else {
-      percentThroughMix = 0.5;
-    }
-  */
+void printMixDebugInfo(int currentBar, int nextMixStart, int sixteenHalfBeats, int beatsIntoMix, int nextMixDuration, int percentThroughCalc, int percentThroughMix) {
+  Serial.print("*** currentBar:");
+  Serial.print(currentBar);
+  Serial.print("    mixStart:");
+  Serial.print(nextMixStart);
+  Serial.print("          sixteenHalfBeats:");
+  Serial.println(sixteenHalfBeats);
+  Serial.print("beatsIntoMix:");
+  Serial.print(beatsIntoMix);
+  Serial.print("    nextMixDuration:");
+  Serial.print(nextMixDuration);
+  Serial.print("          percentThroughCalc:");
+  Serial.println(percentThroughCalc);
+  Serial.println(percentThroughMix);
 }
 
 void startNewMix() {
@@ -133,7 +130,7 @@ void calculateMixDurationAndStart() {
   }
 
   int lastPossibleMixPoint = currentTune.tuneLength - nextMixDuration;
-  int idealMixPoint = (currentTune.tuneLength - currentTune.maxFadeOut) + (currentTune.dropOffset - nextTune.maxFadeIn);
+  int idealMixPoint = (currentTune.tuneLength - currentTune.maxFadeOut) + (currentTune.tuneBestEnd - nextMixDuration);
   if (lastPossibleMixPoint < idealMixPoint)
     nextMixStart = lastPossibleMixPoint;
   else

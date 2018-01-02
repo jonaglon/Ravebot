@@ -89,10 +89,10 @@ struct tuneInfo {
   byte maxFadeIn;
   byte minFadeOut; 
   byte maxFadeOut;
-  byte dropOffset; // The drop offset is where the tune should finish if it's not being mixed or the mix is shorter.
+  byte tuneBestEnd; // Tune best end is where the tune should finish if it's not being mixed or the mix is shorter.
   bool playOut;
-  tuneInfo(byte aBpm, byte aDrop, byte aTuneLength, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut, byte aDropOffset, bool aPlayOut) : 
-    bpm(aBpm), drop(aDrop), tuneLength(aTuneLength), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), dropOffset(aDropOffset), playOut(aPlayOut) { 
+  tuneInfo(byte aBpm, byte aDrop, byte aTuneLength, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut, byte aTuneBestEnd, bool aPlayOut) : 
+    bpm(aBpm), drop(aDrop), tuneLength(aTuneLength), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), tuneBestEnd(aTuneBestEnd), playOut(aPlayOut) { 
   }
 };
  
@@ -103,12 +103,12 @@ tuneInfo tuneLibRockAndPop[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibEasy[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDance[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDrumAndBass[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
-// bpm, drop, tuneLength, maxFadeIn, minFadeOut, maxFadeOut, dropOffset, playOut
+// bpm, drop, tuneLength, maxFadeIn, minFadeOut, maxFadeOut, tuneBestEnd, playOut
 tuneInfo tuneLibHipHop[4] = { 
-  { 89,  0, 12, 4, 4, 4, 4, false},  // shimmyshimmy
-  { 89,  0, 12, 4, 4, 4, 4, false}, // NoDiggidy
-  {111,  0, 12, 4, 4, 4, 4, true}, // Automatic
-  {120,  0, 12, 4, 4, 4, 4, true},  // Like a g6
+  { 89,  0, 20,  2,  0,  4,  2, false},  // shimmyshimmy
+  { 89,  0, 32,  8,  0,  8,  0, false}, // NoDiggidy
+  {111,  0, 28,  8,  4,  4,  4, true}, // Automatic
+  {120,  0, 12,  4,  0,  8,  4, true},  // Like a g6
 };
 
 tuneInfo currentTune = tuneLibHipHop[0];
