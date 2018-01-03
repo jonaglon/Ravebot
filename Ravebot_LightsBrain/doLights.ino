@@ -1,17 +1,117 @@
 
+int ledSections[20] = {
+  0,     // 0  bottom ring
+  203,   // 1  big heart
+  348,   // 2  small heart
+  463,   // 3 underarm left
+  482,   // 4 overarm left
+  506,   // 5  eye left 
+  599,   // 6  eye right
+  692,   // 7  mouth
+  710,   // 8  tape
+  744,   // 9  indiciator
+  748,   // 10 tuner
+  773,   // 11 underarm right
+  797,   // 12 overarm right
+  821,   // 13 tube bottomright
+  911,   // 14 tube bottomleft
+  1001,  // 15 tube topleft
+  1090,  // 16 tube topright
+  1179,  // 17 port left
+  1302,  // 18 port right
+  1441};
+
 void doLights() {
 
-  
   allOff();
-  setLedDirect(sixteenHalfBeats, 255, 0, 0, 0);
+
+  //setLedDirect(7, 255 , 0, 0, 0);
   
   //lightEyes(25, 25, 200, 10);
   
-  everySingleLight(10, 150, 200, 60);
+  //everySingleLight(200, 0, 0, 0);
 
-  sweepTestRainbowTorso(45);
+  //sweepTestRainbowTorso(20);
+
+  setSection(0, 0, 0, 0, 255);
+  setSection(1, 255, 0, 0, 0);
+  setSection(2, 0, 255, 0, 0);
+  setSection(3, 0, 0, 255, 0);
+  setSection(4, 0, 255, 0, 0);
+  
+  setSection(5, 255, 0, 0, 0);
+  setSection(6, 0, 255, 0, 0);
+  setSection(7, 0, 0, 255, 0);
+  setSection(8, 0, 0, 0, 255);
+  
+  setSection(9, 255, 0, 0, 0);
+  setSection(10, 0, 255, 0, 0);
+  setSection(11, 0, 0, 255, 0);
+  setSection(12, 0, 0, 0, 255);
+  
+  setSection(13, 255, 0, 0, 0);
+  setSection(14, 0, 255, 0, 0);
+  setSection(15, 0, 0, 255, 0);
+  setSection(16, 0, 0, 0, 255);
+  
+  setSection(17, 255, 0, 0, 0);
+  setSection(18, 0, 255, 0, 0);
+  
+  sectionsInTime();
+
+  /*drawMovingStripe(60, 300, 1, 10, 0, 100, 0, 0,  0);
+  drawMovingStripe(30, 150, 2, 50, 0, 0, 100,  0, 0);
+  drawMovingStripe(23, 300, 3, 10, 12, 0, 0,120,  0);
+  drawMovingStripe(12, 500, 2, 15, 12, 0, 80,30,  0);
+  drawMovingStripe(22, 700, 4, 20, 24, 20, 30,  80,0);
+  drawMovingStripe(40, 950, 3, 5, 24,  30, 80,  0,  0);*/
+
+  rgbwSnake(0, 10);   // crawling with ants!
+  rgbwSnake(100, 5);
+  rgbwSnake(200, 20);
+  rgbwSnake(300, 40);
+  rgbwSnake(400, 10);
+  rgbwSnake(500, 25);
+  rgbwSnake(600, 20);
+  rgbwSnake(700, 5);
+  rgbwSnake(800, 10);
+  rgbwSnake(900, 50);
+  rgbwSnake(1000, 20);
+  rgbwSnake(1100, 15);
+  rgbwSnake(1200, 10);
 
   LEDS.show();
+}
+
+void sectionsInTime() {
+  int beat4 = sixteenBeats % 4;  
+  if (beat4 == 0) {
+    setSection(13, 255, 0, 0, 0);
+    setSection(14, 0, 255, 0, 0);
+    setSection(15, 0, 0, 255, 0);
+    setSection(16, 0, 0, 0, 255);
+  } else if (beat4 == 1) {
+    setSection(14, 255, 0, 0, 0);
+    setSection(15, 0, 255, 0, 0);
+    setSection(16, 0, 0, 255, 0);
+    setSection(13, 0, 0, 0, 255);  
+  } else if (beat4 == 2) {
+    setSection(15, 255, 0, 0, 0);
+    setSection(16, 0, 255, 0, 0);
+    setSection(13, 0, 0, 255, 0);
+    setSection(14, 0, 0, 0, 255);  
+  } else if (beat4 == 3) {
+    setSection(16, 255, 0, 0, 0);
+    setSection(13, 0, 255, 0, 0);
+    setSection(14, 0, 0, 255, 0);
+    setSection(15, 0, 0, 0, 255);  
+  };
+}
+
+void setSection(int section, int r, int g, int b, int w) {
+  for(int j = ledSections[section]; j < ledSections[section+1]; j++) { 
+    setLedDirect(j, r, g, b, w);
+  }
 }
 
 void everySingleLight(int r, int g, int b, int w) {
@@ -49,31 +149,31 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     // Body hearts
     setRgbwLed(ledNum+170, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 507) {
+  else if (ledNum < 506) {
     // Left arm
-    setRgbwLed(ledNum+274, rVal, gVal, bVal, wVal);
+    setRgbwLed(ledNum+275, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 693) 
+  else if (ledNum < 692) 
   {  
     // Eyes!693
-    rgbwLeds[ledNum+535].b = gVal % 256;
-    rgbwLeds[ledNum+536].g = rVal % 256;
-    rgbwLeds[ledNum+536].r = bVal % 256;
+    rgbwLeds[ledNum+536].b = gVal % 256;
+    rgbwLeds[ledNum+537].g = rVal % 256;
+    rgbwLeds[ledNum+537].r = bVal % 256;
   }
-  else if (ledNum < 822)
+  else if (ledNum < 821)
   {
     // Rest of head and right arm
-    setRgbwLedAfterEyes(ledNum+229, rVal, gVal, bVal, wVal);
+    setRgbwLedAfterEyes(ledNum+230, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1180)
+  else if (ledNum < 1179)
   {
     // Body tubes
-    setRgbwLed(ledNum+281, rVal, gVal, bVal, wVal);
+    setRgbwLed(ledNum+282, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1443)
+  else if (ledNum < 1442)
   {
     // Bass holes!
-    setRgbwLed(ledNum+284, rVal, gVal, bVal, wVal);
+    setRgbwLed(ledNum+285, rVal, gVal, bVal, wVal);
   }
                                      
 }

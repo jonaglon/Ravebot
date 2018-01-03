@@ -4,13 +4,10 @@ void sweepTestRainbowTorso(int speedFactor) {
   int rainbowFactor = (timey / speedFactor) % 255;
 
   // forward
-  //for(int j = 0; j < numLeds; j++) { 
-  //  SetRgbwWheel(j, (rainbowFactor+j) % 255, 50);
-  //}
-  
-  for(int j = 460; j < 464; j++) { 
-    SetRgbwWheel(j, (rainbowFactor+j) % 255, 50);
+  for(int j = 0; j < numLeds; j++) { 
+    SetRgbwWheel(j, (rainbowFactor+(j)) % 255, 0);
   }
+ 
   
 }
 
