@@ -124,17 +124,26 @@ void calculateMixDurationAndStart() {
 
   nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
 
-  if (testMode) {
-    Serial.print("Calculating mmix start, next duration:");
-    Serial.println(nextMixDuration);
-  }
-
   int lastPossibleMixPoint = currentTune.tuneLength - nextMixDuration;
-  int idealMixPoint = (currentTune.tuneLength - currentTune.maxFadeOut) + (currentTune.tuneBestEnd - nextMixDuration);
-  if (lastPossibleMixPoint < idealMixPoint)
-    nextMixStart = lastPossibleMixPoint;
-  else
+  int idealMixPoint = currentTune.tuneLength - currentTune.maxFadeOut + currentTune.tuneBestEnd - nextMixDuration;
+  if ((idealMixPoint < lastPossibleMixPoint) && (nextMixDuration <= currentTune.tuneBestEnd))
     nextMixStart = idealMixPoint;
+  else
+    nextMixStart = lastPossibleMixPoint;
+
+  if (testMode)
+    printMixDurationAndStartDebug(nextMixDuration, lastPossibleMixPoint, nextMixStart, currentTune.tuneLength);
+}
+
+void printMixDurationAndStartDebug(int nextMixDuration, int lastPossibleMixPoint, int nextMixStart, int tuneLength) {
+  Serial.print("Picking MixDurationAndStart nextMixDuration:");
+  Serial.print(nextMixDuration);
+  Serial.print("  lastPossibleMixPoint:");
+  Serial.print(lastPossibleMixPoint);
+  Serial.print("  nextMixStart:");
+  Serial.print(nextMixStart);
+  Serial.print("  tuneLength:");
+  Serial.println(tuneLength);
 }
 
 void chooseNextTrack() {

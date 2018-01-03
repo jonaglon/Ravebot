@@ -99,7 +99,7 @@ struct tuneInfo {
 tuneInfo tuneLibRave[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDisco[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibReggae[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
-tuneInfo tuneLibRockAndPop[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
+tuneInfo tuneLibRockAndPop[1] = { {120, 16, 129, 16,  8, 16, 16, false} }; 
 tuneInfo tuneLibEasy[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDance[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
 tuneInfo tuneLibDrumAndBass[1] = { {120, 16, 129, 16,  8, 16, 16, false} };
@@ -108,7 +108,7 @@ tuneInfo tuneLibHipHop[4] = {
   { 89,  0, 20,  2,  0,  4,  2, false},  // shimmyshimmy
   { 89,  0, 32,  8,  0,  8,  0, false}, // NoDiggidy
   {111,  0, 28,  8,  4,  4,  4, true}, // Automatic
-  {120,  0, 12,  4,  0,  8,  4, true},  // Like a g6
+  {120,  0, 16,  4,  0,  8,  4, true},  // Like a g6
 };
 
 tuneInfo currentTune = tuneLibHipHop[0];
