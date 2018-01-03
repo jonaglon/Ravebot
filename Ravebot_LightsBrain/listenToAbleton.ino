@@ -88,7 +88,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
   }
 }
 
-void checkForQuantisationStart() {
+/*void checkForQuantisationStart() {
   if (currentBar == nextMixStart) {
     if (testMode)
         Serial.println("sending quantisation on");
@@ -96,7 +96,7 @@ void checkForQuantisationStart() {
   }
 }
 
-/*void checkForQuantisationEnd() {
+void checkForQuantisationEnd() {
   if (currentBar == nextMixStart+1) {
     sendQuantisationOff();
   }
@@ -111,11 +111,7 @@ void checkForMixStart() {
   }
     
   if (currentBar+1 == nextMixStart) {
-    //if (nextMixDuration == 0) {
-    //  playTune(nextGenre, nextTrack, true);    TODO were you right to remove this??! No. TODO, put back later
-    //} else {
-      startNewMix();
-    //}
+    startNewMix();
   }
 }
 
