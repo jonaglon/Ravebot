@@ -55,7 +55,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       Serial.print("16: ");
       Serial.println(sixteenHalfBeats);
     }
-    //sendBeatToMega();        JR TODO - this is send beat to mega - needs uncommenting and maybe send less
+    sendBeatToMega();
     if (dropCountdown != 0)
       dropCountdown--;
 

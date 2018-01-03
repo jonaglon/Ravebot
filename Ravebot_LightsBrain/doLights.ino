@@ -84,7 +84,7 @@ void doLights() {
 }
 
 void sectionsInTime() {
-  int beat4 = sixteenBeats % 4;  
+  int beat4 = sixteenHalfBeats % 4;  
   if (beat4 == 0) {
     setSection(13, 255, 0, 0, 0);
     setSection(14, 0, 255, 0, 0);

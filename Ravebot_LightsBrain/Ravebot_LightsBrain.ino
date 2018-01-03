@@ -69,7 +69,7 @@ void setup() {
   setMainVolume(mainVolume);
 
   // TODO remove me
-  playTune(7, 0, true);
+  // playTune(7, 0, true);
 }
 
 void loop() {
