@@ -10,11 +10,11 @@ void talkToLights() {
 
 void receiveSerialFromLights() {
 
-  while (Serial3.available()) {
+  while (Serial2.available()) {
     int i=0;
     delay(5); //allows all serial sent to be received together
-    while(Serial3.available() && i<4) {
-      str[i++] = Serial3.read();
+    while(Serial2.available() && i<4) {
+      str[i++] = Serial2.read();
     }
     str[i++]='\0';
     doSomethingWithMessageFromLights(atoi(str));

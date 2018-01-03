@@ -52,7 +52,7 @@ void setup() {
   // Talk to the other arduino
   Serial2.begin(57600);
   // Listen to the other arduino
-  Serial3.begin(9600);
+  // Serial3.begin(9600);
 
   // make random more random?!
   randomSeed(analogRead(0));

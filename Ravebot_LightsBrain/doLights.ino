@@ -7,9 +7,9 @@ void doLights() {
   
   //lightEyes(25, 25, 200, 10);
   
-  //everySingleLight(10, 150, 200, 60);
+  everySingleLight(10, 150, 200, 60);
 
-  //sweepTestRainbowTorso(45);
+  sweepTestRainbowTorso(45);
 
   LEDS.show();
 }
