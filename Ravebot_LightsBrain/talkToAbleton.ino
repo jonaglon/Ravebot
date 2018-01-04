@@ -18,14 +18,16 @@ void playRandomTune(int genre) {
 }
 
 void playTune(int genre, int track, bool alterHistory) {
+  setCurrentTune(genre, track);
   sendFullStop();
   stopAllAbletonClips(); 
+  setAbletonTempo(currentTune.bpm);
 
   if (alterHistory)
     updateGenreAndTrackHistory(genre, track);
+
   currentGenre = genre % 8;
   track = (track % numberOfTunesInGenre(genre));  
-  setCurrentTune(genre, track);
   deckASelected = true;
 
   // change the current track in this program
@@ -41,8 +43,6 @@ void playTune(int genre, int track, bool alterHistory) {
   }      
   currentlyMixing=false;
 
-  // Send new bpm and 
-  setAbletonTempo(currentTune.bpm);
   setCrossfader(0);
 
   // tell the other arduino what you're doing
