@@ -19,9 +19,10 @@ void playRandomTune(int genre) {
 
 void playTune(int genre, int track, bool alterHistory) {
   setCurrentTune(genre, track);
+  setAbletonTempo(currentTune.bpm);
+  delay(20);
   sendFullStop();
   stopAllAbletonClips(); 
-  setAbletonTempo(currentTune.bpm);
 
   if (alterHistory)
     updateGenreAndTrackHistory(genre, track);
