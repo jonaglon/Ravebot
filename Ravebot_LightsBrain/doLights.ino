@@ -1,6 +1,6 @@
 
 int ledSections[20] = {
-  0,     // 0  bottom ring
+  0,     // 0  bottom ring *
   203,   // 1  big heart
   348,   // 2  small heart
   463,   // 3 underarm left
@@ -13,10 +13,10 @@ int ledSections[20] = {
   748,   // 10 tuner
   773,   // 11 underarm right
   797,   // 12 overarm right
-  821,   // 13 tube bottomright
-  911,   // 14 tube bottomleft
-  1001,  // 15 tube topleft
-  1090,  // 16 tube topright
+  821,   // 13 tube bottomright *
+  911,   // 14 tube bottomleft *
+  1001,  // 15 tube topleft *
+  1090,  // 16 tube topright *
   1179,  // 17 port left
   1302,  // 18 port right
   1441};
@@ -143,7 +143,7 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (ledNum < 203)
   {
     // Big bottom ring
-    setRgbwLed(ledNum, rVal, gVal, bVal, wVal);
+    setRgbwLed((ledNum+190)%203, rVal, gVal, bVal, wVal);
   }
   else if (ledNum < 463) {
     // Body hearts
@@ -165,17 +165,44 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     // Rest of head and right arm
     setRgbwLedAfterEyes(ledNum+230, rVal, gVal, bVal, wVal);
   }
+  else if (ledNum < 911)
+  {
+    // Body tube bottomright - 
+    // setRgbwLed(ledNum+282, rVal, gVal, bVal, wVal); - 
+    if (ledNum < 866)
+      setRgbwLed(1968-ledNum, rVal, gVal, bVal, wVal);
+    else
+      setRgbwLed(2058-ledNum, rVal, gVal, bVal, wVal);
+  }
+  else if (ledNum < 1001)
+  {
+    // Body tube bottomleft
+    if (ledNum < 992)
+      setRgbwLed(2184-ledNum, rVal, gVal, bVal, wVal);
+    else
+      setRgbwLed(2274-ledNum, rVal, gVal, bVal, wVal);
+  }
+  else if (ledNum < 1090)
+  {
+    // Body tube topleft
+    if (ledNum < 1042)
+      setRgbwLed(2324-ledNum, rVal, gVal, bVal, wVal);
+    else
+      setRgbwLed(2413-ledNum, rVal, gVal, bVal, wVal);
+  }
   else if (ledNum < 1179)
   {
-    // Body tubes
-    setRgbwLed(ledNum+282, rVal, gVal, bVal, wVal);
+    // Body tube topright
+    if (ledNum < 1160)
+      setRgbwLed(2531-ledNum, rVal, gVal, bVal, wVal);
+    else
+      setRgbwLed(2620-ledNum, rVal, gVal, bVal, wVal);
   }
   else if (ledNum < 1442)
   {
     // Bass holes!
     setRgbwLed(ledNum+285, rVal, gVal, bVal, wVal);
   }
-                                     
 }
 
 void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {

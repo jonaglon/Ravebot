@@ -20,9 +20,9 @@ void playRandomTune(int genre) {
 void playTune(int genre, int track, bool alterHistory) {
   setCurrentTune(genre, track);
   setAbletonTempo(currentTune.bpm);
-  delay(20);
   sendFullStop();
   stopAllAbletonClips(); 
+  delay(20);
 
   if (alterHistory)
     updateGenreAndTrackHistory(genre, track);
@@ -50,7 +50,7 @@ void playTune(int genre, int track, bool alterHistory) {
   sendSerialToMega(2,(genre*100)+track);
 
   // send stuff to ableton to start the new track  
-  delay(100);
+  delay(80);
   playAbletonTrack(genre, track, true);
   delay(20);
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
@@ -125,6 +125,15 @@ void setAbletonTempo(int tempo) { // 80 - 207 bpm only
     return;
   
   sendMidi(177, 125, tempo-80);
+
+  /*int a = tempo-80; //inverting the number
+  a = ~a; //inverting the number
+  a = a+B01 ;//addinf the 1 to it
+  a = a & 0xff;//anding with 0xff to avoid any bit overflow
+  Serial.write(177);
+  Serial.write(125);
+  Serial.write(a);*/
+    
   abletonBpm = tempo;
 }
 

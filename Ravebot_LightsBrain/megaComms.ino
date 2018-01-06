@@ -53,7 +53,8 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Stop button
   if (buttonNumber == 8) {
-    sendFullStop();
+    // sendFullStop();
+    setAbletonTempo(120); // JR TODO!
   }
 
   // Next button
