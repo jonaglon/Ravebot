@@ -2,21 +2,21 @@
 int ledSections[20] = {
   0,     // 0  bottom ring *
   203,   // 1  big heart
-  348,   // 2  small heart
+  378,   // 2  small heart
   463,   // 3 underarm left
   482,   // 4 overarm left
   506,   // 5  eye left 
   599,   // 6  eye right
   692,   // 7  mouth
   710,   // 8  tape
-  744,   // 9  indiciator
-  748,   // 10 tuner
+  744,   // 9  tuner *
+  769,   // 10 indiciator *
   773,   // 11 underarm right
   797,   // 12 overarm right
   821,   // 13 tube bottomright *
   911,   // 14 tube bottomleft *
   1001,  // 15 tube topleft *
-  1090,  // 16 tube topright *
+  1090,  // 16 tube topright * starred sections are shifted and / or reversed
   1179,  // 17 port left
   1302,  // 18 port right
   1441};
@@ -140,8 +140,7 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   //if (ledNum == 506 || ledNum == 507)
   //  return;
 
-  if (ledNum < 203)
-  {
+  if (ledNum < 203) {
     // Big bottom ring
     setRgbwLed((ledNum+190)%203, rVal, gVal, bVal, wVal);
   }
@@ -153,20 +152,20 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     // Left arm
     setRgbwLed(ledNum+275, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 692) 
-  {  
+  else if (ledNum < 692) {  
     // Eyes!693
     rgbwLeds[ledNum+536].b = gVal % 256;
     rgbwLeds[ledNum+537].g = rVal % 256;
     rgbwLeds[ledNum+537].r = bVal % 256;
   }
-  else if (ledNum < 821)
-  {
+  else if (ledNum < 825) {
+    if (ledNum > 744 && ledNum < 774)
+      ledNum = 1516-ledNum;
+
     // Rest of head and right arm
     setRgbwLedAfterEyes(ledNum+230, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 911)
-  {
+  else if (ledNum < 911) {
     // Body tube bottomright - 
     // setRgbwLed(ledNum+282, rVal, gVal, bVal, wVal); - 
     if (ledNum < 866)
@@ -174,32 +173,28 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     else
       setRgbwLed(2058-ledNum, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1001)
-  {
+  else if (ledNum < 1001) {
     // Body tube bottomleft
     if (ledNum < 992)
       setRgbwLed(2184-ledNum, rVal, gVal, bVal, wVal);
     else
       setRgbwLed(2274-ledNum, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1090)
-  {
+  else if (ledNum < 1090) {
     // Body tube topleft
     if (ledNum < 1042)
       setRgbwLed(2324-ledNum, rVal, gVal, bVal, wVal);
     else
       setRgbwLed(2413-ledNum, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1179)
-  {
+  else if (ledNum < 1179) {
     // Body tube topright
     if (ledNum < 1160)
       setRgbwLed(2531-ledNum, rVal, gVal, bVal, wVal);
     else
       setRgbwLed(2620-ledNum, rVal, gVal, bVal, wVal);
   }
-  else if (ledNum < 1442)
-  {
+  else if (ledNum < 1442) {
     // Bass holes!
     setRgbwLed(ledNum+285, rVal, gVal, bVal, wVal);
   }
