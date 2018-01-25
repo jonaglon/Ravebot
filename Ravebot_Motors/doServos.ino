@@ -1,75 +1,79 @@
 
 struct servoInfo {
-  int boardNum;
   int minPosition;
   int maxPosition;
   int servoSpeed;
+  int servoCenter;
   int servoPos;
-  servoInfo(int aBoardNum, int aMinPosition, int aMaxPosition, int aServoSpeed, int aServoPos) :
-    boardNum(aBoardNum), minPosition(aMinPosition), maxPosition(aMaxPosition), servoSpeed(aServoSpeed), servoPos(aServoPos) {
+  servoInfo(int aMinPosition, int aMaxPosition, int aServoSpeed, int aServoCenter, int aServoPos) :
+    minPosition(aMinPosition), maxPosition(aMaxPosition), servoSpeed(aServoSpeed), servoCenter(aServoCenter), servoPos(aServoPos) {
   }
 };
 
 servoInfo servos[10] = {
-  { 0, 0, 420, 3, 210 }, // 0 - Head - Turn
-  { 1, 0, 420, 3, 210 }, // 1 - Head - Nod
-  { 6,180,300, 2, 240 }, // 2 - R Arm - Gripper was 360    w
-  { 5, 0, 420, 3, 210 }, // 3 - R Arm - Wrist LR     w
-  { 4, 0, 420, 3, 210 }, // 4 - R Arm - Elbow
-  { 7, 0, 420, 3, 210 }, // 5 - R Arm - Wrist UD
-  { 2,-150, 0, 2,  -75}, // 6 - L Arm -Gripper
-  { 3, 0, 420, 3, 210 }, // 7 - L Arm -Wrist UD
-  { 8, 0, 420, 3, 210 }, // 8 - L Arm -Elbow
-  { 9, 0, 420, 3, 210 }  // 9 -  L Arm - Wrist LR
+  { 230, 560, 0, 380, 380 }, // 0 - Head - Nod
+  { 140, 560, 3, 360, 360 }, // 1 - Head - shake
+  { 180, 300, 2, 240, 240 }, // 2 - L Arm - Gripper was 360    w
+  { 140, 560, 3, 350, 350 }, // 3 - R Arm - Wrist LR     w
+  { 140, 560, 3, 350, 350 }, // 4 - R Arm - Elbow
+  { 140, 560, 3, 350, 350 }, // 5 - R Arm - Wrist UD
+  { 140, 0,   2, 0, 0}, // 6 - L Arm -Gripper
+  { 140, 560, 3, 350, 350 }, // 7 - L Arm -Wrist UD
+  { 140, 560, 3, 350, 350 }, // 8 - L Arm -Elbow
+  { 140, 560, 3, 350, 350 }  // 9 -  L Arm - Wrist LR
 };
-
 
 // called from init, set all servos to their initial position
 void initServos() {
-  //delay(100);
-  for (int num = 0; num < 10; num++) 
+  for (int num = 5; num < 6; num++) 
   {
-    moveServoToPos(servos[num].boardNum, servos[num].servoPos - 10);
-    //delay(500);
+    moveServoToPos(num, servos[num].servoCenter-20);
+    delay(10);
+    moveServoToPos(num, servos[num].servoCenter-10);
+    delay(10);
+    moveServoToPos(num, servos[num].servoCenter);
   }
 }
 
 void doServos() {
 
-  setLeftArmsElbowsAndHandGrabber();
+  setHead();
+
+  //setLeftArmsElbowsAndHandGrabber();
 
   //setLeftArmJoystickMovement();
 
-  setRightArmsElbowsAndHandGrabber();
+  //setRightArmsElbowsAndHandGrabber();
 
-  setRightArmJoystickMovement();
+  //setRightArmJoystickMovement();
+
+}
+
+
+void setHead() {
+
+  // Nod
+
+  // Move head left and right
+  int newPos = (ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)-128)+servos[5].servoCenter; // 128+ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)+servos[1].servoCenter;
+  //Serial.print("pos:");
+  //Serial.println(newPos);
+  moveServoToPos(5, newPos);
+
 
 }
 
 void setLeftArmsElbowsAndHandGrabber() {
   // Right arm
   if (ps2.readButton(PS2_UP) == 0) // Left Elbow
-    moveServo(servos[4].boardNum, servos[4].servoSpeed);
+    moveServo(4, servos[4].servoSpeed);
   else if (ps2.readButton(PS2_DOWN) == 0)
-    moveServo(servos[4].boardNum, -servos[4].servoSpeed);
+    moveServo(4, -servos[4].servoSpeed);
 
   if (ps2.readButton(PS2_LEFT) == 0) // Left Hand Cripper
-    moveServo(servos[2].boardNum, servos[2].servoSpeed);
+    moveServo(2, servos[2].servoSpeed);
   else if (ps2.readButton(PS2_RIGHT) == 0)
-    moveServo(servos[2].boardNum, -servos[2].servoSpeed);
-}
-
-void setRightArmsElbowsAndHandGrabber() {
-  // Left arm elbows and wrists
-  if (ps2.readButton(PS2_TRIANGLE) == 0) // Right Elbow
-    moveServo(servos[8].boardNum, servos[8].servoSpeed);
-  else if (ps2.readButton(PS2_CROSS) == 0)
-    moveServo(servos[8].boardNum, -servos[8].servoSpeed);
-
-  if (ps2.readButton(PS2_SQUARE) == 0) // Right Hand Cripper
-    moveServo(servos[6].boardNum, servos[6].servoSpeed);
-  else if (ps2.readButton(PS2_CIRCLE) == 0)
-    moveServo(servos[6].boardNum, -servos[6].servoSpeed);
+    moveServo(2, -servos[2].servoSpeed);
 }
 
 void setRightArmJoystickMovement() {
@@ -78,16 +82,16 @@ void setRightArmJoystickMovement() {
 
 void moveServo(int servoNum, int velocity) {
   int newPosition = servos[servoNum].servoPos + velocity;
-  if (newPosition < servos[servoNum].maxPosition && newPosition > servos[servoNum].minPosition) {
+  if (newPosition < servos[servoNum].maxPosition && newPosition > servos[servoNum].minPosition && newPosition != servos[servoNum].servoPos) {
+    servoPwm.setPWM(servoNum, 0, newPosition);
     servos[servoNum].servoPos = newPosition;
-    servoPwm.setPWM(servoNum, 0, newPosition + 140);
   }
 }
 
 void moveServoToPos(int servoNum, int newPosition) {
-  if (newPosition < servos[servoNum].maxPosition && newPosition > servos[servoNum].minPosition) {
+  if (newPosition < servos[servoNum].maxPosition && newPosition > servos[servoNum].minPosition && newPosition != servos[servoNum].servoPos) {
+    servoPwm.setPWM(servoNum, 0, newPosition);
     servos[servoNum].servoPos = newPosition;
-    servoPwm.setPWM(servoNum, 0, newPosition + 140);
   }
 }
 

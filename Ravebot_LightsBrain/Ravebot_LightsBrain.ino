@@ -98,22 +98,24 @@ struct tuneInfo {
  
 
 // Genre 0, RAVE!
-tuneInfo tuneLibRave[15] = {
-  {149,128, 144, 16,  0, 16, 16, false},  //1  TripToTheMoonPt2-Acen
-  {136, 40, 112, 16,  0, 16, 16, false},  //2  Bombscare-2BadMice
-  {126,  0, 136,  8,  0, 16,  0, false},  //3  LFO-LFO  
-  {132,  0, 136,  8,  0, 16, 16, false},  //4  Infiltrate202-Altern8 
-  {122,  0, 118, 16,  0, 16, 16, false},  //5  DirtyCash-SoldOutMix
-  {122,  0, 108,  8,  8, 16,  0, false},  //6  Break4Love-Raze
-  {126,  0,  96,  8,  0, 16, 12, false},  //7  IsThereAnybodyOutThere-Bassheads
-  {128,  0,  80,  8,  4,  8,  0, false},  //8  PacificState-808State
-  {150,  0, 155,  0,  0, 16, 16, false},  //9  OutOfSpace-Prodigy
-  {132,  0, 162, 16,  0, 16, 16, false},  //10 Breathe-Prodigy
-  {138,  0, 148, 16,  0, 16,  4, false},  //11 SmackMyBitchUp-Prodigy
-  {128,  0, 124,  8,  0,  8,  0, false},  //12 BreakOfDawn-RhythmOnTheLoose
-  {132,  0, 116, 16,  0, 16, 16, false},  //13 BlueMonday-NewOrder
-  {131, 40, 120,  8,  0, 16,  4, false},  //14 PlayingWithKnives-BizzarreInc
+tuneInfo tuneLibRave[16] = {
+  {149, 68, 128, 16,  0, 16, 16, true},   //1  TripToTheMoonPt2-Acen.
+  {136, 80, 112, 32,  0, 16, 16, false},  //2  Bombscare-2BadMice.
+  {126,  0, 114,  8,  0, 16,  8, false},  //3  LFO-LFO.
+  {131,  0, 136,  8,  0, 16, 16, true},   //4  Infiltrate202-Altern8.
+  {122,  0, 118,  8,  0, 16, 16, true},   //5  DirtyCash-SoldOutMix.
+  {122,  0, 108,  8,  0, 16, 16, true},   //6  Break4Love-Raze.
+  {124, 44, 100, 16,  0, 16, 16, true},   //7  IsThereAnybodyOutThere-Bassheads.
+  {128,  0,  80,  8,  4, 16,  8, false},  //8  PacificState-808State.
+  {150,  0, 163, 16,  0, 16,  8, false},  //9  OutOfSpace-Prodigy.
+  {132,  0, 142, 16,  0, 16,  0, false},  //10 Breathe-Prodigy.
+  {138,  0, 148, 16,  0, 16,  0, false},  //11 SmackMyBitchUp-Prodigy.
+  {128,  0, 124, 16,  0, 32,  4, false},  //12 BreakOfDawn-RhythmOnTheLoose.
+  {132,  0, 132, 16,  0, 16,  0, false},  //13 BlueMonday-NewOrder.
+  {132, 60, 120,  8,  0, 16,  4, false},  //14 PlayingWithKnives-BizzarreInc.
   {120, 16, 129, 16,  8, 16, 16, false},  //15 KillerFeatTopCat-BoozooBajou
+  {136, 60, 112,  8,  0, 16,  0, false},  //16 LivingLegends-RaggaTwins
+  {135, 48, 132,  8,  0, 16,  9, false},  //17 FeelingForYou-Cassius
 };
 
 // Genre 1, Disco

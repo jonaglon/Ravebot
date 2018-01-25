@@ -10,8 +10,8 @@ int ledSections[20] = {
   692,   // 7  mouth
   710,   // 8  tape
   744,   // 9  tuner *
-  769,   // 10 indiciator *
-  773,   // 11 underarm right
+  770,   // 10 indiciator *
+  774,   // 11 underarm right
   797,   // 12 overarm right
   821,   // 13 tube bottomright *
   911,   // 14 tube bottomleft *
@@ -159,8 +159,9 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     rgbwLeds[ledNum+537].r = bVal % 256;
   }
   else if (ledNum < 825) {
-    if (ledNum > 744 && ledNum < 774)
-      ledNum = 1516-ledNum;
+    // reverse indicator and tuner direction
+    if (ledNum > 743 && ledNum < 774)
+      ledNum = 1517-ledNum;
 
     // Rest of head and right arm
     setRgbwLedAfterEyes(ledNum+230, rVal, gVal, bVal, wVal);
