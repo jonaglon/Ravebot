@@ -11,8 +11,8 @@ struct servoInfo {
 };
 
 servoInfo servos[10] = {
-  { 230, 560, 0, 380, 380 }, // 0 - Head - Nod
-  { 140, 560, 3, 360, 360 }, // 1 - Head - shake
+  { 360, 520, 0, 400, 400 }, // 0 - Head - Nod - number goes up, head goes forward
+  { 130, 530, 3, 330, 330 }, // 1 - Head - shake
   { 180, 300, 2, 240, 240 }, // 2 - L Arm - Gripper was 360    w
   { 140, 560, 3, 350, 350 }, // 3 - R Arm - Wrist LR     w
   { 140, 560, 3, 350, 350 }, // 4 - R Arm - Elbow
@@ -25,12 +25,12 @@ servoInfo servos[10] = {
 
 // called from init, set all servos to their initial position
 void initServos() {
-  for (int num = 5; num < 6; num++) 
+  for (int num = 0; num < 2; num++) 
   {
     moveServoToPos(num, servos[num].servoCenter-20);
-    delay(10);
+    delay(100);
     moveServoToPos(num, servos[num].servoCenter-10);
-    delay(10);
+    delay(100);
     moveServoToPos(num, servos[num].servoCenter);
   }
 }
@@ -53,13 +53,10 @@ void doServos() {
 void setHead() {
 
   // Nod
+  moveServoToPos(0, (ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)-128)+servos[0].servoCenter);
 
   // Move head left and right
-  int newPos = (ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)-128)+servos[5].servoCenter; // 128+ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)+servos[1].servoCenter;
-  //Serial.print("pos:");
-  //Serial.println(newPos);
-  moveServoToPos(5, newPos);
-
+  moveServoToPos(1, (ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)-128)+servos[1].servoCenter);
 
 }
 
