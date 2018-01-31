@@ -9,13 +9,12 @@ void doMyArms() {
   int leftUp = digitalRead(A2);
   int leftDown = digitalRead(A3);
 
-  if (leftUp == 1) {
+  /*if (leftUp == 1) {
     Serial.println(".  .  .  .  .  .  .  .  .  .");
   } else {
     Serial.println("****************************");
-  }
-  
-  if (ps2.readButton(PS2_LEFT_1) == 0) {
+  }*/
+  /*if (ps2.readButton(PS2_LEFT_1) == 0) {
     ST2.motor(1, 127);
   } else if (ps2.readButton(PS2_LEFT_2) == 0) {
     ST2.motor(1, -127);
@@ -25,7 +24,7 @@ void doMyArms() {
     ST2.motor(2, 127);
   } else if (ps2.readButton(PS2_RIGHT_2) == 0) {
     ST2.motor(2, -127);
-  }
+  }*/
 
 }
 

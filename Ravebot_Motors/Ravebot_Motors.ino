@@ -16,6 +16,15 @@
 
 unsigned long timey;
 
+// movement control vars
+bool nodding = false;
+bool shaking = false;
+bool lClawOpening = true;
+bool lClawMoving = false;
+unsigned long noddingTime;
+unsigned long shakingTime;
+
+
 // switches in arade buttons
 int switchPins[14] = { 27, 29, 31, 33, 35, 37, 39, 41, 45, 43, 53, 51, 49, 47 };
 
@@ -47,7 +56,7 @@ void setup() {
   delay(500);
 
   // Send midi to debug
-  Serial.begin(9600);
+  //Serial.begin(9600);
 
   // Talk to the other arduino
   Serial2.begin(57600);
