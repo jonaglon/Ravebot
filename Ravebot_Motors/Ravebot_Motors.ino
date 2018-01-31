@@ -19,10 +19,18 @@ unsigned long timey;
 // movement control vars
 bool nodding = false;
 bool shaking = false;
-bool lClawOpening = true;
-bool lClawMoving = false;
 unsigned long noddingTime;
 unsigned long shakingTime;
+
+bool lClawOpening = true;
+bool lClawMoving = false;
+bool rClawOpening = true;
+bool rClawMoving = false;
+
+bool lElbowOpening = true;
+bool lElbowMoving = false;
+bool rElbowOpening = true;
+bool rElbowMoving = false;
 
 
 // switches in arade buttons

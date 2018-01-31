@@ -11,31 +11,30 @@ struct servoInfo {
 };
 
 servoInfo servos[10] = {
-  { 370, 520, 1, 400, 400 }, // 0 - Head - Nod - number goes up, head goes forward
+  { 390, 520, 1, 410, 410 }, // 0 - Head - Nod
   { 130, 530, 2, 330, 330 }, // 1 - Head - shake
-  { 180, 330, 3, 240, 240 }, // 2 - L Arm - Gripper was 360    w
-  { 140, 560, 3, 350, 350 }, // 3 - R Arm - Wrist LR     w
-  { 140, 560, 3, 350, 350 }, // 4 - R Arm - Elbow
-  { 140, 560, 3, 350, 350 }, // 5 - R Arm - Wrist UD
-  { 140, 0,   2, 0, 0}, // 6 - L Arm -Gripper
-  { 140, 560, 3, 350, 350 }, // 7 - L Arm -Wrist UD
-  { 140, 560, 3, 350, 350 }, // 8 - L Arm -Elbow
-  { 140, 560, 3, 350, 350 }  // 9 -  L Arm - Wrist LR
+  { 180, 330, 3, 240, 240 }, // 2 - L claw
+  { 140, 560, 3, 350, 350 }, // 3 - l wrist ud
+  { 140, 560, 2, 350, 350 }, // 4 - R elbow
+  { 140, 560, 3, 350, 350 }, // 5 - R wrist lr
+  { 290, 445, 3, 350, 350 }, // 6 - R claw increase to grab
+  { 140, 560, 3, 350, 350 }, // 7 - r wrist ud
+  { 140, 560, 3, 350, 350 }, // 8 - l elbow
+  { 140, 560, 3, 350, 350 }  // 9 - l wrist lr
 };
 
 // called from init, set all servos to their initial position
 void initServos() {
 
-  int delayo=35;
   int range=10;
   
-  for (int servoNum = 0; servoNum < 4; servoNum++) {
+  for (int servoNum = 0; servoNum < 9; servoNum++) {
     moveServoToPos(servoNum, servos[servoNum].servoCenter+range);
-    delay(delayo);
+    delay(200);
     moveServoToPos(servoNum, servos[servoNum].servoCenter-range);
-    delay(delayo);
+    delay(200);
     moveServoToPos(servoNum, servos[servoNum].servoCenter);
-    delay(delayo);
+    delay(200);
   }
 }
 
@@ -43,13 +42,13 @@ void doServos() {
 
   setHead();
 
-  setLeftArmsElbowsAndClaw();
+  leftClaw();
+  leftElbow();
+  leftWrist();
 
-  //setLeftArmJoystickMovement();
-
-  //setRightArmsElbowsAndHandGrabber();
-
-  //setRightArmJoystickMovement();
+  rightClaw();
+  rightElbow();
+  rightWrist();
 
 }
 
@@ -101,9 +100,7 @@ void setHead() {
   }
 }
 
-void setLeftArmsElbowsAndClaw() {
-
-  // Left Claw
+void leftClaw() {
   if (ps2.readButton(PS2_CIRCLE) == 0) {
     if (lClawOpening) {
       moveServo(2, servos[2].servoSpeed);
@@ -120,14 +117,74 @@ void setLeftArmsElbowsAndClaw() {
     }
     lClawMoving = false;
   }
-  
-  /* else if (ps2.readButton(PS2_DOWN) == 0)
-    moveServo(4, -servos[4].servoSpeed);
+}
 
-  if (ps2.readButton(PS2_LEFT) == 0) // Left Hand Cripper
-    moveServo(2, servos[2].servoSpeed);
-  else if (ps2.readButton(PS2_RIGHT) == 0)
-    moveServo(2, -servos[2].servoSpeed);  */
+void rightClaw() {
+  if (ps2.readButton(PS2_CROSS) == 0) {
+    if (rClawOpening) {
+      moveServo(6, servos[6].servoSpeed);
+      rClawMoving = true;
+    } else {
+      moveServo(6, -servos[6].servoSpeed);
+      rClawMoving = true;
+    }
+  } else if (rClawMoving) {
+    if (rClawOpening) {
+      rClawOpening = false;
+    } else {
+      rClawOpening = true;
+    }
+    rClawMoving = false;
+  }
+}
+
+void leftWrist() {
+  moveServoToPos(9, (-(ps2.readButton(PS2_JOYSTICK_RIGHT_X_AXIS)-128))+servos[9].servoCenter);
+  moveServoToPos(3, (-(ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)-128))+servos[3].servoCenter);
+}
+
+void rightWrist() {
+  moveServoToPos(5, (ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)-128)+servos[5].servoCenter);
+  moveServoToPos(7, (-(ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)-128))+servos[7].servoCenter);
+}
+
+
+void leftElbow() {
+  if (ps2.readButton(PS2_SQUARE) == 0) {
+    if (lElbowOpening) {
+      moveServo(4, servos[4].servoSpeed);
+      lElbowMoving = true;
+    } else {
+      moveServo(4, -servos[4].servoSpeed);
+      lElbowMoving = true;
+    }
+  } else if (lElbowMoving) {
+    if (lElbowOpening) {
+      lElbowOpening = false;
+    } else {
+      lElbowOpening = true;
+    }
+    lElbowMoving = false;
+  }
+}
+
+void rightElbow() {
+  if (ps2.readButton(PS2_TRIANGLE) == 0) {
+    if (rElbowOpening) {
+      moveServo(8, servos[8].servoSpeed);
+      rElbowMoving = true;
+    } else {
+      moveServo(8, -servos[8].servoSpeed);
+      rElbowMoving = true;
+    }
+  } else if (rElbowMoving) {
+    if (rElbowOpening) {
+      rElbowOpening = false;
+    } else {
+      rElbowOpening = true;
+    }
+    rElbowMoving = false;
+  }
 }
 
 void setRightArmJoystickMovement() {
