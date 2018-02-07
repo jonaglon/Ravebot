@@ -4,8 +4,9 @@ void talkToLights() {
   
   receiveSerialFromLights();
 
-  // TODO!!!!!!!!!!!!!!
-  // checkButtonsSendInfoToLights();
+  checkLedIntensitySendChangeToLights();
+
+  checkButtonsSendInfoToLights();
 }
 
 void receiveSerialFromLights() {
@@ -29,7 +30,7 @@ void doSomethingWithMessageFromLights(int messageInt) {
   {
     for (int switchNum = 0; switchNum < 14; switchNum++) {
       if (switchNum==message)
-        ledPwm.setPWM(switchNum, 0, 4095);
+        ledPwm.setPWM(switchNum, 0, 0);
     }
   }
   else if (function == 2) // this is a message to tell us what song is playing
@@ -38,22 +39,32 @@ void doSomethingWithMessageFromLights(int messageInt) {
   }
 }
 
-bool ps2Right1On = false;
+void checkLedIntensitySendChangeToLights() {
+  int sensorValue = analogRead(A8);
+  int newIntensity = 50-(sensorValue/19); // should give us a range ~2-50
+  
+  if (newIntensity != ledIntensity) {
+    ledIntensity = newIntensity;
+    sendSerialToLights(3, ledIntensity);
+  }
+}
+
+// bool ps2Right1On = false;
 bool ps2Right2On = false;
 void checkButtonsSendInfoToLights() {
   
-  if (!ps2Right1On && ps2.readButton(PS2_RIGHT_1)==0)
+  if (!ps2Right2On && ps2.readButton(PS2_RIGHT_2)==0)
   {
-    ps2Right1On = true;
+    ps2Right2On = true;
     sendSerialToLights(1, 0);
   }
-  if (ps2Right1On && ps2.readButton(PS2_RIGHT_1)==1)
+  if (ps2Right2On && ps2.readButton(PS2_RIGHT_2)==1)
   {
-    ps2Right1On = false;
+    ps2Right2On = false;
     sendSerialToLights(1, 1);
   }
   
-  if (!ps2Right2On && ps2.readButton(PS2_RIGHT_2)==0)
+  /* if (!ps2Right2On && ps2.readButton(PS2_RIGHT_2)==0)
   {
     ps2Right2On = true;
     sendSerialToLights(3, 0);
@@ -62,7 +73,7 @@ void checkButtonsSendInfoToLights() {
   {
     ps2Right2On = false;
     sendSerialToLights(3, 1);
-  }
+  } */
   
 }
 

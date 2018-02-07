@@ -8,14 +8,15 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+bool beatTestMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0;
 int ticky=0;
 
 unsigned long beatTimes[10] = {0,0,0,0,0,0,0,0,0,0};
-int fakeBeatLengh = 120;
+int fakeBeatLengh = 500;
 
 // Set by midi in to be 1-16 with beat.
 short sixteenHalfBeats = 0;
@@ -32,6 +33,9 @@ unsigned long robotTalkingOnTime;
 
 const int numLeds = 1443;
 CRGB rgbwLeds[2440]; // 488 * 5
+
+// LED Intensity
+int ledIntensity = 50;
 
 // MIXING VARS
 int nextTrack = 0;
@@ -55,7 +59,7 @@ void setup() {
   Serial.begin(9600);
 
   // Communicate with the Mega
-  Serial2.begin(57600);
+  Serial2.begin(9600);
   // Talk to the other arduino
   //Serial3.begin(9600);
 
@@ -64,7 +68,7 @@ void setup() {
 
   //pinMode(12, OUTPUT); // rgb LED Setup
   LEDS.addLeds<WS2811_PORTD, 5>(rgbwLeds, 488); // Hardcoded to ports:25,26,27,28,14,15
-  LEDS.setBrightness(10); // 255 max
+  LEDS.setBrightness(128); // 128 good max, 255 actual /max
 
   setMainVolume(mainVolume);
 
@@ -98,7 +102,7 @@ struct tuneInfo {
  
 
 // Genre 0, RAVE!
-tuneInfo tuneLibRave[16] = {
+tuneInfo tuneLibRave[17] = {
   {149, 68, 128, 16,  0, 16, 16, true},   //1  TripToTheMoonPt2-Acen.
   {136, 80, 112, 32,  0, 16, 16, false},  //2  Bombscare-2BadMice.
   {126,  0, 114,  8,  0, 16,  8, false},  //3  LFO-LFO.
@@ -108,9 +112,9 @@ tuneInfo tuneLibRave[16] = {
   {124, 44, 100, 16,  0, 16, 16, true},   //7  IsThereAnybodyOutThere-Bassheads.
   {128,  0,  80,  8,  4, 16,  8, false},  //8  PacificState-808State.
   {150,  0, 163, 16,  0, 16,  8, false},  //9  OutOfSpace-Prodigy.
-  {132,  0, 142, 16,  0, 16,  0, false},  //10 Breathe-Prodigy.
+  {132,  0, 142, 16,  0, 16, 16, true},  //10 Breathe-Prodigy.
   {138,  0, 148, 16,  0, 16,  0, false},  //11 SmackMyBitchUp-Prodigy.
-  {128,  0, 124, 16,  0, 32,  4, false},  //12 BreakOfDawn-RhythmOnTheLoose.
+  {128,  0, 124, 16,  0, 16, 16, false},  //12 BreakOfDawn-RhythmOnTheLoose.
   {132,  0, 132, 16,  0, 16,  0, false},  //13 BlueMonday-NewOrder.
   {132, 60, 120,  8,  0, 16,  4, false},  //14 PlayingWithKnives-BizzarreInc.
   {120, 16, 129, 16,  8, 16, 16, false},  //15 KillerFeatTopCat-BoozooBajou
@@ -120,21 +124,21 @@ tuneInfo tuneLibRave[16] = {
 
 // Genre 1, Disco
 tuneInfo tuneLibDisco[15] = {
-  {125,  0, 102,  8,  0,  8,  8, false},  //1 ILoveTheNightlife - Alecia Bridges
-  {110,  0, 152,  8,  4, 16,  0, false},  //2 LastNightADjSavedMyLife-Indeep
-  {134,  0, 149,  8,  0, 16,  4, false},  //3 LayAllYourLoveOnMe-Abba
-  {121,  0, 152,  8,  0, 16 , 0, false},  //4 HotStuff-DonnaSummer
-  {128,  0, 108,  8,  4, 12, 12, false},  //5 RingMyBell-AnitaWard
-  {128,  0, 213, 16,  0, 16,  0, false},  //6 EverybodyDance-Chic
-  {111,  0, 100,  8,  0,  8, 16, false},  //7 GoodTimes-Chic
-  {102,  0, 112,  8,  0,  8,  4, false},  //8 ThinkingOfYou-SisSledge
-  {115,  0, 104,  8,  0, 16, 16, false},  //9 SheCantLoveYou-Chemise
-  {112,  0, 130,  8,  0, 16, 16, false},  //10 Automatic-PointerSisters   
-  {105,  0, 120,  8,  0,  8,  8, false},  //11 StayinAlive-BeeGees  
-  {114,  0, 103,  4,  0, 10,  8, false},  //12 BestOfMyLove-TheEmotions
-  {125,  0,  96,  4,  0, 10, 10, false},  //13 ILoveTheNightlife-AliciaBridges
-  {110,  0,  96,  8,  0, 16, 12, false},  //14 NightFever-BeeGees
-  {111,  0, 102,  8,  0,  8,  4, false},  //15 GiveMeTheNight-GeorgeBenson
+  {125,  0, 102,  8,  0,  8,  8, true},   // 1 ILoveTheNightlife - Alecia Bridges
+  {110,  0, 128,  8,  4, 16, 16, true},   // 2 LastNightADjSavedMyLife-Indeep
+  {134,  0, 149,  8,  0, 16, 16, true},   // 3 LayAllYourLoveOnMe-Abba
+  {121,  0, 156,  8,  0, 16, 14, false},  // 4 HotStuff-DonnaSummer
+  {128,  0, 110,  8,  4,  8, 14, true},  // 5 RingMyBell-AnitaWard
+  {130,  0, 209, 16,  0, 16, 16, true},  // 6 EverybodyDance-Chic
+  {111,  0, 100,  8,  0, 16, 16, true},  // 7 GoodTimes-Chic
+  {102,  0, 108,  8,  0, 10,  8, false},  // 8 ThinkingOfYou-SisSledge
+  {117,  0, 104,  8,  0,  8 , 8, true},  // 9 SheCantLoveYou-Chemise
+  {112,  0, 130,  8,  0, 16, 16, true},  // 10 Automatic-PointerSisters   
+  {105,  0, 120,  8,  0,  8,  8, true},  // 11 StayinAlive-BeeGees  
+  {114,  0, 100,  4,  0,  8,  8, false},  // 12 BestOfMyLove-TheEmotions
+  {125,  0,  96,  4,  0, 16, 16, true},  // 13 ILoveTheNightlife-AliciaBridges
+  {110,  0,  96,  8,  0, 16, 16, true},  // 14 NightFever-BeeGees
+  {111,  0, 102,  8,  0, 16,  4, true},  // 15 GiveMeTheNight-GeorgeBenson
 };
 
 // Genre 2, Reggae 
@@ -273,7 +277,29 @@ tuneInfo tuneLibHipHop[20] = {
 tuneInfo currentTune = tuneLibHipHop[0];
 tuneInfo nextTune = tuneLibHipHop[0];
 
+// 
+int eyeCoords[93][2] = {
+  { 55,107}, { 64,106}, { 75,104}, { 84, 98}, { 92, 93}, { 98, 85}, {103, 76}, {107, 66}, {108, 56}, {107, 45},
+  {103, 35}, { 98, 27}, { 92, 18}, { 84, 12}, { 75,  7}, { 64,  3}, { 55,  2}, { 45,  3}, { 35,  7}, { 26, 12},
+  { 18, 18}, { 12, 27}, {  7, 35}, {  4, 45}, {  3, 56}, {  4, 66}, {  7, 76}, { 12, 85}, { 18, 93}, { 26, 98},
+  { 35,104}, { 45,106}, { 55, 98}, { 66, 97}, { 76, 92}, { 84, 85}, { 91, 77}, { 96, 66}, { 97, 55}, { 96, 44},
+  { 91, 35}, { 84, 26}, { 76, 18}, { 66, 14}, { 55, 13}, { 45, 14}, { 34, 18}, { 26, 26}, { 18, 35}, { 14, 44},
+  { 12, 55}, { 14, 66}, { 18, 77}, { 25, 85}, { 34, 92}, { 44, 97}, { 55, 88}, { 67, 86}, { 77, 78}, { 85, 68},
+  { 87, 55}, { 85, 43}, { 77, 33}, { 67, 25}, { 55, 23}, { 43, 25}, { 32, 33}, { 25, 43}, { 23, 55}, { 25, 68},
+  { 32, 78}, { 43, 86}, { 55, 78}, { 66, 75}, { 74, 67}, { 77, 55}, { 75, 44}, { 67, 36}, { 55, 33}, { 44, 36},
+  { 36, 44}, { 33, 55}, { 35, 67}, { 43, 75}, { 55, 68}, { 64, 64}, { 67, 55}, { 64, 47}, { 55, 43}, { 46, 47},
+  { 43, 55}, { 46, 64}, { 55, 55} };
 
-
+int eyeCoordsOLD[93][2] = {
+  {43,22}, {43,18}, {41,14}, {39,10}, {37, 7}, {34, 4}, {30, 3}, {26, 1}, {22, 1}, {18, 1},
+  {14, 3}, {10, 4}, { 7, 7}, { 5,10}, { 3,14}, { 1,18}, { 1,22}, { 1,26}, { 3,30}, { 5,34},
+  { 7,37}, {11,40}, {14,42}, {18,43}, {22,43}, {27,43}, {30,42}, {34,40}, {37,37}, {40,34},
+  {41,30}, {43,26}, {39,22}, {39,18}, {37,13}, {34,10}, {30, 7}, {26, 5}, {22, 5}, {18, 5},
+  {14, 7}, {10,10}, { 7,13}, { 6,18}, { 5,22}, { 6,27}, { 7,30}, {10,34}, {14,37}, {18,38},
+  {22,39}, {27,38}, {31,37}, {34,34}, {37,30}, {39,27}, {35,22}, {34,17}, {31,13}, {27,10},
+  {22, 9}, {17,10}, {13,13}, {10,17}, { 9,22}, {10,27}, {13,31}, {17,34}, {22,35}, {27,34},
+  {31,32}, {34,27}, {31,22}, {30,17}, {26,14}, {22,13}, {17,14}, {14,17}, {13,22}, {14,26},
+  {17,30}, {22,31}, {27,30}, {30,26}, {27,22}, {26,19}, {22,17}, {18,19}, {17,22}, {18,25},
+  {22,27}, {26,25}, {22,22} };
 
   

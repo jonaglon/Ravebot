@@ -32,6 +32,7 @@ bool lElbowMoving = false;
 bool rElbowOpening = true;
 bool rElbowMoving = false;
 
+int ledIntensity = 10;
 
 // switches in arade buttons
 int switchPins[14] = { 27, 29, 31, 33, 35, 37, 39, 41, 45, 43, 53, 51, 49, 47 };
@@ -64,17 +65,17 @@ void setup() {
   delay(500);
 
   // Send midi to debug
-  //Serial.begin(9600);
+  Serial.begin(9600);
 
   // Talk to the other arduino
-  Serial2.begin(57600);
+  Serial2.begin(9600);
 
   // make random more random?!
   randomSeed(analogRead(0));
 
   ps2.begin(57600);
 
-  // The relays which control the arms
+  // The relays which control the arms - todo - there are no relays controlling the arms any more
   pinMode(22, OUTPUT);
   pinMode(24, OUTPUT);
   pinMode(26, OUTPUT);
@@ -104,6 +105,8 @@ void setup() {
   pinMode(A2, INPUT_PULLUP);
   pinMode(A3, INPUT_PULLUP);
   pinMode(A4, INPUT_PULLUP);
+  // led intensity
+  pinMode(A8, INPUT_PULLUP);
 
   // Arcade switch
   pinMode(switchPins[0], INPUT_PULLUP);

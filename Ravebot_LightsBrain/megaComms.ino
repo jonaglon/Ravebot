@@ -33,7 +33,7 @@ void doSomethingWithPackageFromMega(int package) {
   }
   else if (function == 3)
   {
-    unmuteRobotVoice(message); 
+    ledIntensity=message;
   }
   else if (function == 4)
   {

@@ -23,7 +23,7 @@ int ledSections[20] = {
 
 void doLights() {
 
-  allOff();
+  //allOff();
 
   //setLedDirect(7, 255 , 0, 0, 0);
   
@@ -38,10 +38,13 @@ void doLights() {
   setSection(2, 0, 255, 0, 0);
   setSection(3, 0, 0, 255, 0);
   setSection(4, 0, 255, 0, 0);
-  
-  setSection(5, 255, 0, 0, 0);
-  setSection(6, 0, 255, 0, 0);
-  setSection(7, 0, 0, 255, 0);
+
+  doEyes();
+  // setSection(5, 255, 0, 0, 0);
+  // setSection(6, 0, 255, 0, 0);
+
+  doTalkingLights();
+  //setSection(7, 0, 0, 255, 0);
   setSection(8, 0, 0, 0, 255);
   
   setSection(9, 255, 0, 0, 0);
@@ -82,6 +85,26 @@ void doLights() {
 
   LEDS.show();
 }
+
+void doEyes() {
+  drawLightsNear(ledSections[5], 55, 55, 35);
+  drawLightsNear(ledSections[6], 55, 55, 35);
+}
+
+
+void drawLightsNear(int offSet, int xCoord, int  yCoord, int radius) {
+
+  for(int j = 0; j < 94; j++) { 
+    if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) 
+    {
+      if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) 
+      {
+        setLedDirect(offSet+j, 0, 100, 200, 0);
+      }
+    }
+  }
+}
+
 
 void sectionsInTime() {
   int beat4 = sixteenHalfBeats % 4;  
@@ -205,6 +228,11 @@ void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
   int newNumber = (ledNumber * 4) / 3;
   short mod = ledNumber % 3;
 
+  rVal = rVal/ledIntensity;
+  gVal = gVal/ledIntensity;
+  bVal = bVal/ledIntensity;
+  wVal = wVal/ledIntensity;
+
   if (mod == 0)
   {
     rgbwLeds[newNumber].r = rVal % 256;
@@ -231,6 +259,11 @@ void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
 void setRgbwLedAfterEyes(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
   int newNumber = (ledNumber * 4) / 3;
   short mod = ledNumber % 3;
+  
+  rVal = rVal/ledIntensity;
+  gVal = gVal/ledIntensity;
+  bVal = bVal/ledIntensity;
+  wVal = wVal/ledIntensity;
 
   if (mod == 0)
   {
