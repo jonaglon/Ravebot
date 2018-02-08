@@ -15,6 +15,7 @@
 #include<Cytron_PS2Shield.h>
 
 unsigned long timey;
+unsigned long nextAnalogRead;
 
 // movement control vars
 bool nodding = false;
@@ -123,6 +124,10 @@ void setup() {
   pinMode(switchPins[11], INPUT_PULLUP);
   pinMode(switchPins[12], INPUT_PULLUP);
   pinMode(switchPins[13], INPUT_PULLUP);
+
+  timey = millis();
+
+  nextAnalogRead = timey+500;
 }
 
 void loop()

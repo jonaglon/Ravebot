@@ -40,13 +40,16 @@ void doSomethingWithMessageFromLights(int messageInt) {
 }
 
 void checkLedIntensitySendChangeToLights() {
-  int sensorValue = analogRead(A8);
-  int newIntensity = 50-(sensorValue/19); // should give us a range ~2-50
-  
-  if (newIntensity != ledIntensity) {
-    ledIntensity = newIntensity;
-    sendSerialToLights(3, ledIntensity);
-  }
+
+  if (nextAnalogRead > timey) {
+    int sensorValue = analogRead(A8);
+    int newIntensity = 50-(sensorValue/19); // should give us a range ~2-50
+    if (newIntensity != ledIntensity) {
+      ledIntensity = newIntensity;
+      sendSerialToLights(3, ledIntensity);
+    }    
+    nextAnalogRead = timey+300;
+  }  
 }
 
 // bool ps2Right1On = false;
