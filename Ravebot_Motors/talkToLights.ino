@@ -35,7 +35,8 @@ void doSomethingWithMessageFromLights(int messageInt) {
   }
   else if (function == 2) // this is a message to tell us what song is playing
   {
-    setDisplay(message);
+    // todo - really have to uncomment this
+    // setDisplay(message);
   }
 }
 

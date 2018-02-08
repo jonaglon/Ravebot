@@ -1,6 +1,4 @@
-short num0 = 0;
-short num1 = 0;
-short num2 = 0;
+int currentNum = 0;
 
 void doJukebox()
 {
@@ -13,9 +11,9 @@ void doJukebox()
 
 void keypadPressed(char key) {
   if (key == '#')
-    resetNumber();
+    changeNumber(0); // resetNumber();
   else if (key == '*')
-    sendNumber();
+    changeNumber(0); // sendNumber();
   else if (key == '1')
     changeNumber(1);
   else if (key == '2')
@@ -43,41 +41,51 @@ void keypadPressed(char key) {
 /* use this to find new 7 segments, assign this function a key and comment showNumber call.
 int sevenSegCount = 0;
 void sevenSegTest() {
-  matrix.displaybuffer[0] = sevenSegCount;
+  matrix.displaybuffer[0] = get7SegmentNumber(sevenSegCount);
 
+  matrix.writeDisplay();
+  sevenSegCount++;
+}
+void sevenSegTest2(int seg) {
+  matrix.displaybuffer[0] = get7SegmentNumber(seg);
   matrix.writeDisplay();
   sevenSegCount++;
 } */
 
 void showNumber() {
-  matrix.displaybuffer[0] = 0;
-  matrix.displaybuffer[1] = 0;
-  matrix.displaybuffer[3] = 0;
+  /* 
+  //matrix.displaybuffer[0] = 0;
+  //matrix.displaybuffer[1] = 0;
+  //matrix.displaybuffer[3] = 0;
   
-  int finalNumber = getFinalNumber();
+  // int finalNumber = getFinalNumber();
 
   if (finalNumber > 99)
   {
-    matrix.displaybuffer[0] = get7SegmentNumber(num0);
+    matrix.displaybuffer[3] = get7SegmentNumber(num0);
     matrix.displaybuffer[1] = get7SegmentNumber(num1);
-    matrix.displaybuffer[3] = get7SegmentNumber(num2);
+    matrix.displaybuffer[0] = get7SegmentNumber(num2);
   }
   else if (finalNumber > 9)
   {
     matrix.displaybuffer[1] = get7SegmentNumber(num1);
-    matrix.displaybuffer[3] = get7SegmentNumber(num2);
+    matrix.displaybuffer[0] = get7SegmentNumber(num2);
   }
   else
   {
-    matrix.displaybuffer[3] = num2 == 0 ? 0 : get7SegmentNumber(num2);
-  }
+    matrix.displaybuffer[0] = get7SegmentNumber(num2); //num2 == 0 ? 0 : get7SegmentNumber(num2);
+  }  */
+  
+  matrix.displaybuffer[3] = get7SegmentNumber(currentNum/100);
+  //matrix.displaybuffer[1] = get7SegmentNumber((currentNum%100)/10);
+  //matrix.displaybuffer[0] = get7SegmentNumber(currentNum%110);
   
   matrix.writeDisplay();
 }
 
-short get7SegmentNumber(short actualNumber) {
+int get7SegmentNumber(int actualNumber) {
   switch (actualNumber) {
-     case 0: return 63;   // JR TODO - you can just change these until you find ones you wanty
+     case 0: return 63;
      case 1: return 48;
      case 2: return 91;
      case 3: return 121;
@@ -91,14 +99,21 @@ short get7SegmentNumber(short actualNumber) {
   }  
 }
 
-short getFinalNumber() {
-  return num2 + (10 * num1) + (100 * num0);
+void changeNumber(int newNumber) {
+  if (currentNum > 100)
+    currentNum = ((currentNum % 100) * 10) + newNumber;
+  else if (currentNum > 10)
+    currentNum = (currentNum % 10) + newNumber;
+  else 
+    currentNum = newNumber;
 }
 
-void changeNumber(short newNumber) {
-  num0 = num1;
-  num1 = num2;
-  num2 = newNumber;
+
+/*
+ * 
+
+short getFinalNumber() {
+  return num0 + (10 * num1) + (100 * num2);
 }
 
 void resetNumber() {
@@ -115,16 +130,15 @@ void sendNumber() {
   resetNumber();
 }
 
-
 void setDisplay(int number) {
-  char buf [4];
+  char buf [3];
   sprintf (buf, "%03i", number);
   num0 = buf [0] - '0';
   num1 = buf [1] - '0';
   num2 = buf [2] - '0';
 
-  showNumber();
+  showNumber(); 
 }
 
-
+ todo obv */
 
