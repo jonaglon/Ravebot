@@ -4,11 +4,11 @@
 char str[4]; // the message from the mega
 
 void receiveFromMega() {
-  while (Serial2.available()) {
+  while (Serial1.available()) {
     int i=0;
     delay(5); //allows all serial sent to be received together
-    while(Serial2.available() && i<4) {
-      str[i++] = Serial2.read();
+    while(Serial1.available() && i<4) {
+      str[i++] = Serial1.read();
     }
     str[i++]='\0';
     doSomethingWithPackageFromMega(atoi(str));
@@ -116,7 +116,7 @@ void unmuteRobotVoice(int btnOnOffMessage) {
 ************************* */
 void sendBeatToMega() {
   if (sixteenHalfBeats % 2 == 0) {
-    sendSerialToMega(1, sixteenHalfBeats);
+    sendSerialToMega(1, sixteenHalfBeats/2;
   }
 }
 

@@ -14,6 +14,8 @@
 #include<SabertoothSimplified.h>
 #include<Cytron_PS2Shield.h>
 
+const bool testMode = false;
+
 unsigned long timey;
 unsigned long nextAnalogRead;
 
@@ -34,6 +36,7 @@ bool rElbowOpening = true;
 bool rElbowMoving = false;
 
 int ledIntensity = 10;
+int currentSegmentNum;
 
 // switches in arade buttons
 int switchPins[14] = { 27, 29, 31, 33, 35, 37, 39, 41, 45, 43, 53, 51, 49, 47 };
@@ -65,11 +68,12 @@ Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, 4, 3);
 void setup() {
   delay(500);
 
-  // Send midi to debug
-  Serial.begin(9600);
+  if (testMode)
+    Serial.begin(9600);
 
   // Talk to the other arduino
-  Serial2.begin(9600);
+  Serial1.begin(19200);  // tx for sending
+  Serial2.begin(19200);  // rx for receiving
 
   // make random more random?!
   randomSeed(analogRead(0));
@@ -107,7 +111,7 @@ void setup() {
   pinMode(A3, INPUT_PULLUP);
   pinMode(A4, INPUT_PULLUP);
   // led intensity
-  pinMode(A8, INPUT_PULLUP);
+  pinMode(A8, INPUT_PULLUP);  //todo - change this
 
   // Arcade switch
   pinMode(switchPins[0], INPUT_PULLUP);
@@ -127,6 +131,8 @@ void setup() {
 
   timey = millis();
 
+  currentSegmentNum=0;
+
   nextAnalogRead = timey+500;
 }
 
@@ -138,7 +144,7 @@ void loop()
 
   doServos();
 
-  doJukebox();
+  doKeypad();
 
   doMyArms();
 

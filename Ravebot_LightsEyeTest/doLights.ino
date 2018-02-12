@@ -9,16 +9,19 @@ void doLights() {
   //eyeSweep(10);
 
   //drawLightsNear(35, 15, 6);
-  drawLightsNearAnimation(50);
+  drawLightsNearAnimation(10);
 
   LEDS.show();
 }
 
 void drawLightsNearAnimation(int speedFactor) {
 
-  int rainbowFactor = (timey / speedFactor) % 30;
+  Serial.print("Just arrived in draw lights near with:");
+  Serial.println(speedFactor);
 
-  drawLightsNear(22, 22, rainbowFactor);
+  int rainbowFactor = (timey / speedFactor) % 90;
+
+  drawLightsNear(55, 55, rainbowFactor);
   
 }
 

@@ -4,7 +4,7 @@ void talkToLights() {
   
   receiveSerialFromLights();
 
-  checkLedIntensitySendChangeToLights();
+  //checkLedIntensitySendChangeToLights();
 
   checkButtonsSendInfoToLights();
 }
@@ -25,12 +25,20 @@ void receiveSerialFromLights() {
 void doSomethingWithMessageFromLights(int messageInt) {
   int function = messageInt / 1000;
   int message = messageInt % 1000;
+  
+    if (testMode) {
+      Serial.print("Received Serial 2 Func:");
+      Serial.print(function);
+      Serial.print("   Received message:");
+      Serial.print(message);
+    }
 
   if (function == 1) // this is a beat message
   {
     for (int switchNum = 0; switchNum < 14; switchNum++) {
-      if (switchNum==message)
+      if (switchNum==message) {
         ledPwm.setPWM(switchNum, 0, 0);
+      }
     }
   }
   else if (function == 2) // this is a message to tell us what song is playing
@@ -84,13 +92,16 @@ void checkButtonsSendInfoToLights() {
 
 void sendSerialToLights(int function, int message) {
 
-  // we want to tell lights about how bright it should be - set by ps2 controllers
-  
+  if (testMode) {
+    Serial.println("Sending to Serial 2");
+  }
+
+
   int value = (function * 1000) + message;
   //Serial.println(message);
   
   itoa(value, str, 10); //Turn value into a character array
-  Serial2.write(str, 4);
+  Serial1.write(str, 4);
 
 }
 
