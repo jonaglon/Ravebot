@@ -8,8 +8,8 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-bool beatTestMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool beatTestMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0;
@@ -62,7 +62,7 @@ void setup() {
   Serial1.begin(19200); // rx for receiving
   Serial2.begin(19200); // tx for sending
   // Talk to the other arduino
-  //Serial3.begin(9600);
+  Serial3.begin(9600);
 
   // Make random more random
   randomSeed(analogRead(0));
@@ -74,7 +74,8 @@ void setup() {
   setMainVolume(mainVolume);
 
   // TODO remove me
-  // playTune(7, 0, true);
+  if (testMode)
+    playTune(7, 0, true);
 }
 
 void loop() {
@@ -240,7 +241,7 @@ tuneInfo tuneLibDrumAndBass[20] = {
   {176,  0, 169,  0,  4,  4,  0, false},  //10 PassMeTheRizla-Deekline
   {176,  0, 232,  0,  0,  0,  0, false},  //11 CryingOut-BennyPageSerialKillazMix
   {179,  0, 108,  0,  0,  0,  0, false},  //12 LivingInJungles-BedouinSoundclash
-  {179,  0, 274,  0,  0,  0,  0, false},  //13 Blade Runner Flip Side
+  {179,  0, 255,  0,  0,  0,  0, false},  //13 Blade Runner Flip Side    -- TODO this tune was shortened!
   {176,  0, 224,  0,  0,  0,  0, false},  //14 BamBam-SerialKillaz
   {176,  0, 224,  0,  0,  0,  0, false},  //15 NoNoNo-SerialKillaz  
   {100,  0, 100,  0,  4,  4,  0, false},  //16 SomeSong-Someone

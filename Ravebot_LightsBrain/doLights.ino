@@ -41,11 +41,11 @@ int ledPosOffset[19][2] = {
   {  0,  0},    // 16
   {  0,  0},    // 17
   {  0,  0},    // 18
-}
+};
 
 void doLights() {
 
-  //allOff();
+  allOff();
 
   //setLedDirect(7, 255 , 0, 0, 0);
   

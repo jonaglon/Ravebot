@@ -25,16 +25,17 @@ servoInfo servos[10] = {
 
 // called from init, set all servos to their initial position
 void initServos() {
-
-  int range=10;
-  
+  int range=6;
   for (int servoNum = 0; servoNum < 9; servoNum++) {
     moveServoToPos(servoNum, servos[servoNum].servoCenter+range);
-    delay(200);
+  }
+  delay(300);
+  for (int servoNum = 0; servoNum < 9; servoNum++) {
     moveServoToPos(servoNum, servos[servoNum].servoCenter-range);
-    delay(200);
+  }
+  delay(300);
+  for (int servoNum = 0; servoNum < 9; servoNum++) {
     moveServoToPos(servoNum, servos[servoNum].servoCenter);
-    delay(200);
   }
 }
 

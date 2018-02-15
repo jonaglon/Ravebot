@@ -1,10 +1,11 @@
-char str[4];
+char lightsMessageInStr[4];
+char lightsMessageOutStr[4];
 
 void talkToLights() {
   
   receiveSerialFromLights();
 
-  //checkLedIntensitySendChangeToLights();
+  checkLedIntensitySendChangeToLights();
 
   checkButtonsSendInfoToLights();
 }
@@ -15,36 +16,41 @@ void receiveSerialFromLights() {
     int i=0;
     delay(5); //allows all serial sent to be received together
     while(Serial2.available() && i<4) {
-      str[i++] = Serial2.read();
+      lightsMessageInStr[i++] = Serial2.read();
     }
-    str[i++]='\0';
-    doSomethingWithMessageFromLights(atoi(str));
+    lightsMessageInStr[i++]='\0';
+    int lightsMessage = atoi(lightsMessageInStr);
+    doSomethingWithMessageFromLights(lightsMessageInStr);
   }
 }
 
-void doSomethingWithMessageFromLights(int messageInt) {
-  int function = messageInt / 1000;
-  int message = messageInt % 1000;
+void doSomethingWithMessageFromLights(int messageFromLights) {
+  int requestFunction = messageFromLights / 1000;
+  int requestMessage = messageFromLights % 1000;
   
     if (testMode) {
       Serial.print("Received Serial 2 Func:");
-      Serial.print(function);
+      Serial.print(messageFromLights);
       Serial.print("   Received message:");
-      Serial.print(message);
+      Serial.println(messageFromLights);
     }
 
-  if (function == 1) // this is a beat message
+  if (requestFunction == 1) // this is a beat message
   {
     for (int switchNum = 0; switchNum < 14; switchNum++) {
-      if (switchNum==message) {
+      if (switchNum==requestMessage) {
         ledPwm.setPWM(switchNum, 0, 0);
       }
     }
   }
-  else if (function == 2) // this is a message to tell us what song is playing
+  else if (requestFunction == 2) // this is a message to tell us what song is playing
   {
-    // todo - really have to uncomment this
-    // setDisplay(message);
+    // JR TODO setDisplay doesn't exist, instead change current and display keypad
+    // setDisplay(requestMessage);
+    if (testMode) {
+      Serial.print("   * ** Play song:");
+      Serial.println(requestMessage);
+    }
   }
 }
 
@@ -96,12 +102,11 @@ void sendSerialToLights(int function, int message) {
     Serial.println("Sending to Serial 2");
   }
 
-
   int value = (function * 1000) + message;
   //Serial.println(message);
   
-  itoa(value, str, 10); //Turn value into a character array
-  Serial1.write(str, 4);
+  itoa(value, lightsMessageOutStr, 10); //Turn value into a character array
+  Serial1.write(lightsMessageOutStr, 4);
 
 }
 
