@@ -1,17 +1,18 @@
 /* ************************
        RECEIVE FROM MEGA
 ************************* */
-char str[4]; // the message from the mega
+char strIn[4]; // the message from the mega
+char strOut[4]; // the message from the mega
 
 void receiveFromMega() {
   while (Serial1.available()) {
     int i=0;
     delay(5); //allows all serial sent to be received together
     while(Serial1.available() && i<4) {
-      str[i++] = Serial1.read();
+      strIn[i++] = Serial1.read();
     }
-    str[i++]='\0';
-    doSomethingWithPackageFromMega(atoi(str));
+    strIn[i++]='\0';
+    doSomethingWithPackageFromMega(atoi(strIn));
   }
 }
 
@@ -53,7 +54,7 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Stop button
   if (buttonNumber == 8) {
-    // sendFullStop();
+    // sendFullStop();  JR TODO idea - can you cheat, set volume or bpm =0 when stop pressed
     setAbletonTempo(120); // JR TODO!
   }
 
@@ -122,10 +123,8 @@ void sendBeatToMega() {
 
 void sendSerialToMega(int function, int message) {
 
-  int value = (function * 1000) + message;
-  
-  itoa(value, str, 10); //Turn value into a character array
-  Serial2.write(str, 4);
+  itoa((function * 1000) + message, strOut, 10); //Turn value into a character array
+  Serial2.write(strOut, 4);
 
 }
 

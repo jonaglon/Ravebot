@@ -45,8 +45,8 @@ void doSomethingWithMessageFromLights(int messageFromLights) {
   }
   else if (requestFunction == 2) // this is a message to tell us what song is playing
   {
-    // JR TODO setDisplay doesn't exist, instead change current and display keypad
-    // setDisplay(requestMessage);
+    currentSegmentNum = requestMessage;
+    showNumber();
     if (testMode) {
       Serial.print("   * ** Play song:");
       Serial.println(requestMessage);

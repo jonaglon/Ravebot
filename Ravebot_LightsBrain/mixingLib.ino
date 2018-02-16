@@ -75,6 +75,9 @@ void startNewMix() {
   // send stuff to ableton to start the new track
   playAbletonTrack(nextGenre, nextTrack, !deckASelected);
 
+  // tell the other arduino what you're doing
+  sendSerialToMega(2, (nextGenre * 100) + nextTrack);  
+
   if (testMode) {
     Serial.print("JUST STARTED: ");
     Serial.print(nextGenre);
@@ -113,9 +116,6 @@ void endMixAndPickNewTune() {
 
   calculateMixDurationAndStart();
 
-  // tell the other arduino what you're doing
-  sendSerialToMega(2, (currentGenre * 100) + currentTrack);
-
   currentBar = mixCurrentBar;
   currentlyMixing = false;
 }
@@ -153,7 +153,7 @@ void chooseNextTrack() {
   // Also pick next lights pattern here
 
   while (!nextTrackPicked) {
-
+    
     // Pick next genre
     if (!stayWithinGenre)
       genre = random(8);
@@ -167,12 +167,35 @@ void chooseNextTrack() {
     //if (playedTuneHistoryContainsTrack(genre, track))
     //  continue;
 
+    /*if (testMode) {
+      Serial.print("next genre:");
+      Serial.print(genre);
+      Serial.print("   next track:");
+      Serial.println(track);
+      Serial.print("   current mfo:");
+      Serial.print(currentTune.minFadeOut);
+      Serial.print("   bpm:");
+      Serial.print(currentTune.bpm);
+      Serial.print("   drop:");
+      Serial.print(currentTune.drop);
+      Serial.print("   tuneLength:");
+      Serial.print(currentTune.tuneLength);
+      Serial.print("   maxFadeIn:");
+      Serial.print(currentTune.maxFadeIn);
+      Serial.print("   playOut:");
+      Serial.println(currentTune.playOut);
+    }*/
+
     setNextTune(genre, track);
 
     if (nextTune.maxFadeIn < currentTune.minFadeOut)
       continue;
 
+    if (testMode)
+      Serial.println(" * * * * 6");
     nextTrackPicked = true;
+    if (testMode)
+      Serial.println(" * * * * 7");
   }
 }
 
@@ -190,41 +213,63 @@ bool playedTuneHistoryContainsTrack(int genre, int track) {
 void setNextTune(int genre, int track) {
   nextGenre = genre;
   nextTrack = track;
+  
   if (genre == 0)
-    nextTune = tuneLibRave[track];
+    nextTune = tuneLibRave[track % numberOfTunesInGenre(0)];
   else if (genre == 1)
-    nextTune = tuneLibDisco[track];
+    nextTune = tuneLibDisco[track % numberOfTunesInGenre(1)];
   else if (genre == 2)
-    nextTune = tuneLibReggae[track];
+    nextTune = tuneLibReggae[track % numberOfTunesInGenre(2)];
   else if (genre == 3)
-    nextTune = tuneLibRockAndPop[track];
+    nextTune = tuneLibRockAndPop[track % numberOfTunesInGenre(3)];
   else if (genre == 4)
-    nextTune = tuneLibEasy[track];
+    nextTune = tuneLibEasy[track % numberOfTunesInGenre(4)];
   else if (genre == 5)
-    nextTune = tuneLibDance[track];
+    nextTune = tuneLibDance[track % numberOfTunesInGenre(5)];
   else if (genre == 6)
-    nextTune = tuneLibDrumAndBass[track];
+    nextTune = tuneLibDrumAndBass[track % numberOfTunesInGenre(6)];
   else
-    nextTune = tuneLibHipHop[track];
+    nextTune = tuneLibHipHop[track % numberOfTunesInGenre(7)];
 }
 
 void setCurrentTune(int genre, int track) {
   if (genre == 0)
-    currentTune = tuneLibRave[track];
+    currentTune = tuneLibRave[track % numberOfTunesInGenre(0)];
   else if (genre == 1)
-    currentTune = tuneLibDisco[track];
+    currentTune = tuneLibDisco[track % numberOfTunesInGenre(1)];
   else if (genre == 2)
-    currentTune = tuneLibReggae[track];
+    currentTune = tuneLibReggae[track % numberOfTunesInGenre(2)];
   else if (genre == 3)
-    currentTune = tuneLibRockAndPop[track];
+    currentTune = tuneLibRockAndPop[track % numberOfTunesInGenre(3)];
   else if (genre == 4)
-    currentTune = tuneLibEasy[track];
+    currentTune = tuneLibEasy[track % numberOfTunesInGenre(4)];
   else if (genre == 5)
-    currentTune = tuneLibDance[track];
+    currentTune = tuneLibDance[track % numberOfTunesInGenre(5)];
   else if (genre == 6)
-    currentTune = tuneLibDrumAndBass[track];
+    currentTune = tuneLibDrumAndBass[track % numberOfTunesInGenre(6)];
   else
-    currentTune = tuneLibHipHop[track];
+    currentTune = tuneLibHipHop[track % numberOfTunesInGenre(7)];
+
+  if (testMode) {
+    Serial.print("setting genre:");
+    Serial.print(genre);
+    Serial.print("=setting track:");
+    Serial.println(track);
+
+    Serial.print("   current mfo:");
+    Serial.print(currentTune.minFadeOut);
+    Serial.print("   bpm:");
+    Serial.print(currentTune.bpm);
+    Serial.print("   drop:");
+    Serial.print(currentTune.drop);
+    Serial.print("   tuneLength:");
+    Serial.print(currentTune.tuneLength);
+    Serial.print("   maxFadeIn:");
+    Serial.print(currentTune.maxFadeIn);
+    Serial.print("   playOut:");
+    Serial.println(currentTune.playOut); // TODO - 22 was killing it here because 22 doesn't exist
+  }
+  
 }
 
 void playNextTrack() {

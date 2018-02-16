@@ -73,7 +73,6 @@ void setup() {
 
   setMainVolume(mainVolume);
 
-  // TODO remove me
   if (testMode)
     playTune(7, 0, true);
 }
