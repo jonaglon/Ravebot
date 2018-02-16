@@ -205,7 +205,7 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   }
   else if (ledNum < 825) {
     // reverse indicator and tuner direction
-    if (ledNum > 743 && ledNum < 774)
+    if (ledNum > 744 && ledNum < 774)
       ledNum = 1517-ledNum;
 
     // Rest of head and right arm
