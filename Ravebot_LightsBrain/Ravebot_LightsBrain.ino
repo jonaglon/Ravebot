@@ -8,7 +8,7 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 const bool beatTestMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
@@ -353,12 +353,12 @@ int ledPosOffset[19][2] = {
   {  180, 1714},    // 10 indicator
   {  1, 1400},    // 11 underArm right
   {  1, 1090},    // 12 overArm right
-  {  0, 0},    // 13
-  {  0, 0},    // 14
-  {  0, 0},    // 15
-  {  0, 0},    // 16
-  {  0, 0},    // 17
-  {  0, 0},    // 18
+  {  315, 800},    // 13 tubeBottomright
+  {  80, 800},    // 14 tubeBottomleft
+  {  80, 1020},    // 15 tubeTopleft
+  {  315, 1020},    // 16 tubeTopright
+  {  0, 0},    // 17 port left
+  {  0, 0},    // 18 port right
 };
 
 

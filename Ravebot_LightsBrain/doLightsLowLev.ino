@@ -105,6 +105,12 @@ void allOff() {
   }
 }
 
+void allOffBySection() {
+  for(int j = 0; j < 19; j++) {
+    setSection(j, 0, 0, 0, 0);
+  }
+}
+
 
 void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
   if (ledNum < 0)

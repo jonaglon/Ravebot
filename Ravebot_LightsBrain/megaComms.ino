@@ -20,16 +20,19 @@ void doSomethingWithPackageFromMega(int package) {
   int function = package / 1000;
   int message = package % 1000;
 
+    if (testMode) {
+      Serial.print("Message Received fn:");
+      Serial.print(function);
+      Serial.print("  msg:");
+      Serial.println(message);
+    }    
+
   if (function == 1)
   {
     doRobotTalkingLights(message);
   }
   else if (function == 2)
   {
-    if (testMode) {
-      Serial.print("Button pressed! Num:");
-      Serial.println(message);
-    }    
     arcadeButtonPressed(message);
   }
   else if (function == 3)

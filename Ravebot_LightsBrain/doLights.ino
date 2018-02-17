@@ -2,10 +2,11 @@
 void doLights() {
 
   allOff();
+  //allOffBySection();
 
-  drawMovingPattern(9);
+  drawMovingPattern(3);
   
-  sectionsInTime();
+  //sectionsInTime();
 
   /*rgbwSnake(0, 10);   // crawling with ants!
   rgbwSnake(100, 5);
@@ -18,9 +19,9 @@ void doLights() {
 
 void drawMovingPattern(int speedFactor) {
 
-  int ticko = (timey / speedFactor) % 800;
+  int ticko = (timey / speedFactor) % 2000;
 
-  drawLightsBetween(0, 800, 0, 1200+ticko, true, true, 60, 80, 200, 120);
+  drawLightsBetween(0, 800, 0, ticko, true, true, 60, 80, 200, 120);
   
 }
 
@@ -193,6 +194,26 @@ void drawLightsBetween(int startX, int endX, int startY, int endY, bool includeE
   for(j = 0; j < 24; j++)
     if (armCoords[j][0]+ledPosOffset[12][0] > startX && armCoords[j][0]+ledPosOffset[12][0] < endX && armCoords[j][1]+ledPosOffset[12][1] > startY && armCoords[j][1]+ledPosOffset[12][1] < endY)
         setSectionLed(12, j, r, g, b, w);
+
+  // 13 tube bottom right
+  for(j = 0; j < 90; j++)
+    if (tubeCoords[j][0]+ledPosOffset[13][0] > startX && tubeCoords[j][0]+ledPosOffset[13][0] < endX && tubeCoords[j][1]+ledPosOffset[13][1] > startY && tubeCoords[j][1]+ledPosOffset[13][1] < endY)
+        setSectionLed(13, j, r, g, b, w);
+
+  // 14 tube bottom left
+  for(j = 0; j < 90; j++)
+    if (tubeCoords[j][0]+ledPosOffset[14][0] > startX && tubeCoords[j][0]+ledPosOffset[14][0] < endX && tubeCoords[j][1]+ledPosOffset[14][1] > startY && tubeCoords[j][1]+ledPosOffset[14][1] < endY)
+        setSectionLed(14, j, r, g, b, w);
+
+  // 15 tube top left
+  for(j = 0; j < 90; j++)
+    if (tubeCoords[j][0]+ledPosOffset[15][0] > startX && tubeCoords[j][0]+ledPosOffset[15][0] < endX && tubeCoords[j][1]+ledPosOffset[15][1] > startY && tubeCoords[j][1]+ledPosOffset[15][1] < endY)
+        setSectionLed(15, j, r, g, b, w);
+
+  // 16 tube top right
+  for(j = 0; j < 90; j++)
+    if (tubeCoords[j][0]+ledPosOffset[16][0] > startX && tubeCoords[j][0]+ledPosOffset[16][0] < endX && tubeCoords[j][1]+ledPosOffset[16][1] > startY && tubeCoords[j][1]+ledPosOffset[16][1] < endY)
+        setSectionLed(16, j, r, g, b, w);
 
 }
 
