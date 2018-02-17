@@ -41,7 +41,7 @@ void playTune(int genre, int track, bool alterHistory) {
      Serial.print(genre);
      Serial.print("/");
      Serial.println(track);
-  }      
+  }
   currentlyMixing=false;
 
   setCrossfader(0);

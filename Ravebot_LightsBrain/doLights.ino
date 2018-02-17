@@ -1,49 +1,30 @@
 
-int ledSections[20] = {
-  0,     // 0  bottom ring *
-  203,   // 1  big heart
-  378,   // 2  small heart
-  463,   // 3 underarm left
-  482,   // 4 overarm left
-  506,   // 5  eye left 
-  599,   // 6  eye right
-  692,   // 7  mouth
-  710,   // 8  tape
-  744,   // 9  tuner *
-  770,   // 10 indiciator *
-  774,   // 11 underarm right
-  797,   // 12 overarm right
-  821,   // 13 tube bottomright *
-  911,   // 14 tube bottomleft *
-  1001,  // 15 tube topleft *
-  1090,  // 16 tube topright * starred sections are shifted and / or reversed
-  1179,  // 17 port left
-  1302,  // 18 port right
-  1441};
-
-int ledPosOffset[19][2] = {
-  {  0,  0},    // 00
-  {  0,  0},    // 01
-  {  0,  0},    // 02
-  {  0,  1400},    // 03 underarm left
-  {  0,  0},    // 04
-  {  0,  0},    // 05
-  {  0,  0},    // 06
-  {  0,  0},    // 07
-  {  0,  0},    // 08
-  {  0,  0},    // 09
-  {  0,  0},    // 10
-  {  0,  0},    // 11
-  {  0,  0},    // 12
-  {  0,  0},    // 13
-  {  0,  0},    // 14
-  {  0,  0},    // 15
-  {  0,  0},    // 16
-  {  0,  0},    // 17
-  {  0,  0},    // 18
-};
-
 void doLights() {
+
+  allOff();
+
+  drawMovingPattern(9);
+  
+  sectionsInTime();
+
+  /*rgbwSnake(0, 10);   // crawling with ants!
+  rgbwSnake(100, 5);
+  rgbwSnake(200, 20);
+  rgbwSnake(1100, 15);
+  rgbwSnake(1200, 10);*/
+
+  LEDS.show();
+}
+
+void drawMovingPattern(int speedFactor) {
+
+  int ticko = (timey / speedFactor) % 800;
+
+  drawLightsBetween(0, 800, 0, 1200+ticko, true, true, 60, 80, 200, 120);
+  
+}
+
+void doLightsOld() {
 
   allOff();
 
@@ -117,10 +98,8 @@ void doEyes() {
 void drawLightsNear(int offSet, int xCoord, int  yCoord, int radius) {
 
   for(int j = 0; j < 94; j++) { 
-    if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) 
-    {
-      if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) 
-      {
+    if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) {
+      if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) {
         setLedDirect(offSet+j, 0, 100, 200, 0);
       }
     }
@@ -153,163 +132,69 @@ void sectionsInTime() {
   };
 }
 
-void setSection(int section, int r, int g, int b, int w) {
-  for(int j = ledSections[section]; j < ledSections[section+1]; j++) { 
-    setLedDirect(j, r, g, b, w);
-  }
-}
 
-void everySingleLight(int r, int g, int b, int w) {
-  for(int j = 0; j < numLeds; j++) { 
-    setLedDirect(j, r, g, b, w);
-  }
-}
-
-void lightEyes(int r, int g, int b, int w) {
-  for(int j = 506; j < 693; j++) { 
-    setLedDirect(j, r, g, b, w);
-  }
-}
-
-void allOff() {
-  for(int j = 0; j < numLeds; j++) {
-    setLedDirect(j, 0, 0, 0, 0);
-  }
-}
-
-
-void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
-  if (ledNum < 0)
-    return;
-
-  //if (ledNum == 506 || ledNum == 507)
-  //  return;
-
-  if (ledNum < 203) {
-    // Big bottom ring
-    setRgbwLed((ledNum+190)%203, rVal, gVal, bVal, wVal);
-  }
-  else if (ledNum < 463) {
-    // Body hearts
-    setRgbwLed(ledNum+170, rVal, gVal, bVal, wVal);
-  }
-  else if (ledNum < 506) {
-    // Left arm
-    setRgbwLed(ledNum+275, rVal, gVal, bVal, wVal);
-  }
-  else if (ledNum < 692) {  
-    // Eyes!693
-    rgbwLeds[ledNum+536].b = gVal % 256;
-    rgbwLeds[ledNum+537].g = rVal % 256;
-    rgbwLeds[ledNum+537].r = bVal % 256;
-  }
-  else if (ledNum < 825) {
-    // reverse indicator and tuner direction
-    if (ledNum > 744 && ledNum < 774)
-      ledNum = 1517-ledNum;
-
-    // Rest of head and right arm
-    setRgbwLedAfterEyes(ledNum+230, rVal, gVal, bVal, wVal);
-  }
-  else if (ledNum < 911) {
-    // Body tube bottomright - 
-    // setRgbwLed(ledNum+282, rVal, gVal, bVal, wVal); - 
-    if (ledNum < 866)
-      setRgbwLed(1968-ledNum, rVal, gVal, bVal, wVal);
-    else
-      setRgbwLed(2058-ledNum, rVal, gVal, bVal, wVal);
-  }
-  else if (ledNum < 1001) {
-    // Body tube bottomleft
-    if (ledNum < 992)
-      setRgbwLed(2184-ledNum, rVal, gVal, bVal, wVal);
-    else
-      setRgbwLed(2274-ledNum, rVal, gVal, bVal, wVal);
-  }
-  else if (ledNum < 1090) {
-    // Body tube topleft
-    if (ledNum < 1042)
-      setRgbwLed(2324-ledNum, rVal, gVal, bVal, wVal);
-    else
-      setRgbwLed(2413-ledNum, rVal, gVal, bVal, wVal);
-  }
-  else if (ledNum < 1179) {
-    // Body tube topright
-    if (ledNum < 1160)
-      setRgbwLed(2531-ledNum, rVal, gVal, bVal, wVal);
-    else
-      setRgbwLed(2620-ledNum, rVal, gVal, bVal, wVal);
-  }
-  else if (ledNum < 1442) {
-    // Bass holes!
-    setRgbwLed(ledNum+285, rVal, gVal, bVal, wVal);
-  }
-}
-
-void setRgbwLed(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
-  int newNumber = (ledNumber * 4) / 3;
-  short mod = ledNumber % 3;
-
-  rVal = rVal/ledIntensity;
-  gVal = gVal/ledIntensity;
-  bVal = bVal/ledIntensity;
-  wVal = wVal/ledIntensity;
-
-  if (mod == 0)
-  {
-    rgbwLeds[newNumber].r = rVal % 256;
-    rgbwLeds[newNumber].g = gVal % 256;
-    rgbwLeds[newNumber].b = bVal % 256;
-    rgbwLeds[newNumber+1].g =wVal % 256;
-  }
-  else if (mod == 1)
-  {
-    rgbwLeds[newNumber].r = gVal % 256;
-    rgbwLeds[newNumber].b = rVal % 256;
-    rgbwLeds[newNumber+1].r =wVal % 256;
-    rgbwLeds[newNumber+1].g =bVal % 256;
-  }
-  else 
-  {
-    rgbwLeds[newNumber].b = gVal % 256;
-    rgbwLeds[newNumber+1].r =bVal % 256;
-    rgbwLeds[newNumber+1].g =rVal % 256;
-    rgbwLeds[newNumber+1].b =wVal % 256;
-  }
-}
-
-void setRgbwLedAfterEyes(int ledNumber, int rVal, int gVal, int bVal, int wVal) {
-  int newNumber = (ledNumber * 4) / 3;
-  short mod = ledNumber % 3;
+void drawLightsBetween(int startX, int endX, int startY, int endY, bool includeEyes, bool includeMouth, int r, int g, int b, int w) {
+  int j = 0;
   
-  rVal = rVal/ledIntensity;
-  gVal = gVal/ledIntensity;
-  bVal = bVal/ledIntensity;
-  wVal = wVal/ledIntensity;
+  // 0 bottomRing
+  // 1 bigHeart
+  // 2 smallHeart
 
-  if (mod == 0)
-  {
-    rgbwLeds[newNumber-1].b = rVal % 256;
-    rgbwLeds[newNumber-1].r = gVal % 256;
-    rgbwLeds[newNumber].g = bVal % 256;
-    rgbwLeds[newNumber].r = wVal % 256;
+  // 3 underArmLeft
+  for(j = 0; j < 24; j++)
+    if (armCoords[j][0]+ledPosOffset[3][0] > startX && armCoords[j][0]+ledPosOffset[3][0] < endX && armCoords[j][1]+ledPosOffset[3][1] > startY && armCoords[j][1]+ledPosOffset[3][1] < endY)
+        setSectionLed(3, j, r, g, b, w);
+
+  // 4 overArmLeft
+  for(j = 0; j < 24; j++)
+    if (armCoords[j][0]+ledPosOffset[4][0] > startX && armCoords[j][0]+ledPosOffset[4][0] < endX && armCoords[j][1]+ledPosOffset[4][1] > startY && armCoords[j][1]+ledPosOffset[4][1] < endY)
+        setSectionLed(4, j, r, g, b, w);
+
+  if (includeEyes) {
+    // 5 rightEye
+    for(j = 0; j < 94; j++)
+      if (eyeCoords[j][0]+ledPosOffset[5][0] > startX && eyeCoords[j][0]+ledPosOffset[5][0] < endX && eyeCoords[j][1]+ledPosOffset[5][1] > startY && eyeCoords[j][1]+ledPosOffset[5][1] < endY)
+          setSectionLed(5, j, r, g, b, w);
+  
+    // 6 leftEye
+    for(j = 0; j < 94; j++)
+      if (eyeCoords[j][0]+ledPosOffset[6][0] > startX && eyeCoords[j][0]+ledPosOffset[6][0] < endX && eyeCoords[j][1]+ledPosOffset[6][1] > startY && eyeCoords[j][1]+ledPosOffset[6][1] < endY)
+          setSectionLed(6, j, r, g, b, w);
   }
-  else if (mod == 1)
-  {
-    rgbwLeds[newNumber].g = rVal % 256;
-    rgbwLeds[newNumber-1].b = gVal % 256;
-    rgbwLeds[newNumber].r = bVal % 256;
-    rgbwLeds[newNumber].b = wVal % 256;
+  
+  // 7 mouth
+  if (includeMouth) {
+    for(j = 0; j < 18; j++)
+      if (horizCoords[j][0]+ledPosOffset[7][0] > startX && horizCoords[j][0]+ledPosOffset[7][0] < endX && horizCoords[j][1]+ledPosOffset[7][1] > startY && horizCoords[j][1]+ledPosOffset[7][1] < endY)
+          setSectionLed(7, j, r, g, b, w);
   }
-  else 
-  {
-    rgbwLeds[newNumber].r = rVal % 256;
-    rgbwLeds[newNumber].g = gVal % 256;
-    rgbwLeds[newNumber].b = bVal % 256;
-    rgbwLeds[newNumber+1].g = wVal % 256;
-  }
+    
+  // 8 tape 
+  for(j = 0; j < 34; j++)
+    if (tapeCoords[j][0]+ledPosOffset[8][0] > startX && tapeCoords[j][0]+ledPosOffset[8][0] < endX && tapeCoords[j][1]+ledPosOffset[8][1] > startY && tapeCoords[j][1]+ledPosOffset[8][1] < endY)
+        setSectionLed(8, j, r, g, b, w);
+
+  // 09 tuner
+  for(j = 0; j < 26; j++)
+    if (horizCoords[j][0]+ledPosOffset[9][0] > startX && horizCoords[j][0]+ledPosOffset[9][0] < endX && horizCoords[j][1]+ledPosOffset[9][1] > startY && horizCoords[j][1]+ledPosOffset[9][1] < endY)
+        setSectionLed(9, j, r, g, b, w);
+
+  // 10 indicator
+  for(j = 0; j < 4; j++)
+    if (horizCoords[j][0]+ledPosOffset[10][0] > startX && horizCoords[j][0]+ledPosOffset[10][0] < endX && horizCoords[j][1]+ledPosOffset[10][1] > startY && horizCoords[j][1]+ledPosOffset[10][1] < endY)
+        setSectionLed(10, j, r, g, b, w);
+
+  // 11 underArmRight
+  for(j = 0; j < 24; j++)
+    if (armCoords[j][0]+ledPosOffset[11][0] > startX && armCoords[j][0]+ledPosOffset[11][0] < endX && armCoords[j][1]+ledPosOffset[11][1] > startY && armCoords[j][1]+ledPosOffset[11][1] < endY)
+        setSectionLed(11, j, r, g, b, w);
+
+  // 12 overArmRight
+  for(j = 0; j < 24; j++)
+    if (armCoords[j][0]+ledPosOffset[12][0] > startX && armCoords[j][0]+ledPosOffset[12][0] < endX && armCoords[j][1]+ledPosOffset[12][1] > startY && armCoords[j][1]+ledPosOffset[12][1] < endY)
+        setSectionLed(12, j, r, g, b, w);
+
 }
-
 
 
 
