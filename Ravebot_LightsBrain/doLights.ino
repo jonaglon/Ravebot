@@ -1,10 +1,15 @@
 
 void doLights() {
 
-  allOff();
-  //allOffBySection();
+  //allOff();
+  allOffBySection();
 
-  drawMovingPattern(3);
+  for(int j = 0; j < 203; j++) {
+    if (j % 4 == 1)
+      setSectionLed(0, j, 255, 255, 255, 255);
+  } 
+
+  drawMovingPattern(9);
   
   //sectionsInTime();
 
@@ -19,9 +24,9 @@ void doLights() {
 
 void drawMovingPattern(int speedFactor) {
 
-  int ticko = (timey / speedFactor) % 2000;
+  int ticko = (timey / speedFactor) % 800;
 
-  drawLightsBetween(0, 800, 0, ticko, true, true, 60, 80, 200, 120);
+  drawLightsBetween(0, ticko, 0, 2000, true, true, 255, 0, 0, 0);
   
 }
 
