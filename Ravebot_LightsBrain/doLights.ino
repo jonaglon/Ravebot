@@ -1,17 +1,31 @@
 
 void doLights() {
 
-  //allOff();
+  allOff();
   allOffBySection();
 
-  for(int j = 0; j < 203; j++) {
-    if (j % 4 == 1)
-      setSectionLed(0, j, 255, 255, 255, 255);
-  } 
+  //drawMovingPattern(14);
 
-  drawMovingPattern(9);
+  //setSection(1, 255, 0, 0, 0);
+  for(int j = 0; j < 203; j++) {
+    if (j % 4 == 0) {
+      setSectionLed(2, j, 255, 255, 0, 255);
+    }
+  }
+  setSectionLed(2, 0, 255, 0, 0, 0);
+  setSectionLed(2, 3, 0, 0, 255, 0);
+
+  /*drawStripeX(3, 200, 255, 0, 0, 0);
+  drawStripeX(4, 100, 0, 0, 255, 0);
+  drawStripeX(9, 150, 0, 90, 155, 0);
+  //drawStripeX(17, 80, 50, 50, 55, 255);
+
+  drawStripeY(2, 200, 0, 0, 255, 0);
+  //drawStripeY(5, 100, 120, 60, 0, 10);
+  drawStripeY(9, 150, 50, 50, 55, 255);
+  //drawStripeX(17, 80,  70, 0, 180, 0);*/
   
-  //sectionsInTime();
+  sectionsInTime();
 
   /*rgbwSnake(0, 10);   // crawling with ants!
   rgbwSnake(100, 5);
@@ -26,7 +40,23 @@ void drawMovingPattern(int speedFactor) {
 
   int ticko = (timey / speedFactor) % 800;
 
-  drawLightsBetween(0, ticko, 0, 2000, true, true, 255, 0, 0, 0);
+  drawLightsBetween(0, ticko, 0, 2000, true, true, 0, 255, 0, 70);
+  
+}
+
+void drawStripeX(int speedFactor, int width, int r, int g, int b, int w) {
+
+  int ticko = (timey / speedFactor) % 1000;
+
+  drawLightsBetween((ticko - width) > 0 ? (ticko - width) : 0, ticko, 0, 2000, true, true, r, g, b, w);
+  
+}
+
+void drawStripeY(int speedFactor, int width, int r, int g, int b, int w) {
+
+  int ticko = (timey / speedFactor) % 2000;
+
+  drawLightsBetween(0, 800, (ticko - width) > 0 ? (ticko - width) : 0, ticko, true, true, r, g, b, w);
   
 }
 
@@ -143,7 +173,15 @@ void drawLightsBetween(int startX, int endX, int startY, int endY, bool includeE
   int j = 0;
   
   // 0 bottomRing
+  for(j = 0; j < 204; j++)
+    if (binCoords[j][0]+ledPosOffset[0][0] > startX && binCoords[j][0]+ledPosOffset[0][0] < endX && binCoords[j][1]+ledPosOffset[0][1] > startY && binCoords[j][1]+ledPosOffset[0][1] < endY)
+        setSectionLed(0, j, r, g, b, w);
+  
   // 1 bigHeart
+  for(j = 0; j < 176; j++)
+    if (bigHeartCoords[j][0]+ledPosOffset[1][0] > startX && bigHeartCoords[j][0]+ledPosOffset[1][0] < endX && bigHeartCoords[j][1]+ledPosOffset[1][1] > startY && bigHeartCoords[j][1]+ledPosOffset[1][1] < endY)
+        setSectionLed(1, j, r, g, b, w);
+  
   // 2 smallHeart
 
   // 3 underArmLeft
