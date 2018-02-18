@@ -2,20 +2,21 @@
 void doLights() {
 
   allOff();
-  allOffBySection();
+  //allOffBySection();
 
-  //drawMovingPattern(14);
+  drawMovingPatternX(8);
+  drawMovingPattern(8);
 
   //setSection(1, 255, 0, 0, 0);
-  for(int j = 0; j < 203; j++) {
+  /*for(int j = 0; j < 203; j++) {
     if (j % 4 == 0) {
       setSectionLed(2, j, 255, 255, 0, 255);
     }
   }
   setSectionLed(2, 0, 255, 0, 0, 0);
-  setSectionLed(2, 3, 0, 0, 255, 0);
+  setSectionLed(2, 3, 0, 0, 255, 0); 
 
-  /*drawStripeX(3, 200, 255, 0, 0, 0);
+  drawStripeX(3, 200, 255, 0, 0, 0);
   drawStripeX(4, 100, 0, 0, 255, 0);
   drawStripeX(9, 150, 0, 90, 155, 0);
   //drawStripeX(17, 80, 50, 50, 55, 255);
@@ -23,25 +24,26 @@ void doLights() {
   drawStripeY(2, 200, 0, 0, 255, 0);
   //drawStripeY(5, 100, 120, 60, 0, 10);
   drawStripeY(9, 150, 50, 50, 55, 255);
-  //drawStripeX(17, 80,  70, 0, 180, 0);*/
+  //drawStripeX(17, 80,  70, 0, 180, 0);
   
-  sectionsInTime();
+  // sectionsInTime();
 
-  /*rgbwSnake(0, 10);   // crawling with ants!
+  rgbwSnake(0, 10);   // crawling with ants!
   rgbwSnake(100, 5);
   rgbwSnake(200, 20);
   rgbwSnake(1100, 15);
-  rgbwSnake(1200, 10);*/
+  rgbwSnake(1200, 10); */
 
   LEDS.show();
 }
 
-void drawMovingPattern(int speedFactor) {
-
+void drawMovingPatternX(int speedFactor) {
   int ticko = (timey / speedFactor) % 800;
-
-  drawLightsBetween(0, ticko, 0, 2000, true, true, 0, 255, 0, 70);
-  
+  drawLightsBetween(ticko-200, ticko, 0, 2000, true, true, 0, 255, 0, 0);  
+}
+void drawMovingPattern(int speedFactor) {
+  int ticko = (timey / speedFactor) % 2000;
+  drawLightsBetween(0, 800, ticko-300, ticko, true, true, 0, 0, 255, 0);  
 }
 
 void drawStripeX(int speedFactor, int width, int r, int g, int b, int w) {
@@ -183,6 +185,9 @@ void drawLightsBetween(int startX, int endX, int startY, int endY, bool includeE
         setSectionLed(1, j, r, g, b, w);
   
   // 2 smallHeart
+  for(j = 3; j < 86; j++)
+    if (smHeartCoords[j][0]+ledPosOffset[2][0] > startX && smHeartCoords[j][0]+ledPosOffset[2][0] < endX && smHeartCoords[j][1]+ledPosOffset[2][1] > startY && smHeartCoords[j][1]+ledPosOffset[2][1] < endY)
+        setSectionLed(2, j, r, g, b, w);
 
   // 3 underArmLeft
   for(j = 0; j < 24; j++)
@@ -257,6 +262,23 @@ void drawLightsBetween(int startX, int endX, int startY, int endY, bool includeE
   for(j = 0; j < 90; j++)
     if (tubeCoords[j][0]+ledPosOffset[16][0] > startX && tubeCoords[j][0]+ledPosOffset[16][0] < endX && tubeCoords[j][1]+ledPosOffset[16][1] > startY && tubeCoords[j][1]+ledPosOffset[16][1] < endY)
         setSectionLed(16, j, r, g, b, w);
+
+  // 17 left port
+  for(j = 0; j < 140; j++)
+  {
+    int ledPos = j % 19;
+    if (portLCoords[ledPos][0]+ledPosOffset[17][0] > startX && portLCoords[ledPos][0]+ledPosOffset[17][0] < endX && portLCoords[ledPos][1]+ledPosOffset[17][1] > startY && portLCoords[ledPos][1]+ledPosOffset[17][1] < endY)
+        setSectionLed(17, j, r, g, b, w);
+  }
+
+  // 18 right port
+  for(j = 0; j < 140; j++)
+  {
+    int ledPos = j % 19;
+    if (portRCoords[ledPos][0]+ledPosOffset[18][0] > startX && portRCoords[ledPos][0]+ledPosOffset[18][0] < endX && portRCoords[ledPos][1]+ledPosOffset[18][1] > startY && portRCoords[ledPos][1]+ledPosOffset[18][1] < endY)
+        setSectionLed(18, j, r, g, b, w);
+  }
+
 
 }
 
