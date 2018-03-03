@@ -15,6 +15,30 @@ void SetRgbwWheel(int pixNum, byte WheelPos, short whiteVal) {
   return;
 }
 
+
+void SetRgbwWheelVars(byte WheelPos) {
+  WheelPos = 255 - WheelPos;
+  if(WheelPos < 85) {
+    wheelR = 255 - WheelPos * 3;
+    wheelG = 0;
+    wheelB = WheelPos * 3;
+    return;
+  }
+  if(WheelPos < 170) {
+    WheelPos -= 85;
+    wheelR = 0;
+    wheelG = WheelPos * 3;
+    wheelB = 255 - WheelPos * 3;
+    return;
+  }
+  WheelPos -= 170;
+  wheelR = WheelPos * 3;
+  wheelG = 255 - WheelPos * 3;
+  wheelB = 0;
+  return;
+}
+
+
 void doTalkingLights() {
 
   if (robotTalking) {

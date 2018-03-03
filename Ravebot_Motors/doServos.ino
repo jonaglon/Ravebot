@@ -11,8 +11,8 @@ struct servoInfo {
 };
 
 servoInfo servos[10] = {
-  { 390, 520, 1, 410, 410 }, // 0 - Head - Nod
-  { 130, 530, 2, 330, 330 }, // 1 - Head - shake
+  { 130, 530, 3, 330, 330 }, // 0 - Head - shake
+  { 360, 485, 2, 450, 450 }, // 1 - Head - Nod
   { 180, 330, 3, 240, 240 }, // 2 - L claw
   { 140, 560, 3, 350, 350 }, // 3 - l wrist ud
   { 140, 560, 2, 350, 350 }, // 4 - R elbow
@@ -25,15 +25,15 @@ servoInfo servos[10] = {
 
 // called from init, set all servos to their initial position
 void initServos() {
-  int range=6;
+  int range=9;
   for (int servoNum = 0; servoNum < 9; servoNum++) {
     moveServoToPos(servoNum, servos[servoNum].servoCenter+range);
   }
-  delay(300);
+  delay(200);
   for (int servoNum = 0; servoNum < 9; servoNum++) {
     moveServoToPos(servoNum, servos[servoNum].servoCenter-range);
   }
-  delay(300);
+  delay(200);
   for (int servoNum = 0; servoNum < 9; servoNum++) {
     moveServoToPos(servoNum, servos[servoNum].servoCenter);
   }
@@ -57,47 +57,47 @@ void doServos() {
 void setHead() {
 
   // Nod
-  if (ps2.readButton(PS2_UP) == 0) {
-    moveServo(0, servos[0].servoSpeed);
+  if (ps2.readButton(PS2_DOWN) == 0) {
+    moveServo(1, servos[1].servoSpeed);
     nodding = true;
     noddingTime = timey;
   }
-  else if  (ps2.readButton(PS2_DOWN) == 0) {
-    moveServo(0, -servos[0].servoSpeed);
+  else if  (ps2.readButton(PS2_UP) == 0) {
+    moveServo(1, -servos[1].servoSpeed);
     nodding = true;
     noddingTime = timey;
   }
   else if (nodding) {
-    if (timey > noddingTime+2500)
+    if (timey > noddingTime+1800)
       nodding = false;
-  }
-  else if  (servos[0].servoPos > servos[0].servoCenter+1) {
-    moveServo(0, -servos[0].servoSpeed);
-  }
-  else if  (servos[0].servoPos < servos[0].servoCenter-1) {
-    moveServo(0, servos[0].servoSpeed);
-  }
-
-  // Move head left and right
-  if (ps2.readButton(PS2_RIGHT) == 0) {
-    moveServo(1, servos[1].servoSpeed);
-    shaking = true;
-    shakingTime = timey;
-  }
-  else if  (ps2.readButton(PS2_LEFT) == 0) {
-    moveServo(1, -servos[1].servoSpeed);
-    shaking = true;
-    shakingTime = timey;
-  }
-  else if (shaking) {
-    if (timey > shakingTime+2500)
-      shaking = false;
   }
   else if  (servos[1].servoPos > servos[1].servoCenter+1) {
     moveServo(1, -servos[1].servoSpeed);
   }
   else if  (servos[1].servoPos < servos[1].servoCenter-1) {
     moveServo(1, servos[1].servoSpeed);
+  }
+
+  // Move head left and right
+  if (ps2.readButton(PS2_RIGHT) == 0) {
+    moveServo(0, servos[0].servoSpeed);
+    shaking = true;
+    shakingTime = timey;
+  }
+  else if  (ps2.readButton(PS2_LEFT) == 0) {
+    moveServo(0, -servos[0].servoSpeed);
+    shaking = true;
+    shakingTime = timey;
+  }
+  else if (shaking) {
+    if (timey > shakingTime+1800)
+      shaking = false;
+  }
+  else if  (servos[0].servoPos > servos[0].servoCenter+1) {
+    moveServo(0, -servos[0].servoSpeed);
+  }
+  else if  (servos[0].servoPos < servos[0].servoCenter-1) {
+    moveServo(0, servos[0].servoSpeed);
   }
 }
 

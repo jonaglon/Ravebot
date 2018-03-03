@@ -1,11 +1,86 @@
+int currentPattern = 1;
 
 void doLights() {
 
   allOff();
+  // allOffBySection();
+
+  if (currentPattern == 1) {
+    horizontalRainbow(false, false, 10);
+    doEyes();
+    doTalkingLights();
+  } else if (currentPattern == 2) {
+    horizontalRainbow(false, false, 10);
+  } else {
+    horizontalRainbow(false, false, 10);
+  }
+  LEDS.show();  
+}
+
+
+
+void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
+  int ticko = (timey / speedFactor) % 1024;
+  int j = 0;
+  
+  for(j = 0; j < numLeds; j++) {
+    int xCoord = (getLCoord(j)+ticko)%1024;
+    SetRgbwWheelVars(xCoord/4);
+    setLedDirect(j, wheelR, wheelG, wheelB, 0);    
+  }
+}
+
+// so we can do x y patterns for each led on the bot we need a lookup
+int getLCoord(int j) {
+  if (j < 204)
+     return binCoords[j][0];
+  else if (j < 380)
+    return bigHeartCoords[j-204][0];
+  else if (j < 466)
+    return smHeartCoords[j-380][0];
+  else if (j < 490)
+    return armCoords[j-466][0];
+  else if (j < 514)
+    return armCoords[j-490][0];
+  else if (j < 608)
+    return eyeCoords[j-514][0];
+  else if (j < 702)
+    return eyeCoords[j-608][0];
+  else if (j < 720)
+    return horizCoords[j-702][0];
+  else if (j < 754)
+    return tapeCoords[j-720][0];
+  else if (j < 780)
+    return horizCoords[j-754][0];
+  else if (j < 784)
+    return horizCoords[j-780][0];
+  else if (j < 808)
+    return armCoords[j-784][0];
+  else if (j < 832)
+    return armCoords[j-808][0];
+  else if (j < 922)
+    return tubeCoords[j-832][0];
+  else if (j < 1012)
+    return tubeCoords[j-922][0];
+  else if (j < 1102)
+    return tubeCoords[j-1012][0];
+  else if (j < 1192)
+    return tubeCoords[j-1102][0];
+  else if (j < 1332)
+    return portLCoords[j-1192][0];
+  else if (j < 1472)
+    return portRCoords[j-1332][0];
+  
+}
+
+void doLightsLessOld() {
+
+  allOff();
   //allOffBySection();
 
-  drawMovingPatternX(8);
-  drawMovingPattern(8);
+  // stripes
+  //drawMovingPatternX(8);
+  //drawMovingPattern(8);
 
   //setSection(1, 255, 0, 0, 0);
   /*for(int j = 0; j < 203; j++) {

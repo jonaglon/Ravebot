@@ -1,13 +1,12 @@
 /* ************************
        RECEIVE FROM MEGA
 ************************* */
-char strIn[4]; // the message from the mega
-char strOut[4]; // the message from the mega
 
 void receiveFromMega() {
   while (Serial1.available()) {
+    char strIn[4];
     int i=0;
-    delay(5); //allows all serial sent to be received together
+    delay(2); //allows all serial sent to be received together
     while(Serial1.available() && i<4) {
       strIn[i++] = Serial1.read();
     }
@@ -125,7 +124,14 @@ void sendBeatToMega() {
 }
 
 void sendSerialToMega(int function, int message) {
-
+  if (testMode) {
+    Serial.print("* * SENDING TO MEGA FN:");
+    Serial.print(function);
+    Serial.print("   MSG:");
+    Serial.println(message);
+  }
+    
+  char strOut[4]; // the message from the mega
   itoa((function * 1000) + message, strOut, 10); //Turn value into a character array
   Serial2.write(strOut, 4);
 

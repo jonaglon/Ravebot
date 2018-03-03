@@ -1,5 +1,5 @@
-char lightsMessageInStr[4];
-char lightsMessageOutStr[4];
+char strIn[4];
+char strOut[4];
 
 void talkToLights() {
   
@@ -12,15 +12,15 @@ void talkToLights() {
 
 void receiveSerialFromLights() {
 
-  while (Serial2.available()) {
+  while (Serial3.available()) {
     int i=0;
     delay(5); //allows all serial sent to be received together
-    while(Serial2.available() && i<4) {
-      lightsMessageInStr[i++] = Serial2.read();
+    while(Serial3.available() && i<4) {
+      strIn[i++] = Serial3.read();
     }
-    lightsMessageInStr[i++]='\0';
-    int lightsMessage = atoi(lightsMessageInStr);
-    doSomethingWithMessageFromLights(lightsMessageInStr);
+    strIn[i++]='\0';
+    int lightsMessage = atoi(strIn);
+    doSomethingWithMessageFromLights(lightsMessage);
   }
 }
 
@@ -30,9 +30,9 @@ void doSomethingWithMessageFromLights(int messageFromLights) {
   
     if (testMode) {
       Serial.print("Received Serial 2 Func:");
-      Serial.print(messageFromLights);
+      Serial.print(requestFunction);
       Serial.print("   Received message:");
-      Serial.println(messageFromLights);
+      Serial.println(requestMessage);
     }
 
   if (requestFunction == 1) // this is a beat message
@@ -105,8 +105,8 @@ void sendSerialToLights(int function, int message) {
   int value = (function * 1000) + message;
   //Serial.println(message);
   
-  itoa(value, lightsMessageOutStr, 10); //Turn value into a character array
-  Serial1.write(lightsMessageOutStr, 4);
+  itoa(value, strOut, 10); //Turn value into a character array
+  Serial1.write(strOut, 4);
 
 }
 

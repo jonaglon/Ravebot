@@ -36,6 +36,9 @@ CRGB rgbwLeds[2440]; // 488 * 5
 
 // LED Intensity
 int ledIntensity = 50;
+byte wheelR;
+byte wheelG;
+byte wheelB;
 
 // MIXING VARS
 int nextTrack = 0;
@@ -59,10 +62,10 @@ void setup() {
   Serial.begin(9600);
 
   // Communicate with the Mega
-  Serial1.begin(19200); // rx for receiving
-  Serial2.begin(19200); // tx for sending
+  Serial1.begin(28800); // rx for receiving
+  Serial2.begin(28800); // tx for sending
   // Talk to the other arduino
-  Serial3.begin(9600);
+  // Serial3.begin(9600);
 
   // Make random more random
   randomSeed(analogRead(0));

@@ -72,8 +72,8 @@ void setup() {
     Serial.begin(9600);
 
   // Talk to the other arduino
-  Serial1.begin(19200);  // tx for sending
-  Serial2.begin(19200);  // rx for receiving
+  Serial1.begin(28800);  // tx for sending
+  Serial3.begin(28800);  // rx for receiving
 
   // make random more random?!
   randomSeed(analogRead(0));
