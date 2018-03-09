@@ -1,4 +1,4 @@
-/* __                 _           _               __ _       _     _  
+ /* __                 _           _               __ _       _     _  
   /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
  / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
 / _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
@@ -9,7 +9,7 @@
 #include<FastLED.h>
 
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-const bool beatTestMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool beatTestMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
 unsigned long fakeBeatCount = 0;
@@ -72,7 +72,7 @@ void setup() {
 
   //pinMode(12, OUTPUT); // rgb LED Setup
   LEDS.addLeds<WS2811_PORTD, 5>(rgbwLeds, 488); // Hardcoded to ports:25,26,27,28,14,15
-  LEDS.setBrightness(64); // 128 good max, 255 actual /max
+  LEDS.setBrightness(128); // 128 good max, 255 actual /max
 
   setMainVolume(mainVolume);
 
@@ -106,7 +106,7 @@ struct tuneInfo {
  
 
 // Genre 0, RAVE!
-tuneInfo tuneLibRave[17] = {
+tuneInfo tuneLibRave[20] = {
   {149, 68, 128, 16,  0, 16, 16, true},   //1  TripToTheMoonPt2-Acen.
   {136, 80, 112, 32,  0, 16, 16, false},  //2  Bombscare-2BadMice.
   {126,  0, 114,  8,  0, 16,  8, false},  //3  LFO-LFO.
@@ -124,6 +124,9 @@ tuneInfo tuneLibRave[17] = {
   {120, 16, 129, 16,  8, 16, 16, false},  //15 KillerFeatTopCat-BoozooBajou
   {136, 60, 112,  8,  0, 16,  0, false},  //16 LivingLegends-RaggaTwins
   {135, 48, 132,  8,  0, 16,  9, false},  //17 FeelingForYou-Cassius
+  {140,128, 206, 16   0, 16, 16, true},   //18 DidIt-Sticky ** Sounds a bit shit?
+  {135, 72, 106, 16,  0,  8,  0, false},  //19 HowLoveBegins-HighContrastDizee
+  {130, 80, 106, 16,  0, 16,  0, true},   //20 StringsOfLife-DerrickMay  
 };
 
 // Genre 1, Disco
@@ -143,25 +146,37 @@ tuneInfo tuneLibDisco[15] = {
   {125,  0,  96,  4,  0, 16, 16, true},   // 13 ILoveTheNightlife-AliciaBridges
   {110,  0,  96,  8,  0, 16, 16, true},   // 14 NightFever-BeeGees
   {111,  0, 102,  8,  0, 16,  4, true},   // 15 GiveMeTheNight-GeorgeBenson
+  {118,  0, 135,  8,  0,  8,  0, true},   // 16 YesSirICanBoogie-Baccara
+  {129,  0, 149,  8,  0,  8,  0, true},   // 17 LayAllYourLoveOnMe-Abba
+  {116 , 0,  96, 16,  4, 16,  0, false},  // 18 HesTheGreatestDancer-SisSledge
+  {108,  0,  82,  8,  0,  8,  0, true},   // 19 FeelLikeIDo-Disclosure
+  {108,  0, 108,  8,  8,  8,  0, true},  // 20 TakeAChanceOnMe-Abba  ************* You're up to here
 };
+// bpm drp len mxIn mnOut mxOut bestEnd playOut */
+
 
 // Genre 2, Reggae 
 tuneInfo tuneLibReggae[15] = {
   {170,  0, 132,  8,  0, 16, 16, false},  //1 RingTheAlarm-TenorSaw
   {102,  0, 118,  8,  0,  8,  8, false},  //2 FunkyKingston-Toots
   {164,  0, 164,  8,  0, 16, 16, false},  //3 UnderMeSlengTeng-WayneSmith
-  {162,  0, 128, 16,  0, 16, 12, false},  //4 BamBam-SisNancy
-  {162,  0, 152,  8,  0, 16, 12, false},  //5 StrictlyRoots-Althea&Donna 
-  {154,  0, 102,  0,  0, 16, 16, false},  //6 WelcomeToJamrock-DamianMarley
-  {146,  0, 146,  0,  0, 16, 16, false},  //7 ItsAPity-TanyaStevens
-  {177,  0, 142,  8,  0, 16, 16, false},  //8 FeelLikeJumping-MarciaG 
-  {164,  0, 160,  8,  0, 16, 16, false},  //9 CantStopNow-MajorLazer
-  {148,  0, 106,  8,  0, 16, 14, false},  //10 PressureDrop-Toots
-  {104,  0, 100,  4,  0, 16, 14, false},  //11 CouldYouBeLoved-BobMarley
-  { 90,  0, 101,  8,  0, 16, 16, false},  //12 DidYouReallyKnow-MungoHiFi
-  {131,  0, 129,  0,  0,  8,  8, false},  //13 ThingsInLife-BarryBrown 
-  { 90,  0,  89,  8 , 0,  4,  4, false},  //14 StandUp-MrBenn
-  { 93,  0, 121,  8,  0, 16, 16, false},  //15 LongTime-MrBenn  
+  {162,  0, 126,  8,  0, 16,  0, true},   //4 BamBam-SisNancy
+  {162,  0, 156,  8,  4, 16,  0, true},   //5 StrictlyRoots-Althea&Donna 
+  {156,  0, 134,  0,  6, 10,  0, true},   //6 WelcomeToJamrock-DamianMarley
+  {148,  0, 150,  0,  4, 16,  0, true},   //7 ItsAPity-TanyaStevens
+  {172,  0, 144,  8,  4,  8,  0, true},   //8 FeelLikeJumping-MarciaG 
+  {164,  0, 164,  8,  0, 16, 16, false},  //9 CantStopNow-MajorLazer
+  {148,  0, 106,  8,  0, 16,  0, true},   //10 PressureDrop-Toots
+  {104,  0, 100,  4,  0, 16,  0, true},   //11 CouldYouBeLoved-BobMarley
+  { 94,  0, 100,  8,  0, 16,  0, true},   //12 DidYouReallyKnow-MungoHiFi
+  {131,  0, 129,  0,  0,  8,  0, true},   //13 ThingsInLife-BarryBrown 
+  {180,  0, 140,  8,  4,  8,  0, false},  //14 StandUp-MrBenn
+  { 96,  0, 121,  8,  4, 16,  0, false},  //15 LongTime-MrBenn  
+  {161,  0, 148,  8,  8, 12,  0, true},   //16 YouthDemCold-RichieSpice 
+  { 93,  0, 103,  0,  4, 12,  4, true},   //17 HavingAParty-LeeScratchPerry
+  {138,  0, 160,  8,  4,  8,  0, true},   //18 Behold-Culture
+  {144,  0,  78,  0,  4,  8,  0, true},   //19 SunIsShining-BobMarley
+  {128,  0,  88,  8,  0,  8,  0, false},  //20 RoadBlock-GeneralLevy
 };
 
 // Genre 3, Rock&Pop

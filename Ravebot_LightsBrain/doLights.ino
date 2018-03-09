@@ -7,6 +7,7 @@ void doLights() {
 
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 10);
+    sectionsInTime2();
     doEyes();
     doTalkingLights();
   } else if (currentPattern == 2) {
@@ -26,50 +27,50 @@ void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
   for(j = 0; j < numLeds; j++) {
     int xCoord = (getLCoord(j)+ticko)%1024;
     SetRgbwWheelVars(xCoord/4);
-    setLedDirect(j, wheelR, wheelG, wheelB, 0);    
+    setLedDirect(j, wheelR, wheelG, wheelB, 0, false);    
   }
 }
 
 // so we can do x y patterns for each led on the bot we need a lookup
 int getLCoord(int j) {
-  if (j < 204)
+  if (j < 203)
      return binCoords[j][0];
-  else if (j < 380)
-    return bigHeartCoords[j-204][0];
-  else if (j < 466)
-    return smHeartCoords[j-380][0];
-  else if (j < 490)
-    return armCoords[j-466][0];
-  else if (j < 514)
-    return armCoords[j-490][0];
-  else if (j < 608)
-    return eyeCoords[j-514][0];
-  else if (j < 702)
-    return eyeCoords[j-608][0];
-  else if (j < 720)
-    return horizCoords[j-702][0];
-  else if (j < 754)
-    return tapeCoords[j-720][0];
-  else if (j < 780)
-    return horizCoords[j-754][0];
-  else if (j < 784)
-    return horizCoords[j-780][0];
-  else if (j < 808)
-    return armCoords[j-784][0];
-  else if (j < 832)
-    return armCoords[j-808][0];
-  else if (j < 922)
-    return tubeCoords[j-832][0];
-  else if (j < 1012)
-    return tubeCoords[j-922][0];
-  else if (j < 1102)
-    return tubeCoords[j-1012][0];
-  else if (j < 1192)
-    return tubeCoords[j-1102][0];
-  else if (j < 1332)
-    return portLCoords[j-1192][0];
-  else if (j < 1472)
-    return portRCoords[j-1332][0];
+  else if (j < 378)
+    return bigHeartCoords[j-203][0];
+  else if (j < 463)
+    return smHeartCoords[j-378][0];
+  else if (j < 482)
+    return armCoords[j-463][0];
+  else if (j < 506)
+    return armCoords[j-482][0];
+  else if (j < 599)
+    return eyeCoords[j-506][0];
+  else if (j < 692)
+    return eyeCoords[j-599][0];
+  else if (j < 710)
+    return horizCoords[j-692][0];
+  else if (j < 744)
+    return tapeCoords[j-710][0];
+  else if (j < 770)
+    return horizCoords[j-744][0];
+  else if (j < 774)
+    return horizCoords[j-770][0];
+  else if (j < 797)
+    return armCoords[j-774][0];
+  else if (j < 821)
+    return armCoords[j-797][0];
+  else if (j < 911)
+    return tubeCoords[j-821][0];
+  else if (j < 1001)
+    return tubeCoords[j-911][0];
+  else if (j < 1090)
+    return tubeCoords[j-1001][0];
+  else if (j < 1179)
+    return tubeCoords[j-1090][0];
+  else if (j < 1302)
+    return portLCoords[j-1179][0];
+  else if (j < 1441)
+    return portRCoords[j-1302][0];
   
 }
 
@@ -141,7 +142,7 @@ void doLightsOld() {
 
   allOff();
 
-  //setLedDirect(7, 255 , 0, 0, 0);
+  //setLedDirect(7, 255 , 0, 0, 0, false);
   
   //lightEyes(25, 25, 200, 10);
   
@@ -203,8 +204,8 @@ void doLightsOld() {
 }
 
 void doEyes() {
-  drawLightsNear(ledSections[5], 55, 55, 35);
-  drawLightsNear(ledSections[6], 55, 55, 35);
+  drawLightsNear(ledSections[5], 55, 55, 30);
+  drawLightsNear(ledSections[6], 55, 55, 30);
 }
 
 
@@ -213,7 +214,7 @@ void drawLightsNear(int offSet, int xCoord, int  yCoord, int radius) {
   for(int j = 0; j < 94; j++) { 
     if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) {
       if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) {
-        setLedDirect(offSet+j, 0, 100, 200, 0);
+        setLedDirect(offSet+j, 0, 0, 0, 0, false);
       }
     }
   }
@@ -242,6 +243,19 @@ void sectionsInTime() {
     setSection(13, 0, 255, 0, 0);
     setSection(14, 0, 0, 255, 0);
     setSection(15, 0, 0, 0, 255);  
+  };
+}
+
+void sectionsInTime2() {
+  int beat16 = sixteenHalfBeats % 16;  
+  if (beat16 < 5) {
+    setSection(13, 0, 0, 0, 0);
+  } else if (beat16 < 9) {
+    setSection(14, 0, 0, 0, 0);
+  } else if (beat16 < 13) {
+    setSection(15, 0, 0, 0, 0);
+  } else {
+    setSection(16, 0, 0, 0, 0);
   };
 }
 

@@ -38,14 +38,14 @@ bool rElbowMoving = false;
 int ledIntensity = 10;
 int currentSegmentNum;
 
-// switches in arade buttons
+// switches in arcade buttons
 int switchPins[14] = { 27, 29, 31, 33, 35, 37, 39, 41, 45, 43, 53, 51, 49, 47 };
 
 // Big main motor driver
 SoftwareSerial SabretoothSerial(NOT_A_PIN, 9); // RX on no pin (unused), TX on pin 9 (to S1).
 SoftwareSerial SabretoothSerial2(NOT_A_PIN, A9); // RX on no pin (unused), TX on pin 9 (to S1).
 // NOTE TO JR - you just wired the other sabertooth to pin 52
-SabertoothSimplified ST(SabretoothSerial); // Use SoftwareSerial as the serial port.
+SabertoothSimplified ST1(SabretoothSerial); // Use SoftwareSerial as the serial port.
 SabertoothSimplified ST2(SabretoothSerial2); // Use SoftwareSerial as the serial port.
 
 Cytron_PS2Shield ps2(10, 11);
@@ -106,10 +106,10 @@ void setup() {
   ledPwm.setPWMFreq(1600);  // This is the maximum PWM frequency
 
   // Arm cutoff
-  pinMode(A1, INPUT_PULLUP);
   pinMode(A2, INPUT_PULLUP);
   pinMode(A3, INPUT_PULLUP);
   pinMode(A4, INPUT_PULLUP);
+  pinMode(A5, INPUT_PULLUP);
   // led intensity
   pinMode(A8, INPUT_PULLUP);  //todo - change this
 

@@ -40,7 +40,7 @@ void doSomethingWithPackageFromMega(int package) {
   }
   else if (function == 4)
   {
-    // specific track was chosen on the keypad, play the track
+    // specific track was chosen on the keypad, play the track  JR TODO
     stayWithinGenre = false;
     playTune((message / 100), (message % 100), true);
   }
@@ -56,8 +56,9 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Stop button
   if (buttonNumber == 8) {
-    // sendFullStop();  JR TODO idea - can you cheat, set volume or bpm =0 when stop pressed
-    setAbletonTempo(120); // JR TODO!
+    sendFullStop();
+    delay(20);
+    startRobotVoiceTrack();
   }
 
   // Next button
@@ -92,6 +93,7 @@ void arcadeButtonPressed(int buttonNumber) {
 }
 
 void doRobotTalkingLights(int btnOnOffMessage) {
+  // TODO turn down ableton volume here!
     if (btnOnOffMessage == 0)
     {
       robotTalking = true;

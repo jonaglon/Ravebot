@@ -2,16 +2,16 @@
 void SetRgbwWheel(int pixNum, byte WheelPos, short whiteVal) {
   WheelPos = 255 - WheelPos;
   if(WheelPos < 85) {
-    setLedDirect(pixNum, 255 - WheelPos * 3, 0, WheelPos * 3, whiteVal);
+    setLedDirect(pixNum, 255 - WheelPos * 3, 0, WheelPos * 3, whiteVal, false);
     return;
   }
   if(WheelPos < 170) {
     WheelPos -= 85;
-    setLedDirect(pixNum, 0, WheelPos * 3, 255 - WheelPos * 3, whiteVal);
+    setLedDirect(pixNum, 0, WheelPos * 3, 255 - WheelPos * 3, whiteVal, false);
     return;
   }
   WheelPos -= 170;
-  setLedDirect(pixNum, WheelPos * 3, 255 - WheelPos * 3, 0, whiteVal);
+  setLedDirect(pixNum, WheelPos * 3, 255 - WheelPos * 3, 0, whiteVal, false);
   return;
 }
 
@@ -42,32 +42,32 @@ void SetRgbwWheelVars(byte WheelPos) {
 void doTalkingLights() {
 
   if (robotTalking) {
-    setLedDirect(ledSections[7]+8, 255, 60, 60, 100);
-    setLedDirect(ledSections[7]+9, 255, 60, 60, 100);
+    setLedDirect(ledSections[7]+8, 255, 60, 60, 100, true);
+    setLedDirect(ledSections[7]+9, 255, 60, 60, 100, true);
     
     if (timey > (robotTalkingOnTime + 40)) {
-      setLedDirect(ledSections[7]+7, 255, 60, 60, 100);
-      setLedDirect(ledSections[7]+10, 255, 60, 60, 100);
+      setLedDirect(ledSections[7]+7, 255, 60, 60, 100, true);
+      setLedDirect(ledSections[7]+10, 255, 60, 60, 100, true);
     }
     
     if (timey > (robotTalkingOnTime + 80)) {
-      setLedDirect(ledSections[7]+6, 255, 60, 60, 100);
-      setLedDirect(ledSections[7]+11, 255, 60, 60, 100);
+      setLedDirect(ledSections[7]+6, 255, 60, 60, 100, true);
+      setLedDirect(ledSections[7]+11, 255, 60, 60, 100, true);
     }
     
     if (timey > (robotTalkingOnTime + 110)) {
-      setLedDirect(ledSections[7]+5, 255, 60, 60, 100);
-      setLedDirect(ledSections[7]+12, 255, 60, 60, 100);
+      setLedDirect(ledSections[7]+5, 255, 60, 60, 100, true);
+      setLedDirect(ledSections[7]+12, 255, 60, 60, 100, true);
     }
     
     if (timey > (robotTalkingOnTime + 135)) {
-      setLedDirect(ledSections[7]+4, 255, 60, 60, 100);
-      setLedDirect(ledSections[7]+13, 255, 60, 60, 100);
+      setLedDirect(ledSections[7]+4, 255, 60, 60, 100, true);
+      setLedDirect(ledSections[7]+13, 255, 60, 60, 100, true);
     }
     
     if (timey > (robotTalkingOnTime + 150)) {
-      setLedDirect(ledSections[7]+3, 255, 60, 60, 100);
-      setLedDirect(ledSections[7]+14, 255, 60, 60, 100);
+      setLedDirect(ledSections[7]+3, 255, 60, 60, 100, true);
+      setLedDirect(ledSections[7]+14, 255, 60, 60, 100, true);
     }
   }
   
@@ -87,45 +87,45 @@ void rgbwSnake(int offSet, int speedFactor) {
 
   int rainbowFactor = (timey / speedFactor);
 
-  /*setLedDirect((test % numLeds) + 4 + offSet, 255, 10, 10, 5);
-  setLedDirect((test % numLeds) + 3 + offSet, 80, 155, 0, 50);
-  setLedDirect((test % numLeds) + 2 + offSet, 80, 10, 255, 60);
-  setLedDirect((test % numLeds) + 1 + offSet, 120, 10, 0, 255);*/
-  setLedDirect((rainbowFactor + 4 + offSet) % numLeds, 0, 0, 0, 0);
-  setLedDirect((rainbowFactor + 3 + offSet) % numLeds, 0, 0, 0, 0);
-  setLedDirect((rainbowFactor + 2 + offSet) % numLeds, 0, 0, 0, 0);
-  setLedDirect((rainbowFactor + 1 + offSet) % numLeds, 0, 0, 0, 0);
-  setLedDirect((rainbowFactor + offSet) % numLeds, 0, 0, 0, 0);
+  /*setLedDirect((test % numLeds) + 4 + offSet, 255, 10, 10, 5, false);
+  setLedDirect((test % numLeds) + 3 + offSet, 80, 155, 0, 50, false);
+  setLedDirect((test % numLeds) + 2 + offSet, 80, 10, 255, 60, false);
+  setLedDirect((test % numLeds) + 1 + offSet, 120, 10, 0, 255, false);*/
+  setLedDirect((rainbowFactor + 4 + offSet) % numLeds, 0, 0, 0, 0, false);
+  setLedDirect((rainbowFactor + 3 + offSet) % numLeds, 0, 0, 0, 0, false);
+  setLedDirect((rainbowFactor + 2 + offSet) % numLeds, 0, 0, 0, 0, false);
+  setLedDirect((rainbowFactor + 1 + offSet) % numLeds, 0, 0, 0, 0, false);
+  setLedDirect((rainbowFactor + offSet) % numLeds, 0, 0, 0, 0, false);
 
 }
 
 void setSection(int section, int r, int g, int b, int w) {
   for(int j = ledSections[section]; j < ledSections[section+1]; j++) { 
-    setLedDirect(j, r, g, b, w);
+    setLedDirect(j, r, g, b, w, false);
   }
 }
 
 void setSectionLed(int section, int ledNum, int r, int g, int b, int w) {
   int j = ledSections[section] + ledNum;
   if (j < ledSections[section+1])
-    setLedDirect(j, r, g, b, w);
+    setLedDirect(j, r, g, b, w, false);
 }
 
 void everySingleLight(int r, int g, int b, int w) {
   for(int j = 0; j < numLeds; j++) { 
-    setLedDirect(j, r, g, b, w);
+    setLedDirect(j, r, g, b, w, false);
   }
 }
 
 void lightEyes(int r, int g, int b, int w) {
   for(int j = 506; j < 693; j++) { 
-    setLedDirect(j, r, g, b, w);
+    setLedDirect(j, r, g, b, w, false);
   }
 }
 
 void allOff() {
   for(int j = 0; j < numLeds; j++) {
-    setLedDirect(j, 0, 0, 0, 0);
+    setLedDirect(j, 0, 0, 0, 0, true);
   }
 }
 
@@ -136,7 +136,7 @@ void allOffBySection() {
 }
 
 
-void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
+void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal, bool showMouth) {
   if (ledNum < 0)
     return;
 
@@ -162,6 +162,10 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal) {
     rgbwLeds[ledNum+537].r = bVal % 256;
   }
   else if (ledNum < 825) {
+    if (!showMouth && ledNum < 710) {
+      return;
+    }
+    
     // reverse indicator and tuner direction
     if (ledNum > 744 && ledNum < 774)
       ledNum = 1517-ledNum;

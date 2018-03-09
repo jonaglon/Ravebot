@@ -43,14 +43,16 @@ void doServos() {
 
   setHead();
 
-  leftClaw();
-  leftElbow();
-  leftWrist();
-
-  rightClaw();
-  rightElbow();
-  rightWrist();
-
+  if (ps2.readButton(PS2_LEFT_2) == 1) {
+    leftClaw();
+    leftWrist();
+    rightClaw();
+    rightWrist();
+  } else {
+    // JR TODO - come back here and make the claw and elbows move up and down nicely
+    rightElbow();
+    leftElbow();
+  }
 }
 
 

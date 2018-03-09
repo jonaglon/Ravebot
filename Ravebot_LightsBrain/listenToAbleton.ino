@@ -48,9 +48,19 @@ void listenToAbleton() {
   }
 }
 
+unsigned long lastHalfBeatTime = 0;
+int lastHalfBeatLength = 1;
+void setBeatTimes() {
+  lastHalfBeatLength = timey-lastHalfBeatTime; 
+  lastHalfBeatTime = timey;
+}
+
 void processMessageFromAbleton(byte note, byte velocity, int down) {
   if ((note>=24 && note<88) && (velocity == 100)) {
     sixteenHalfBeats = note - 24; // from 0 to 63 
+
+    setBeatTimes();
+    
     if (testMode) {
       Serial.print("16: ");
       Serial.println(sixteenHalfBeats);
