@@ -92,6 +92,30 @@ void startNewMix() {
   currentlyMixing = true;
 }
 
+void doImmediateMix() {
+
+  // send stuff to ableton to start the new track
+  playAbletonTrack(nextGenre, nextTrack, !deckASelected);
+
+  // tell the other arduino what you're doing
+  sendSerialToMega(2, (nextGenre * 100) + nextTrack);  
+
+  if (testMode) {
+    Serial.print("JUST STARTED: ");
+    Serial.print(nextGenre);
+    Serial.print("/");
+    Serial.println(nextTrack);
+  }
+
+  updateGenreAndTrackHistory(nextGenre, nextTrack);
+
+  // change the current track in this program
+  mixCurrentBar = -1;
+  
+  endMixAndPickNewTune();
+  
+}
+
 void endMixAndPickNewTune() {
   if (testMode) {
     Serial.println("EndingMixPickingNew");

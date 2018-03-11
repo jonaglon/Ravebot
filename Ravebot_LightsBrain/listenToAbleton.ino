@@ -78,10 +78,9 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
         Serial.print("  NextTuneBpm:");
         Serial.println(nextTune.bpm);
       }
-      // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
+      // This is the beginning of a new bar, might need to end a mix or start a drop countdown
       currentBar++;
       mixCurrentBar++;
-      setBeatTimes();
       checkForDropCountdownStart();
       checkForMixEnd();
     }
@@ -120,7 +119,9 @@ void checkForMixStart() {
     Serial.println(nextMixStart);
   }
     
-  if (currentBar+1 == nextMixStart) {
+  if ((currentBar+1 == nextMixStart) && nextMixDuration == 0) {
+    doImmediateMix();
+  } else if (currentBar+1 == nextMixStart) {
     startNewMix();
   }
 }
@@ -138,14 +139,6 @@ void checkForDropCountdownStart() {
   
   if (currentBar+2 ==  currentTune.drop)
     dropCountdown = 8;
-}
-
-void setBeatTimes() {
-
-  for (int x = 0; x < 9; x++)
-    beatTimes[x+1] = beatTimes[x];
-
-  beatTimes[0] = timey;
 }
 
 
