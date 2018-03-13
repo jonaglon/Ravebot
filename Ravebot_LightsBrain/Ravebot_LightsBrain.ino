@@ -76,7 +76,7 @@ void setup() {
   setMainVolume(mainVolume);
 
   // JR TODO if (testMode)
-    playTune(3, 0, true);
+    playTune(5, 0, true);
 }
 
 void loop() {
@@ -197,54 +197,59 @@ tuneInfo tuneLibRockAndPop[20] = {
   {112,  0,  83,  1,  4,  8,  8, true},  //16 Crazy-GnarlesBarkley
   {170,  0, 166, 16,  0,  2,  2, true},  //17 CostaDelEssex-Someone
   {110, 18,  87,  4,  4,  8,  8, true},  //18 IWantToBreakFree-Queen
-  {145,  0, 123,  1 ,  4,  8,  6, true}, //19 CallMe-Blondie
+  {145,  0, 123,  1,  4,  8,  6, true},  //19 CallMe-Blondie
   {131,  0, 116,  8,  0,  8,  8, true},  //20 RockTheCasbah-TheClash
 };
 
 // Genre 4, Easy
-tuneInfo tuneLibEasy[15] = {
-  {122,  0, 142,  0,  4,  4,  0, false},  //1 BackToMyRoots - RichieHavens     ************* You're up to here  
-  {104,  0,  59,  0,  4,  4,  0, false},  //2 Think - Aretha
-  {100,  0, 181,  0,  4,  4,  0, false},  //3 As - Wonder
-  {174,  0, 150,  4,  4,  4,  0, false},  //4 Roady - FatFreddyNextmen
-  {132,  0,  88,  0,  4,  4,  0, false},  //5 Beggin - FrankieValli
-  { 98,  0,  72,  0,  4,  4,  0, false},  //6 IGotAWoman - RayCharles 
-  {156,  0, 140,  4,  4,  4,  0, false},  //7 MilkAndHoney-PrinceFatty
-  {126,  0, 123,  0,  4,  4,  0, false},  //8 BackToBlack - Amy 
-  {132,  0, 166,  0,  4,  4,  0, false},  //9 MasterBlaster-StevieWonder
-  {109,  0, 113,  0,  4,  4,  0, false},  //10 AllNightLong - LionelRichie
-  { 96,  0,  96,  0,  4,  4,  0, false},  //11 INeedADollar-AloeBlacc     
-  {122,  0, 120,  4,  4,  4,  0, false},  //12 GotToGiveItUp-MarvinGaye
-  {139, 37, 124,  4,  0,  0, 0, false},  //13 TheHumansAreDead-FOTC
-  {175,  0, 176,  8,  0,  8, 0, false},  //14 AgainAndAgain-RootsManuva
-  {116, 24, 142,  4,  0,  6, 6, false},  //15 JamacianBoy-LoneRanger  
+tuneInfo tuneLibEasy[20] = {
+  {122,  0, 134,  8,  2,  4,  4, false},  //1 BackToMyRoots - RichieHavens 
+  {104,  0,  59,  4,  0,  4,  4, true},   //2 Think - Aretha
+  {100,  0, 182,  8,  4,  8,  8, false},  //3 As - Wonder
+  {174,  0, 158,  4,  0,  8 , 8, true},   //4 Roady - FatFreddyNextmen
+  {132,  0,  88,  2,  2,  4,  4, true},   //5 Beggin - FrankieValli 
+  { 98,  0,  72,  1,  4,  8,  2, true},   //6 IGotAWoman - RayCharles 
+  {156,  0, 144,  2,  2,  8,  6, true},   //7 MilkAndHoney-PrinceFatty
+  {126,  0, 122,  2,  4,  4,  4, true},   //8 BackToBlack - Amy
+  {132,  0, 166,  4,  4,  4,  4, true},   //9 MasterBlaster-StevieWonder
+  {109,  0, 116,  8,  0,  8,  8, true},   //10 AllNightLong - LionelRichie
+  { 96,  0,  96,  4,  0,  6,  6, true},   //11 INeedADollar-AloeBlacc     
+  {122,  0, 124,  4,  0,  8,  8, true},   //12 GotToGiveItUp-MarvinGaye
+  {139, 37, 124,  4,  0,  8,  8, true},   //13 TheHumansAreDead-FOTC
+  {175,  0, 176,  8,  0,  8,  8, false},  //14 AgainAndAgain-RootsManuva
+  {116,  0, 134,  8,  0,  6,  6, true},   //15 JamacianBoy-LoneRanger  
+  {171,  0, 186,  8,  0,  8,  8, true},   //16 TheLook-Metronomy
+  {129,  0, 124,  4,  0,  8,  8, false},  //17 ReadyForTheFloor-HotChip
+  {170,  0, 104, 16,  0,  8,  4, true},   //18 Rogbiv-BoardsOfCanada
+  {102,  0, 136,  8,  0,  8,  8, false},  //19 Ageopolis-AphexTwin
+  {103,  0, 110,  8,  0,  8,  8, false},  //20 ICouldNeverBeYourMan-WhiteTown
 };
 // bpm drp len mxIn mnOut mxOut bestEnd playOut */
 // Genre 5, Dance
-tuneInfo tuneLibDance[15] = {
-  {134, 29, 119,  0,  4,  4,  0, false},  //1 A rinky dinky
-  {110, 58,  91,  0,  4,  4,  0, false},  //2 Kelis - Trick Me
-  {150, 25, 130,  4,  4,  4,  0, false},  //3 Dubbleedge - Lips to the floor
-  {134,105, 169,  0,  4,  4,  0, false},  //4 Zero Emit Collect
-  {125, 70, 102,  0,  4,  4,  0, false},  //5 Dizee Bonkers
-  {115, 56,  88,  0,  4,  4,  0, false},  //6 RizzleKicks - DownWithTheTrumpets
-  {168, 92, 181,  0,  4,  4,  0, false},  //7 OneTime
-  {130,  0, 162,  0,  4,  4,  0, false},  //8 WileOut - DJ Zinc
-  {145,  0, 170,  0,  4,  4,  0, false},  //9 Aphex - Polynomial C
-  {124,  0, 189,  0,  4,  4,  0, false},  //10 Aphex WindowLicker
-  {121,  0, 170,  8,  0, 16,  0, false},  //11 OverAndOver-HotChip
-  {140,  0, 120,  0,  0,  0,  0, false},  //12 Omen - Prodigy
-  {128,  0, 110,  0,  0,  0,  0, false},  //13 DibbyDibbySound-MajorLazer
-  {132,  0, 120,  0,  0,  0,  0, false},  //14 ClintEastwood-EdCaseGorillaz
-  {134,  0, 105,  0,  0,  0,  0, false},  //15 AllAboutThatBass-MeganTrainor
+tuneInfo tuneLibDance[20] = {
+  {134, 30, 124, 16,  0, 16,  8, false},  //1 A rinky dinky 
+  {110, 58,  91,  4,  0, 16,  8, false},  //2 Kelis - Trick Me
+  {150,  0, 132, 16,  0,  4,  4, false},  //3 Dubbleedge - Lips to the floor
+  {134,106, 168, 16,  0, 16, 12, false},  //4 Zero Emit Collect
+  {126, 72,  92,  4,  2, 10, 10, false},  //5 Dizee Bonkers
+  {118,  0,  88,  8,  0,  8,  8, true},   //6 DownWithTheTrumpets-RizzleKicks
+  {112, 85, 104,  8,  0,  8,  8, true},   //7 PraiseYou-FatBoySlim
+  {132,  0, 162, 16,  0,  8,  8, true},   //8 WileOut - DJ Zinc - DownWithTheTrumpets 
+  {146,  0, 170, 16,  0, 12, 10, false},  //9 Aphex - Polynomial C
+  {124,  0, 189,  0,  2,  8,  8, false},  //10 Aphex WindowLicker
+  {122,  0, 155,  8,  4, 16,  8, false},  //11 OverAndOver-HotChip 
+  {142,  0, 124,  4,  4, 16, 16, false},  //12 Omen - Prodigy
+  {128,  0, 108,  8,  0, 16, 16, true},   //13 DibbyDibbySound-MajorLazer   ************* You're up to here
+  {132,  0, 120,  8,  0, 16, 16, false},  //14 ClintEastwood-EdCaseGorillaz
+  {128,  0, 104,  8,  0,  8,  8, true},   //15 AllAboutThatBass-MeganTrainor
+  {126,  0, 109,  8,  0,  9,  8, false},  //16 WeDontCare-AudioBullys
+  {128,  0, 108,  8,  0, 12, 12, false},  //17 TooOriginal-MajorLazer
+  {140,  0, 117, 16,  0, 16, 12, true},  //18 BasslineJunkie-DizzeeRascal 
+  {136,  0, 161, 16,  0, 16, 16, false},  //19 FeelLikeJumping-KraftyKuts
+  {173,  0, 139,  8,  0, 11,  8, false},  //20 TotallyAddictedToBass-SonicBoomSix
 };
 
 /*
-  {000,  0, 000,  0,  4,  4,  0, false},  //16 SomeSong-Someone
-  {000,  0, 000,  0,  4,  4,  0, false},  //17 SomeSong-Someone
-  {000,  0, 000,  0,  4,  4,  0, false},  //18 SomeSong-Someone
-  {000,  0, 000,  0,  4,  4,  0, false},  //19 SomeSong-Someone
-  {000,  0, 000,  0,  4,  4,  0, false},  //20 SomeSong-Someone  
 //  bpm drop tuneLength maxFadeIn minFadeOut maxFadeOut dropOffset  */
 
 // Genre 6, Drum&Bass
