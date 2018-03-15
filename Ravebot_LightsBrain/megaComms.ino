@@ -40,7 +40,7 @@ void doSomethingWithPackageFromMega(int package) {
   }
   else if (function == 4)
   {
-    // specific track was chosen on the keypad, play the track  JR TODO
+    // specific track was chosen on the keypad, play the track
     stayWithinGenre = false;
     playTune((message / 100), (message % 100), true);
   }
@@ -93,11 +93,11 @@ void arcadeButtonPressed(int buttonNumber) {
 }
 
 void doRobotTalkingLights(int btnOnOffMessage) {
-  // TODO turn down ableton volume here!
     if (btnOnOffMessage == 0)
     {
       robotTalking = true;
       robotTalkingOnTime = timey;
+      // TODO turn down ableton volume here!
     }
     else if (btnOnOffMessage == 1)
     {

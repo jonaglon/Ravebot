@@ -177,7 +177,7 @@ void chooseNextTrack() {
   // Also pick next lights pattern here
 
   while (!nextTrackPicked) {
-    
+
     // Pick next genre
     if (!stayWithinGenre)
       genre = random(8);
@@ -187,41 +187,19 @@ void chooseNextTrack() {
     // pick next track
     track = random(numberOfTunesInGenre(genre));
 
-    // check it's not in the last 10 tunes played      JR TODO - put this back
-    //if (playedTuneHistoryContainsTrack(genre, track))
-    //  continue;
-
-    /*if (testMode) {
-      Serial.print("next genre:");
-      Serial.print(genre);
-      Serial.print("   next track:");
-      Serial.println(track);
-      Serial.print("   current mfo:");
-      Serial.print(currentTune.minFadeOut);
-      Serial.print("   bpm:");
-      Serial.print(currentTune.bpm);
-      Serial.print("   drop:");
-      Serial.print(currentTune.drop);
-      Serial.print("   tuneLength:");
-      Serial.print(currentTune.tuneLength);
-      Serial.print("   maxFadeIn:");
-      Serial.print(currentTune.maxFadeIn);
-      Serial.print("   playOut:");
-      Serial.println(currentTune.playOut);
-    }*/
+    // check it's not in the last 10 tunes played
+    if (playedTuneHistoryContainsTrack(genre, track))
+      continue;
 
     setNextTune(genre, track);
 
     if (nextTune.maxFadeIn < currentTune.minFadeOut)
       continue;
 
-    if (testMode)
-      Serial.println(" * * * * 6");
     nextTrackPicked = true;
-    if (testMode)
-      Serial.println(" * * * * 7");
   }
 }
+
 
 bool playedTuneHistoryContainsTrack(int genre, int track) {
   bool trackExistsInHistory = false;
@@ -273,26 +251,6 @@ void setCurrentTune(int genre, int track) {
     currentTune = tuneLibDrumAndBass[track % numberOfTunesInGenre(6)];
   else
     currentTune = tuneLibHipHop[track % numberOfTunesInGenre(7)];
-
-  if (testMode) {
-    Serial.print("setting genre:");
-    Serial.print(genre);
-    Serial.print("=setting track:");
-    Serial.println(track);
-
-    Serial.print("   current mfo:");
-    Serial.print(currentTune.minFadeOut);
-    Serial.print("   bpm:");
-    Serial.print(currentTune.bpm);
-    Serial.print("   drop:");
-    Serial.print(currentTune.drop);
-    Serial.print("   tuneLength:");
-    Serial.print(currentTune.tuneLength);
-    Serial.print("   maxFadeIn:");
-    Serial.print(currentTune.maxFadeIn);
-    Serial.print("   playOut:");
-    Serial.println(currentTune.playOut); // TODO - 22 was killing it here because 22 doesn't exist
-  }
   
 }
 

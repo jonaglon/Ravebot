@@ -1,4 +1,4 @@
-/* __                 _           _               __ _       _     _  
+   /* __                 _           _               __ _       _     _  
   /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
  / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
 / _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
@@ -75,8 +75,8 @@ void setup() {
 
   setMainVolume(mainVolume);
 
-  // JR TODO if (testMode)
-    playTune(5, 0, true);
+  // JR TODO remove me
+    playTune(6, 0, true);
 }
 
 void loop() {
@@ -130,18 +130,18 @@ tuneInfo tuneLibRave[20] = {
 
 // Genre 1, Disco
 tuneInfo tuneLibDisco[20] = {
-  {125,  0, 101 ,  8,  4,  8,  8, false},   // 1 ILoveTheNightlife - Alecia Bridges
+  {125,  0, 101 ,  8,  4,  8,  8, false}, // 1 ILoveTheNightlife - Alecia Bridges
   {110,  0, 128,  8,  4, 16, 16, true},   // 2 LastNightADjSavedMyLife-Indeep
   {134,  0, 149,  8,  0, 16, 16, true},   // 3 LayAllYourLoveOnMe-Abba
   {121,  0, 157,  8,  4, 16, 14, false},  // 4 HotStuff-DonnaSummer
   {128,  0, 110,  8,  4,  8, 14, true},   // 5 RingMyBell-AnitaWard
   {130,  0, 209, 16,  0, 16, 16, true},   // 6 EverybodyDance-Chic
   {111,  0, 100,  8,  0, 16, 16, true},   // 7 GoodTimes-Chic
-  {102,  0, 112,  8,  4,  8,  8, true},  // 8 ThinkingOfYou-SisSledge
+  {102,  0, 112,  8,  4,  8,  8, true},   // 8 ThinkingOfYou-SisSledge
   {117,  0, 104,  8,  0,  8 , 8, true},   // 9 SheCantLoveYou-Chemise
   {112,  0, 130,  8,  0, 16, 16, true},   // 10 Automatic-PointerSisters   
   {105,  0, 120,  8,  0,  8,  8, true},   // 11 StayinAlive-BeeGees  
-  {114,  0, 101,  4,  4 ,  8,  8, false},    // 12 BestOfMyLove-TheEmotions
+  {114,  0, 101,  4,  4,  8,  8, false},  // 12 BestOfMyLove-TheEmotions
   {125,  0,  95,  4,  0, 16, 16, true},   // 13 ILoveTheNightlife-AliciaBridges
   {110,  0,  96,  8,  0, 16, 16, true},   // 14 NightFever-BeeGees
   {111,  0, 102,  8,  0, 16,  4, true},   // 15 GiveMeTheNight-GeorgeBenson
@@ -149,7 +149,7 @@ tuneInfo tuneLibDisco[20] = {
   {129,  0, 149,  8,  0,  8,  8, true},   // 17 LayAllYourLoveOnMe-Abba
   {116 , 0,  96, 16,  4, 16, 16, false},  // 18 HesTheGreatestDancer-SisSledge
   {108,  0,  80,  8,  0,  8,  8, true},   // 19 FeelLikeIDo-Disclosure
-  {108,  0, 108,  8,  8,  8,  8, true},  // 20 TakeAChanceOnMe-Abba
+  {108,  0, 108,  8,  8,  8,  8, true},   // 20 TakeAChanceOnMe-Abba
 };
 
 
@@ -235,17 +235,17 @@ tuneInfo tuneLibDance[20] = {
   {118,  0,  88,  8,  0,  8,  8, true},   //6 DownWithTheTrumpets-RizzleKicks
   {112, 85, 104,  8,  0,  8,  8, true},   //7 PraiseYou-FatBoySlim
   {132,  0, 162, 16,  0,  8,  8, true},   //8 WileOut - DJ Zinc - DownWithTheTrumpets 
-  {146,  0, 170, 16,  0, 12, 10, false},  //9 Aphex - Polynomial C
-  {124,  0, 189,  0,  2,  8,  8, false},  //10 Aphex WindowLicker
+  {146,  0, 170, 16,  0, 12, 10, false},  //9 Aphex - Polynomial C - ????????????????????
+  {124,  0, 189,  1,  2,  8,  8, false},  //10 Aphex WindowLicker
   {122,  0, 155,  8,  4, 16,  8, false},  //11 OverAndOver-HotChip 
   {142,  0, 124,  4,  4, 16, 16, false},  //12 Omen - Prodigy
-  {128,  0, 108,  8,  0, 16, 16, true},   //13 DibbyDibbySound-MajorLazer   ************* You're up to here
+  {128,  0, 108,  8,  0, 16, 16, false},   //13 DibbyDibbySound-MajorLazer
   {132,  0, 120,  8,  0, 16, 16, false},  //14 ClintEastwood-EdCaseGorillaz
-  {128,  0, 104,  8,  0,  8,  8, true},   //15 AllAboutThatBass-MeganTrainor
-  {126,  0, 109,  8,  0,  9,  8, false},  //16 WeDontCare-AudioBullys
+  {128,  0, 104,  8,  0,  8,  8, true},   //15 AllAboutThatBass-MeganTrainor -- move to rock pop
+  {126,  0, 109,  8,  0,  9,  8, false},  //16 WeDontCare-AudioBullys - ????????????????????
   {128,  0, 108,  8,  0, 12, 12, false},  //17 TooOriginal-MajorLazer
   {140,  0, 117, 16,  0, 16, 12, true},  //18 BasslineJunkie-DizzeeRascal 
-  {136,  0, 161, 16,  0, 16, 16, false},  //19 FeelLikeJumping-KraftyKuts
+  {140,  0, 161, 16,  0, 16, 16, false},  //19 FeelLikeJumping-KraftyKuts
   {173,  0, 139,  8,  0, 11,  8, false},  //20 TotallyAddictedToBass-SonicBoomSix
 };
 
@@ -254,27 +254,27 @@ tuneInfo tuneLibDance[20] = {
 
 // Genre 6, Drum&Bass
 tuneInfo tuneLibDrumAndBass[20] = {
-  {176,  0, 182, 16,  0, 16,  0, false},  //1 Girls-DJHypeAndPotential
-  {176,  0, 185, 16,  8, 16, 16, false},  //2 DuppyMan-ChaseAndStatusCapleton
-  {176,  0, 252,  0,  4,  4,  0, false},  //3 TheNine-BadCompany
-  {176,  0, 200, 16,  4,  4,  0, false},  //4 GoldDigger-HighContrast
-  {176,  0, 248,  0,  4,  4,  0, false},  //5 ShakeUrBody-ShyFX
-  {176,  0, 132,  0,  4,  4,  0, false},  //6 KingOfTheBeats2016-Aphrodite
-  {176,  0, 181,  0,  4,  4,  0, false},  //7 LastNight-BennyPage
-  {176,  0, 212,  0,  4,  4,  0, false},  //8 TurnDownTheLights-BennyPage
-  {176,  0, 157,  0,  4,  4,  0, false},  //9 PassTheKutchie-BennyPage
-  {176,  0, 169,  0,  4,  4,  0, false},  //10 PassMeTheRizla-Deekline
-  {176,  0, 232,  0,  0,  0,  0, false},  //11 CryingOut-BennyPageSerialKillazMix
-  {179,  0, 108,  0,  0,  0,  0, false},  //12 LivingInJungles-BedouinSoundclash
-  {179,  0, 255,  0,  0,  0,  0, false},  //13 Blade Runner Flip Side    -- TODO this tune was shortened!
-  {176,  0, 224,  0,  0,  0,  0, false},  //14 BamBam-SerialKillaz
-  {176,  0, 224,  0,  0,  0,  0, false},  //15 NoNoNo-SerialKillaz  
-  {100,  0, 100,  0,  4,  4,  0, false},  //16 SomeSong-Someone
-  {100,  0, 100,  0,  4,  4,  0, false},  //17 SomeSong-Someone
-  {100,  0, 100,  0,  4,  4,  0, false},  //18 SomeSong-Someone
-  {100,  0, 100,  0,  4,  4,  0, false},  //19 SomeSong-Someone
-  {100,  0, 100,  0,  4,  4,  0, false},  //20 SomeSong-Someone  
-};
+  {176,  0, 140, 16,  0, 16,  0, false},  //1 Girls-DJHypeAndPotential
+  {176,  0, 192, 16,  2, 16,  8, false},  //2 DuppyMan-ChaseAndStatusCapleton
+  {176,  0, 159, 16,  0, 16, 16, true},  //3 TheNine-BadCompany
+  {176,  0, 199, 16,  4, 16, 16, false},  //4 GoldDigger-HighContrast
+  {176,  0, 192,  0,  0, 16,  8, false},  //5 ShakeUrBody-ShyFX
+  {176,  0, 130, 16,  0, 16,  8, false},  //6 KingOfTheBeats2016-Aphrodite
+  {176,  0, 180, 16,  0, 16, 16, true},  //7 LastNight-BennyPage
+  {176,  0, 176, 16,  4, 16, 16, false},  //8 TurnDownTheLights-BennyPage
+  {176,  0, 154, 16,  0, 16, 16, false},  //9 PassTheKutchie-BennyPage  ** in time at the beginning?
+  {176,  0, 169, 16,  8, 16, 16, false},  //10 PassMeTheRizla-Deekline
+  {176,  0, 177, 16,  8, 16, 16, false},  //11 CryingOut-BennyPageSerialKillazMix
+  {176,  0, 176, 16,  8, 16, 16, false},  //12 Incredible-MBeat   ************* You're up to here
+  {179,  0, 162, 16,  0, 16, 16, false},  //13 TopRankSkank-BennyPage
+  {176,  0, 184, 16,  0, 16,  8, false},  //14 BamBam-SerialKillaz
+  {176,  0, 176, 16,  8, 16, 16, false},  //15 NoNoNo-SerialKillaz  
+  {176,  0, 176, 16,  8, 16, 16, false},  //16 RaggaTip-EdSolo
+  {174,  0, 176, 16,  8, 16, 16, false},  //17 KissKissBangBang-HighContrast
+  {174,  0, 160, 16,  0, 16, 16, false},  //18 Deep-TC
+  {176,  0, 132, 16,  0, 16, 16, false},  //19 GoldDust-ShyFXMix
+  {177,  0, 168, 16,  0, 16,  8, false},  //20 BlazingFire-BennyPage
+}; 
 
 // Genre 7, HipHop
 tuneInfo tuneLibHipHop[20] = {
