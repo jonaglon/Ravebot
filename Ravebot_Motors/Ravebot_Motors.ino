@@ -13,6 +13,7 @@
 #include<SoftwareSerial.h>
 #include<SabertoothSimplified.h>
 #include<Cytron_PS2Shield.h>
+#include<avr/wdt.h>
 
 const bool testMode = false;
 
@@ -67,6 +68,7 @@ Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, 4, 3);
 
 void setup() {
   delay(500);
+  wdt_enable(WDTO_2S);
 
   if (testMode)
     Serial.begin(9600);
@@ -138,6 +140,8 @@ void setup() {
 
 void loop()
 {
+  wdt_reset(); // this checks if the board crashed and resets
+  
   timey = millis();
 
   talkToLights();
