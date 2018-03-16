@@ -1,6 +1,4 @@
 int readPs2Var;
-bool rightArmMoving=false;
-bool leftArmMoving=false;
 
 void doMyArms() {
   int rightUp = digitalRead(A5);
@@ -8,54 +6,48 @@ void doMyArms() {
   int leftUp = digitalRead(A2);
   int leftDown = digitalRead(A3);
 
-  if (testMode) {
-    Serial.print("  r-up:");
-    Serial.print(rightUp);
-    Serial.print("  r-down:");
-    Serial.print(rightDown);
-    Serial.print("  l-up:");
-    Serial.print(leftUp);
-    Serial.print("  l-down:");
-    Serial.println(leftDown);
-  }
-
-  if (ps2.readButton(PS2_LEFT_2) == 0) {
-    
-    // Right arm
+  // Right arm
+  if (rightUp==0 && rightDown==0) {
+    sendRArmMotorValue(0);
+  } else if (rightUp==0) {
+    sendRArmMotorValue(-80);
+    delay(100);
+    sendRArmMotorValue(0);
+  } else if (rightDown==0) {
+    sendRArmMotorValue(80);
+    delay(100);
+    sendRArmMotorValue(0);
+  } else if (ps2.readButton(PS2_LEFT_2) == 0) {
     readPs2Var=-(ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)-128);
-    if (rightUp==1 && readPs2Var < 2) {
-      // JR - TODO next --- ---- --- arm judders
+    if (readPs2Var < 2) {
       sendRArmMotorValue(readPs2Var);
-      rightArmMoving=true;
-    } else if (rightDown==1 && readPs2Var > 2) {
+    } else if (readPs2Var > 2) {
       sendRArmMotorValue(readPs2Var);
-      rightArmMoving=true;
     } else {
       sendRArmMotorValue(0);
-      rightArmMoving=false;
     }
+  }
 
-    // Left arm
+  // Left arm
+  if (leftUp==0 && leftDown==0) {
+    sendLArmMotorValue(0);
+  } else if (leftUp==0) {
+    sendLArmMotorValue(80);
+    delay(100);
+    sendLArmMotorValue(0);
+  } else if (leftDown==0) {
+    sendLArmMotorValue(-80);
+    delay(100);
+    sendLArmMotorValue(0);
+  } else if (ps2.readButton(PS2_LEFT_2) == 0) {
     readPs2Var=ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)-128;
     if (leftUp==1 && readPs2Var > 2) {
       sendLArmMotorValue(readPs2Var);
-      leftArmMoving=true;
     } else if (leftDown==1 && readPs2Var < 2) {
       sendLArmMotorValue(readPs2Var);
-      leftArmMoving=true;
     } else {
       sendLArmMotorValue(0);
-      leftArmMoving=false;
     }
-  }
-
-  if (rightArmMoving && (rightUp==0 || rightDown==0)) {
-      sendRArmMotorValue(0);
-      rightArmMoving=false;
-  }
-  if (leftArmMoving && (leftUp==0 || leftDown==0)) {
-      sendLArmMotorValue(0);
-      leftArmMoving=false;
   }
   
 }    
