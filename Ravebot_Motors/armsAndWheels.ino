@@ -17,7 +17,7 @@ void doMyArms() {
     sendRArmMotorValue(80);
     delay(100);
     sendRArmMotorValue(0);
-  } else if (ps2.readButton(PS2_LEFT_2) == 0) {
+  } else if (ps2.readButton(PS2_LEFT_1) == 0) {
     readPs2Var=-(ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)-128);
     if (readPs2Var < 2) {
       sendRArmMotorValue(readPs2Var);
@@ -39,7 +39,7 @@ void doMyArms() {
     sendLArmMotorValue(-80);
     delay(100);
     sendLArmMotorValue(0);
-  } else if (ps2.readButton(PS2_LEFT_2) == 0) {
+  } else if (ps2.readButton(PS2_LEFT_1) == 0) {
     readPs2Var=ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)-128;
     if (leftUp==1 && readPs2Var > 2) {
       sendLArmMotorValue(readPs2Var);

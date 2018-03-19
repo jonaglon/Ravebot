@@ -3,11 +3,11 @@ int currentPattern = 1;
 void doLights() {
 
   allOff();
-  // allOffBySection();
+  //allOffBySection();
 
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 10);
-    sectionsInTime2();
+    //sectionsInTime2();
     doEyes();
     doTalkingLights();
   } else if (currentPattern == 2) {
@@ -21,14 +21,15 @@ void doLights() {
 
 
 void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
+
   int ticko = (timey / speedFactor) % 1024;
-  int j = 0;
   
-  for(j = 0; j < numLeds; j++) {
+  for(int j = 0; j < numLeds; j++) {
     int xCoord = (getLCoord(j)+ticko)%1024;
     SetRgbwWheelVars(xCoord/4);
     setLedDirect(j, wheelR, wheelG, wheelB, 0, false);    
   }
+  
 }
 
 // so we can do x y patterns for each led on the bot we need a lookup
@@ -77,7 +78,7 @@ int getLCoord(int j) {
 void doLightsLessOld() {
 
   allOff();
-  //allOffBySection();
+  // allOffBySection();
 
   // stripes
   //drawMovingPatternX(8);
@@ -92,7 +93,7 @@ void doLightsLessOld() {
   setSectionLed(2, 0, 255, 0, 0, 0);
   setSectionLed(2, 3, 0, 0, 255, 0); 
 
-  drawStripeX(3, 200, 255, 0, 0, 0);
+  
   drawStripeX(4, 100, 0, 0, 255, 0);
   drawStripeX(9, 150, 0, 90, 155, 0);
   //drawStripeX(17, 80, 50, 50, 55, 255);
@@ -177,7 +178,7 @@ void doLightsOld() {
   setSection(17, 255, 0, 0, 0);
   setSection(18, 0, 255, 0, 0);
   
-  sectionsInTime();
+  //sectionsInTime();
 
   /*drawMovingStripe(60, 300, 1, 10, 0, 100, 0, 0,  0);
   drawMovingStripe(30, 150, 2, 50, 0, 0, 100,  0, 0);
@@ -204,17 +205,64 @@ void doLightsOld() {
 }
 
 void doEyes() {
-  drawLightsNear(ledSections[5], 55, 55, 30);
-  drawLightsNear(ledSections[6], 55, 55, 30);
+
+  doBlinking();
+
+  // dark eye squares
+  drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 30, 0, 0, 0, 0);
+  drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 30, 0, 0, 0, 0);
+
+  // pupil
+  drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, 0, 0, 50, 0);
+  drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 7, 0, 0, 50, 0);
+}
+
+unsigned long blinkStart=4000;
+int blinkLength=220;
+
+void doBlinking() {
+  int drawTo = 0;
+  int blinkHeight = 120;
+  
+  if (timey > (blinkStart + blinkLength)) {
+    setSectionLed(5, 1, 255, 0, 0, 0);
+    // blink over, reset
+    if (random(9) == 0) {
+      blinkStart = timey + random(400);
+    } else {
+      blinkStart = timey + random(4000,9000);
+    }
+  } else if (timey > blinkStart) {
+    int percIntoBlink = ((timey - blinkStart)*100)/(blinkLength/2);
+    if (timey > (blinkStart + (blinkLength/2))) {
+      // on way up
+      drawTo = ((blinkHeight * percIntoBlink)/100)-blinkHeight;
+    } else {
+      // on way down
+      drawTo = blinkHeight-((blinkHeight * percIntoBlink)/100);
+    }
+    for(int j = 0; j < 93; j++) {
+      if (eyeCoords[j][1] > drawTo) {
+          setSectionLed(5, j, 0, 0, 0, 0);
+      }
+    }
+    for(int j = 0; j < 93; j++) {
+      if (eyeCoords[j][1] > drawTo) {
+          setSectionLed(6, j, 0, 0, 0, 0);
+      }
+    }
+  }
+
+  
 }
 
 
-void drawLightsNear(int offSet, int xCoord, int  yCoord, int radius) {
+void drawLightsNear(int offSet, int xCoord, int  yCoord, int radius, int r, int g, int b, int w) {
 
-  for(int j = 0; j < 94; j++) { 
+  for(int j = 0; j < 93; j++) { 
     if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) {
       if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) {
-        setLedDirect(offSet+j, 0, 0, 0, 0, false);
+        setLedDirect(offSet+j, r, g, b, w, false);
       }
     }
   }

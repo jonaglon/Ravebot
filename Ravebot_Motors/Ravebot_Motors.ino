@@ -26,16 +26,6 @@ bool shaking = false;
 unsigned long noddingTime;
 unsigned long shakingTime;
 
-bool lClawOpening = true;
-bool lClawMoving = false;
-bool rClawOpening = true;
-bool rClawMoving = false;
-
-bool lElbowOpening = true;
-bool lElbowMoving = false;
-bool rElbowOpening = true;
-bool rElbowMoving = false;
-
 int ledIntensity = 10;
 int currentSegmentNum;
 

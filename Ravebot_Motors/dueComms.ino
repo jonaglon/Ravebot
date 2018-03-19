@@ -7,6 +7,8 @@ void talkToLights() {
 
   checkLedIntensitySendChangeToLights();
 
+  checkAnalogsForEyeMovements();
+
   checkButtonsSendInfoToLights();
 }
 
@@ -55,17 +57,52 @@ void doSomethingWithMessageFromLights(int messageFromLights) {
 }
 
 void checkLedIntensitySendChangeToLights() {
-
   if (nextAnalogRead > timey) {
     int sensorValue = analogRead(A8);
     int newIntensity = 50-(sensorValue/19); // should give us a range ~2-50
     if ((newIntensity > ledIntensity+1 || newIntensity < ledIntensity-1) && newIntensity > 2) {
       ledIntensity = newIntensity;
       sendSerialToLights(3, ledIntensity);
-    }    
+    }
     nextAnalogRead = timey+300;
   }  
 }
+
+int leftEyeX;
+int leftEyeY;
+int rightEyeX;
+int rightEyeY;
+void checkAnalogsForEyeMovements() {
+
+  if (ps2.readButton(PS2_LEFT_2) == 0) {  
+    int newLeftX=ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)/2;
+    if (newLeftX > leftEyeX || newLeftX < leftEyeX) {
+      leftEyeX = newLeftX;
+      sendSerialToLights(7, leftEyeX);
+    }
+    
+    int newLeftY=ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)/2;
+    if (newLeftY > leftEyeY || newLeftY < leftEyeY) {
+      leftEyeY = newLeftY;
+      sendSerialToLights(8, leftEyeY);
+    }    
+
+    int newRightX=ps2.readButton(PS2_JOYSTICK_RIGHT_X_AXIS)/2;
+    if (newRightX > rightEyeX || newRightX < rightEyeX) {
+      rightEyeX = newRightX;
+      sendSerialToLights(5, rightEyeX);
+    }
+    
+    int newRightY=ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)/2;
+    if (newRightY > rightEyeY || newRightY < rightEyeY) {
+      rightEyeY = newRightY;
+      sendSerialToLights(6, rightEyeY);
+    }    
+    
+  }
+  
+}
+
 
 // bool ps2Right1On = false;
 bool ps2Right2On = false;

@@ -44,6 +44,22 @@ void doSomethingWithPackageFromMega(int package) {
     stayWithinGenre = false;
     playTune((message / 100), (message % 100), true);
   }
+  else if (function == 5 || function == 6 || function == 7 || function == 8)
+  {
+    setEyeCoords(function, message);
+  }
+
+}
+
+void setEyeCoords(int function, int message) {
+  if (function == 5)
+    leftEyeX = message-64;
+  else if (function == 6)
+    leftEyeY = message-64;
+  else if (function == 7)
+    rightEyeX = message-64;
+  else if (function == 8)
+    rightEyeY = message-64;
 }
 
 void arcadeButtonPressed(int buttonNumber) {

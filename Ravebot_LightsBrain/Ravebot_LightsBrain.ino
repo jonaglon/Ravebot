@@ -39,6 +39,12 @@ byte wheelR;
 byte wheelG;
 byte wheelB;
 
+int leftEyeX;
+int leftEyeY;
+int rightEyeX;
+int rightEyeY;
+
+
 // MIXING VARS
 int nextTrack = 0;
 int nextGenre = 0;
@@ -51,7 +57,7 @@ bool deckASelected = true;
 int currentMixerPosition = 0;
 int percentThroughMix = 0;  // not really % through, it's 0-256
 int last10Genres[10] = {0,0,0,0,0,0,0,0,0,0};
-int last10Tracks[10] = {0,0,0,0,0,0,0,0,0,0   };
+int last10Tracks[10] = {0,0,0,0,0,0,0,0,0,0};
 
 void setup() {
 
@@ -265,7 +271,7 @@ tuneInfo tuneLibDrumAndBass[20] = {
   {176,  0, 154, 16,  0, 16, 16, false},  //9 PassTheKutchie-BennyPage  ** in time at the beginning?
   {176,  0, 169, 16,  8, 16, 16, false},  //10 PassMeTheRizla-Deekline
   {176,  0, 177, 16,  8, 16, 16, false},  //11 CryingOut-BennyPageSerialKillazMix
-  {176,  0, 176, 16,  8, 16, 16, false},  //12 Incredible-MBeat   ************* You're up to here
+  {176,  0, 176, 16,  8, 16, 16, false},  //12 Incredible-MBeat
   {179,  0, 162, 16,  0, 16, 16, false},  //13 TopRankSkank-BennyPage
   {176,  0, 184, 16,  0, 16,  8, false},  //14 BamBam-SerialKillaz
   {176,  0, 176, 16,  8, 16, 16, false},  //15 NoNoNo-SerialKillaz  
@@ -278,26 +284,26 @@ tuneInfo tuneLibDrumAndBass[20] = {
 
 // Genre 7, HipHop
 tuneInfo tuneLibHipHop[20] = {
-  {101, 25,  81,  4,  0,  8,  8, false},  //1 Lets get ill
-  { 90,  0, 108,  4,  0, 16,  0, false},  //2 No Diggidy
-  { 97, 49,  66,  4,  0, 16,  0, false},  //3 ShimmyShimmyYa-ODB
-  {103, 69, 122,  4,  0,  8,  8, false},  //4 Moma said knock you out    
-  {154, 65, 140,  4,  0,  8,  0, false},  //5 Bigger than hip hop
-  { 93, 61, 108,  8,  0,  8,  8, false},  //6 DropItLikeItsCloseToMe-Snoop
+  {101,  0,  81,  4,  0, 16,  8, false},  //1 Lets get ill
+  { 90,  0, 108,  4,  0, 16,  8, false},  //2 No Diggidy
+  { 97,  0,  66,  8,  4, 16, 16, true},   //3 ShimmyShimmyYa-ODB
+  {104,  0, 122,  4,  4, 16,  8, false},  //4 Moma said knock you out    
+  {154,  0, 142,  8,  0, 16,  0, true},   //5 Bigger than hip hop
+  { 95,  0, 108,  8,  0, 16, 16, false},  //6 DropItLikeItsCloseToMe-Snoop
   { 98,  0, 101,  4,  0,  8,  8, false},  //7 OPP-NaughtyByNature
-  {100,  0, 105,  0,  4,  4,  0, false},  //8 HipHopHooray
-  {106,  0,  91,  0,  0,  8,  0, false},  //9 JumpAround-HouseOfPain
-  {106,  0,  88,  2,  0, 16,  0, false},  //10 InsazlleInTheBazzle-CyprusHazzle
-  {108,  0, 101,  0,  2,  8,  6, false},  //11 KingKunta-KendrickLamar
+  {100,  0, 102,  8,  0, 16,  4, false},  //8 HipHopHooray
+  {108,  0,  92,  8,  0, 16,  4, false},  //9 JumpAround-HouseOfPain
+  {100,  0,  86,  8,  0, 16,  0, false},  //10 InsazlleInTheBazzle-CyprusHazzle
+  {108,  0,  98,  4,  2,  8,  8, false},  //11 KingKunta-KendrickLamar
   { 95,  0,  82,  8,  0,  8,  8, false},  //12 GinAndJuice-Snoop
-  {108,  0,  97,  8,  0,  8,  8, false},  //13 HotInHere-Nelly
-  { 92,  0, 133,  4,  4,  8,  0, false},  //14 CaliforniaLove-DreAnd2Pac
-  { 97,  0,  80,  8,  0,  8,  0, false},  //15 TheOnlyOne-DangermouseJemini  
-  { 93,  0, 102,  8,  4,  4,  0, false},  //16 FamilyAffair-MaryJBlige
-  { 93,  0,  60,  8,  0,  8,  8, false},  //17 HitsFromTheBong-CypressHill
-  { 96,  0,  98,  8,  0,  8,  8, false},  //18 Regulate-WarrenG
-  { 90,  0,  77,  8,  0,  8,  8, false},  //19 GetUrFreakOn-MissyElliot
-  { 96,  0,  80,  4,  0,  8,  8, false},  //20 GoldDigger-Kanye
+  {106,  0,  96,  8,  0,  8,  8, false},  //13 HotInHere-Nelly
+  {120,  0, 115,  8,  0,  8,  8, true},   //14 GravelPit-WuTangClan
+  { 98,  0,  80,  8,  0,  8,  0, false},  //15 TheOnlyOne-DangermouseJemini  
+  { 93,  0, 102,  8,  0, 16, 12, true},   //16 FamilyAffair-MaryJBlige   ************* You're up to here
+  { 93,  0,  60,  8,  0,  8,  8, true},  //17 HitsFromTheBong-CypressHill
+  { 96,  0,  96,  8,  0,  8,  8, false},  //18 Regulate-WarrenG
+  {102,  0,  88,  8,  0,  8,  8, true},   //19 GetBusy-SeanPaul
+  { 96,  0,  80,  8,  2,  8,  8, false},  //20 GoldDigger-Kanye
 };
 
 
