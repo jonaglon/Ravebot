@@ -57,9 +57,9 @@ void doSomethingWithMessageFromLights(int messageFromLights) {
 }
 
 void checkLedIntensitySendChangeToLights() {
-  if (nextAnalogRead > timey) {
+  if (timey > nextAnalogRead) {
     int sensorValue = analogRead(A8);
-    int newIntensity = 50-(sensorValue/19); // should give us a range ~2-50
+    int newIntensity = 55-(sensorValue/19); // should give us a range ~2-50
     if ((newIntensity > ledIntensity+1 || newIntensity < ledIntensity-1) && newIntensity > 2) {
       ledIntensity = newIntensity;
       sendSerialToLights(3, ledIntensity);

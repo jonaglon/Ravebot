@@ -1,4 +1,4 @@
-   /* __                 _           _               __ _       _     _  
+/* __                 _           _               __ _       _     _  
   /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
  / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
 / _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
@@ -9,13 +9,16 @@
 #include<FastLED.h>
 
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-const bool beatTestMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool beatTestMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 
 unsigned long timey;
+unsigned long lastHalfBeatTime = 0;
+int lastHalfBeatLength = 1;
+int percentThroughBeat = 0;
+int animationPoint=0;
 unsigned long fakeBeatCount = 0;
-int ticky=0;
 
-int fakeBeatLengh = 500;
+int fakeBeatLengh = 400;
 
 // Set by midi in to be 1-16 with beat.
 short sixteenHalfBeats = 0;
@@ -39,11 +42,10 @@ byte wheelR;
 byte wheelG;
 byte wheelB;
 
-int leftEyeX;
-int leftEyeY;
-int rightEyeX;
-int rightEyeY;
-
+int leftEyeX=0;
+int leftEyeY=0;
+int rightEyeX=0;
+int rightEyeY=0;
 
 // MIXING VARS
 int nextTrack = 0;
@@ -69,30 +71,42 @@ void setup() {
   // Communicate with the Mega
   Serial1.begin(28800); // rx for receiving
   Serial2.begin(28800); // tx for sending
-  // Talk to the other arduino
-  // Serial3.begin(9600);
 
   // Make random more random
   randomSeed(analogRead(0));
 
-  //pinMode(12, OUTPUT); // rgb LED Setup
   LEDS.addLeds<WS2811_PORTD, 5>(rgbwLeds, 488); // Hardcoded to ports:25,26,27,28,14,15
   LEDS.setBrightness(128); // 128 good max, 255 actual /max
 
   setMainVolume(mainVolume);
 
   // JR TODO remove me
-    playTune(6, 0, true);
+  playTune(7, 0, true);
 }
 
 void loop() {
-  timey = millis();
+  setTimes();
   
   listenToAbleton();
 
   receiveFromMega();
 
   doLights();
+}
+
+void setTimes() {
+  timey = millis();
+  
+  int percentThroughHalfBeat = ((timey-lastHalfBeatTime)*8192)/lastHalfBeatLength;   // 16384 is a beat length
+
+  if (sixteenHalfBeats % 2 == 1)
+    percentThroughBeat = percentThroughHalfBeat + 8192;
+  else 
+    percentThroughBeat = percentThroughHalfBeat;
+
+  // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
+  int animationPoint= ((sixteenHalfBeats * 8192) + percentThroughHalfBeat)+((currentBar/2)*131072);
+
 }
 
 struct tuneInfo {   
@@ -131,7 +145,7 @@ tuneInfo tuneLibRave[20] = {
   {135, 48, 108,  8,  4,  8,  8, false},  //17 FeelingForYou-Cassius
   {140,128, 206, 16,  0, 16, 16, true},   //18 DidIt-Sticky - TODO sounds a bit shit
   {135, 72, 106, 16,  0,  8,  8, false},  //19 HowLoveBegins-HighContrastDizee
-  {130, 80, 106, 16,  8,  8,  8, false},   //20 StringsOfLife-DerrickMay  
+  {130, 80, 106, 16,  8,  8,  8, false},   //20 StringsOfLife-DerrickMay     ************* You're up to here
 };
 
 // Genre 1, Disco
@@ -208,7 +222,7 @@ tuneInfo tuneLibRockAndPop[20] = {
 };
 
 // Genre 4, Easy
-tuneInfo tuneLibEasy[20] = {
+tuneInfo tuneLibEasy[21] = {
   {122,  0, 134,  8,  2,  4,  4, false},  //1 BackToMyRoots - RichieHavens 
   {104,  0,  59,  4,  0,  4,  4, true},   //2 Think - Aretha
   {100,  0, 182,  8,  4,  8,  8, false},  //3 As - Wonder
@@ -229,6 +243,7 @@ tuneInfo tuneLibEasy[20] = {
   {170,  0, 104, 16,  0,  8,  4, true},   //18 Rogbiv-BoardsOfCanada
   {102,  0, 136,  8,  0,  8,  8, false},  //19 Ageopolis-AphexTwin
   {103,  0, 110,  8,  0,  8,  8, false},  //20 ICouldNeverBeYourMan-WhiteTown
+  {154,  0, 140,  8,  0, 16,  0, true},   //21 Bigger than hip hop
 };
 // bpm drp len mxIn mnOut mxOut bestEnd playOut */
 // Genre 5, Dance
@@ -284,23 +299,23 @@ tuneInfo tuneLibDrumAndBass[20] = {
 
 // Genre 7, HipHop
 tuneInfo tuneLibHipHop[20] = {
-  {101,  0,  81,  4,  0, 16,  8, false},  //1 Lets get ill
+  {101,  0,  80,  4,  0, 16, 16, false},  //1 Lets get ill
   { 90,  0, 108,  4,  0, 16,  8, false},  //2 No Diggidy
   { 97,  0,  66,  8,  4, 16, 16, true},   //3 ShimmyShimmyYa-ODB
-  {104,  0, 122,  4,  4, 16,  8, false},  //4 Moma said knock you out    
-  {154,  0, 142,  8,  0, 16,  0, true},   //5 Bigger than hip hop
-  { 95,  0, 108,  8,  0, 16, 16, false},  //6 DropItLikeItsCloseToMe-Snoop
-  { 98,  0, 101,  4,  0,  8,  8, false},  //7 OPP-NaughtyByNature
-  {100,  0, 102,  8,  0, 16,  4, false},  //8 HipHopHooray
-  {108,  0,  92,  8,  0, 16,  4, false},  //9 JumpAround-HouseOfPain
-  {100,  0,  86,  8,  0, 16,  0, false},  //10 InsazlleInTheBazzle-CyprusHazzle
+  {104,  0, 114,  4,  4, 16,  8, false},  //4 Moma said knock you out     
+  { 93,  0,  70,  8,  0,  8,  8, false},   //5 InDaClub-50Cent
+  { 95,  0, 100,  8,  0, 16, 16, false},  //6 DropItLikeItsCloseToMe-Snoop
+  { 98,  0, 100,  4,  0,  8,  8, false},  //7 OPP-NaughtyByNature
+  {100,  0, 102,  8,  0, 16,  4, true},  //8 HipHopHooray
+  {108,  0,  92,  4,  0, 16,  4, false},  //9 JumpAround-HouseOfPain ** doesn't end in right 8 - what the actual -first 3??
+  {100,  0,  86,  8,  0, 16,  0, false},  //10 InsazlleInTheBazzle-CyprusHazzle ** 2 intro or cut the first 2
   {108,  0,  98,  4,  2,  8,  8, false},  //11 KingKunta-KendrickLamar
   { 95,  0,  82,  8,  0,  8,  8, false},  //12 GinAndJuice-Snoop
-  {106,  0,  96,  8,  0,  8,  8, false},  //13 HotInHere-Nelly
+  {106,  0,  96,  8,  0,  8,  8, false},  //13 HotInHere-Nelly -- ** 4 or cut the first 4 bars - end in time?
   {120,  0, 115,  8,  0,  8,  8, true},   //14 GravelPit-WuTangClan
   { 98,  0,  80,  8,  0,  8,  0, false},  //15 TheOnlyOne-DangermouseJemini  
-  { 93,  0, 102,  8,  0, 16, 12, true},   //16 FamilyAffair-MaryJBlige   ************* You're up to here
-  { 93,  0,  60,  8,  0,  8,  8, true},  //17 HitsFromTheBong-CypressHill
+  { 93,  0, 100,  8,  0,  8,  8, false},   //16 FamilyAffair-MaryJBlige
+  { 93,  0,  60,  8,  0,  8,  8, true},  //17 HitsFromTheBong-CypressHill ** volume up
   { 96,  0,  96,  8,  0,  8,  8, false},  //18 Regulate-WarrenG
   {102,  0,  88,  8,  0,  8,  8, true},   //19 GetBusy-SeanPaul
   { 96,  0,  80,  8,  2,  8,  8, false},  //20 GoldDigger-Kanye
@@ -316,13 +331,13 @@ int eyeCoords[93][2] = {
   { 55,107}, { 64,106}, { 75,104}, { 84, 98}, { 92, 93}, { 98, 85}, {103, 76}, {107, 66}, {108, 56}, {107, 45},
   {103, 35}, { 98, 27}, { 92, 18}, { 84, 12}, { 75,  7}, { 64,  3}, { 55,  2}, { 45,  3}, { 35,  7}, { 26, 12},
   { 18, 18}, { 12, 27}, {  7, 35}, {  4, 45}, {  3, 56}, {  4, 66}, {  7, 76}, { 12, 85}, { 18, 93}, { 26, 98},
-  { 35,104}, { 45,106}, { 55, 98}, { 66, 97}, { 76, 92}, { 84, 85}, { 91, 77}, { 96, 66}, { 97, 55}, { 96, 44},
+  { 35,104}, { 45,106}, { 55, 98}, { 66, 97}, { 76, 92}, { 85, 86}, { 91, 77}, { 96, 66}, { 97, 55}, { 96, 44},
   { 91, 35}, { 84, 26}, { 76, 18}, { 66, 14}, { 55, 13}, { 45, 14}, { 34, 18}, { 26, 26}, { 18, 35}, { 14, 44},
   { 12, 55}, { 14, 66}, { 18, 77}, { 25, 85}, { 34, 92}, { 44, 97}, { 55, 88}, { 67, 86}, { 77, 78}, { 85, 68},
   { 87, 55}, { 85, 43}, { 77, 33}, { 67, 25}, { 55, 23}, { 43, 25}, { 32, 33}, { 25, 43}, { 23, 55}, { 25, 68},
   { 32, 78}, { 43, 86}, { 55, 78}, { 66, 75}, { 74, 67}, { 77, 55}, { 75, 44}, { 67, 36}, { 55, 33}, { 44, 36},
   { 36, 44}, { 33, 55}, { 35, 67}, { 43, 75}, { 55, 68}, { 64, 64}, { 67, 55}, { 64, 47}, { 55, 43}, { 46, 47},
-  { 43, 55}, { 46, 64}, { 55, 55} };
+  { 43, 55}, { 46, 64}, { 55, 55} };   // 
 int armCoords[24][2] = {
   { 0,  6}, { 0, 13}, { 0, 19}, { 0, 25}, { 0, 31}, { 0, 38}, { 0, 44}, { 0, 50}, { 0, 57}, { 0, 62}, 
   { 0, 69}, { 0, 75}, { 0, 82}, { 0, 88}, { 0, 94}, { 0,100}, { 0,106}, { 0,113}, { 0,119}, { 0,125}, 

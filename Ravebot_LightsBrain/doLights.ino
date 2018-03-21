@@ -8,6 +8,7 @@ void doLights() {
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 10);
     //sectionsInTime2();
+    lightsInTimeTest01();
     doEyes();
     doTalkingLights();
   } else if (currentPattern == 2) {
@@ -18,61 +19,114 @@ void doLights() {
   LEDS.show();  
 }
 
+// animationPoint=0;
+int numLedsTube = 90;
+int numLedsPerBeat=22;
+int beatCompNum = 16384/numLedsPerBeat; // this is the 16384 beat% / those 30 leds. (182/546 - for 30/90)
 
+void lightsInTimeTest01() {
+  for(int j = 0; j < 90; j++)
+    setSectionLed(15, j, 0, 0, 0, 0);
 
-void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
-
-  int ticko = (timey / speedFactor) % 1024;
   
-  for(int j = 0; j < numLeds; j++) {
-    int xCoord = (getLCoord(j)+ticko)%1024;
-    SetRgbwWheelVars(xCoord/4);
-    setLedDirect(j, wheelR, wheelG, wheelB, 0, false);    
+  for(int j = 0; j < numLedsTube; j++) {
+    int distanceFromBeat = quickAbsolute(((j%numLedsPerBeat)*beatCompNum)-percentThroughBeat);
+
+    if (j%numLedsPerBeat < 10) {
+      int distanceFromBeat2 = quickAbsolute((((j%numLedsPerBeat)+numLedsPerBeat)*beatCompNum)-percentThroughBeat);
+      if (distanceFromBeat2 < distanceFromBeat)
+        distanceFromBeat = distanceFromBeat2;
+    }
+
+    int ledColour = 255 - (distanceFromBeat/10);
+    if (ledColour < 0)
+      ledColour = 0;
+
+    setSectionLed(13, j, ledColour, 0, 0, 0);
+    setSectionLed(14, j, 0, ledColour, 0, 0);
+    setSectionLed(15, j, 0, 0, ledColour, 0);
+    setSectionLed(16, j, 0, 0, 0, ledColour);
   }
   
 }
 
-// so we can do x y patterns for each led on the bot we need a lookup
-int getLCoord(int j) {
-  if (j < 203)
-     return binCoords[j][0];
-  else if (j < 378)
-    return bigHeartCoords[j-203][0];
-  else if (j < 463)
-    return smHeartCoords[j-378][0];
-  else if (j < 482)
-    return armCoords[j-463][0];
-  else if (j < 506)
-    return armCoords[j-482][0];
-  else if (j < 599)
-    return eyeCoords[j-506][0];
-  else if (j < 692)
-    return eyeCoords[j-599][0];
-  else if (j < 710)
-    return horizCoords[j-692][0];
-  else if (j < 744)
-    return tapeCoords[j-710][0];
-  else if (j < 770)
-    return horizCoords[j-744][0];
-  else if (j < 774)
-    return horizCoords[j-770][0];
-  else if (j < 797)
-    return armCoords[j-774][0];
-  else if (j < 821)
-    return armCoords[j-797][0];
-  else if (j < 911)
-    return tubeCoords[j-821][0];
-  else if (j < 1001)
-    return tubeCoords[j-911][0];
-  else if (j < 1090)
-    return tubeCoords[j-1001][0];
-  else if (j < 1179)
-    return tubeCoords[j-1090][0];
-  else if (j < 1302)
-    return portLCoords[j-1179][0];
-  else if (j < 1441)
-    return portRCoords[j-1302][0];
+int quickAbsolute(int number) {
+  if (number < 0)
+    return number * (-1);
+  else
+    return number;
+}
+/*
+void lightsInTimeTest01() {
+  for(int j = 0; j < 90; j++)
+    setSectionLed(15, j, 0, 0, 0, 0);
+
+  for(int j = 0; j < numLedsExp; j++) {
+    int distanceFromBeat = quickAbsolute((j*beatCompNum)-percentThroughBeat);
+
+    // how can we make 0 and numLedsExp "close" ?
+    //if (distanceFromBeat > 5000)
+    //  distanceFromBeat = quickAbsolute((16384-(j*beatCompNum))-percentThroughBeat);
+
+    int ledColour = 255 - (distanceFromBeat/10);
+    if (ledColour < 0)
+      ledColour = 0;
+
+    setSectionLed(15, j, ledColour, 0, 0, 0);
+  }
+}
+*/
+
+void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
+  int ticko = (timey / speedFactor) % 1024;
   
+  for(int j = 0; j < numLeds; j++) {
+    int xCoord = (getCoord(j,0)+ticko)%1024;
+    SetRgbwWheelVars(xCoord/4);
+    setLedDirect(j, wheelR, wheelG, wheelB, 0, false);    
+  }
+}
+
+// lazy variable naming, j is ledNum and k is x or y
+int getCoord(int j, int k) {
+  if (j < 203)
+     return binCoords[j][k]+ledPosOffset[0][k];
+  else if (j < 378)
+    return bigHeartCoords[j-203][k]+ledPosOffset[1][k];
+  else if (j < 463)
+    return smHeartCoords[j-378][k]+ledPosOffset[2][k];
+  else if (j < 482)
+    return armCoords[j-463][k]+ledPosOffset[3][k];
+  else if (j < 506)
+    return armCoords[j-482][k]+ledPosOffset[4][k];
+  else if (j < 599)
+    return eyeCoords[j-506][k]+ledPosOffset[5][k];
+  else if (j < 692)
+    return eyeCoords[j-599][k]+ledPosOffset[6][k];
+  else if (j < 710)
+    return horizCoords[j-692][k]+ledPosOffset[7][k];
+  else if (j < 744)
+    return tapeCoords[j-710][k]+ledPosOffset[8][k];
+  else if (j < 770)
+    return horizCoords[j-744][k]+ledPosOffset[9][k];
+  else if (j < 774)
+    return horizCoords[j-770][k]+ledPosOffset[10][k];
+  else if (j < 797)
+    return armCoords[j-774][k]+ledPosOffset[11][k];
+  else if (j < 821)
+    return armCoords[j-797][k]+ledPosOffset[12][k];
+  else if (j < 911)
+    return tubeCoords[j-821][k]+ledPosOffset[13][k];
+  else if (j < 1001)
+    return tubeCoords[j-911][k]+ledPosOffset[14][k];
+  else if (j < 1090)
+    return tubeCoords[j-1001][k]+ledPosOffset[15][k];
+  else if (j < 1179)
+    return tubeCoords[j-1090][k]+ledPosOffset[16][k];
+  else if (j < 1302)
+    return portLCoords[(j-1179)%19][k]+ledPosOffset[17][k];
+  else if (j < 1441)
+    return portRCoords[(j-1302)%19][k]+ledPosOffset[18][k];
 }
 
 void doLightsLessOld() {
@@ -206,6 +260,11 @@ void doLightsOld() {
 
 void doEyes() {
 
+  for(int j = 0; j < 93; j++) {
+    setSectionLed(5, j, 50, 50, 50, 0);
+    setSectionLed(6, j, 50, 50, 50, 0);
+  }
+
   doBlinking();
 
   // dark eye squares
@@ -213,8 +272,8 @@ void doEyes() {
   drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 30, 0, 0, 0, 0);
 
   // pupil
-  drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, 0, 0, 50, 0);
-  drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 7, 0, 0, 50, 0);
+  drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, 80, 80, 80, 0);
+  drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 7, 80, 80, 80, 0);
 }
 
 unsigned long blinkStart=4000;
@@ -225,7 +284,6 @@ void doBlinking() {
   int blinkHeight = 120;
   
   if (timey > (blinkStart + blinkLength)) {
-    setSectionLed(5, 1, 255, 0, 0, 0);
     // blink over, reset
     if (random(9) == 0) {
       blinkStart = timey + random(400);

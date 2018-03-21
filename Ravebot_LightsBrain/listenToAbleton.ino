@@ -29,7 +29,7 @@ void listenToAbleton() {
 
     case 1:
       // get the note to play or stop
-      if(incomingByte < 128) {
+      if (incomingByte < 128) {
         note=incomingByte;
         state=2; 
       }
@@ -40,7 +40,7 @@ void listenToAbleton() {
 
     case 2:
       // get the velocity
-      if(incomingByte < 128) {
+      if (incomingByte < 128) {
         processMessageFromAbleton(note, incomingByte, noteDown);
       }
       state = 0;  // reset state machine to start            
@@ -48,8 +48,6 @@ void listenToAbleton() {
   }
 }
 
-unsigned long lastHalfBeatTime = 0;
-int lastHalfBeatLength = 1;
 void setBeatTimes() {
   lastHalfBeatLength = timey-lastHalfBeatTime; 
   lastHalfBeatTime = timey;
@@ -81,6 +79,7 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       // This is the beginning of a new bar, might need to end a mix or start a drop countdown
       currentBar++;
       mixCurrentBar++;
+      percentThroughBeat=0;
       checkForDropCountdownStart();
       checkForMixEnd();
     }
@@ -96,20 +95,6 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
     
   }
 }
-
-/*void checkForQuantisationStart() {
-  if (currentBar == nextMixStart) {
-    if (testMode)
-        Serial.println("sending quantisation on");
-    sendQuantisationOn();
-  }
-}
-
-void checkForQuantisationEnd() {
-  if (currentBar == nextMixStart+1) {
-    sendQuantisationOff();
-  }
-}*/
 
 void checkForMixStart() {
   if (testMode) {
