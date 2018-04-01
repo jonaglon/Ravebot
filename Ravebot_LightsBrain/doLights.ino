@@ -2,17 +2,20 @@ int currentPattern = 1;
 
 void doLights() {
 
-  allOff();
-  //allOffBySection();
+  //allOff();
+  allOffBySection();
 
   if (currentPattern == 1) {
-    horizontalRainbow(false, false, 10);
+    horizontalRainbow(false, false, 40);
     //sectionsInTime2();
+    //heartInTime();
     lightsInTimeTest01();
     doEyes();
     doTalkingLights();
   } else if (currentPattern == 2) {
-    horizontalRainbow(false, false, 10);
+    horizontalRainbow(false, false, 100);
+    // smileyEyes();
+    pacManEyes();
   } else {
     horizontalRainbow(false, false, 10);
   }
@@ -20,10 +23,35 @@ void doLights() {
 }
 
 // animationPoint=0;
+
+void heartInTime() {
+  // we want a heartbeat
+  int ledValue1 = currentHeartBeatValue(0, 255, 4);
+  int ledValue2 = currentHeartBeatValue(7, 170, 2);
+
+  if (ledValue1 > ledValue2)
+    setSection(1, ledValue1, 0, 0, 0);
+  else
+    setSection(1, ledValue2, 0, 0, 0);
+}
+
+// the shorter dropoff divisor the longer the trail
+int currentHeartBeatValue(int sixteenHalfBeatShift, int maxValue, int dropoffLengthDivisor) {
+  int sixteenHalfBeatVal = (sixteenHalfBeats + sixteenHalfBeatShift) % 8;
+  int returnVal = 0;
+  
+  if (sixteenHalfBeatVal < 1) {
+    returnVal = (((percentThroughHalfBeat * 100) / 8192)*255)/100;
+  } else if (sixteenHalfBeatVal < 5) {
+    returnVal = 255-(((((((sixteenHalfBeatVal-1)*8192)+percentThroughHalfBeat)*100)/(65536/dropoffLengthDivisor))*255)/100);
+  }
+  
+  return returnVal;
+}
+
 int numLedsTube = 90;
 int numLedsPerBeat=22;
 int beatCompNum = 16384/numLedsPerBeat; // this is the 16384 beat% / those 30 leds. (182/546 - for 30/90)
-
 void lightsInTimeTest01() {
   for(int j = 0; j < 90; j++)
     setSectionLed(15, j, 0, 0, 0, 0);
@@ -47,7 +75,13 @@ void lightsInTimeTest01() {
     setSectionLed(15, j, 0, 0, ledColour, 0);
     setSectionLed(16, j, 0, 0, 0, ledColour);
   }
-  
+
+  // TODOs
+  // can you give this a colour which moves from tube to tube?
+
+  // heart
+
+  // pattern which eminates from center on beat
 }
 
 int quickAbsolute(int number) {
@@ -274,6 +308,43 @@ void doEyes() {
   // pupil
   drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, 80, 80, 80, 0);
   drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 7, 80, 80, 80, 0);
+}
+
+void heartEyes() {
+
+  for(int j = 0; j < 93; j++) {
+    setSectionLed(5, j, 0, 0, 0, 0);
+    setSectionLed(6, j, 0, 0, 0, 0);
+  }
+
+  for(int j = 0; j < 56; j++) {
+    setSectionLed(5, eyeHeartLeds[j], 255, 0, 216, 0);
+    setSectionLed(6, eyeHeartLeds[j], 255, 0, 216, 0);
+  }
+}
+
+void pacManEyes() {
+  // 16384 is a beat length  1489 is an 11th
+  int animationStep = percentThroughBeat / 1489;
+  
+  for(int j = 0; j < 93; j++) {
+    if (pacManAnimationMask[animationStep][j])
+      setSectionLed(5, j, 120, 130, 0, 0);
+    else
+      setSectionLed(5, j, 0, 0, 0, 0);
+  }
+}
+
+void smileyEyes() {
+  for(int j = 0; j < 93; j++) {
+    setSectionLed(5, j, 90, 160, 0, 0);
+    setSectionLed(6, j, 90, 160, 0, 0);
+  }
+
+  for(int j = 0; j < 26; j++) {
+    setSectionLed(5, eyeSmileyLeds[j], 0, 0, 0, 0);
+    setSectionLed(6, eyeSmileyLeds[j], 0, 0, 0, 0);
+  }
 }
 
 unsigned long blinkStart=4000;
