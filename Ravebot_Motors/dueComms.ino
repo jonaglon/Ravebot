@@ -75,25 +75,25 @@ int rightEyeY;
 void checkAnalogsForEyeMovements() {
 
   if (ps2.readButton(PS2_LEFT_2) == 0) {  
-    int newLeftX=ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)/2;
+    int newLeftX=ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)/4;
     if (newLeftX > leftEyeX || newLeftX < leftEyeX) {
       leftEyeX = newLeftX;
       sendSerialToLights(7, leftEyeX);
     }
     
-    int newLeftY=ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)/2;
+    int newLeftY=ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)/4;
     if (newLeftY > leftEyeY || newLeftY < leftEyeY) {
       leftEyeY = newLeftY;
       sendSerialToLights(8, leftEyeY);
     }    
 
-    int newRightX=ps2.readButton(PS2_JOYSTICK_RIGHT_X_AXIS)/2;
+    int newRightX=ps2.readButton(PS2_JOYSTICK_RIGHT_X_AXIS)/4;
     if (newRightX > rightEyeX || newRightX < rightEyeX) {
       rightEyeX = newRightX;
       sendSerialToLights(5, rightEyeX);
     }
     
-    int newRightY=ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)/2;
+    int newRightY=ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)/4;
     if (newRightY > rightEyeY || newRightY < rightEyeY) {
       rightEyeY = newRightY;
       sendSerialToLights(6, rightEyeY);

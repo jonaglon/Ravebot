@@ -53,13 +53,13 @@ void doSomethingWithPackageFromMega(int package) {
 
 void setEyeCoords(int function, int message) {
   if (function == 5)
-    leftEyeX = message-64;
+    leftEyeX = message-32;
   else if (function == 6)
-    leftEyeY = message-64;
+    leftEyeY = message-32;
   else if (function == 7)
-    rightEyeX = message-64;
+    rightEyeX = message-32;
   else if (function == 8)
-    rightEyeY = message-64;
+    rightEyeY = message-32;
 }
 
 void arcadeButtonPressed(int buttonNumber) {

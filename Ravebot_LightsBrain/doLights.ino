@@ -2,8 +2,8 @@ int currentPattern = 1;
 
 void doLights() {
 
-  //allOff();
-  allOffBySection();
+  allOff();
+  //allOffBySection();
 
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 40);
@@ -302,8 +302,8 @@ void doEyes() {
   doBlinking();
 
   // dark eye squares
-  drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 30, 0, 0, 0, 0);
-  drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 30, 0, 0, 0, 0);
+  drawPupil(ledSections[5], 55+leftEyeX, 55-leftEyeY, 0, 0, 0, 0);
+  drawPupil(ledSections[6], 55+rightEyeX, 55-rightEyeY, 0, 0, 0, 0);
 
   // pupil
   drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, 80, 80, 80, 0);
@@ -385,13 +385,28 @@ void doBlinking() {
   
 }
 
-
+//   drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 30, 0, 0, 0, 0);
 void drawLightsNear(int offSet, int xCoord, int  yCoord, int radius, int r, int g, int b, int w) {
-
   for(int j = 0; j < 93; j++) { 
     if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) {
       if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) {
         setLedDirect(offSet+j, r, g, b, w, false);
+      }
+    }
+  }
+}
+
+const int pupilRadius=26;
+const int maxRadius=42;
+void drawPupil(int ledNumOffSet, int xCoord, int  yCoord,  int r, int g, int b, int w) {
+  for (int j = 0; j < 93; j++) { 
+    if ((eyeCoords[j][0] < (xCoord+pupilRadius)) && (eyeCoords[j][1] < (yCoord+pupilRadius))) {
+      if ((eyeCoords[j][0] > (xCoord-pupilRadius)) && (eyeCoords[j][1] > (yCoord-pupilRadius))) {
+        int x = quickAbsolute(xCoord-eyeCoords[j][0]);
+        int y = quickAbsolute(yCoord-eyeCoords[j][1]);
+        if (x + y < maxRadius) {
+          setLedDirect(ledNumOffSet+j, r, g, b, w, false);
+        }
       }
     }
   }
