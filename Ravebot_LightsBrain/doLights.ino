@@ -2,8 +2,8 @@ int currentPattern = 1;
 
 void doLights() {
 
-  allOff();
-  //allOffBySection();
+  //allOff();
+  allOffBySection();
 
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 40);
@@ -348,11 +348,14 @@ void smileyEyes() {
 }
 
 unsigned long blinkStart=4000;
-int blinkLength=220;
+int blinkLength=240;
+bool lWinking = false;
+bool rWinking = false;
 
 void doBlinking() {
-  int drawTo = 0;
-  int blinkHeight = 120;
+  int drawTo1 = 0;
+  int drawTo2 = 0;
+  int blinkHeight = 60;
   
   if (timey > (blinkStart + blinkLength)) {
     // blink over, reset
@@ -361,29 +364,56 @@ void doBlinking() {
     } else {
       blinkStart = timey + random(4000,9000);
     }
+    lWinking = false;
+    rWinking = false;
+    blinkLength=240;
   } else if (timey > blinkStart) {
     int percIntoBlink = ((timey - blinkStart)*100)/(blinkLength/2);
     if (timey > (blinkStart + (blinkLength/2))) {
       // on way up
-      drawTo = ((blinkHeight * percIntoBlink)/100)-blinkHeight;
+      drawTo2 = ((blinkHeight * percIntoBlink)/100)-blinkHeight+50;
     } else {
       // on way down
-      drawTo = blinkHeight-((blinkHeight * percIntoBlink)/100);
+      drawTo2 = blinkHeight+50-((blinkHeight * percIntoBlink)/100);
     }
+    drawTo1 = 110 - drawTo2;
     for(int j = 0; j < 93; j++) {
-      if (eyeCoords[j][1] > drawTo) {
-          setSectionLed(5, j, 0, 0, 0, 0);
+      if (!lWinking) {
+        if (eyeCoords[j][1] < drawTo1) {
+            setSectionLed(5, j, 0, 0, 0, 0);
+        }
+        if (eyeCoords[j][1] > drawTo2) {
+            setSectionLed(5, j, 0, 0, 0, 0);
+        }
       }
-    }
-    for(int j = 0; j < 93; j++) {
-      if (eyeCoords[j][1] > drawTo) {
-          setSectionLed(6, j, 0, 0, 0, 0);
+      if (!rWinking) {
+        if (eyeCoords[j][1] < drawTo1) {
+            setSectionLed(6, j, 0, 0, 0, 0);
+        }
+        if (eyeCoords[j][1] > drawTo2) {
+            setSectionLed(6, j, 0, 0, 0, 0);
+        }
       }
     }
   }
-
-  
 }
+
+void doWinkLeft(int blinkOnOffMessage) {
+  if (blinkOnOffMessage == 0) {
+    blinkStart=timey;
+    blinkLength=600;
+    lWinking = true;
+  }
+}
+void doWinkRight(int blinkOnOffMessage) {
+  if (blinkOnOffMessage == 0) {
+    blinkStart=timey;
+    blinkLength=600;
+    rWinking = true;
+  }
+}
+
+// void doLeftWink() {
 
 //   drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 30, 0, 0, 0, 0);
 void drawLightsNear(int offSet, int xCoord, int  yCoord, int radius, int r, int g, int b, int w) {

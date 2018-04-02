@@ -28,7 +28,12 @@ void doSomethingWithPackageFromMega(int package) {
 
   if (function == 1)
   {
-    doRobotTalkingLights(message);
+    if (message < 2)
+      doRobotTalkingLights(message);
+    else if (message < 4)
+      doWinkLeft(message % 2);
+    else if (message < 6)
+      doWinkRight(message % 2);
   }
   else if (function == 2)
   {
@@ -51,15 +56,24 @@ void doSomethingWithPackageFromMega(int package) {
 
 }
 
+int leftEyeXIn = 0;
+int leftEyeYIn = 0;
 void setEyeCoords(int function, int message) {
-  if (function == 5)
-    leftEyeX = message-32;
-  else if (function == 6)
-    leftEyeY = message-32;
-  else if (function == 7)
-    rightEyeX = message-32;
-  else if (function == 8)
-    rightEyeY = message-32;
+  if (function == 5) {
+    leftEyeX = message-43;
+    leftEyeXIn = message-43;
+  } else if (function == 6) {
+    leftEyeY = message-43;
+    leftEyeYIn = message-43;    
+  } else if (function == 7) {
+    rightEyeX = message-43;
+    if (leftEyeXIn > -2 && leftEyeXIn < 2)
+      leftEyeX = rightEyeX;
+  } else if (function == 8) {
+    rightEyeY = message-43;
+    if (leftEyeYIn > -2 && leftEyeYIn < 2)
+      leftEyeY = rightEyeY;
+  }
 }
 
 void arcadeButtonPressed(int buttonNumber) {

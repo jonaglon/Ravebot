@@ -75,25 +75,25 @@ int rightEyeY;
 void checkAnalogsForEyeMovements() {
 
   if (ps2.readButton(PS2_LEFT_2) == 0) {  
-    int newLeftX=ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)/4;
+    int newLeftX=ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)/3;
     if (newLeftX > leftEyeX || newLeftX < leftEyeX) {
       leftEyeX = newLeftX;
       sendSerialToLights(7, leftEyeX);
     }
     
-    int newLeftY=ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)/4;
+    int newLeftY=ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)/3;
     if (newLeftY > leftEyeY || newLeftY < leftEyeY) {
       leftEyeY = newLeftY;
       sendSerialToLights(8, leftEyeY);
     }    
 
-    int newRightX=ps2.readButton(PS2_JOYSTICK_RIGHT_X_AXIS)/4;
+    int newRightX=ps2.readButton(PS2_JOYSTICK_RIGHT_X_AXIS)/3;
     if (newRightX > rightEyeX || newRightX < rightEyeX) {
       rightEyeX = newRightX;
       sendSerialToLights(5, rightEyeX);
     }
     
-    int newRightY=ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)/4;
+    int newRightY=ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)/3;
     if (newRightY > rightEyeY || newRightY < rightEyeY) {
       rightEyeY = newRightY;
       sendSerialToLights(6, rightEyeY);
@@ -105,6 +105,8 @@ void checkAnalogsForEyeMovements() {
 
 
 // bool ps2Right1On = false;
+bool ps2LeftStickClickOn=false;
+bool ps2RightStickClickOn=false;
 bool ps2Right2On = false;
 void checkButtonsSendInfoToLights() {
   
@@ -118,6 +120,29 @@ void checkButtonsSendInfoToLights() {
     ps2Right2On = false;
     sendSerialToLights(1, 1);
   }
+
+  if (!ps2LeftStickClickOn && ps2.readButton(PS2_JOYSTICK_LEFT)==0)
+  {
+    ps2LeftStickClickOn = true;
+    sendSerialToLights(1, 2);
+  }
+  if (ps2LeftStickClickOn && ps2.readButton(PS2_JOYSTICK_LEFT)==1)
+  {
+    ps2LeftStickClickOn = false;
+    sendSerialToLights(1, 3);
+  }
+
+  if (!ps2RightStickClickOn && ps2.readButton(PS2_JOYSTICK_RIGHT)==0)
+  {
+    ps2RightStickClickOn = true;
+    sendSerialToLights(1, 4);
+  }
+  if (ps2RightStickClickOn && ps2.readButton(PS2_JOYSTICK_RIGHT)==1)
+  {
+    ps2RightStickClickOn = false;
+    sendSerialToLights(1, 5);
+  }
+
   
   /* if (!ps2Right2On && ps2.readButton(PS2_RIGHT_2)==0)
   {
