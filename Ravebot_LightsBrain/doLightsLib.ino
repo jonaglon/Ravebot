@@ -157,6 +157,9 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal, bool showM
   }
   else if (ledNum < 692) {  
     // Eyes!693
+    rVal = rVal/ledIntensity;
+    gVal = gVal/ledIntensity;
+    bVal = bVal/ledIntensity;
     rgbwLeds[ledNum+536].b = gVal % 256;
     rgbwLeds[ledNum+537].g = rVal % 256;
     rgbwLeds[ledNum+537].r = bVal % 256;
