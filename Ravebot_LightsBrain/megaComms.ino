@@ -32,8 +32,8 @@ void doSomethingWithPackageFromMega(int package) {
       doRobotTalkingLights(message);
     else if (message < 4)
       winkLeftMessage(message % 2);
-    //else if (message < 6)
-    //  doWinkRight(message % 2);
+    else if (message < 6)
+      winkRightMessage(message % 2);
   }
   else if (function == 2)
   {
