@@ -128,9 +128,7 @@ void doRobotTalkingLights(int btnOnOffMessage) {
       robotTalking = true;
       robotTalkingOnTime = timey;
       // TODO turn down ableton volume here!
-    }
-    else if (btnOnOffMessage == 1)
-    {
+    } else if (btnOnOffMessage == 1) {
       robotTalking = false;
     }
 }

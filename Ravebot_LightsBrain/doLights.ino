@@ -3,6 +3,7 @@ int currentPattern = 1;
 void doLights() {
 
   //allOff();
+  // to do tuesDAY MORNING - the mouth is brok - I think it doesn't work when all off by secion is called - does this turn off the mouth? xx
   allOffBySection();
 
   if (currentPattern == 1) {

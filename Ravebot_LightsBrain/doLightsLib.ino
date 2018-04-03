@@ -69,8 +69,7 @@ void doTalkingLights() {
       setLedDirect(ledSections[7]+3, 255, 60, 60, 100, true);
       setLedDirect(ledSections[7]+14, 255, 60, 60, 100, true);
     }
-  }
-  
+  }  
 }
 
 void rgbwRainbow(int speedFactor) {
@@ -101,14 +100,14 @@ void rgbwSnake(int offSet, int speedFactor) {
 
 void setSection(int section, int r, int g, int b, int w) {
   for(int j = ledSections[section]; j < ledSections[section+1]; j++) { 
-    setLedDirect(j, r, g, b, w, false);
+    setLedDirect(j, r, g, b, w, true);
   }
 }
 
 void setSectionLed(int section, int ledNum, int r, int g, int b, int w) {
   int j = ledSections[section] + ledNum;
   if (j < ledSections[section+1])
-    setLedDirect(j, r, g, b, w, false);
+    setLedDirect(j, r, g, b, w, true);
 }
 
 void everySingleLight(int r, int g, int b, int w) {

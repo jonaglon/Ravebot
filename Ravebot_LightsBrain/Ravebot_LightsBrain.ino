@@ -16,7 +16,7 @@ unsigned long lastHalfBeatTime = 0;
 int timeyInTime; // This is like timey but in time, counting 16384 per beat
 int lastHalfBeatLength = 1;
 int percentThroughBeat = 0;
-int percentThroughHalfBeat;
+int percentThroughHalfBeat = 0;
 unsigned long fakeBeatCount = 0;
 
 int fakeBeatLengh = 250;
