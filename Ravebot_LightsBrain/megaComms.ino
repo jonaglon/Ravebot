@@ -34,6 +34,12 @@ void doSomethingWithPackageFromMega(int package) {
       winkLeftMessage(message % 2);
     else if (message < 6)
       winkRightMessage(message % 2);
+    else if (message < 7)
+      changeEyeType();
+    else if (message < 8)
+      changePrimaryEyeColour();
+    else if (message < 9)
+      changeSecondaryEyeColour();
   }
   else if (function == 2)
   {

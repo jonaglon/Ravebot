@@ -72,9 +72,16 @@ int leftEyeX;
 int leftEyeY;
 int rightEyeX;
 int rightEyeY;
+bool ps2LeftStickClickOn=false;
+bool ps2RightStickClickOn=false;
+bool ps2TriangleOn=false;
+bool ps2SquareOn=false;
+bool ps2CircleOn=false;
+bool ps2CrossOn=false;
 void checkAnalogsForEyeMovements() {
 
   if (ps2.readButton(PS2_LEFT_2) == 0) {  
+    // EYE MOVEMENT
     int newLeftX=ps2.readButton(PS2_JOYSTICK_LEFT_X_AXIS)/3;
     if (newLeftX > leftEyeX || newLeftX < leftEyeX) {
       leftEyeX = newLeftX;
@@ -98,15 +105,57 @@ void checkAnalogsForEyeMovements() {
       rightEyeY = newRightY;
       sendSerialToLights(6, rightEyeY);
     }    
+
+    // WINKING
+    if (!ps2LeftStickClickOn && ps2.readButton(PS2_JOYSTICK_LEFT)==0)
+    {
+      ps2LeftStickClickOn = true;
+      sendSerialToLights(1, 2);
+    }
+    if (ps2LeftStickClickOn && ps2.readButton(PS2_JOYSTICK_LEFT)==1)
+    {
+      ps2LeftStickClickOn = false;
+      sendSerialToLights(1, 3);
+    }
+  
+    if (!ps2RightStickClickOn && ps2.readButton(PS2_JOYSTICK_RIGHT)==0)
+    {
+      ps2RightStickClickOn = true;
+      sendSerialToLights(1, 4);
+    }
+    if (ps2RightStickClickOn && ps2.readButton(PS2_JOYSTICK_RIGHT)==1)
+    {
+      ps2RightStickClickOn = false;
+      sendSerialToLights(1, 5);
+    }
+
+    // BUTTONS FOR EYE ANIMAITON AND COLOUR CHANGE
+    if (!ps2TriangleOn && ps2.readButton(PS2_TRIANGLE)==0) {
+      ps2TriangleOn = true;
+      sendSerialToLights(1, 6);
+    }
+    if (ps2TriangleOn && ps2.readButton(PS2_TRIANGLE)==1)
+      ps2TriangleOn = false;
+    
+    if (!ps2CircleOn && ps2.readButton(PS2_CIRCLE)==0) {
+      ps2CircleOn = true;
+      sendSerialToLights(1, 7);
+    }
+    if (ps2CircleOn && ps2.readButton(PS2_CIRCLE)==1)
+      ps2CircleOn = false;
+    
+    if (!ps2CrossOn && ps2.readButton(PS2_CROSS)==0) {
+      ps2CrossOn = true;
+      sendSerialToLights(1, 8);
+    }
+    if (ps2CrossOn && ps2.readButton(PS2_CROSS)==1)
+      ps2CrossOn = false;
     
   }
   
 }
 
 
-// bool ps2Right1On = false;
-bool ps2LeftStickClickOn=false;
-bool ps2RightStickClickOn=false;
 bool ps2Right2On = false;
 void checkButtonsSendInfoToLights() {
   
@@ -121,27 +170,6 @@ void checkButtonsSendInfoToLights() {
     sendSerialToLights(1, 1);
   }
 
-  if (!ps2LeftStickClickOn && ps2.readButton(PS2_JOYSTICK_LEFT)==0)
-  {
-    ps2LeftStickClickOn = true;
-    sendSerialToLights(1, 2);
-  }
-  if (ps2LeftStickClickOn && ps2.readButton(PS2_JOYSTICK_LEFT)==1)
-  {
-    ps2LeftStickClickOn = false;
-    sendSerialToLights(1, 3);
-  }
-
-  if (!ps2RightStickClickOn && ps2.readButton(PS2_JOYSTICK_RIGHT)==0)
-  {
-    ps2RightStickClickOn = true;
-    sendSerialToLights(1, 4);
-  }
-  if (ps2RightStickClickOn && ps2.readButton(PS2_JOYSTICK_RIGHT)==1)
-  {
-    ps2RightStickClickOn = false;
-    sendSerialToLights(1, 5);
-  }
 
   
   /* if (!ps2Right2On && ps2.readButton(PS2_RIGHT_2)==0)

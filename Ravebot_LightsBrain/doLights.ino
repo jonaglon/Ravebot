@@ -1,21 +1,23 @@
-int currentPattern = 1;
+int currentPattern = 2;
 
 void doLights() {
 
-  //allOff();
-  allOffBySection();
+  allOff();
+  //allOffBySection();
 
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 40);
     //sectionsInTime2();
     //heartInTime();
     lightsInTimeTest01();
-    doEyes();
+    doStonerEyes();
     doTalkingLights();
   } else if (currentPattern == 2) {
     horizontalRainbow(false, false, 100);
+    sectionsInTime();
     // smileyEyes();
-    pacManEyes();
+    // pacManEyes();
+    doEyes();
   } else {
     horizontalRainbow(false, false, 10);
   }
@@ -135,23 +137,132 @@ int getCoord(int j, int k) {
     return portRCoords[(j-1302)%19][k]+ledPosOffset[18][k];
 }
 
+void sectionsInTime() {
+  int beat4 = sixteenHalfBeats % 4;  
+  if (beat4 == 0) {
+    setSection(13, 255, 0, 0, 0);
+    setSection(14, 0, 255, 0, 0);
+    setSection(15, 0, 0, 255, 0);
+    setSection(16, 0, 0, 0, 255);
+  } else if (beat4 == 1) {
+    setSection(14, 255, 0, 0, 0);
+    setSection(15, 0, 255, 0, 0);
+    setSection(16, 0, 0, 255, 0);
+    setSection(13, 0, 0, 0, 255);  
+  } else if (beat4 == 2) {
+    setSection(15, 255, 0, 0, 0);
+    setSection(16, 0, 255, 0, 0);
+    setSection(13, 0, 0, 255, 0);
+    setSection(14, 0, 0, 0, 255);  
+  } else if (beat4 == 3) {
+    setSection(16, 255, 0, 0, 0);
+    setSection(13, 0, 255, 0, 0);
+    setSection(14, 0, 0, 255, 0);
+    setSection(15, 0, 0, 0, 255);  
+  };
+}
+
+void sectionsInTime2() {
+  int beat16 = sixteenHalfBeats % 16;  
+  if (beat16 < 5) {
+    setSection(13, 0, 0, 0, 0);
+  } else if (beat16 < 9) {
+    setSection(14, 0, 0, 0, 0);
+  } else if (beat16 < 13) {
+    setSection(15, 0, 0, 0, 0);
+  } else {
+    setSection(16, 0, 0, 0, 0);
+  };
+}
+
+
+/* ******************************* EYES! ********************************** */
+
+int currentEyeType = 0;
+void changeEyeType() {
+  currentEyeType = (currentEyeType+1)%5;
+}
 
 void doEyes() {
+  switch (currentEyeType) {
+    case 0: doNormalEyes();
+      break;
+    case 1: doStonerEyes();
+      break;
+    case 2: heartEyes();
+      break;
+    case 3: pacManEyes();
+      break;
+    case 4: smileyEyes();
+      break;
+  }
+}
+
+int eyePrimaryR = 255;
+int eyePrimaryG = 0;
+int eyePrimaryB = 0;
+int eyeRValues[6] = {255,0,  0,  110, 0, 255};
+int eyeGValues[6] = {0,  255,0,  150, 0, 0  };
+int eyeBValues[6] = {0,  0,  255,150, 0, 210};
+int currentEyePrimaryPos = 0;
+void changePrimaryEyeColour() {
+  currentEyePrimaryPos = (currentEyePrimaryPos+1)%6;
+  eyePrimaryR = eyeRValues[currentEyePrimaryPos];
+  eyePrimaryG = eyeGValues[currentEyePrimaryPos];
+  eyePrimaryB = eyeBValues[currentEyePrimaryPos];
+}
+
+int eyeSecondaryR = 0;
+int eyeSecondaryG = 0;
+int eyeSecondaryB = 0;
+int currentEyeSecondaryPos = 4;
+void changeSecondaryEyeColour() {
+  currentEyeSecondaryPos = (currentEyeSecondaryPos+1)%6;
+  eyeSecondaryR = eyeRValues[currentEyeSecondaryPos];
+  eyeSecondaryG = eyeGValues[currentEyeSecondaryPos];
+  eyeSecondaryB = eyeBValues[currentEyeSecondaryPos];
+}
+
+void doNormalEyes() {
 
   for(int j = 0; j < 93; j++) {
-    setSectionLed(5, j, 110, 150, 150, 0);
-    setSectionLed(6, j, 110, 150, 150, 0);
+    setSectionLed(5, j, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+    setSectionLed(6, j, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
   }
 
   // dark eye squares
-  drawPupil(ledSections[5], 55+leftEyeX, 55-leftEyeY, 0, 0, 0, 0);
-  drawPupil(ledSections[6], 55+rightEyeX, 55-rightEyeY, 0, 0, 0, 0);
+  drawPupil(ledSections[5], 55+leftEyeX, 55-leftEyeY, 26, 42, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
+  drawPupil(ledSections[6], 55+rightEyeX, 55-rightEyeY, 26, 42, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
 
   // pupil
-  drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, 110, 150, 150, 0);
-  drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 7, 110, 150, 150, 0);
+  drawLightsNear(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+  drawLightsNear(ledSections[6], 55+rightEyeX, 55-rightEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
 
   doBlinking();
+  doLeftWink();
+  doRightWink();
+}
+
+void doStonerEyes() {
+
+  for(int j = 0; j < 93; j++) {
+    if (eyeCoords[j][1] < 56) {
+      setSectionLed(5, j, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+      setSectionLed(6, j, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+    } else {
+      setSectionLed(5, j, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
+      setSectionLed(6, j, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
+    }
+  }
+
+  // dark eye squares
+  drawPupil(ledSections[5], 55+leftEyeX, 29-leftEyeY, 20, 35, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
+  drawPupil(ledSections[6], 55+rightEyeX, 29-rightEyeY, 20, 35, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
+
+  // pupil
+  drawLightsNear(ledSections[5], 55+leftEyeX, 29-leftEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+  drawLightsNear(ledSections[6], 55+rightEyeX, 29-rightEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+
   doLeftWink();
   doRightWink();
 }
@@ -159,43 +270,54 @@ void doEyes() {
 void heartEyes() {
 
   for(int j = 0; j < 93; j++) {
-    setSectionLed(5, j, 0, 0, 0, 0);
-    setSectionLed(6, j, 0, 0, 0, 0);
+    setSectionLed(5, j, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
+    setSectionLed(6, j, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
   }
 
   for(int j = 0; j < 56; j++) {
-    setSectionLed(5, eyeHeartLeds[j], 255, 0, 216, 0);
-    setSectionLed(6, eyeHeartLeds[j], 255, 0, 216, 0);
+    setSectionLed(5, eyeHeartLeds[j], eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+    setSectionLed(6, eyeHeartLeds[j], eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
   }
 }
 
 void pacManEyes() {
-  // 16384 is a beat length  1489 is an 11th
-  int animationStep = percentThroughBeat / 1489;
+  // 16384 is a beat length  1365 is an 12th-ish
+  //int animationStep = percentThroughBeat / 1365;
+  
+  int animationStep1 = (timeyInTime / 2048)%8;
+  int animationStep2 = (timeyInTime / 768)%16;
   
   for(int j = 0; j < 93; j++) {
-    if (pacManAnimationMask[animationStep][j])
-      setSectionLed(5, j, 120, 130, 0, 0);
-    else
+    if (pacManAnimationMask[(animationStep2)%16][j]) {
+      setSectionLed(6, j, 120, 120, 0, 0);
+    } else if (pacManAnimationMask2[(animationStep1+4)%8][j]) {
+      setSectionLed(6, j, 0, 0, 0, 0);
+    } else {
+      setSectionLed(6, j, 255, 255, 255, 0);
+    }
+  }
+  for(int j = 0; j < 93; j++) {
+    if (pacManAnimationMask2[animationStep1][j]) {
       setSectionLed(5, j, 0, 0, 0, 0);
+    } else {
+      setSectionLed(5, j, 255, 255, 255, 0);
+    }
   }
 }
 
 void smileyEyes() {
   for(int j = 0; j < 93; j++) {
-    setSectionLed(5, j, 90, 160, 0, 0);
-    setSectionLed(6, j, 90, 160, 0, 0);
+    setSectionLed(5, j, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+    setSectionLed(6, j, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
   }
-
   for(int j = 0; j < 26; j++) {
-    setSectionLed(5, eyeSmileyLeds[j], 0, 0, 0, 0);
-    setSectionLed(6, eyeSmileyLeds[j], 0, 0, 0, 0);
+    setSectionLed(5, eyeSmileyLeds[j], eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
+    setSectionLed(6, eyeSmileyLeds[j], eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
   }
 }
 
 unsigned long blinkStart=4000;
 const int blinkLength=240;
-
 void doBlinking() {
   int drawTo = 0;
   //int drawTo2 = 0;
@@ -373,9 +495,9 @@ void drawLightsNear(int offSet, int xCoord, int  yCoord, int radius, int r, int 
   }
 }
 
-const int pupilRadius=26;
-const int maxRadius=42;
-void drawPupil(int ledNumOffSet, int xCoord, int  yCoord,  int r, int g, int b, int w) {
+//const int pupilRadius=26;
+//const int maxRadius=42;
+void drawPupil(int ledNumOffSet, int xCoord, int  yCoord, int pupilRadius, int maxRadius, int r, int g, int b, int w) {
   for (int j = 0; j < 93; j++) { 
     if ((eyeCoords[j][0] < (xCoord+pupilRadius)) && (eyeCoords[j][1] < (yCoord+pupilRadius))) {
       if ((eyeCoords[j][0] > (xCoord-pupilRadius)) && (eyeCoords[j][1] > (yCoord-pupilRadius))) {
@@ -388,45 +510,5 @@ void drawPupil(int ledNumOffSet, int xCoord, int  yCoord,  int r, int g, int b, 
     }
   }
 }
-
-
-void sectionsInTime() {
-  int beat4 = sixteenHalfBeats % 4;  
-  if (beat4 == 0) {
-    setSection(13, 255, 0, 0, 0);
-    setSection(14, 0, 255, 0, 0);
-    setSection(15, 0, 0, 255, 0);
-    setSection(16, 0, 0, 0, 255);
-  } else if (beat4 == 1) {
-    setSection(14, 255, 0, 0, 0);
-    setSection(15, 0, 255, 0, 0);
-    setSection(16, 0, 0, 255, 0);
-    setSection(13, 0, 0, 0, 255);  
-  } else if (beat4 == 2) {
-    setSection(15, 255, 0, 0, 0);
-    setSection(16, 0, 255, 0, 0);
-    setSection(13, 0, 0, 255, 0);
-    setSection(14, 0, 0, 0, 255);  
-  } else if (beat4 == 3) {
-    setSection(16, 255, 0, 0, 0);
-    setSection(13, 0, 255, 0, 0);
-    setSection(14, 0, 0, 255, 0);
-    setSection(15, 0, 0, 0, 255);  
-  };
-}
-
-void sectionsInTime2() {
-  int beat16 = sixteenHalfBeats % 16;  
-  if (beat16 < 5) {
-    setSection(13, 0, 0, 0, 0);
-  } else if (beat16 < 9) {
-    setSection(14, 0, 0, 0, 0);
-  } else if (beat16 < 13) {
-    setSection(15, 0, 0, 0, 0);
-  } else {
-    setSection(16, 0, 0, 0, 0);
-  };
-}
-
 
 
