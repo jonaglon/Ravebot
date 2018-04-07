@@ -49,32 +49,27 @@ void listenToAbleton() {
 }
 
 void setBeatTimes() {
-  lastHalfBeatLength = timey-lastHalfBeatTime; 
-  lastHalfBeatTime = timey;
+  lastBeatLength = timey-lastBeatTime; 
+  lastBeatTime = timey;
 }
 
 void processMessageFromAbleton(byte note, byte velocity, int down) {
   if ((note>=24 && note<88) && (velocity == 100)) {
-    sixteenHalfBeats = note - 24; // from 0 to 63 
+    sixteenBeats = note - 24; // from 0 to 63 
 
     setBeatTimes();
     
-    if (testMode) {
-      Serial.print("16: ");
-      Serial.println(sixteenHalfBeats);
-    }
     sendBeatToMega();
+    
     if (dropCountdown != 0)
       dropCountdown--;
 
-    if (sixteenHalfBeats % 8 == 0) {
+    if ((sixteenBeats % 4) == 0) {
       if (testMode) {
         Serial.print("New bar: ");
-        Serial.println(currentBar);
-        Serial.print("CurrentTuneBpm:");
-        Serial.print(currentTune.bpm);
-        Serial.print("  NextTuneBpm:");
-        Serial.println(nextTune.bpm);
+        Serial.print(currentBar);
+        Serial.print("  16:");
+        Serial.println(sixteenBeats);
       }
       // This is the beginning of a new bar, might need to end a mix or start a drop countdown
       currentBar++;
@@ -83,26 +78,23 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
       checkForDropCountdownStart();
       checkForMixEnd();
     }
-    
     if (currentlyMixing) {
       setPercentThroughMix();
       doMixing();
     }
-
-    if (sixteenHalfBeats % 8 == 6) {
+    if (sixteenBeats % 4 == 3) {
       checkForMixStart();
     }
-    
   }
 }
 
 void checkForMixStart() {
-  if (testMode) {
+  /* if (testMode) {
     Serial.print("checking for mix start. current bar:");
     Serial.print(currentBar);
     Serial.print("  next mix start:");
     Serial.println(nextMixStart);
-  }
+  } */
     
   if ((currentBar+1 == nextMixStart) && nextMixDuration == 0) {
     doImmediateMix();

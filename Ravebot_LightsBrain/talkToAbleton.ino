@@ -32,7 +32,7 @@ void playTune(int genre, int track, bool alterHistory) {
   deckASelected = true;
 
   // change the current track in this program
-  sixteenHalfBeats = 0;
+  sixteenBeats = 0;
   currentBar = 0;
   fakeBeatCount = 0;
 
@@ -170,7 +170,7 @@ void sendMidiTest(int channel, int trackNumber, int velocity) {
   // (176, 126, 127); // channel 1, track 126, value 127.
   
   Serial.print("Channel:");
-  Serial.print(channel - 175);
+  Serial.print(channel); // - 175);
 
   Serial.print(" Note:");
   Serial.print(trackNumber);

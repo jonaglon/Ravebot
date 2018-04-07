@@ -26,18 +26,18 @@ void setPercentThroughMix() {
     return;
   }
 
-  int beatsIntoMix = ((currentBar - nextMixStart + 1) * 8) + (sixteenHalfBeats % 8) - 7;
+  int beatsIntoMix = ((currentBar - nextMixStart + 1) * 4) + (sixteenBeats % 4) - 3;
 
   if (nextMixDuration < 12) {
     // straight mix if less than 12 bars
-    percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 8);
+    percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 4);
   }
   else if (beatsIntoMix < 48) {
     // beginning of mix where we hold in the middle for a bit
     percentThroughCalc = ((beatsIntoMix  * 255) / 96);
   }
   else if (beatsIntoMix > (nextMixDuration * 8) - 48) {
-    percentThroughCalc = (((beatsIntoMix - ((nextMixDuration * 8) - 48)) * 255) / 96) + 127;
+    percentThroughCalc = (((beatsIntoMix - ((nextMixDuration * 4) - 48)) * 255) / 96) + 127;
   }
   else {
     percentThroughCalc = 127;
@@ -51,16 +51,16 @@ void setPercentThroughMix() {
     percentThroughMix = percentThroughCalc;
 
   if (testMode)
-    printMixDebugInfo(currentBar, nextMixStart, sixteenHalfBeats, beatsIntoMix, nextMixDuration, percentThroughCalc, percentThroughMix);
+    printMixDebugInfo(currentBar, nextMixStart, sixteenBeats, beatsIntoMix, nextMixDuration, percentThroughCalc, percentThroughMix);
 }
 
-void printMixDebugInfo(int currentBar, int nextMixStart, int sixteenHalfBeats, int beatsIntoMix, int nextMixDuration, int percentThroughCalc, int percentThroughMix) {
+void printMixDebugInfo(int currentBar, int nextMixStart, int sixteenHBeats, int beatsIntoMix, int nextMixDuration, int percentThroughCalc, int percentThroughMix) {
   Serial.print("*** currentBar:");
   Serial.print(currentBar);
   Serial.print("    mixStart:");
   Serial.print(nextMixStart);
   Serial.print("          sixteenHalfBeats:");
-  Serial.println(sixteenHalfBeats);
+  Serial.println(sixteenHBeats);
   Serial.print("beatsIntoMix:");
   Serial.print(beatsIntoMix);
   Serial.print("    nextMixDuration:");
@@ -79,7 +79,7 @@ void startNewMix() {
   sendSerialToMega(2, (nextGenre * 100) + nextTrack);  
 
   if (testMode) {
-    Serial.print("JUST STARTED: ");
+    Serial.print("JUST MIX STARTED: ");
     Serial.print(nextGenre);
     Serial.print("/");
     Serial.println(nextTrack);
@@ -101,7 +101,7 @@ void doImmediateMix() {
   sendSerialToMega(2, (nextGenre * 100) + nextTrack);  
 
   if (testMode) {
-    Serial.print("JUST STARTED: ");
+    Serial.print("JUST IMM STARTED: ");
     Serial.print(nextGenre);
     Serial.print("/");
     Serial.println(nextTrack);
@@ -188,8 +188,11 @@ void chooseNextTrack() {
     track = random(numberOfTunesInGenre(genre));
 
     // check it's not in the last 10 tunes played
-    if (playedTuneHistoryContainsTrack(genre, track))
-      continue;
+
+  // JR TODO  LOLZ, put this back! 
+    
+    //if (playedTuneHistoryContainsTrack(genre, track))
+    //  continue;
 
     setNextTune(genre, track);
 

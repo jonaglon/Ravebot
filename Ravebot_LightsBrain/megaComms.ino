@@ -154,9 +154,7 @@ void unmuteRobotVoice(int btnOnOffMessage) {
        SEND TO MEGA
 ************************* */
 void sendBeatToMega() {
-  if (sixteenHalfBeats % 2 == 0) {
-    sendSerialToMega(1, sixteenHalfBeats/2);
-  }
+  sendSerialToMega(1, sixteenBeats);
 }
 
 void sendSerialToMega(int function, int message) {
@@ -166,10 +164,11 @@ void sendSerialToMega(int function, int message) {
     Serial.print("   MSG:");
     Serial.println(message);
   }
-    
-  char strOut[4]; // the message from the mega
-  itoa((function * 1000) + message, strOut, 10); //Turn value into a character array
-  Serial2.write(strOut, 4);
 
+  if (megaAttached) {
+    char strOut[4]; // the message from the mega
+    itoa((function * 1000) + message, strOut, 10); //Turn value into a character array
+    Serial2.write(strOut, 4);
+  }
 }
 

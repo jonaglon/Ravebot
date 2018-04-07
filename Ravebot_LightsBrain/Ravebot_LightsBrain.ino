@@ -9,20 +9,20 @@
 #include<FastLED.h>
 
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-const bool beatTestMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool beatTestMode = false;   
+const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega 
 
 unsigned long timey;
-unsigned long lastHalfBeatTime = 0;
-int timeyInTime; // This is like timey but in time, counting 16384 per beat
-int lastHalfBeatLength = 1;
-int percentThroughBeat = 0;
-int percentThroughHalfBeat = 0;
+unsigned long lastBeatTime = 0;
+unsigned long timeyInTime; // This is like timey but in time, counting 16384 per beat
+int lastBeatLength = 1;
+int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
 unsigned long fakeBeatCount = 0;
 
 int fakeBeatLengh = 420;
 
 // Set by midi in to be 1-16 with beat.
-short sixteenHalfBeats = 0;
+int sixteenBeats = 0;
  
 int mainVolume = 100; // 127 actual max but we won't exceed 100.
 int currentBar = 0;
@@ -67,7 +67,7 @@ void setup() {
   delay(500);
 
   // Talk to Ableton using midi over USB, or debug.
-  Serial.begin(9600);
+  Serial.begin(56000);
 
   // Communicate with the Mega
   Serial1.begin(28800); // rx for receiving
@@ -82,7 +82,7 @@ void setup() {
   setMainVolume(mainVolume);
 
   // JR TODO remove me
-  playTune(7, 0, true);
+  playTune(0, 0, true);
 }
 
 void loop() {
@@ -98,16 +98,15 @@ void loop() {
 }
 
 void setTimes() {
+
+  if (timey > (lastBeatTime + lastBeatLength)) {
+    percentThroughBeat = 16383;
+  } else {
+    percentThroughBeat = (((timey-lastBeatTime)*16384)/lastBeatLength)%16384;   // 16384 is a beat length
+  }
   
-  percentThroughHalfBeat = (((timey-lastHalfBeatTime)*8192)/lastHalfBeatLength)%8192;   // 16384 is a beat length
-
-  if (sixteenHalfBeats % 2 == 1)
-    percentThroughBeat = percentThroughHalfBeat + 8192;
-  else 
-    percentThroughBeat = percentThroughHalfBeat;
-
   // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
-  timeyInTime = ((sixteenHalfBeats * 8192) + percentThroughHalfBeat)+((currentBar/2)*131072);
+  timeyInTime = ((sixteenBeats * 16384) + percentThroughBeat)+(currentBar*65536);
 
 }
 
@@ -125,7 +124,6 @@ struct tuneInfo {
   }
 };
  
-
 // Genre 0, RAVE!
 tuneInfo tuneLibRave[20] = {
   {149, 68, 128, 16,  0, 16, 16, false }, //1  TripToTheMoonPt2-Acen.
@@ -149,6 +147,13 @@ tuneInfo tuneLibRave[20] = {
   {135, 72, 106, 16,  0,  8,  8, false},  //19 HowLoveBegins-HighContrastDizee
   {130, 80, 106, 16,  8,  8,  8, false},   //20 StringsOfLife-DerrickMay     ************* You're up to here
 };
+
+/* tuneInfo tuneLibRave[4] = {
+  {149, 68, 16, 4,  0, 4, 4, false }, //1  TripToTheMoonPt2-Acen.
+  {136, 80, 16, 4,  0, 4, 4, false},  //2  Bombscare-2BadMice.
+  {126,  0, 16, 4,  0, 4, 4, false},  //3  LFO-LFO.
+  {131,  0, 16, 4,  0, 4, 4, true}   //4  Infiltrate202-Altern8.
+}; */
 
 // Genre 1, Disco
 tuneInfo tuneLibDisco[20] = {

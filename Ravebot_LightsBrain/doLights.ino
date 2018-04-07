@@ -1,4 +1,4 @@
-int currentPattern = 2;
+int currentPattern = 1;
 
 void doLights() {
 
@@ -8,20 +8,32 @@ void doLights() {
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 40);
     //sectionsInTime2();
-    //heartInTime();
+    heartInTime();
     lightsInTimeTest01();
-    doStonerEyes();
+    doEyes();
     doTalkingLights();
+    circleInTime();
   } else if (currentPattern == 2) {
     horizontalRainbow(false, false, 100);
     sectionsInTime();
-    // smileyEyes();
-    // pacManEyes();
     doEyes();
   } else {
     horizontalRainbow(false, false, 10);
   }
   LEDS.show();  
+}
+
+void circleInTime() {
+  int numToLight = percentThroughBeat / 182;
+
+  for(int j = 0; j < 90; j++) {
+    setSectionLed(14, j, 0, 0, 0, 0);
+  }
+  
+  for(int j = 0; j < numToLight; j++) {
+    setSectionLed(14, j, 0, 0, 255, 0);
+  }
+  
 }
 
 void heartInTime() {
@@ -36,26 +48,25 @@ void heartInTime() {
 }
 
 // the shorter dropoff divisor the longer the trail
-int currentHeartBeatValue(int sixteenHalfBeatShift, int maxValue, int dropoffLengthDivisor) {
-  int sixteenHalfBeatVal = (sixteenHalfBeats + sixteenHalfBeatShift) % 8;
+int currentHeartBeatValue(int sixteenBeatShift, int maxValue, int dropoffLengthDivisor) {
+  int sixteenBeatVal = (sixteenBeats + sixteenBeatShift) % 8;
   int returnVal = 0;
   
-  if (sixteenHalfBeatVal < 1) {
-    returnVal = (((percentThroughHalfBeat * 100) / 8192)*255)/100;
-  } else if (sixteenHalfBeatVal < 5) {
-    returnVal = 255-(((((((sixteenHalfBeatVal-1)*8192)+percentThroughHalfBeat)*100)/(65536/dropoffLengthDivisor))*255)/100);
+  if (sixteenBeatVal < 1) {
+    returnVal = (((percentThroughBeat * 100) / 8192)*255)/100;
+  } else if (sixteenBeatVal < 5) {
+    returnVal = 255-(((((((sixteenBeatVal-1)*8192)+percentThroughBeat)*100)/(65536/dropoffLengthDivisor))*255)/100);
   }
   
   return returnVal;
 }
 
-int numLedsTube = 90;
+int numLedsTube = 88;
 int numLedsPerBeat=22;
 int beatCompNum = 16384/numLedsPerBeat; // this is the 16384 beat% / those 30 leds. (182/546 - for 30/90)
 void lightsInTimeTest01() {
   for(int j = 0; j < 90; j++)
     setSectionLed(15, j, 0, 0, 0, 0);
-
   
   for(int j = 0; j < numLedsTube; j++) {
     int distanceFromBeat = quickAbsolute(((j%numLedsPerBeat)*beatCompNum)-percentThroughBeat);
@@ -75,7 +86,6 @@ void lightsInTimeTest01() {
     setSectionLed(15, j, 0, 0, ledColour, 0);
     setSectionLed(16, j, 0, 0, 0, ledColour);
   }
-
 }
 
 int quickAbsolute(int number) {
@@ -138,7 +148,7 @@ int getCoord(int j, int k) {
 }
 
 void sectionsInTime() {
-  int beat4 = sixteenHalfBeats % 4;  
+  int beat4 = sixteenBeats % 4;  
   if (beat4 == 0) {
     setSection(13, 255, 0, 0, 0);
     setSection(14, 0, 255, 0, 0);
@@ -163,7 +173,7 @@ void sectionsInTime() {
 }
 
 void sectionsInTime2() {
-  int beat16 = sixteenHalfBeats % 16;  
+  int beat16 = sixteenBeats % 16;  
   if (beat16 < 5) {
     setSection(13, 0, 0, 0, 0);
   } else if (beat16 < 9) {
