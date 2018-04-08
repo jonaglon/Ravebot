@@ -1,0 +1,7 @@
+
+void doPatternStripes() {
+
+
+  fullLeftRightStripeInTime();
+}
+

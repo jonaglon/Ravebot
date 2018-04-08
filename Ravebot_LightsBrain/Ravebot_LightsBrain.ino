@@ -9,7 +9,7 @@
 #include<FastLED.h>
 
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-const bool beatTestMode = false;   
+const bool beatTestMode = true;   
 const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega 
 
 unsigned long timey;
@@ -448,6 +448,10 @@ int ledSections[20] = {
   1179,  // 17 port left
   1302,  // 18 port right
   1441};
+
+int numLedsInSection(int sectionNum) {
+  return ledSections[sectionNum+1]-ledSections[sectionNum];
+}
 
 int ledPosOffset[19][2] = {
   { 70, 90},    // 00 bottomRing

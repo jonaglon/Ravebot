@@ -39,41 +39,7 @@ void SetRgbwWheelVars(byte WheelPos) {
 }
 
 
-void doTalkingLights() {
-
-  if (robotTalking) {
-    setLedDirect(ledSections[7]+8, 255, 60, 60, 100, true);
-    setLedDirect(ledSections[7]+9, 255, 60, 60, 100, true);
-    
-    if (timey > (robotTalkingOnTime + 40)) {
-      setLedDirect(ledSections[7]+7, 255, 60, 60, 100, true);
-      setLedDirect(ledSections[7]+10, 255, 60, 60, 100, true);
-    }
-    
-    if (timey > (robotTalkingOnTime + 80)) {
-      setLedDirect(ledSections[7]+6, 255, 60, 60, 100, true);
-      setLedDirect(ledSections[7]+11, 255, 60, 60, 100, true);
-    }
-    
-    if (timey > (robotTalkingOnTime + 110)) {
-      setLedDirect(ledSections[7]+5, 255, 60, 60, 100, true);
-      setLedDirect(ledSections[7]+12, 255, 60, 60, 100, true);
-    }
-    
-    if (timey > (robotTalkingOnTime + 135)) {
-      setLedDirect(ledSections[7]+4, 255, 60, 60, 100, true);
-      setLedDirect(ledSections[7]+13, 255, 60, 60, 100, true);
-    }
-    
-    if (timey > (robotTalkingOnTime + 150)) {
-      setLedDirect(ledSections[7]+3, 255, 60, 60, 100, true);
-      setLedDirect(ledSections[7]+14, 255, 60, 60, 100, true);
-    }
-  }  
-}
-
 void rgbwRainbow(int speedFactor) {
-
   int ticky = (timey / speedFactor);
 
   // forward
@@ -82,21 +48,84 @@ void rgbwRainbow(int speedFactor) {
   }
 }
 
-void rgbwSnake(int offSet, int speedFactor) {
 
-  int rainbowFactor = (timey / speedFactor);
-
-  /*setLedDirect((test % numLeds) + 4 + offSet, 255, 10, 10, 5, false);
-  setLedDirect((test % numLeds) + 3 + offSet, 80, 155, 0, 50, false);
-  setLedDirect((test % numLeds) + 2 + offSet, 80, 10, 255, 60, false);
-  setLedDirect((test % numLeds) + 1 + offSet, 120, 10, 0, 255, false);*/
-  setLedDirect((rainbowFactor + 4 + offSet) % numLeds, 0, 0, 0, 0, false);
-  setLedDirect((rainbowFactor + 3 + offSet) % numLeds, 0, 0, 0, 0, false);
-  setLedDirect((rainbowFactor + 2 + offSet) % numLeds, 0, 0, 0, 0, false);
-  setLedDirect((rainbowFactor + 1 + offSet) % numLeds, 0, 0, 0, 0, false);
-  setLedDirect((rainbowFactor + offSet) % numLeds, 0, 0, 0, 0, false);
-
+int getCoord(int ledNum, int xOrY) {
+  if (ledNum < 203)
+     return binCoords[ledNum][xOrY]+ledPosOffset[0][xOrY];
+  else if (ledNum < 378)
+    return bigHeartCoords[ledNum-203][xOrY]+ledPosOffset[1][xOrY];
+  else if (ledNum < 463)
+    return smHeartCoords[ledNum-378][xOrY]+ledPosOffset[2][xOrY];
+  else if (ledNum < 482)
+    return armCoords[ledNum-463][xOrY]+ledPosOffset[3][xOrY];
+  else if (ledNum < 506)
+    return armCoords[ledNum-482][xOrY]+ledPosOffset[4][xOrY];
+  else if (ledNum < 599)
+    return eyeCoords[ledNum-506][xOrY]+ledPosOffset[5][xOrY];
+  else if (ledNum < 692)
+    return eyeCoords[ledNum-599][xOrY]+ledPosOffset[6][xOrY];
+  else if (ledNum < 710)
+    return horizCoords[ledNum-692][xOrY]+ledPosOffset[7][xOrY];
+  else if (ledNum < 744)
+    return tapeCoords[ledNum-710][xOrY]+ledPosOffset[8][xOrY];
+  else if (ledNum < 770)
+    return horizCoords[ledNum-744][xOrY]+ledPosOffset[9][xOrY];
+  else if (ledNum < 774)
+    return horizCoords[ledNum-770][xOrY]+ledPosOffset[10][xOrY];
+  else if (ledNum < 797)
+    return armCoords[ledNum-774][xOrY]+ledPosOffset[11][xOrY];
+  else if (ledNum < 821)
+    return armCoords[ledNum-797][xOrY]+ledPosOffset[12][xOrY];
+  else if (ledNum < 911)
+    return tubeCoords[ledNum-821][xOrY]+ledPosOffset[13][xOrY];
+  else if (ledNum < 1001)
+    return tubeCoords[ledNum-911][xOrY]+ledPosOffset[14][xOrY];
+  else if (ledNum < 1090)
+    return tubeCoords[ledNum-1001][xOrY]+ledPosOffset[15][xOrY];
+  else if (ledNum < 1179)
+    return tubeCoords[ledNum-1090][xOrY]+ledPosOffset[16][xOrY];
+  else if (ledNum < 1302)
+    return portLCoords[(ledNum-1179)%19][xOrY]+ledPosOffset[17][xOrY];
+  else if (ledNum < 1441)
+    return portRCoords[(ledNum-1302)%19][xOrY]+ledPosOffset[18][xOrY];
 }
+
+
+int quickAbsolute(int number) {
+  if (number < 0)
+    return number * (-1);
+  else
+    return number;
+}
+
+
+void drawSquare(int offSet, int xCoord, int  yCoord, int radius, int r, int g, int b, int w) {
+  for(int j = 0; j < 93; j++) { 
+    if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) {
+      if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) {
+        setLedDirect(offSet+j, r, g, b, w, false);
+      }
+    }
+  }
+}
+
+//const int pupilRadius=26;
+//const int maxRadius=42;
+void drawHexagon(int ledNumOffSet, int xCoord, int  yCoord, int pupilRadius, int maxRadius, int r, int g, int b, int w) {
+  for (int j = 0; j < 93; j++) { 
+    if ((eyeCoords[j][0] < (xCoord+pupilRadius)) && (eyeCoords[j][1] < (yCoord+pupilRadius))) {
+      if ((eyeCoords[j][0] > (xCoord-pupilRadius)) && (eyeCoords[j][1] > (yCoord-pupilRadius))) {
+        int x = quickAbsolute(xCoord-eyeCoords[j][0]);
+        int y = quickAbsolute(yCoord-eyeCoords[j][1]);
+        if (x + y < maxRadius) {
+          setLedDirect(ledNumOffSet+j, r, g, b, w, false);
+        }
+      }
+    }
+  }
+}
+
+
 
 void setSection(int section, int r, int g, int b, int w) {
   for(int j = ledSections[section]; j < ledSections[section+1]; j++) { 
