@@ -28,7 +28,18 @@ void doSomethingWithPackageFromMega(int package) {
 
   if (function == 1)
   {
-    doRobotTalkingLights(message);
+    if (message < 2)
+      doRobotTalkingLights(message);
+    else if (message < 4)
+      winkLeftMessage(message % 2);
+    else if (message < 6)
+      winkRightMessage(message % 2);
+    else if (message < 7)
+      changeEyeType();
+    else if (message < 8)
+      changePrimaryEyeColour();
+    else if (message < 9)
+      changeSecondaryEyeColour();
   }
   else if (function == 2)
   {
@@ -44,6 +55,31 @@ void doSomethingWithPackageFromMega(int package) {
     stayWithinGenre = false;
     playTune((message / 100), (message % 100), true);
   }
+  else if (function == 5 || function == 6 || function == 7 || function == 8)
+  {
+    setEyeCoords(function, message);
+  }
+
+}
+
+int leftEyeXIn = 0;
+int leftEyeYIn = 0;
+void setEyeCoords(int function, int message) {
+  if (function == 5) {
+    leftEyeX = message-43;
+    leftEyeXIn = message-43;
+  } else if (function == 6) {
+    leftEyeY = message-43;
+    leftEyeYIn = message-43;    
+  } else if (function == 7) {
+    rightEyeX = message-43;
+    if (leftEyeXIn > -2 && leftEyeXIn < 2)
+      leftEyeX = rightEyeX;
+  } else if (function == 8) {
+    rightEyeY = message-43;
+    if (leftEyeYIn > -2 && leftEyeYIn < 2)
+      leftEyeY = rightEyeY;
+  }
 }
 
 void arcadeButtonPressed(int buttonNumber) {
@@ -56,8 +92,9 @@ void arcadeButtonPressed(int buttonNumber) {
 
   // Stop button
   if (buttonNumber == 8) {
-    // sendFullStop();  JR TODO idea - can you cheat, set volume or bpm =0 when stop pressed
-    setAbletonTempo(120); // JR TODO!
+    sendFullStop();
+    delay(20);
+    startRobotVoiceTrack();
   }
 
   // Next button
@@ -96,9 +133,8 @@ void doRobotTalkingLights(int btnOnOffMessage) {
     {
       robotTalking = true;
       robotTalkingOnTime = timey;
-    }
-    else if (btnOnOffMessage == 1)
-    {
+      // TODO turn down ableton volume here!
+    } else if (btnOnOffMessage == 1) {
       robotTalking = false;
     }
 }
@@ -118,9 +154,7 @@ void unmuteRobotVoice(int btnOnOffMessage) {
        SEND TO MEGA
 ************************* */
 void sendBeatToMega() {
-  if (sixteenHalfBeats % 2 == 0) {
-    sendSerialToMega(1, sixteenHalfBeats/2);
-  }
+  sendSerialToMega(1, sixteenBeats);
 }
 
 void sendSerialToMega(int function, int message) {
@@ -130,10 +164,11 @@ void sendSerialToMega(int function, int message) {
     Serial.print("   MSG:");
     Serial.println(message);
   }
-    
-  char strOut[4]; // the message from the mega
-  itoa((function * 1000) + message, strOut, 10); //Turn value into a character array
-  Serial2.write(strOut, 4);
 
+  if (megaAttached) {
+    char strOut[4]; // the message from the mega
+    itoa((function * 1000) + message, strOut, 10); //Turn value into a character array
+    Serial2.write(strOut, 4);
+  }
 }
 

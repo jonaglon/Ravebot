@@ -19,7 +19,7 @@ void playRandomTune(int genre) {
 
 void playTune(int genre, int track, bool alterHistory) {
   setCurrentTune(genre, track);
-  setAbletonTempo(currentTune.bpm);
+  setAbletonTempo(currentTune.bpm-1);
   sendFullStop();
   stopAllAbletonClips(); 
   delay(20);
@@ -32,7 +32,7 @@ void playTune(int genre, int track, bool alterHistory) {
   deckASelected = true;
 
   // change the current track in this program
-  sixteenHalfBeats = 0;
+  sixteenBeats = 0;
   currentBar = 0;
   fakeBeatCount = 0;
 
@@ -53,6 +53,7 @@ void playTune(int genre, int track, bool alterHistory) {
   delay(80);
   playAbletonTrack(genre, track, true);
   delay(20);
+  startRobotVoiceTrack();
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here
  
   chooseNextTrack();
@@ -60,6 +61,9 @@ void playTune(int genre, int track, bool alterHistory) {
 
   if (testMode)
     showLast10Tracks();
+
+  delay(5);
+  setAbletonTempo(currentTune.bpm);
 
 }
 
@@ -107,6 +111,10 @@ void start16BeatAbletonTrack() {
   sendMidi(176, 126, 127); // channel 1, track 126, value 127.
 }
 
+void startRobotVoiceTrack() {
+  sendMidi(178, 125, 127); // channel 1, track 126, value 127.
+}
+
 void setMainVolume(int newVolume) {
 
   if (newVolume < 0)
@@ -126,14 +134,6 @@ void setAbletonTempo(int tempo) { // 80 - 207 bpm only
   
   sendMidi(177, 125, tempo-80);
 
-  /*int a = tempo-80; //inverting the number
-  a = ~a; //inverting the number
-  a = a+B01 ;//addinf the 1 to it
-  a = a & 0xff;//anding with 0xff to avoid any bit overflow
-  Serial.write(177);
-  Serial.write(125);
-  Serial.write(a);*/
-    
   abletonBpm = tempo;
 }
 
@@ -170,7 +170,7 @@ void sendMidiTest(int channel, int trackNumber, int velocity) {
   // (176, 126, 127); // channel 1, track 126, value 127.
   
   Serial.print("Channel:");
-  Serial.print(channel - 175);
+  Serial.print(channel); // - 175);
 
   Serial.print(" Note:");
   Serial.print(trackNumber);

@@ -5,10 +5,6 @@ void doKeypad()
   {
     keypadPressed(key);
   }
-  if (testMode) {
-    Serial.print("                                ");
-    Serial.println(currentSegmentNum);
-  }
 }
 
 void keypadPressed(char key) {

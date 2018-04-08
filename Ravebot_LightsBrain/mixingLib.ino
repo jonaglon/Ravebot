@@ -26,18 +26,18 @@ void setPercentThroughMix() {
     return;
   }
 
-  int beatsIntoMix = ((currentBar - nextMixStart + 1) * 8) + (sixteenHalfBeats % 8) - 7;
+  int beatsIntoMix = ((currentBar - nextMixStart + 1) * 4) + (sixteenBeats % 4) - 3;
 
   if (nextMixDuration < 12) {
     // straight mix if less than 12 bars
-    percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 8);
+    percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 4);
   }
   else if (beatsIntoMix < 48) {
     // beginning of mix where we hold in the middle for a bit
     percentThroughCalc = ((beatsIntoMix  * 255) / 96);
   }
   else if (beatsIntoMix > (nextMixDuration * 8) - 48) {
-    percentThroughCalc = (((beatsIntoMix - ((nextMixDuration * 8) - 48)) * 255) / 96) + 127;
+    percentThroughCalc = (((beatsIntoMix - ((nextMixDuration * 4) - 48)) * 255) / 96) + 127;
   }
   else {
     percentThroughCalc = 127;
@@ -51,16 +51,16 @@ void setPercentThroughMix() {
     percentThroughMix = percentThroughCalc;
 
   if (testMode)
-    printMixDebugInfo(currentBar, nextMixStart, sixteenHalfBeats, beatsIntoMix, nextMixDuration, percentThroughCalc, percentThroughMix);
+    printMixDebugInfo(currentBar, nextMixStart, sixteenBeats, beatsIntoMix, nextMixDuration, percentThroughCalc, percentThroughMix);
 }
 
-void printMixDebugInfo(int currentBar, int nextMixStart, int sixteenHalfBeats, int beatsIntoMix, int nextMixDuration, int percentThroughCalc, int percentThroughMix) {
+void printMixDebugInfo(int currentBar, int nextMixStart, int sixteenHBeats, int beatsIntoMix, int nextMixDuration, int percentThroughCalc, int percentThroughMix) {
   Serial.print("*** currentBar:");
   Serial.print(currentBar);
   Serial.print("    mixStart:");
   Serial.print(nextMixStart);
   Serial.print("          sixteenHalfBeats:");
-  Serial.println(sixteenHalfBeats);
+  Serial.println(sixteenHBeats);
   Serial.print("beatsIntoMix:");
   Serial.print(beatsIntoMix);
   Serial.print("    nextMixDuration:");
@@ -79,7 +79,7 @@ void startNewMix() {
   sendSerialToMega(2, (nextGenre * 100) + nextTrack);  
 
   if (testMode) {
-    Serial.print("JUST STARTED: ");
+    Serial.print("JUST MIX STARTED: ");
     Serial.print(nextGenre);
     Serial.print("/");
     Serial.println(nextTrack);
@@ -90,6 +90,30 @@ void startNewMix() {
   // change the current track in this program
   mixCurrentBar = -1;
   currentlyMixing = true;
+}
+
+void doImmediateMix() {
+
+  // send stuff to ableton to start the new track
+  playAbletonTrack(nextGenre, nextTrack, !deckASelected);
+
+  // tell the other arduino what you're doing
+  sendSerialToMega(2, (nextGenre * 100) + nextTrack);  
+
+  if (testMode) {
+    Serial.print("JUST IMM STARTED: ");
+    Serial.print(nextGenre);
+    Serial.print("/");
+    Serial.println(nextTrack);
+  }
+
+  updateGenreAndTrackHistory(nextGenre, nextTrack);
+
+  // change the current track in this program
+  mixCurrentBar = -1;
+  
+  endMixAndPickNewTune();
+  
 }
 
 void endMixAndPickNewTune() {
@@ -153,7 +177,7 @@ void chooseNextTrack() {
   // Also pick next lights pattern here
 
   while (!nextTrackPicked) {
-    
+
     // Pick next genre
     if (!stayWithinGenre)
       genre = random(8);
@@ -163,41 +187,22 @@ void chooseNextTrack() {
     // pick next track
     track = random(numberOfTunesInGenre(genre));
 
-    // check it's not in the last 10 tunes played      JR TODO - put this back
+    // check it's not in the last 10 tunes played
+
+  // JR TODO  LOLZ, put this back! 
+    
     //if (playedTuneHistoryContainsTrack(genre, track))
     //  continue;
-
-    /*if (testMode) {
-      Serial.print("next genre:");
-      Serial.print(genre);
-      Serial.print("   next track:");
-      Serial.println(track);
-      Serial.print("   current mfo:");
-      Serial.print(currentTune.minFadeOut);
-      Serial.print("   bpm:");
-      Serial.print(currentTune.bpm);
-      Serial.print("   drop:");
-      Serial.print(currentTune.drop);
-      Serial.print("   tuneLength:");
-      Serial.print(currentTune.tuneLength);
-      Serial.print("   maxFadeIn:");
-      Serial.print(currentTune.maxFadeIn);
-      Serial.print("   playOut:");
-      Serial.println(currentTune.playOut);
-    }*/
 
     setNextTune(genre, track);
 
     if (nextTune.maxFadeIn < currentTune.minFadeOut)
       continue;
 
-    if (testMode)
-      Serial.println(" * * * * 6");
     nextTrackPicked = true;
-    if (testMode)
-      Serial.println(" * * * * 7");
   }
 }
+
 
 bool playedTuneHistoryContainsTrack(int genre, int track) {
   bool trackExistsInHistory = false;
@@ -249,26 +254,6 @@ void setCurrentTune(int genre, int track) {
     currentTune = tuneLibDrumAndBass[track % numberOfTunesInGenre(6)];
   else
     currentTune = tuneLibHipHop[track % numberOfTunesInGenre(7)];
-
-  if (testMode) {
-    Serial.print("setting genre:");
-    Serial.print(genre);
-    Serial.print("=setting track:");
-    Serial.println(track);
-
-    Serial.print("   current mfo:");
-    Serial.print(currentTune.minFadeOut);
-    Serial.print("   bpm:");
-    Serial.print(currentTune.bpm);
-    Serial.print("   drop:");
-    Serial.print(currentTune.drop);
-    Serial.print("   tuneLength:");
-    Serial.print(currentTune.tuneLength);
-    Serial.print("   maxFadeIn:");
-    Serial.print(currentTune.maxFadeIn);
-    Serial.print("   playOut:");
-    Serial.println(currentTune.playOut); // TODO - 22 was killing it here because 22 doesn't exist
-  }
   
 }
 

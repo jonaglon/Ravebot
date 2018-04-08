@@ -29,7 +29,7 @@ void listenToAbleton() {
 
     case 1:
       // get the note to play or stop
-      if(incomingByte < 128) {
+      if (incomingByte < 128) {
         note=incomingByte;
         state=2; 
       }
@@ -40,7 +40,7 @@ void listenToAbleton() {
 
     case 2:
       // get the velocity
-      if(incomingByte < 128) {
+      if (incomingByte < 128) {
         processMessageFromAbleton(note, incomingByte, noteDown);
       }
       state = 0;  // reset state machine to start            
@@ -48,69 +48,57 @@ void listenToAbleton() {
   }
 }
 
+void setBeatTimes() {
+  lastBeatLength = timey-lastBeatTime; 
+  lastBeatTime = timey;
+}
+
 void processMessageFromAbleton(byte note, byte velocity, int down) {
   if ((note>=24 && note<88) && (velocity == 100)) {
-    sixteenHalfBeats = note - 24; // from 0 to 63 
-    if (testMode) {
-      Serial.print("16: ");
-      Serial.println(sixteenHalfBeats);
-    }
+    sixteenBeats = note - 24; // from 0 to 63 
+
+    setBeatTimes();
+    
     sendBeatToMega();
+    
     if (dropCountdown != 0)
       dropCountdown--;
 
-    if (sixteenHalfBeats % 8 == 0) {
+    if ((sixteenBeats % 4) == 0) {
       if (testMode) {
         Serial.print("New bar: ");
-        Serial.println(currentBar);
-        Serial.print("CurrentTuneBpm:");
-        Serial.print(currentTune.bpm);
-        Serial.print("  NextTuneBpm:");
-        Serial.println(nextTune.bpm);
+        Serial.print(currentBar);
+        Serial.print("  16:");
+        Serial.println(sixteenBeats);
       }
-      // This is the beginning of a new bar, we set beat times and might need to start a mix or drop countdown
+      // This is the beginning of a new bar, might need to end a mix or start a drop countdown
       currentBar++;
       mixCurrentBar++;
-      setBeatTimes();
+      percentThroughBeat=0;
       checkForDropCountdownStart();
       checkForMixEnd();
     }
-    
     if (currentlyMixing) {
       setPercentThroughMix();
       doMixing();
     }
-
-    if (sixteenHalfBeats % 8 == 6) {
+    if (sixteenBeats % 4 == 3) {
       checkForMixStart();
     }
-    
   }
 }
-
-/*void checkForQuantisationStart() {
-  if (currentBar == nextMixStart) {
-    if (testMode)
-        Serial.println("sending quantisation on");
-    sendQuantisationOn();
-  }
-}
-
-void checkForQuantisationEnd() {
-  if (currentBar == nextMixStart+1) {
-    sendQuantisationOff();
-  }
-}*/
 
 void checkForMixStart() {
-  if (testMode) {
+  /* if (testMode) {
     Serial.print("checking for mix start. current bar:");
     Serial.print(currentBar);
     Serial.print("  next mix start:");
     Serial.println(nextMixStart);
-  }
+  } */
     
-  if (currentBar+1 == nextMixStart) {
+  if ((currentBar+1 == nextMixStart) && nextMixDuration == 0) {
+    doImmediateMix();
+  } else if (currentBar+1 == nextMixStart) {
     startNewMix();
   }
 }
@@ -128,14 +116,6 @@ void checkForDropCountdownStart() {
   
   if (currentBar+2 ==  currentTune.drop)
     dropCountdown = 8;
-}
-
-void setBeatTimes() {
-
-  for (int x = 0; x < 9; x++)
-    beatTimes[x+1] = beatTimes[x];
-
-  beatTimes[0] = timey;
 }
 
 

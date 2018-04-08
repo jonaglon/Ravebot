@@ -19,7 +19,7 @@ servoInfo servos[10] = {
   { 140, 560, 3, 350, 350 }, // 5 - R wrist lr
   { 290, 445, 3, 350, 350 }, // 6 - R claw increase to grab
   { 140, 560, 3, 350, 350 }, // 7 - r wrist ud
-  { 140, 560, 3, 350, 350 }, // 8 - l elbow
+  { 140, 560, 2, 350, 350 }, // 8 - l elbow
   { 140, 560, 3, 350, 350 }  // 9 - l wrist lr
 };
 
@@ -43,14 +43,19 @@ void doServos() {
 
   setHead();
 
-  leftClaw();
-  leftElbow();
-  leftWrist();
-
-  rightClaw();
-  rightElbow();
-  rightWrist();
-
+  // dont do the wrists if any mod button is pressed
+  if ((ps2.readButton(PS2_LEFT_1) == 1) && (ps2.readButton(PS2_LEFT_2) == 1) && (ps2.readButton(PS2_RIGHT_1) == 1)) {
+    leftWrist();
+    rightWrist();
+  }
+  
+  if (ps2.readButton(PS2_LEFT_1) == 1) { 
+    leftClaw();
+    rightClaw();
+  } else {
+    rightElbow();
+    leftElbow();
+  }
 }
 
 
@@ -103,39 +108,19 @@ void setHead() {
 
 void leftClaw() {
   if (ps2.readButton(PS2_CIRCLE) == 0) {
-    if (lClawOpening) {
-      moveServo(2, servos[2].servoSpeed);
-      lClawMoving = true;
-    } else {
-      moveServo(2, -servos[2].servoSpeed);
-      lClawMoving = true;
-    }
-  } else if (lClawMoving) {
-    if (lClawOpening) {
-      lClawOpening = false;
-    } else {
-      lClawOpening = true;
-    }
-    lClawMoving = false;
+    moveServo(2, servos[2].servoSpeed);
+  }
+  if (ps2.readButton(PS2_TRIANGLE) == 0) {
+    moveServo(2, -servos[2].servoSpeed);
   }
 }
 
 void rightClaw() {
   if (ps2.readButton(PS2_CROSS) == 0) {
-    if (rClawOpening) {
-      moveServo(6, servos[6].servoSpeed);
-      rClawMoving = true;
-    } else {
-      moveServo(6, -servos[6].servoSpeed);
-      rClawMoving = true;
-    }
-  } else if (rClawMoving) {
-    if (rClawOpening) {
-      rClawOpening = false;
-    } else {
-      rClawOpening = true;
-    }
-    rClawMoving = false;
+    moveServo(6, servos[6].servoSpeed);
+  }
+  if (ps2.readButton(PS2_SQUARE) == 0) {
+    moveServo(6, -servos[6].servoSpeed);
   }
 }
 
@@ -151,42 +136,23 @@ void rightWrist() {
 
 
 void leftElbow() {
-  if (ps2.readButton(PS2_SQUARE) == 0) {
-    if (lElbowOpening) {
-      moveServo(4, servos[4].servoSpeed);
-      lElbowMoving = true;
-    } else {
-      moveServo(4, -servos[4].servoSpeed);
-      lElbowMoving = true;
-    }
-  } else if (lElbowMoving) {
-    if (lElbowOpening) {
-      lElbowOpening = false;
-    } else {
-      lElbowOpening = true;
-    }
-    lElbowMoving = false;
+  if (ps2.readButton(PS2_CIRCLE) == 0) {
+    moveServo(8, servos[8].servoSpeed);
+  }
+  if (ps2.readButton(PS2_TRIANGLE) == 0) {
+    moveServo(8, -servos[8].servoSpeed);
   }
 }
 
 void rightElbow() {
-  if (ps2.readButton(PS2_TRIANGLE) == 0) {
-    if (rElbowOpening) {
-      moveServo(8, servos[8].servoSpeed);
-      rElbowMoving = true;
-    } else {
-      moveServo(8, -servos[8].servoSpeed);
-      rElbowMoving = true;
-    }
-  } else if (rElbowMoving) {
-    if (rElbowOpening) {
-      rElbowOpening = false;
-    } else {
-      rElbowOpening = true;
-    }
-    rElbowMoving = false;
+  if (ps2.readButton(PS2_CROSS) == 0) {
+    moveServo(4, -servos[4].servoSpeed);
+  }
+  if (ps2.readButton(PS2_SQUARE) == 0) {
+    moveServo(4, servos[4].servoSpeed);
   }
 }
+
 
 void setRightArmJoystickMovement() {
   // Jesus wept
