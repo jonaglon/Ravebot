@@ -1,7 +1,7 @@
 
 void doPatternStripes() {
 
-
-  fullLeftRightStripeInTime();
+  horizontalRainbow(false, false, 200);
+  //fullLeftRightStripeInTime();
 }
 

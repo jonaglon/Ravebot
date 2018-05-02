@@ -9,7 +9,7 @@ void doLights() {
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 40);
   } else if (currentPattern == 2) {
-    doPatternStripes()-;
+    doPatternStripes();
   } else if (currentPattern == 3) {
     doPatternTrains();
   } else if (currentPattern == 4) {
