@@ -52,6 +52,7 @@ void playTune(int genre, int track, bool alterHistory) {
   // send stuff to ableton to start the new track  
   delay(80);
   playAbletonTrack(genre, track, true);
+  changeLightPattern();
   delay(20);
   startRobotVoiceTrack();
   start16BeatAbletonTrack(); // start the midi track in ableton which sends midi time codes back here

@@ -449,6 +449,10 @@ int ledSections[20] = {
   1302,  // 18 port right
   1441};
 
+int numLedsInSection(int sectionNum) {
+  return ledSections[sectionNum+1]-ledSections[sectionNum];
+}
+
 int ledPosOffset[19][2] = {
   { 70, 90},    // 00 bottomRing
   { 0, 945},    // 01 bigHeart

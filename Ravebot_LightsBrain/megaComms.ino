@@ -93,8 +93,8 @@ void arcadeButtonPressed(int buttonNumber) {
   // Stop button
   if (buttonNumber == 8) {
     sendFullStop();
-    delay(20);
-    startRobotVoiceTrack();
+    //delay(20);
+    //startRobotVoiceTrack();
   }
 
   // Next button
