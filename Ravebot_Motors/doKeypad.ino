@@ -9,7 +9,7 @@ void doKeypad()
 
 void keypadPressed(char key) {
   if (key == '#')
-    resetNumber();
+    sendNumber();
   else if (key == '*')
     sendNumber();
   else if (key == '1')

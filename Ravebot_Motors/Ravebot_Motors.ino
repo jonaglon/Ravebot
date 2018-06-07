@@ -20,12 +20,6 @@ const bool testMode = false;
 unsigned long timey;
 unsigned long nextAnalogRead;
 
-// movement control vars
-bool nodding = false;
-bool shaking = false;
-unsigned long noddingTime;
-unsigned long shakingTime;
-
 int ledIntensity = 10;
 int currentSegmentNum;
 
@@ -58,7 +52,7 @@ Keypad keypad = Keypad(makeKeymap(keys), rowPins, colPins, 4, 3);
 
 void setup() {
   delay(500);
-  wdt_enable(WDTO_2S);
+  //wdt_enable(WDTO_2S);
 
   if (testMode)
     Serial.begin(9600);
@@ -130,21 +124,21 @@ void setup() {
 
 void loop()
 {
-  wdt_reset(); // this checks if the board crashed and resets
+  //wdt_reset(); // this checks if the board crashed and resets
   
   timey = millis();
 
-  talkToLights();
+  //talkToLights();
 
   doServos();
 
-  doKeypad();
+  //doKeypad();
 
   doMyArms();
 
   doMyWheels();
 
-  doArcadeBtn();
+  //doArcadeBtn();
 }
 
 

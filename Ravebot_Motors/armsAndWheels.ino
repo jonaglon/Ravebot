@@ -73,34 +73,16 @@ void sendLArmMotorValue(int newValue) {
 void doMyWheels() {
 
   if (ps2.readButton(PS2_RIGHT_1) == 0) {
-    readPs2Var=ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)-128;
-    sendLWheelMotorValue(readPs2Var);
-    readPs2Var=ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)-128;
-    sendRWheelMotorValue(readPs2Var);
-  } else {
-    sendLWheelMotorValue(0);
-    sendRWheelMotorValue(0);
-  }
+    readPs2Var=(ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)-128)/4;
 
-}
+    //Serial.print("ly:");  
+    //Serial.print(readPs2Var);  
+    ST2.motor(1, readPs2Var);
 
-
-int rWheelMotorValue = 0;
-void sendRWheelMotorValue(int newValue) {
-  if (newValue != rWheelMotorValue)
-  {
-    rWheelMotorValue = newValue;
-    ST2.motor(2, rWheelMotorValue);
+    readPs2Var=(ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)-128)/4;
+    //Serial.print("   ry:");  
+    //Serial.println(readPs2Var);  
+    ST2.motor(2, readPs2Var);
   }
 }
-
-int lWheelMotorValue = 0;
-void sendLWheelMotorValue(int newValue) {
-  if (newValue != lWheelMotorValue)
-  {
-    lWheelMotorValue = newValue;
-    ST2.motor(1, lWheelMotorValue);
-  }
-}
-
 
