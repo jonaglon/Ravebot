@@ -80,7 +80,7 @@ void setup() {
   LEDS.setBrightness(128); // 128 good max, 255 actual /max
 
   setMainVolume(mainVolume);
-
+ 
   // JR TODO remove me
   playTune(0, 0, true);
 }
@@ -125,7 +125,7 @@ struct tuneInfo {
 };
  
 // Genre 0, RAVE!
-tuneInfo tuneLibRave[20] = {
+tuneInfo tuneLibRave[21] = {
   {149, 68, 128, 16,  0, 16, 16, false }, //1  TripToTheMoonPt2-Acen.
   {136, 80, 112, 16 ,  0, 16, 8, false},  //2  Bombscare-2BadMice.
   {126,  0, 112,  8,  0, 16, 16, false},  //3  LFO-LFO.
@@ -137,7 +137,7 @@ tuneInfo tuneLibRave[20] = {
   {150,  0, 163, 16,  0, 16,  8, false},  //9  OutOfSpace-Prodigy.
   {132,  0, 142, 16,  0, 16, 16, true},   //10 Breathe-Prodigy.
   {138,  0, 148, 16,  0, 16,  0, false},  //11 SmackMyBitchUp-Prodigy.
-  {128,  0, 124, 16,  0, 16, 16, false},  //12 BreakOfDawn-RhythmOnTheLoose. ** finishes 4 too late?
+  {128,  0, 120, 16,  0, 16, 16, false},  //12 BreakOfDawn-RhythmOnTheLoose. ** finishes 4 too late?
   {132,  0, 132, 16,  0, 16,  0, false},  //13 BlueMonday-NewOrder.   *** finishes wrong, needs to be bare beat.
   {132, 60, 120,  8,  0, 16, 16, false},  //14 PlayingWithKnives-BizzarreInc.
   {120, 16, 128, 16,  8, 16,  8, false},  //15 KillerFeatTopCat-BoozooBajou
@@ -145,7 +145,8 @@ tuneInfo tuneLibRave[20] = {
   {135, 48, 108,  8,  4,  8,  8, false},  //17 FeelingForYou-Cassius
   {140,128, 206, 16,  0, 16, 16, true},   //18 DidIt-Sticky - TODO sounds a bit shit
   {135, 72, 106, 16,  0,  8,  8, false},  //19 HowLoveBegins-HighContrastDizee
-  {130, 80, 106, 16,  8,  8,  8, false},   //20 StringsOfLife-DerrickMay     ************* You're up to here
+  {130, 80, 106, 16,  8,  8,  8, false},   //20 StringsOfLife-DerrickMay
+  {136, 24,  92, 16,  8,  8,  8, false},   //21 SweetHarmony-Liquid
 };
 
 /* tuneInfo tuneLibRave[4] = {
@@ -156,7 +157,7 @@ tuneInfo tuneLibRave[20] = {
 }; */
 
 // Genre 1, Disco
-tuneInfo tuneLibDisco[20] = {
+tuneInfo tuneLibDisco[21] = {
   {125,  0, 101 ,  8,  4,  8,  8, false}, // 1 ILoveTheNightlife - Alecia Bridges
   {110,  0, 128,  8,  4, 16, 16, true},   // 2 LastNightADjSavedMyLife-Indeep
   {134,  0, 149,  8,  0, 16, 16, true},   // 3 LayAllYourLoveOnMe-Abba
@@ -177,11 +178,12 @@ tuneInfo tuneLibDisco[20] = {
   {116 , 0,  96, 16,  4, 16, 16, false},  // 18 HesTheGreatestDancer-SisSledge
   {108,  0,  80,  8,  0,  8,  8, true},   // 19 FeelLikeIDo-Disclosure
   {108,  0, 108,  8,  8,  8,  8, true},   // 20 TakeAChanceOnMe-Abba
+  { 92,  0, 100,  8,  0,  8,  8, true},   // 21 StrawberryLetter23-TheBrothersJohnson
 };
 
-
+ 
 // Genre 2, Reggae 
-tuneInfo tuneLibReggae[20] = {
+tuneInfo tuneLibReggae[21] = {
   {170,  0, 132,  8,  0, 16, 16, false},  //1 RingTheAlarm-TenorSaw
   {102,  0, 118,  8,  0,  8,  8, false},  //2 FunkyKingston-Toots
   {164,  0, 164,  8,  0, 16, 16, false},  //3 UnderMeSlengTeng-WayneSmith
@@ -202,10 +204,11 @@ tuneInfo tuneLibReggae[20] = {
   {138,  0, 160,  8,  4,  8,  8, true},   //18 Behold-Culture
   {144,  0,  78,  0,  4,  8,  8, true},   //19 SunIsShining-BobMarley
   {128,  0,  88,  8,  0,  8,  8, false},  //20 RoadBlock-GeneralLevy
+  {174,  0,  88,  8,  0, 16, 16, true},  //21 HereICome-BarringtonLevy
 };
 
 // Genre 3, Rock&Pop
-tuneInfo tuneLibRockAndPop[20] = {
+tuneInfo tuneLibRockAndPop[21] = {
   {160,  0, 134, 16,  0,  8,  8, true},  //1 KidsInAmerica-KimWilde
   {130,  0, 120, 16,  0, 16,  8, false},  //2 CantGetYouOut-Kylie
   {112,  0, 102,  8,  0,  8,  8, true},  //3 ICantGoForThat-Hall&Oates
@@ -226,6 +229,7 @@ tuneInfo tuneLibRockAndPop[20] = {
   {110, 18,  87,  4,  4,  8,  8, true},  //18 IWantToBreakFree-Queen
   {145,  0, 123,  1,  4,  8,  6, true},  //19 CallMe-Blondie
   {131,  0, 116,  8,  0,  8,  8, true},  //20 RockTheCasbah-TheClash
+  {118,  0, 34,   0,  0,  8,  8, true},  //21 Minder
 };
 
 // Genre 4, Easy
@@ -254,7 +258,7 @@ tuneInfo tuneLibEasy[21] = {
 };
 // bpm drp len mxIn mnOut mxOut bestEnd playOut */
 // Genre 5, Dance
-tuneInfo tuneLibDance[20] = {
+tuneInfo tuneLibDance[21] = {
   {134, 30, 124, 16,  0, 16,  8, false},  //1 A rinky dinky 
   {110, 58,  91,  4,  0, 16,  8, false},  //2 Kelis - Trick Me
   {150,  0, 132, 16,  0,  4,  4, false},  //3 Dubbleedge - Lips to the floor
@@ -275,13 +279,14 @@ tuneInfo tuneLibDance[20] = {
   {140,  0, 117, 16,  0, 16, 12, true},  //18 BasslineJunkie-DizzeeRascal 
   {140,  0, 161, 16,  0, 16, 16, false},  //19 FeelLikeJumping-KraftyKuts
   {173,  0, 139,  8,  0, 11,  8, false},  //20 TotallyAddictedToBass-SonicBoomSix
+  {152,  0, 150,  8,  0,  4,  4, true},  //20 TheRockerfellerSkank-FatboySlim
 };
 
 /*
 //  bpm drop tuneLength maxFadeIn minFadeOut maxFadeOut dropOffset  */
 
 // Genre 6, Drum&Bass
-tuneInfo tuneLibDrumAndBass[20] = {
+tuneInfo tuneLibDrumAndBass[21] = {
   {176,  0, 140, 16,  0, 16,  0, false},  //1 Girls-DJHypeAndPotential
   {176,  0, 192, 16,  2, 16,  8, false},  //2 DuppyMan-ChaseAndStatusCapleton
   {176,  0, 159, 16,  0, 16, 16, true},  //3 TheNine-BadCompany
@@ -302,10 +307,11 @@ tuneInfo tuneLibDrumAndBass[20] = {
   {174,  0, 160, 16,  0, 16, 16, false},  //18 Deep-TC
   {176,  0, 132, 16,  0, 16, 16, false},  //19 GoldDust-ShyFXMix
   {177,  0, 168, 16,  0, 16,  8, false},  //20 BlazingFire-BennyPage
+  {174,  0, 192,  8,  0, 16,  0, false},  //21 VoodooPeople-PendulumMix
 }; 
 
 // Genre 7, HipHop
-tuneInfo tuneLibHipHop[20] = {
+tuneInfo tuneLibHipHop[21] = {
   {101,  0,  80,  4,  0, 16, 16, false},  //1 Lets get ill
   { 90,  0, 108,  4,  0, 16,  8, false},  //2 No Diggidy
   { 97,  0,  66,  8,  4, 16, 16, true},   //3 ShimmyShimmyYa-ODB
@@ -326,6 +332,7 @@ tuneInfo tuneLibHipHop[20] = {
   { 96,  0,  96,  8,  0,  8,  8, false},  //18 Regulate-WarrenG
   {102,  0,  88,  8,  0,  8,  8, true},   //19 GetBusy-SeanPaul
   { 96,  0,  80,  8,  2,  8,  8, false},  //20 GoldDigger-Kanye
+  { 92,  0,  80,  4,  4,  8,  8, false},  //21 Breathe-BluCantrell
 };
 
 
