@@ -173,7 +173,7 @@ void setLedDirect(int ledNum, int rVal, int gVal, int bVal, int wVal, bool showM
 
   if (ledNum < 203) {
     // Big bottom ring
-    setRgbwLed((ledNum+190)%203, rVal, gVal, bVal, wVal);
+    setRgbwLed((ledNum+180)%203, rVal, gVal, bVal, wVal);
   }
   else if (ledNum < 463) {
     // Body hearts

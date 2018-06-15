@@ -15,6 +15,16 @@
 #include<Cytron_PS2Shield.h>
 #include<avr/wdt.h>
 
+/*
+ * Arduino Mega to do listy
+ * 
+ * Hmmmm.
+ * Write what all the controller should do again and implement it.
+ * MAKE WHEELS WORKY!!!
+ * Learn to dance!
+ * 
+ */
+
 const bool testMode = false;
 
 unsigned long timey;
@@ -58,8 +68,8 @@ void setup() {
     Serial.begin(9600);
 
   // Talk to the other arduino
-  Serial1.begin(28800);  // tx for sending
-  Serial3.begin(28800);  // rx for receiving
+  Serial1.begin(28800);  // tx for sending tx2 port 16
+  Serial3.begin(28800);  // rx for receiving rx1 - port 19
 
   // make random more random?!
   randomSeed(analogRead(0));
@@ -128,17 +138,17 @@ void loop()
   
   timey = millis();
 
-  //talkToLights();
+  talkToLights();
 
   doServos();
 
-  //doKeypad();
+  doKeypad();
 
   doMyArms();
 
   doMyWheels();
 
-  //doArcadeBtn();
+  doArcadeBtn();
 }
 
 
