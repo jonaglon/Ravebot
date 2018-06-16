@@ -531,8 +531,8 @@ int ledPosOffset[19][2] = {
   { 80, 800},    // 14 tubeBottomleft
   { 80, 1020},    // 15 tubeTopleft
   { 315, 1020},    // 16 tubeTopright
-  { 50, 555},    // 17 port left
-  { 490, 555},    // 18 port right
+  { 80, 555},    // 17 port left
+  { 410, 555},    // 18 port right
 };
 
 int eyeSmileyLeds[26] = {

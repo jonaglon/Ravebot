@@ -3,10 +3,10 @@ int numPatterns = 5;
 
 void doLights() {
 
-  //allOff();
-  allOffBySection();
+  allOff();
+  //allOffBySection();
 
-  testStripe();
+  testStripe(450);
 
 /*  if (currentPattern == 1) {
     //horizontalRainbow(false, false, 40);
@@ -84,11 +84,11 @@ void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
   }
 }
 
-void testStripe() {
+void testStripe(int stripePos) {
 
   for(int j = 0; j < numLeds; j++) {
     int xCoord = getCoord(j,0);
-    if (xCoord < 200)
+    if (xCoord < stripePos)
       setLedDirect(j, 255, 0, 0, 0, true);
     else
       setLedDirect(j, 0, 255, 0, 0, true);      
