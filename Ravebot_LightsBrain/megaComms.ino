@@ -7,7 +7,7 @@ void receiveFromMega() {
     char strIn[4];
     int i=0;
     delay(2); //allows all serial sent to be received together
-    while(Serial1.available() && i<4) {
+    while(Serial1.available() && i<4) {   // JR - You changed this from 1 where it was working because there is a pin stuck in that hole
       strIn[i++] = Serial1.read();
     }
     strIn[i++]='\0';

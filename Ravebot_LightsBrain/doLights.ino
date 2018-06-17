@@ -6,8 +6,10 @@ void doLights() {
   allOff();
   //allOffBySection();
 
-  if (currentPattern == 1) {
-    horizontalRainbow(false, false, 40);
+  testStripe(450);
+
+/*  if (currentPattern == 1) {
+    //horizontalRainbow(false, false, 40);
   } else if (currentPattern == 2) {
     doPatternStripes();
   } else if (currentPattern == 3) {
@@ -18,7 +20,7 @@ void doLights() {
     heartInTime();
     circleInTime();
   }
-  doFace();
+  doFace();    */
   LEDS.show();  
 }
 
@@ -80,6 +82,18 @@ void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
     SetRgbwWheelVars(xCoord/4);
     setLedDirect(j, wheelR, wheelG, wheelB, 0, false);    
   }
+}
+
+void testStripe(int stripePos) {
+
+  for(int j = 0; j < numLeds; j++) {
+    int xCoord = getCoord(j,0);
+    if (xCoord < stripePos)
+      setLedDirect(j, 255, 0, 0, 0, true);
+    else
+      setLedDirect(j, 0, 255, 0, 0, true);      
+  }
+  
 }
 
 void sectionsInTime() {

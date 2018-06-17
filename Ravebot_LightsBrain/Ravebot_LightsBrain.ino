@@ -8,9 +8,21 @@
 #include<Wire.h>
 #include<FastLED.h>
 
+/*
+ * 
+ * Arduino Due to do listy
+ * 
+ * Patterns.
+ *   Set the x y coords properly for all the elements
+ *   Write the in time percentage function you're imagining
+ *   
+ * 
+ * 
+ */
+
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-const bool beatTestMode = false;   
-const bool megaAttached = false;   // JR TODO - attach this or the due won't talk to mega 
+const bool beatTestMode = true;   
+const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega 
 
 unsigned long timey;
 unsigned long lastBeatTime = 0;
@@ -535,8 +547,8 @@ int ledPosOffset[19][2] = {
   { 80, 800},    // 14 tubeBottomleft
   { 80, 1020},    // 15 tubeTopleft
   { 315, 1020},    // 16 tubeTopright
-  { 50, 555},    // 17 port left
-  { 490, 555},    // 18 port right
+  { 80, 555},    // 17 port left
+  { 410, 555},    // 18 port right
 };
 
 int eyeSmileyLeds[26] = {
