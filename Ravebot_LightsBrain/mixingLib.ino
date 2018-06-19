@@ -32,16 +32,30 @@ void setPercentThroughMix() {
     // straight mix if less than 12 bars
     percentThroughCalc = (beatsIntoMix  * 255) / (nextMixDuration * 4);
   }
-  else if (beatsIntoMix < 24) {
-    // beginning of mix where we hold in the middle for a bit
-    percentThroughCalc = ((beatsIntoMix  * 255) / 48);
+  else if (nextMixDuration < 24) {
+    if (beatsIntoMix < 24) {
+      // beginning of mix where we hold in the middle for a bit
+      percentThroughCalc = ((beatsIntoMix  * 255) / 48);
+    }
+    else if (beatsIntoMix > (nextMixDuration * 4) - 24) {
+      percentThroughCalc = (((beatsIntoMix - ((nextMixDuration * 4) - 24)) * 255) / 48) + 127;
+    }
+    else {
+      percentThroughCalc = 127;
+    }
+  } else {
+    if (beatsIntoMix < 48) {
+      // beginning of mix where we hold in the middle for a bit
+      percentThroughCalc = ((beatsIntoMix  * 255) / 96);
+    }
+    else if (beatsIntoMix > (nextMixDuration * 4) - 48) {
+      percentThroughCalc = (((beatsIntoMix - ((nextMixDuration * 4) - 48)) * 255) / 96) + 127;
+    }
+    else {
+      percentThroughCalc = 127;
+    }
   }
-  else if (beatsIntoMix > (nextMixDuration * 4) - 24) {
-    percentThroughCalc = (((beatsIntoMix - ((nextMixDuration * 4) - 24)) * 255) / 48) + 127;
-  }
-  else {
-    percentThroughCalc = 127;
-  }
+
 
   if (percentThroughCalc > 255)
     percentThroughMix = 255;

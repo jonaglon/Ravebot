@@ -8,21 +8,9 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-/*
- * 
- * Arduino Due to do listy
- * 
- * Patterns.
- *   Set the x y coords properly for all the elements
- *   Write the in time percentage function you're imagining
- *   
- * 
- * 
- */
-
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-const bool beatTestMode = true;   
-const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega 
+const bool beatTestMode = false;   
+const bool megaAttached = false;   // JR TODO - attach this or the due won't talk to mega 
 
 unsigned long timey;
 unsigned long lastBeatTime = 0;
@@ -94,7 +82,7 @@ void setup() {
   setMainVolume(mainVolume);
  
   // JR TODO remove me
-  playTune(5, 10, true);
+  playTune(6, 10, true);
 }
 
 void loop() {
@@ -341,36 +329,35 @@ tuneInfo tuneLibDance[28] = {
 //  bpm drop tuneLength maxFadeIn minFadeOut maxFadeOut dropOffset  */
 
 // Genre 6, Drum&Bass
-tuneInfo tuneLibDrumAndBass[28] = {
-  {176,  0, 140, 16,  0, 16,  0, false},  //1 Girls-DJHypeAndPotential
-  {176,  0, 192, 16,  2, 16,  8, false},  //2 DuppyMan-ChaseAndStatusCapleton
-  {176,  0, 159, 16,  0, 16, 16, true},  //3 TheNine-BadCompany
-  {176,  0, 199, 16,  4, 16, 16, false},  //4 GoldDigger-HighContrast
-  {176,  0, 192,  0,  0, 16,  8, false},  //5 ShakeUrBody-ShyFX
-  {176,  0, 130, 16,  0, 16,  8, false},  //6 KingOfTheBeats2016-Aphrodite
-  {176,  0, 180, 16,  0, 16, 16, true},  //7 LastNight-BennyPage  ** needs to be 176 long to fit 4 8 
-  {176,  0, 176, 16,  4, 16, 16, false},  //8 TurnDownTheLights-BennyPage
-  {176,  0, 154, 16,  0, 16, 16, false},  //9 PassTheKutchie-BennyPage  ** in time at the beginning?
-  {176,  0, 169, 16,  8, 16, 16, false},  //10 PassMeTheRizla-Deekline
-  {176,  0, 177, 16,  8, 16, 16, false},  //11 CryingOut-BennyPageSerialKillazMix
-  {176,  0, 176, 16,  8, 16, 16, false},  //12 Incredible-MBeat
-  {179,  0, 162, 16,  0, 16, 16, false},  //13 TopRankSkank-BennyPage
-  {176,  0, 184, 16,  0, 16,  8, false},  //14 BamBam-SerialKillaz
-  {176,  0, 176, 16,  8, 16, 16, false},  //15 NoNoNo-SerialKillaz  
-  {176,  0, 176, 16,  8, 16, 16, false},  //16 RaggaTip-EdSolo
-  {174,  0, 176, 16,  8, 16, 16, false},  //17 KissKissBangBang-HighContrast
-  {174,  0, 160, 16,  0, 16, 16, false},  //18 Deep-TC
-  {176,  0, 132, 16,  0, 16, 16, false},  //19 GoldDust-ShyFXMix
-  {177,  0, 168, 16,  0, 16,  8, false},  //20 BlazingFire-BennyPage
-  {174,  0, 192,  8,  0, 16,  0, false},  //21 VoodooPeople-PendulumMix
-  {174,  0, 180, 16,  0, 16, 16, false},  //22 Tarantula-Pendulum
-  {174,  0, 144, 16,  0, 16, 16, false},  //23 Workout-AndyC
-  {174,  0, 168, 16,  8, 16, 16, false},  //24 RemindMe-HighContrast
-  {174,  0, 144, 16,  8, 16, 16, false},  //25 PassOutDCBreaks-TinyTempah
-  {170,  0, 160, 16,  2, 16, 16, false},  //26 Chopper-ShyFXRayKeith
-  {170,  0, 136,  0,  8, 32, 32, false},   //27 OriginalNuttah-ShyFX
-  {175,  0, 208, 32,  8, 32,  8, false},   //28 ShakeUrBody-ShyFXTPower
-}; 
+tuneInfo tuneLibDrumAndBass[27] = {
+  {176,  0, 208, 32,  2, 32, 32, false},  //1 Girls-DJHypeAndPotential
+  {176,  0, 192, 32,  2, 32, 32, false},  //2 DuppyMan-ChaseAndStatusCapleton
+  {180,  0, 208, 32,  2, 32, 32, false},  //3 PullUp-ResonatGenLevy  ** VOLUME YUP - beginning doesnt work
+  {176,  0, 196, 32,  2, 32, 32, false},  //4 GoldDigger-HighContrast
+  {177,  0, 192, 32,  2, 32, 32, false},  //5 ShakeUrBody-ShyFX
+  {174,  0, 144, 32,  2, 32, 32, false},  //6 KingOfTheBeats2016-Aphrodite
+  {180,  0, 184, 32,  2, 32, 32, false},  //7 LastNight-BennyPage
+  {176,  0, 208, 32,  2, 32, 16, false},  //8 TurnDownTheLights-BennyPage
+  {175,  0, 152, 32,  2, 32, 32, false},  //9 PassTheKutchie-BennyPage
+  {175,  0, 184, 32,  2, 32, 32, false},  //10 PassMeTheRizla-Deekline
+  {176,  0, 192, 32,  2, 32, 32, false},  //11 CryingOut-BennyPageSerialKillazMix
+  {176,  0, 160, 32,  2, 32, 32, false},  //12 ProfessionalGangaSmoker-GenLevy
+  {175,  0, 160, 32,  2, 32, 32, false},  //13 TopRankSkank-BennyPage
+  {176,  0, 200, 32,  2, 32, 32, false},  //14 BamBam-SerialKillaz
+  {176,  0, 176,  0,  2, 32, 32, false},  //15 NoNoNo-SerialKillaz  
+  {175,  0, 176, 32,  2, 32, 32, false},  //16 RaggaTip-EdSolo
+  {174,  0, 192, 32,  2, 32, 32, false},  //17 KissKissBangBang-HighContrast
+  {174,  0, 192, 32,  2, 32,  0, false},  //18 Deep-TC
+  {177,  0, 132,  0,  2, 32, 32, false},  //19 GoldDust-ShyFXMix
+  {177,  0, 168, 16,  2, 16,  8, false},  //20 BlazingFire-BennyPage
+  {175,  0, 176, 32,  2, 32, 32, false},  //21 HitTheRoadJack-DeeklineEdSoloGala
+  {176,  0, 160, 16,  2, 32, 32, false},  //22 Incredible-MBeat
+  {174,  0, 176, 32,  2, 32, 32, false},  //23 Workout-AndyC
+  {174,  0, 168, 32,  2, 32, 32, false},  //24 RemindMe-HighContrast
+  {174,  0, 168, 32,  2, 32, 32, false},  //25 PassOutDCBreaks-TinyTempah
+  {170,  0, 136, 16,  2, 32, 32, false},  //26 OriginalNuttah-ShyFX  
+  {181,  0, 120, 32,  2, 32, 32, false},  //27 HandsUp-DjHype   *** not in time at beg, maybe all.
+};
 
 // Genre 7, HipHop
 tuneInfo tuneLibHipHop[28] = {
@@ -547,8 +534,8 @@ int ledPosOffset[19][2] = {
   { 80, 800},    // 14 tubeBottomleft
   { 80, 1020},    // 15 tubeTopleft
   { 315, 1020},    // 16 tubeTopright
-  { 80, 555},    // 17 port left
-  { 410, 555},    // 18 port right
+  { 50, 555},    // 17 port left
+  { 490, 555},    // 18 port right
 };
 
 int eyeSmileyLeds[26] = {
