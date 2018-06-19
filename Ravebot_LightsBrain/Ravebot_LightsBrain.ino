@@ -518,7 +518,7 @@ int ledPosOffset[19][2] = {
   { 0, 945},    // 01 bigHeart
   { 150, 1224},    // 02 smallHeart
   { 612, 1400},    // 03 underarm left
-  { 612, 1090},    // 04 overarm left
+  { 612, 1210},    // 04 overarm left
   { 384, 1550},    // 05 eyeLeft 
   { 110, 1550},    // 06 rightEye
   { 246, 1536},    // 07 mouth
@@ -526,7 +526,7 @@ int ledPosOffset[19][2] = {
   { 239, 1710},    // 09 tuner 
   { 180, 1714},    // 10 indicator
   { 1, 1400},    // 11 underArm right
-  { 1, 1090},    // 12 overArm right
+  { 1, 1240},    // 12 overArm right
   { 315, 800},    // 13 tubeBottomright
   { 80, 800},    // 14 tubeBottomleft
   { 80, 1020},    // 15 tubeTopleft
