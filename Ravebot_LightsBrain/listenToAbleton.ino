@@ -42,6 +42,7 @@ void listenToAbleton() {
       // get the velocity
       if (incomingByte < 128) {
         processMessageFromAbleton(note, incomingByte, noteDown);
+        //sixteenBeatWatchFn();
       }
       state = 0;  // reset state machine to start            
     }
@@ -52,6 +53,16 @@ void setBeatTimes() {
   lastBeatLength = timey-lastBeatTime; 
   lastBeatTime = timey;
 }
+
+/* int sixteenBeatWatch = 0;
+void sixteenBeatWatchFn() {
+  if (sixteenBeats < sixteenBeatWatch) {
+    eyePrimaryR = 255;
+  } else {
+    eyePrimaryR = 0;
+  }  
+  sixteenBeatWatch = sixteenBeats;
+}   */
 
 void processMessageFromAbleton(byte note, byte velocity, int down) {
   if ((note>=24 && note<88) && (velocity == 100)) {

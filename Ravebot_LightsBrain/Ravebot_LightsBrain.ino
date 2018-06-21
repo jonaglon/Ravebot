@@ -67,7 +67,7 @@ void setup() {
   delay(500);
 
   // Talk to Ableton using midi over USB, or debug.
-  Serial.begin(57600);
+  Serial.begin(115200);
 
   // Communicate with the Mega
   Serial1.begin(28800); // rx for receiving
@@ -92,9 +92,9 @@ void loop() {
 
   setTimes();
 
-  receiveFromMega();
-
   doLights();
+
+  receiveFromMega();
 }
 
 void setTimes() {
@@ -102,12 +102,19 @@ void setTimes() {
   if (timey > (lastBeatTime + lastBeatLength)) {
     percentThroughBeat = 16383;
   } else {
-    percentThroughBeat = (((timey-lastBeatTime)*16384)/lastBeatLength)%16384;   // 16384 is a beat length
+    //percentThroughBeat = (((timey-lastBeatTime)*16384)/lastBeatLength)%16384;   // 16384 is a beat length
+    percentThroughBeat = (((timey-lastBeatTime)*16384)/lastBeatLength);
+    if (percentThroughBeat > 16383)
+      percentThroughBeat = 16383;
   }
+
   
   // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
   timeyInTime = ((sixteenBeats * 16384) + percentThroughBeat)+(currentBar*65536);
 
+  //if (newTimeyInTime > timeyInTime)
+  //  timeyInTime = newTimeyInTime;
+  
 }
 
 struct tuneInfo {   
