@@ -24,7 +24,7 @@ int fakeBeatLengh = 300;
 // Set by midi in to be 1-16 with beat.
 int sixteenBeats = 0;
  
-int mainVolume = 10; // 127 actual max but we won't exceed 100.
+int mainVolume = 40; // 127 actual max but we won't exceed 100.
 int currentBar = 0;
 int mixCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;

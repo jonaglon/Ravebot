@@ -3,8 +3,8 @@ int numPatterns = 5;
 
 void doLights() {
 
-  //allOff();
-  allOffBySection();
+  allOff();
+  //allOffBySection();
 
   //testStripe(2000);
   doPatternStripes();
