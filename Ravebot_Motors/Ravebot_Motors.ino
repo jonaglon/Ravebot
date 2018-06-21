@@ -139,16 +139,29 @@ void loop()
   timey = millis();
 
   talkToLights();
+  if (testMode)
+    Serial.println("Done Lights");
 
   doServos();
+  if (testMode)
+    Serial.println("Done Servos");
 
   doKeypad();
+  if (testMode)
+    Serial.println("Done Keypad");
 
   doMyArms();
+  if (testMode)
+    Serial.println("Done Arms");
 
   doMyWheels();
+  if (testMode)
+    Serial.println("Done Wheels");
 
   doArcadeBtn();
+  if (testMode)
+    Serial.println("Done Buttons");
+
 }
 
 

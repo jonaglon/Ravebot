@@ -168,7 +168,7 @@ void sendSerialToMega(int function, int message) {
   if (megaAttached) {
     char strOut[4]; // the message from the mega
     itoa((function * 1000) + message, strOut, 10); //Turn value into a character array
-    Serial2.write(strOut, 4);
+    Serial1.write(strOut, 4);
   }
 }
 

@@ -10,7 +10,7 @@
 
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 const bool beatTestMode = false;   
-const bool megaAttached = false;   // JR TODO - attach this or the due won't talk to mega 
+const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega 
 
 unsigned long timey;
 unsigned long lastBeatTime = 0;
@@ -19,12 +19,12 @@ int lastBeatLength = 1;
 int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
 unsigned long fakeBeatCount = 0;
 
-int fakeBeatLengh = 420;
+int fakeBeatLengh = 300;
 
 // Set by midi in to be 1-16 with beat.
 int sixteenBeats = 0;
  
-int mainVolume = 100; // 127 actual max but we won't exceed 100.
+int mainVolume = 10; // 127 actual max but we won't exceed 100.
 int currentBar = 0;
 int mixCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;
@@ -67,11 +67,11 @@ void setup() {
   delay(500);
 
   // Talk to Ableton using midi over USB, or debug.
-  Serial.begin(56000);
+  Serial.begin(57600);
 
   // Communicate with the Mega
   Serial1.begin(28800); // rx for receiving
-  Serial2.begin(28800); // tx for sending
+  Serial1.begin(28800); // tx for sending
 
   // Make random more random
   randomSeed(analogRead(0));

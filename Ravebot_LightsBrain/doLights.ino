@@ -3,10 +3,12 @@ int numPatterns = 5;
 
 void doLights() {
 
-  //allOff();
-  allOffBySection();
+  allOff();
+  //allOffBySection();
 
-  testStripe(2000);
+  //testStripe(2000);
+  doPatternStripes();
+  doFace();
 
 /*  if (currentPattern == 1) {
     //horizontalRainbow(false, false, 40);
@@ -74,6 +76,8 @@ int currentHeartBeatValue(int sixteenBeatShift, int maxValue, int dropoffLengthD
   return returnVal;
 }
 
+
+
 void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
   int ticko = (timey / speedFactor) % 1024;
   
@@ -84,20 +88,6 @@ void horizontalRainbow(bool includeEyes, bool includeMouth, int speedFactor) {
   }
 }
 
-int testStripeVar = 0;
-void testStripe(int stripePos) {
-
-  for(int j = 0; j < numLeds; j++) {
-    int xCoord = getCoord(j,1);
-    if (xCoord < testStripeVar)
-      setLedDirect(j, 255, 0, 0, 0, true);
-    else
-      setLedDirect(j, 0, 255, 0, 0, true);      
-  }
-  testStripeVar++;
-  if (testStripeVar > stripePos)
-    testStripeVar = 0;
-}
 
 void sectionsInTime() {
   int beat4 = sixteenBeats % 4;  
