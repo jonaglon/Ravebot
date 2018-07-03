@@ -6,8 +6,8 @@ void doLights() {
   allOff();
   //allOffBySection();
 
-  //testStripe(2000);
-  doPatternStripes();
+  //doPatternStripes();
+  //doPatternBlobs();
   doFace();
 
 /*  if (currentPattern == 1) {
@@ -188,8 +188,8 @@ void doNormalEyes() {
   drawHexagon(ledSections[6], 55+rightEyeX, 55-rightEyeY, 26, 42, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
 
   // pupil
-  drawSquare(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
-  drawSquare(ledSections[6], 55+rightEyeX, 55-rightEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+  drawEyeSquare(ledSections[5], 55+leftEyeX, 55-leftEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+  drawEyeSquare(ledSections[6], 55+rightEyeX, 55-rightEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
 
   doBlinking();
   doLeftWink();
@@ -213,8 +213,8 @@ void doStonerEyes() {
   drawHexagon(ledSections[6], 55+rightEyeX, 29-rightEyeY, 20, 35, eyeSecondaryR, eyeSecondaryG, eyeSecondaryB, 0);
 
   // pupil
-  drawSquare(ledSections[5], 55+leftEyeX, 29-leftEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
-  drawSquare(ledSections[6], 55+rightEyeX, 29-rightEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+  drawEyeSquare(ledSections[5], 55+leftEyeX, 29-leftEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
+  drawEyeSquare(ledSections[6], 55+rightEyeX, 29-rightEyeY, 7, eyePrimaryR, eyePrimaryG, eyePrimaryB, 0);
 
   doLeftWink();
   doRightWink();

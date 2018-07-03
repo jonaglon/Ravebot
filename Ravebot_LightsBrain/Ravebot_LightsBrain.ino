@@ -13,8 +13,8 @@ const bool beatTestMode = false;
 const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega 
 
 unsigned long timey;
-unsigned long lastBeatTime = 0;
-unsigned long timeyInTime; // This is like timey but in time, counting 16384 per beat
+unsigned int lastBeatTime = 0;
+unsigned int timeyInTime; // This is like timey but in time, counting 16384 per beat
 int lastBeatLength = 1;
 int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
 unsigned long fakeBeatCount = 0;
@@ -38,7 +38,7 @@ const int numLeds = 1443;
 CRGB rgbwLeds[2440]; // 488 * 5
 
 // LED Intensity
-int ledIntensity = 50;
+int ledIntensity = 10;
 byte wheelR;
 byte wheelG;
 byte wheelB;
@@ -82,7 +82,7 @@ void setup() {
   setMainVolume(mainVolume);
  
   // JR TODO remove me
-  playTune(6, 10, true);
+  playTune(3, 5, false);
 }
 
 void loop() {

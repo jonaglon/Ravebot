@@ -38,6 +38,36 @@ void SetRgbwWheelVars(byte WheelPos) {
   return;
 }
 
+int goodColR, goodColG, goodColB, goodColW;
+void setGoodRandomColorVars() {
+  int randomNum = random(4);
+  switch (randomNum) {
+    case 0: 
+      goodColR = 255;
+      goodColG = 0;
+      goodColB = 0;
+      goodColW = 0;
+      break;
+    case 1: 
+      goodColR = 0;
+      goodColG = 255;
+      goodColB = 0;
+      goodColW = 0;
+      break;
+    case 2: 
+      goodColR = 0;
+      goodColG = 0;
+      goodColB = 255;
+      goodColW = 0;
+      break;
+    case 3: 
+      goodColR = 0;
+      goodColG = 0;
+      goodColB = 0;
+      goodColW = 255;
+      break;
+  }
+}
 
 void rgbwRainbow(int speedFactor) {
   int ticky = (timey / speedFactor);
@@ -99,7 +129,7 @@ int quickAbsolute(int number) {
 }
 
 
-void drawSquare(int offSet, int xCoord, int  yCoord, int radius, int r, int g, int b, int w) {
+void drawEyeSquare(int offSet, int xCoord, int  yCoord, int radius, int r, int g, int b, int w) {
   for(int j = 0; j < 93; j++) { 
     if ((eyeCoords[j][0] < (xCoord+radius)) && (eyeCoords[j][1] < (yCoord+radius))) {
       if ((eyeCoords[j][0] > (xCoord-radius)) && (eyeCoords[j][1] > (yCoord-radius))) {

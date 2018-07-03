@@ -105,6 +105,9 @@ void startNewMix() {
   // change the current track in this program
   mixCurrentBar = -1;
   currentlyMixing = true;
+  sixteenBeats = 0;
+  lastBeatTime = 0;
+  timeyInTime = 0;
 }
 
 void doImmediateMix() {
@@ -127,6 +130,9 @@ void doImmediateMix() {
 
   // change the current track in this program
   mixCurrentBar = -1;
+  sixteenBeats = 0;
+  lastBeatTime = 0;
+  timeyInTime = 0;
   
   endMixAndPickNewTune();
   

@@ -1,24 +1,14 @@
 void doPatternTrains() {
   tubesInTime();
-  
+  bigSpeakerInTime();
 }
 
 int numLedsTube = 88;
 int numLedsPerBeat=22;
 int beatCompNum = 16384/numLedsPerBeat; // this is the 16384 beat% / those 30 leds. (182/546 - for 30/90)
-
 void tubesInTime() {
-  for(int j = 0; j < 90; j++)
-    setSectionLed(15, j, 0, 0, 0, 0);
-  
   for(int j = 0; j < numLedsTube; j++) {
     int distanceFromBeat = quickAbsolute(((j%numLedsPerBeat)*beatCompNum)-percentThroughBeat);
-
-    if (j%numLedsPerBeat < 10) {
-      int distanceFromBeat2 = quickAbsolute((((j%numLedsPerBeat)+numLedsPerBeat)*beatCompNum)-percentThroughBeat);
-      if (distanceFromBeat2 < distanceFromBeat)
-        distanceFromBeat = distanceFromBeat2;
-    }
 
     int ledColour = 255 - (distanceFromBeat/10);
     if (ledColour < 0)
@@ -29,6 +19,31 @@ void tubesInTime() {
     setSectionLed(15, j, 0, 0, ledColour, 0);
     setSectionLed(16, j, 0, 0, 0, ledColour);
   }
+}
+
+int numLedsPerBeat2=51;
+int beatCompNum2 = 16384/numLedsPerBeat2; // this is the 16384 beat% / those 30 leds. (182/546 - for 30/90)
+void bigSpeakerInTime() {
+
+  int sixteenBeatPos = (sixteenBeats/2) % 4;
+
+  for(int j = 0; j < 204; j++) {
+    int distanceFromBeat = quickAbsolute(((j%numLedsPerBeat2)*beatCompNum2)-percentThroughBeat);
+
+    int ledColour = 255 - (distanceFromBeat/10);
+    if (ledColour < 0)
+      ledColour = 0;
+    
+    if (sixteenBeatPos == 0) {
+      setSectionLed(0, j, ledColour, 0, 0, 0);
+    } else if (sixteenBeatPos == 1) {
+      setSectionLed(0, j, 0, ledColour, 0, 0);
+    } else if (sixteenBeatPos == 2) {
+      setSectionLed(0, j, 0, 0, ledColour, 0);
+    } else {
+      setSectionLed(0, j, 0, 0, 0, ledColour);
+    }
+  }  
 }
 
 /*

@@ -32,9 +32,11 @@ void playTune(int genre, int track, bool alterHistory) {
   deckASelected = true;
 
   // change the current track in this program
-  sixteenBeats = 0;
   currentBar = 0;
   fakeBeatCount = 0;
+  sixteenBeats = 0;
+  lastBeatTime = 0;
+  timeyInTime = 0;
 
   if (testMode) {
      Serial.print("NOW PLAYING: ");
