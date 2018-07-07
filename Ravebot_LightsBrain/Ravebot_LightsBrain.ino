@@ -33,6 +33,7 @@ int dropCountdown = 0;
 
 bool robotTalking = false;
 unsigned long robotTalkingOnTime;
+unsigned long robotTalkingOffTime;
 
 const int numLeds = 1443;
 CRGB rgbwLeds[2440]; // 488 * 5
@@ -95,6 +96,8 @@ void loop() {
   doLights();
 
   receiveFromMega();
+
+  checkForTurnRobotVoiceDown();
 }
 
 void setTimes() {
@@ -292,7 +295,7 @@ tuneInfo tuneLibEasy[28] = {
   {154,  0, 140,  8,  0, 16,  0, true},   //21 Bigger than hip hop-DedPrez
   { 95,  0, 140,  8,  4,  8,  8, false},  //22 PutItOn-Danger Mouse/BigL
   {118,  0,  74,  8,  0,  8,  8, false},  //23 Air-Remember
-  {172,  0,  74,  0,  0,  8,  8, true},   //24 Somersault-DangerMouse/Zero7/MFDoom
+  {172,  0, 136,  0,  0,  8,  8, true},   //24 Somersault-DangerMouse/Zero7/MFDoom
   { 93,  0,  96,  8,  0,  8,  8, false},  //25 MySound-SkarraMucci
   { 90,  0,  82,  4,  2,  6,  4, false},  //26 TheSong-SkarraMucchi
   {102,  0,  74,  8,  2,  6,  6, true},  //27 IfYouWantMeToStay-SlyAndTheFamilyStone

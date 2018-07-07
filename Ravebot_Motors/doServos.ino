@@ -15,16 +15,16 @@ servoInfo servos[13] = {
   // 20 kg red servos - 150-500 / 325 mid
   { 130, 530, 3, 330, 330, 0 }, // 0 - Head - shake
   { 360, 485, 2, 450, 450, 0 }, // 1 - Head - Nod
-  { 180, 330, 3, 240, 240, 0 }, // 2 - L claw
+  { 180, 330, 5, 240, 240, 0 }, // 2 - L claw
   { 140, 560, 3, 350, 350, 0 }, // 3 - l wrist ud
-  { 140, 560, 2, 350, 350, 0 }, // 4 - R elbow
+  { 140, 560, 4, 350, 350, 0 }, // 4 - R elbow
   { 140, 560, 3, 350, 350, 0 }, // 5 - R wrist lr
-  { 290, 445, 3, 350, 350, 0 }, // 6 - R claw increase to grab
+  { 290, 445, 5, 350, 350, 0 }, // 6 - R claw increase to grab
   { 140, 560, 3, 350, 350, 0 }, // 7 - r wrist ud
-  { 140, 560, 2, 350, 350, 0 }, // 8 - l elbow
+  { 140, 560, 4, 350, 350, 0 }, // 8 - l elbow
   { 140, 560, 3, 350, 350, 0 }, // 9 - l wrist lr
-  { 202, 330, 2, 275, 275, 0 }, // 10 - l new nod
-  { 375, 455, 1, 416, 416, 0 }, // 11 - l new tilt
+  { 202, 330, 2, 330, 330, 0 }, // 10 - l new nod
+  { 375, 455, 1, 400, 400, 0 }, // 11 - l new tilt
   { 200, 500, 3, 350, 350, 0 }  // 12 - l new shake
   
 };
@@ -48,18 +48,16 @@ void initServos() {
 
 void doServos() {
 
-  doHead();
+  if (ps2.readButton(PS2_RIGHT_1) == 0) {
+    doHead();
+  }
 
   // dont do the wrists if any mod button is pressed
-  if ((ps2.readButton(PS2_LEFT_1) == 1) && (ps2.readButton(PS2_LEFT_2) == 1) && (ps2.readButton(PS2_RIGHT_1) == 1)) {
+  if (ps2.readButton(PS2_LEFT_1) == 0) {
     leftWrist();
     rightWrist();
-  }
-  
-  if (ps2.readButton(PS2_LEFT_1) == 1) { 
     leftClaw();
     rightClaw();
-  } else {
     rightElbow();
     leftElbow();
   }
@@ -152,19 +150,19 @@ void doTilt() {
 }
 
 void leftClaw() {
-  if (ps2.readButton(PS2_CIRCLE) == 0) {
+  if (ps2.readButton(PS2_SQUARE) == 0) {
     moveServo(2, servos[2].servoSpeed);
   }
-  if (ps2.readButton(PS2_TRIANGLE) == 0) {
+  if (ps2.readButton(PS2_CIRCLE) == 0) {
     moveServo(2, -servos[2].servoSpeed);
   }
 }
 
 void rightClaw() {
-  if (ps2.readButton(PS2_CROSS) == 0) {
+  if (ps2.readButton(PS2_RIGHT) == 0) {
     moveServo(6, servos[6].servoSpeed);
   }
-  if (ps2.readButton(PS2_SQUARE) == 0) {
+  if (ps2.readButton(PS2_LEFT) == 0) {
     moveServo(6, -servos[6].servoSpeed);
   }
 }
@@ -181,7 +179,7 @@ void rightWrist() {
 
 
 void leftElbow() {
-  if (ps2.readButton(PS2_CIRCLE) == 0) {
+  if (ps2.readButton(PS2_CROSS) == 0) {
     moveServo(8, servos[8].servoSpeed);
   }
   if (ps2.readButton(PS2_TRIANGLE) == 0) {
@@ -190,10 +188,10 @@ void leftElbow() {
 }
 
 void rightElbow() {
-  if (ps2.readButton(PS2_CROSS) == 0) {
+  if (ps2.readButton(PS2_DOWN) == 0) {
     moveServo(4, -servos[4].servoSpeed);
   }
-  if (ps2.readButton(PS2_SQUARE) == 0) {
+  if (ps2.readButton(PS2_UP) == 0) {
     moveServo(4, servos[4].servoSpeed);
   }
 }

@@ -102,20 +102,12 @@ void sendFullStop() {
   sendMidi(176, 120, 127);
 }
 
-void sendQuantisationOn() { // Uses Bomes to send ctrl-9
-  // sendMidi(176, 121, 127);
-}
-
 void stopAllAbletonClips() {
   sendMidi(176, 125, 127);
 }
 
 void start16BeatAbletonTrack() {
   sendMidi(176, 126, 127); // channel 1, track 126, value 127.
-}
-
-void startRobotVoiceTrack() {
-  sendMidi(178, 125, 127); // channel 1, track 126, value 127.
 }
 
 void setMainVolume(int newVolume) {
@@ -140,16 +132,19 @@ void setAbletonTempo(int tempo) { // 80 - 207 bpm only
   abletonBpm = tempo;
 }
 
-void setRobotVolume(int volume) { // 0 - 127
+void setRobotVoiceVolume(int volume) { // 0 - 127
   sendMidi(177, 126, volume);
+}
+
+void startRobotVoiceTrack() {
+  sendMidi(178, 125, 127); // channel 3, track 125, value 127.
 }
 
 void setCrossfader(int value) { // 0 - 127     176
   sendMidi(177, 127, value);
 }
 
-//  plays a MIDI note.  Doesn't check to see that
-//  cmd is greater than 127, or that data values are  less than 127:
+//  plays a MIDI note.
 // 176 is channel=1, 190 channel=15
 void sendMidi(int channel, int trackNumber, int velocity) {
   if (testMode) {

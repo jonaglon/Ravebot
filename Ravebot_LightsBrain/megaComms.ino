@@ -93,8 +93,9 @@ void arcadeButtonPressed(int buttonNumber) {
   // Stop button
   if (buttonNumber == 8) {
     sendFullStop();
-    //delay(20);
-    //startRobotVoiceTrack();
+    stopAllAbletonClips();
+    delay(20);
+    startRobotVoiceTrack();
   }
 
   // Next button
@@ -117,7 +118,6 @@ void arcadeButtonPressed(int buttonNumber) {
   // Previous tune
   if (buttonNumber == 12) {    
     playPreviousTrack();
-    //sendFullStop();
   }
 
   // Play button
@@ -128,27 +128,38 @@ void arcadeButtonPressed(int buttonNumber) {
 
 }
 
+bool mutedVoice = false;
 void doRobotTalkingLights(int btnOnOffMessage) {
     if (btnOnOffMessage == 0)
     {
       robotTalking = true;
       robotTalkingOnTime = timey;
-      // TODO turn down ableton volume here!
+      setRobotVoiceVolume(120);
+      if (!mutedVoice) {
+        mainVolume = mainVolume - 15;
+        setMainVolume(mainVolume);     
+        mutedVoice=true; 
+      }
     } else if (btnOnOffMessage == 1) {
       robotTalking = false;
+      robotTalkingOffTime = timey;
     }
 }
 
-void unmuteRobotVoice(int btnOnOffMessage) {
-    if (btnOnOffMessage == 0)
-    {
-      setRobotVolume(100);
-    }
-    else if (btnOnOffMessage == 1)
-    {
-      setRobotVolume(0);
-    }
+void checkForTurnRobotVoiceDown() {
+
+  if (robotTalkingOffTime == 0)
+    return;
+
+  if (timey > (robotTalkingOffTime + 1600)) {
+    setRobotVoiceVolume(0);
+    robotTalkingOffTime=0;
+    mainVolume = mainVolume + 15;
+    setMainVolume(mainVolume);      
+    mutedVoice = false;
+  }
 }
+
 
 /* ************************
        SEND TO MEGA
