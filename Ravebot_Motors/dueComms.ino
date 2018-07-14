@@ -36,25 +36,43 @@ void doSomethingWithMessageFromLights(int messageFromLights) {
   int requestFunction = messageFromLights / 1000;
   int requestMessage = messageFromLights % 1000;
   
-    if (testMode) {
-      Serial.print("Received Serial 2 Func:");
-      Serial.print(requestFunction);
-      Serial.print("   Received message:");
-      Serial.println(requestMessage);
-    }
+  if (testMode) {
+    Serial.print("Received Serial 2 Func:");
+    Serial.print(requestFunction);
+    Serial.print("   Received message:");
+    Serial.println(requestMessage);
+  }
 
   if (requestFunction == 1) // this is a beat message
   {
-    for (int switchNum = 0; switchNum < 14; switchNum++) {
-      if (switchNum==requestMessage) {
-        ledPwm.setPWM(switchNum, 0, 0);
-      }
+    // do the arcade button lights
+    ledPwm.setPWM(requestMessage, 0, 0);
+
+    // count
+    currentBeat=(requestMessage+14)%16;
+    if (currentBeat%4 == 0)
+      currentBar++;
+
+    doBeatDanceMove();
+
+    if (testMode) {
+      Serial.print("_____currentBeat:");
+      Serial.print(currentBeat);
+      Serial.print("   currentBar:");
+      Serial.println(currentBar);
     }
+      
   }
   else if (requestFunction == 2) // this is a message to tell us what song is playing
   {
     currentSegmentNum = requestMessage;
-    showNumber();
+
+    currentBeat=0;
+    currentBar=0;
+
+    if (robotSwitchedOn)
+        showNumber();
+
     if (testMode) {
       Serial.print("   * ** Play song:");
       Serial.println(requestMessage);

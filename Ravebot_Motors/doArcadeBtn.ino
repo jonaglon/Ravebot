@@ -32,3 +32,10 @@ void readArcadeSwitches() {
   }
 }
 
+void switchOffArcadeButtons() {
+  for (int switchNum = 0; switchNum < 14; switchNum++) { 
+    ledPwm.setPWM(switchNum, 0, 0);
+  }
+  
+}
+

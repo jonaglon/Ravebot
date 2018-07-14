@@ -12,6 +12,10 @@ const bool testMode = false;                                                    
 const bool beatTestMode = false;   
 const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega 
 
+bool robotSwitchedOn = true;
+bool robotManualMode = true;
+
+
 unsigned long timey;
 unsigned int lastBeatTime = 0;
 unsigned int timeyInTime; // This is like timey but in time, counting 16384 per beat
@@ -19,12 +23,13 @@ int lastBeatLength = 1;
 int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
 unsigned long fakeBeatCount = 0;
 
-int fakeBeatLengh = 300;
+int fakeBeatLengh = 420;
 
 // Set by midi in to be 1-16 with beat.
 int sixteenBeats = 0;
  
 int mainVolume = 40; // 127 actual max but we won't exceed 100.
+int tempMainVolume = 40; // 127 actual max but we won't exceed 100.
 int currentBar = 0;
 int mixCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;
@@ -93,7 +98,8 @@ void loop() {
 
   setTimes();
 
-  doLights();
+  if (robotSwitchedOn)
+    doLights();
 
   receiveFromMega();
 

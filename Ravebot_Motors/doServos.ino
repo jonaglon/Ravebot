@@ -1,34 +1,4 @@
 
-struct servoInfo {
-  int minPosition;
-  int maxPosition;
-  int servoSpeed;
-  int servoCenter;
-  int servoPos;
-  unsigned long servoMoveTime;
-  servoInfo(int aMinPosition, int aMaxPosition, int aServoSpeed, int aServoCenter, int aServoPos, unsigned long aServoMoveTime) :
-    minPosition(aMinPosition), maxPosition(aMaxPosition), servoSpeed(aServoSpeed), servoCenter(aServoCenter), servoPos(aServoPos), servoMoveTime(aServoMoveTime) {
-  }
-};
-
-servoInfo servos[13] = {
-  // 20 kg red servos - 150-500 / 325 mid
-  { 130, 530, 3, 330, 330, 0 }, // 0 - Head - shake
-  { 360, 485, 2, 450, 450, 0 }, // 1 - Head - Nod
-  { 180, 330, 5, 240, 240, 0 }, // 2 - L claw
-  { 140, 560, 3, 350, 350, 0 }, // 3 - l wrist ud
-  { 140, 560, 4, 350, 350, 0 }, // 4 - R elbow
-  { 140, 560, 3, 350, 350, 0 }, // 5 - R wrist lr
-  { 290, 445, 5, 350, 350, 0 }, // 6 - R claw increase to grab
-  { 140, 560, 3, 350, 350, 0 }, // 7 - r wrist ud
-  { 140, 560, 4, 350, 350, 0 }, // 8 - l elbow
-  { 140, 560, 3, 350, 350, 0 }, // 9 - l wrist lr
-  { 202, 330, 2, 330, 330, 0 }, // 10 - l new nod
-  { 375, 455, 1, 400, 400, 0 }, // 11 - l new tilt
-  { 200, 500, 3, 350, 350, 0 }  // 12 - l new shake
-  
-};
-
 // called from init, set all servos to their initial position
 void initServos() {
   int range=3;
@@ -63,6 +33,10 @@ void doServos() {
   }
 }
 
+void doAutomaticServos() {
+
+  
+}
 
 void doHead() {
   doNod();

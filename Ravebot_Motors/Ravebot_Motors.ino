@@ -19,16 +19,21 @@
  * Arduino Mega to do listy
  * 
  * Hmmmm.
- * Write what all the controller should do again and implement it.
- * MAKE WHEELS WORKY!!!
+ * implement modes, have manual, automatic and off.
  * Learn to dance!
  * 
  */
 
 const bool testMode = false;
 
+bool robotSwitchedOn = true;
+bool robotManualMode = true;
+
 unsigned long timey;
 unsigned long nextAnalogRead;
+
+int currentBeat;
+int currentBar;
 
 int ledIntensity = 10;
 int currentSegmentNum;
@@ -138,36 +143,89 @@ void loop()
   
   timey = millis();
 
+  checkForOnOffChange();
+  checkForManualAutoChange();
   talkToLights();
-  if (testMode)
-    Serial.println("Done Lights");
 
-  doServos();
-  if (testMode)
-    Serial.println("Done Servos");
+  if (robotSwitchedOn) {
+    if (robotManualMode) {
+      doServos();
+      doMyArms();
+    } else {
+      // TODO - here comes the automatic dancing code!!!!
+      // TODO - we want something like a 'promise' for moving arms - like raiseRightArm bool, set then arm raises until it's up
+      // doAutomaticArms();
+      
+      doAutomaticServos();      
+    }
+  
+    doKeypad();
+    doMyWheels();  
+    doArcadeBtn();
+  }
+}
 
-  doKeypad();
-  if (testMode)
-    Serial.println("Done Keypad");
+bool startButtonPressed = false;
+void checkForOnOffChange() {
+  if (!startButtonPressed && (ps2.readButton(PS2_START) == 0)) {
+    startButtonPressed = true;
+    robotSwitchedOn = !robotSwitchedOn;
+    int numToSend = 9 + (robotSwitchedOn ? 0 : 1);
+    sendSerialToLights(1, numToSend);
+    if (!robotSwitchedOn) {
+      switchOffArcadeButtons();
+      switchOffDisplay();
+    } else {
+      showNumber();
+    }
+  } else if (ps2.readButton(PS2_START) == 1) {
+    startButtonPressed = false;
+  }
+}
 
-  doMyArms();
-  if (testMode)
-    Serial.println("Done Arms");
-
-  doMyWheels();
-  if (testMode)
-    Serial.println("Done Wheels");
-
-  doArcadeBtn();
-  if (testMode)
-    Serial.println("Done Buttons");
-
+bool selectButtonPressed = false;
+void checkForManualAutoChange() {
+  if (!selectButtonPressed && (ps2.readButton(PS2_SELECT) == 0)) {
+    selectButtonPressed = true;
+    robotManualMode = !robotManualMode;
+    int numToSend = 11 + (robotManualMode ? 0 : 1);
+    sendSerialToLights(1, numToSend);
+  } else if (ps2.readButton(PS2_SELECT) == 1) {
+    selectButtonPressed = false;
+  }
 }
 
 
 
+struct servoInfo {
+  int minPosition;
+  int maxPosition;
+  int servoSpeed;
+  int servoCenter;
+  int servoPos;
+  int leftDancePos;
+  int rightDancePos;
+  unsigned long servoMoveTime;
+  servoInfo(int aMinPosition, int aMaxPosition, int aServoSpeed, int aServoCenter, int aServoPos, int aLeftDancePos, int aRightDancePos, unsigned long aServoMoveTime) :
+    minPosition(aMinPosition), maxPosition(aMaxPosition), servoSpeed(aServoSpeed), servoCenter(aServoCenter), servoPos(aServoPos), leftDancePos(aLeftDancePos), rightDancePos(aRightDancePos), servoMoveTime(aServoMoveTime) {
+  }
+};
 
-
-
-
+servoInfo servos[13] = {
+  // 20 kg red servos - 150-500 / 325 mid
+  { 130, 530, 3, 330, 330, 0, 0, 0 }, // 0 - Head - shake
+  { 360, 485, 2, 450, 450, 0, 0, 0 }, // 1 - Head - Nod
+  { 180, 330, 5, 240, 240, 0, 0, 0 }, // 2 - L claw
+  { 140, 560, 3, 350, 350, 0, 0, 0 }, // 3 - l wrist ud
+  { 140, 560, 4, 350, 350, 0, 0, 0 }, // 4 - R elbow
+  { 140, 560, 3, 350, 350, 0, 0, 0 }, // 5 - R wrist lr
+  { 290, 445, 5, 350, 350, 0, 0, 0 }, // 6 - R claw increase to grab
+  { 140, 560, 3, 350, 350, 0, 0, 0 }, // 7 - r wrist ud
+  { 140, 560, 4, 350, 350, 0, 0, 0 }, // 8 - l elbow
+  { 140, 560, 3, 350, 350, 310, 390, 0 }, // 9 - l wrist lr
+  { 202, 330, 2, 330, 330, 0, 0, 0 }, // 10 - l new nod
+  { 375, 455, 1, 400, 400, 0, 0, 0 }, // 11 - l new tilt
+  { 200, 500, 3, 350, 350, 0, 0, 0 }  // 12 - l new shake
+  
+};
 

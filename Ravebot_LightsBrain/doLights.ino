@@ -3,27 +3,23 @@ int numPatterns = 5;
 
 void doLights() {
 
-  allOff();
-  //allOffBySection();
+  //allOff();
+  allOffBySection();
 
-  //doPatternStripes();
-  //doPatternBlobs();
-  doFace();
-
-/*  if (currentPattern == 1) {
-    //horizontalRainbow(false, false, 40);
+  if (currentPattern == 1) {
+    horizontalRainbow(false, false, 20);
   } else if (currentPattern == 2) {
     doPatternStripes();
   } else if (currentPattern == 3) {
     doPatternTrains();
   } else if (currentPattern == 4) {
+    horizontalRainbow(false, false, 80);
     sectionsInTime();
   } else {
-    heartInTime();
-    circleInTime();
+    doPatternBlobs();
   }
-  doFace();    */
-  LEDS.show();  
+  doFace();
+  LEDS.show();
 }
 
 void changeLightPattern() {
@@ -136,17 +132,21 @@ void changeEyeType() {
 }
 
 void doFace() {
-  switch (currentEyeType) {
-    case 0: doNormalEyes();
-      break;
-    case 1: doStonerEyes();
-      break;
-    case 2: heartEyes();
-      break;
-    case 3: pacManEyes();
-      break;
-    case 4: smileyEyes();
-      break;
+  if (robotManualMode) {
+    switch (currentEyeType) {
+      case 0: doNormalEyes();
+        break;
+      case 1: doStonerEyes();
+        break;
+      case 2: heartEyes();
+        break;
+      case 3: pacManEyes();
+        break;
+      case 4: smileyEyes();
+        break;
+    }
+  } else {
+    // TODO - automatic interesting eyes! 
   }
   doTalkingLights();
 }

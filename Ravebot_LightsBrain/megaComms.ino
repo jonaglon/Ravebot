@@ -40,6 +40,10 @@ void doSomethingWithPackageFromMega(int package) {
       changePrimaryEyeColour();
     else if (message < 9)
       changeSecondaryEyeColour();
+    else if (message < 11)
+      changeOnOff(message % 2);
+    else if (message < 13)
+      showManualAutomatic(message % 2);
   }
   else if (function == 2)
   {
@@ -60,6 +64,47 @@ void doSomethingWithPackageFromMega(int package) {
     setEyeCoords(function, message);
   }
 
+}
+
+void changeOnOff(int message) {
+  allOffBySection();
+  if (message == 0) {
+    robotSwitchedOn = false;
+    tempMainVolume = mainVolume;
+    setMainVolume(0);
+    setSectionLed(10, 0, 200,  0, 0, 0);
+    setSectionLed(10, 1, 0, 0, 0, 0);
+    setSectionLed(10, 2, 0, 0, 0, 0);
+    setSectionLed(10, 3, 0, 0, 0, 0);
+  } else {
+    robotSwitchedOn = true;
+    setMainVolume(tempMainVolume);
+    setSectionLed(10, 0, 0, 255, 0, 0);
+    setSectionLed(10, 1, 0, 255, 0, 0);
+    setSectionLed(10, 2, 0, 255, 0, 0);
+    setSectionLed(10, 3, 0, 255, 0, 0);
+  }
+  LEDS.show();
+  delay(200);
+}
+
+void showManualAutomatic(int message) {
+  allOffBySection();
+  if (message == 0) {
+    robotManualMode = false;
+    setSectionLed(10, 0, 0, 0, 255, 0);
+    setSectionLed(10, 1, 0, 0, 255, 0);
+    setSectionLed(10, 2, 0, 0, 255, 0);
+    setSectionLed(10, 3, 0, 0, 255, 0);
+  } else {
+    robotManualMode = true;
+    setSectionLed(10, 0, 0, 0, 0, 255);
+    setSectionLed(10, 1, 0, 0, 0, 255);
+    setSectionLed(10, 2, 0, 0, 0, 255);
+    setSectionLed(10, 3, 0, 0, 0, 255);
+  }
+  LEDS.show();
+  delay(200);
 }
 
 int leftEyeXIn = 0;

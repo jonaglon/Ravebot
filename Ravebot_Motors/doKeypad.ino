@@ -61,6 +61,13 @@ void showNumber() {
   matrix.writeDisplay();
 }
 
+void switchOffDisplay() {
+  matrix.displaybuffer[0] = 0;
+  matrix.displaybuffer[1] = 0;
+  matrix.displaybuffer[3] = 0;      
+  matrix.writeDisplay();      
+}
+
 int get7SegmentNumber(int actualNumber) {
   switch (actualNumber) {
      case 0: return 63;
