@@ -1,0 +1,16 @@
+Filter Settings file
+
+Room EQ V5.18
+Dated: 14-Jul-2018 23:05:05
+
+Notes:
+
+Equaliser: MiniDSP
+Jul 14 23:02:08
+Filter  1: ON  None   
+Filter  2: ON  None   
+Filter  3: ON  None   
+Filter  4: ON  None   
+Filter  5: ON  None   
+Filter  6: ON  None   
+
