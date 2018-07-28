@@ -43,7 +43,7 @@ void doSomethingWithPackageFromMega(int package) {
     else if (message < 11)
       changeOnOff(message % 2);
     else if (message < 13)
-      showManualAutomatic(message % 2);
+      changeManualAutomatic(message % 2);
   }
   else if (function == 2)
   {
@@ -76,6 +76,7 @@ void changeOnOff(int message) {
     setSectionLed(10, 1, 0, 0, 0, 0);
     setSectionLed(10, 2, 0, 0, 0, 0);
     setSectionLed(10, 3, 0, 0, 0, 0);
+    sendSerialToMega(2,0); // stops robot dancing and shows 0 on display
   } else {
     robotSwitchedOn = true;
     setMainVolume(tempMainVolume);
@@ -88,7 +89,7 @@ void changeOnOff(int message) {
   delay(200);
 }
 
-void showManualAutomatic(int message) {
+void changeManualAutomatic(int message) {
   allOffBySection();
   if (message == 0) {
     robotManualMode = false;

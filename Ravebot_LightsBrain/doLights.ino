@@ -3,8 +3,8 @@ int numPatterns = 5;
 
 void doLights() {
 
-  //allOff();
-  allOffBySection();
+  allOff();
+  //allOffBySection();
 
   if (currentPattern == 1) {
     horizontalRainbow(false, false, 20);
@@ -126,12 +126,24 @@ void sectionsInTime2() {
 
 /* ******************************* EYES & MOUTH ********************************** */
 
+// Eye types are used when the robot is in manual mode, in auto eye dances are used
 int currentEyeType = 0;
 void changeEyeType() {
   currentEyeType = (currentEyeType+1)%5;
 }
 
+int currentEyeDance = 0;
+void changeEyeDance() {
+  currentEyeDance = (currentEyeDance+1)%4;
+}
+
 void doFace() {
+  eyeController();
+  doTalkingLights();
+}
+
+void eyeController() {
+
   if (robotManualMode) {
     switch (currentEyeType) {
       case 0: doNormalEyes();
@@ -146,9 +158,37 @@ void doFace() {
         break;
     }
   } else {
-    // TODO - automatic interesting eyes! 
+    switch (currentEyeDance) {
+      case 0: 
+        doNormalEyes();
+        break;
+      case 1: 
+        leftEyeX = (sixteenBeats * 10)-80;
+        rightEyeX = (sixteenBeats * 10)-80;
+        break;
+      case 2: 
+        if ((currentBar%4) == 0) {
+          int eyePrimaryR = 255;
+          int eyePrimaryG = 0;
+          int eyePrimaryB = 0;
+          heartEyes();
+        } else {
+          int eyePrimaryR = 110;
+          int eyePrimaryG = 150;
+          int eyePrimaryB = 150;
+          doNormalEyes();
+        }
+        break;
+      case 3: 
+        if ((currentBar%4) == 0) {
+          pacManEyes();
+        } else {
+          doNormalEyes();
+        }
+        break;
+    }
   }
-  doTalkingLights();
+  
 }
 
 int eyePrimaryR = 110;
@@ -471,5 +511,4 @@ void doTalkingLights() {
     }
   }  
 }
-
 

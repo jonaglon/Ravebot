@@ -12,7 +12,7 @@ const bool testMode = false;                                                    
 const bool beatTestMode = false;   
 const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega 
 
-bool robotSwitchedOn = true;
+bool robotSwitchedOn = false;
 bool robotManualMode = true;
 
 
@@ -88,7 +88,7 @@ void setup() {
   setMainVolume(mainVolume);
  
   // JR TODO remove me
-  playTune(3, 5, false);
+  // playTune(3, 5, false);
 }
 
 void loop() {

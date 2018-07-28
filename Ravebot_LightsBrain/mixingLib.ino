@@ -89,6 +89,7 @@ void startNewMix() {
   // send stuff to ableton to start the new track
   playAbletonTrack(nextGenre, nextTrack, !deckASelected);
   changeLightPattern();
+  changeEyeDance();
 
   // tell the other arduino what you're doing
   sendSerialToMega(2, (nextGenre * 100) + nextTrack);  

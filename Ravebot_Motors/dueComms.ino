@@ -49,7 +49,7 @@ void doSomethingWithMessageFromLights(int messageFromLights) {
     ledPwm.setPWM(requestMessage, 0, 0);
 
     // count
-    currentBeat=(requestMessage+14)%16;
+    currentBeat=requestMessage%16;
     if (currentBeat%4 == 0)
       currentBar++;
 
@@ -65,11 +65,10 @@ void doSomethingWithMessageFromLights(int messageFromLights) {
   }
   else if (requestFunction == 2) // this is a message to tell us what song is playing
   {
-    currentSegmentNum = requestMessage;
-
     currentBeat=0;
     currentBar=0;
 
+    currentSegmentNum = requestMessage;
     if (robotSwitchedOn)
         showNumber();
 

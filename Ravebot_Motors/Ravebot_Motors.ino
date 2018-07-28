@@ -26,7 +26,7 @@
 
 const bool testMode = false;
 
-bool robotSwitchedOn = true;
+bool robotSwitchedOn = false;
 bool robotManualMode = true;
 
 unsigned long timey;
@@ -152,17 +152,13 @@ void loop()
       doServos();
       doMyArms();
     } else {
-      // TODO - here comes the automatic dancing code!!!!
-      // TODO - we want something like a 'promise' for moving arms - like raiseRightArm bool, set then arm raises until it's up
-      // doAutomaticArms();
-      
-      doAutomaticServos();      
+      if (currentBar != 0)
+        doDancing();
     }
-  
     doKeypad();
-    doMyWheels();  
     doArcadeBtn();
   }
+  doMyWheels();  
 }
 
 bool startButtonPressed = false;
@@ -218,11 +214,11 @@ servoInfo servos[13] = {
   { 180, 330, 5, 240, 240, 0, 0, 0 }, // 2 - L claw
   { 140, 560, 3, 350, 350, 0, 0, 0 }, // 3 - l wrist ud
   { 140, 560, 4, 350, 350, 0, 0, 0 }, // 4 - R elbow
-  { 140, 560, 3, 350, 350, 0, 0, 0 }, // 5 - R wrist lr
+  { 140, 560, 3, 350, 350, 300, 400, 0 }, // 5 - R wrist lr
   { 290, 445, 5, 350, 350, 0, 0, 0 }, // 6 - R claw increase to grab
   { 140, 560, 3, 350, 350, 0, 0, 0 }, // 7 - r wrist ud
   { 140, 560, 4, 350, 350, 0, 0, 0 }, // 8 - l elbow
-  { 140, 560, 3, 350, 350, 310, 390, 0 }, // 9 - l wrist lr
+  { 140, 560, 3, 350, 350, 300, 400, 0 }, // 9 - l wrist lr
   { 202, 330, 2, 330, 330, 0, 0, 0 }, // 10 - l new nod
   { 375, 455, 1, 400, 400, 0, 0, 0 }, // 11 - l new tilt
   { 200, 500, 3, 350, 350, 0, 0, 0 }  // 12 - l new shake

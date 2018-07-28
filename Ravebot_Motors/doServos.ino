@@ -33,11 +33,6 @@ void doServos() {
   }
 }
 
-void doAutomaticServos() {
-
-  
-}
-
 void doHead() {
   doNod();
   doShake();
@@ -58,7 +53,7 @@ void doNod() {
 
   // nod
   if (readPs2LYVar != 0) {
-    moveServoSoft(10, readPs2LYVar);
+    moveServoSoft(10, readPs2LYVar, 16);
     nodding = true;
     noddingTime = timey;
   }
@@ -67,10 +62,10 @@ void doNod() {
       nodding = false;
   }
   else if (servos[10].servoPos > servos[10].servoCenter) {
-    moveServoSoft(10, -2);
+    moveServoSoft(10, -2, 16);
   }
   else if  (servos[10].servoPos < servos[10].servoCenter) {
-    moveServoSoft(10, 2);
+    moveServoSoft(10, 2, 16);
   }
 }
 
@@ -83,7 +78,7 @@ void doShake() {
   readPs2RXVar=(ps2.readButton(PS2_JOYSTICK_RIGHT_X_AXIS)-128)/38;
 
   if (readPs2RXVar != 0) {
-    moveServoSoft(12, readPs2RXVar);
+    moveServoSoft(12, readPs2RXVar, 16);
     shaking = true;
     shakingTime = timey;
   }
@@ -92,10 +87,10 @@ void doShake() {
       shaking = false;
   }
   else if (servos[12].servoPos > servos[12].servoCenter) {
-    moveServoSoft(12, -2);
+    moveServoSoft(12, -2, 16);
   }
   else if  (servos[12].servoPos < servos[12].servoCenter) {
-    moveServoSoft(12, 2);
+    moveServoSoft(12, 2, 16);
   }
 }
 
@@ -107,7 +102,7 @@ void doTilt() {
 
   // tilt
   if (readPs2LXVar != 0) {
-    moveServoSoft(11, readPs2LXVar);
+    moveServoSoft(11, readPs2LXVar, 16);
     tilting = true;
     tiltTime = timey;
   }
@@ -116,10 +111,10 @@ void doTilt() {
       tilting = false;
   }
   else if (servos[11].servoPos > servos[11].servoCenter) {
-    moveServoSoft(11, -2);
+    moveServoSoft(11, -2, 16);
   }
   else if  (servos[11].servoPos < servos[11].servoCenter) {
-    moveServoSoft(11, 2);
+    moveServoSoft(11, 2, 16);
   }
 }
 
@@ -182,10 +177,10 @@ void moveServo(int servoNum, int velocity) {
   }
 }
 
-void moveServoSoft(int servoNum, int velocity) {
+void moveServoSoft(int servoNum, int velocity, int timeBeforeNextMove) {
   int newPosition = servos[servoNum].servoPos + velocity;
   if (newPosition < servos[servoNum].maxPosition && newPosition > servos[servoNum].minPosition && newPosition != servos[servoNum].servoPos) {
-    if (timey > (servos[servoNum].servoMoveTime + 16)) {
+    if (timey > (servos[servoNum].servoMoveTime + timeBeforeNextMove)) {
       servoPwm.setPWM(servoNum, 0, newPosition);
       servos[servoNum].servoPos = newPosition;
       servos[servoNum].servoMoveTime = timey;
