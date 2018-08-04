@@ -64,7 +64,7 @@ void playTune(int genre, int track, bool alterHistory) {
   changeEyeDance();
 
   if (testMode)
-    showLast10Tracks();
+    showLast20Tracks();
 
   delay(5);
   setAbletonTempo(currentTune.bpm);
@@ -73,13 +73,13 @@ void playTune(int genre, int track, bool alterHistory) {
 
 void updateGenreAndTrackHistory(int genre, int track) {
 
-  for (int x = 9; x > 0; x--)
-    last10Genres[x] = last10Genres[x-1];  
-  last10Genres[0] = genre;
+  for (int x = 19; x > 0; x--)
+    last20Genres[x] = last20Genres[x-1];  
+  last20Genres[0] = genre;
 
-  for (int x = 9; x > 0; x--)
-    last10Tracks[x] = last10Tracks[x-1];    
-  last10Tracks[0] = track;
+  for (int x = 19; x > 0; x--)
+    last20Tracks[x] = last20Tracks[x-1];    
+  last20Tracks[0] = track;
 }
 
 void playAbletonTrack(int channel, int trackNumber, bool playSideA) {

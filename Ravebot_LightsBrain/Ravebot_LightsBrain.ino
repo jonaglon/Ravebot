@@ -10,9 +10,9 @@
 
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 const bool beatTestMode = false;
-const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega
+const bool megaAttached = false;   // JR TODO - attach this or the due won't talk to mega
 
-bool robotSwitchedOn = false;
+bool robotSwitchedOn = true;
 bool robotManualMode = true;
 
 
@@ -65,8 +65,8 @@ bool currentlyMixing = false;
 bool deckASelected = true;
 int currentMixerPosition = 0;
 int percentThroughMix = 0;  // not really % through, it's 0-256
-int last10Genres[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-int last10Tracks[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+int last20Genres[20] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+int last20Tracks[20] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 void setup() {
 
@@ -88,7 +88,7 @@ void setup() {
   setMainVolume(mainVolume);
 
   // JR TODO remove me
-  // playTune(3, 5, false);
+  playTune(0, 0, true);
 }
 
 void loop() {
@@ -133,10 +133,10 @@ struct tuneInfo {
   byte maxFadeIn;
   byte minFadeOut;
   byte maxFadeOut;
-  byte tuneBestEnd; // Tune best end is where the tune should finish the mix length is less than 4 bars.
+  byte shortMixEnd; // Tune best end is where the tune should finish if the mix length is less than 8 bars.
   bool playOut;
   tuneInfo(byte aBpm, byte aDrop, byte aTuneLength, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut, byte aShortMixEnd, bool aPlayOut) :
-    bpm(aBpm), drop(aDrop), tuneLength(aTuneLength), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), tuneBestEnd(aShortMixEnd), playOut(aPlayOut) {
+    bpm(aBpm), drop(aDrop), tuneLength(aTuneLength), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), shortMixEnd(aShortMixEnd), playOut(aPlayOut) {
   }
 };
 
@@ -315,7 +315,7 @@ tuneInfo tuneLibEasy[28] = {
 // Genre 5, Dance
 tuneInfo tuneLibDance[28] = {
   {134, 30, 124,  8 , 0, 16,  8, false},  //1 A rinky dinky
-  {110, 58,  88,  8,  0, 16, 16, true},  //2 Kelis - Trick Me
+  {110, 58,  88,  8,  0, 16, 16 , true},  //2 Kelis - Trick Me
   {150,  0, 132, 16,  0,  4,  4, false},  //3 Dubbleedge - Lips to the floor
   {134,106, 168, 16,  0, 16, 12, false},  //4 Zero Emit Collect
   {126, 72,  92,  0,  2, 10, 10, false},  //5 Dizee Bonkers

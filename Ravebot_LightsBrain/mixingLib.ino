@@ -171,22 +171,19 @@ void calculateMixDurationAndStart() {
 
   nextMixDuration = (currentTune.maxFadeOut > nextTune.maxFadeIn) ? nextTune.maxFadeIn : currentTune.maxFadeOut;
 
-  int lastPossibleMixPoint = currentTune.tuneLength - nextMixDuration;
-  int idealMixPoint = currentTune.tuneLength - currentTune.maxFadeOut + currentTune.tuneBestEnd - nextMixDuration;
-  if ((idealMixPoint < lastPossibleMixPoint) && (nextMixDuration <= currentTune.tuneBestEnd))
-    nextMixStart = idealMixPoint;
-  else
-    nextMixStart = lastPossibleMixPoint;
+  if (nextMixDuration < 8) {
+    nextMixStart =  currentTune.tuneLength - currentTune.maxFadeOut + currentTune.shortMixEnd - nextMixDuration;
+  } else {
+    nextMixStart =  currentTune.tuneLength - nextMixDuration;
+  }
 
   if (testMode)
-    printMixDurationAndStartDebug(nextMixDuration, lastPossibleMixPoint, nextMixStart, currentTune.tuneLength);
+    printMixDurationAndStartDebug(nextMixDuration, nextMixStart, currentTune.tuneLength);
 }
 
-void printMixDurationAndStartDebug(int nextMixDuration, int lastPossibleMixPoint, int nextMixStart, int tuneLength) {
+void printMixDurationAndStartDebug(int nextMixDuration, int nextMixStart, int tuneLength) {
   Serial.print("Picking MixDurationAndStart nextMixDuration:");
   Serial.print(nextMixDuration);
-  Serial.print("  lastPossibleMixPoint:");
-  Serial.print(lastPossibleMixPoint);
   Serial.print("  nextMixStart:");
   Serial.print(nextMixStart);
   Serial.print("  tuneLength:");
@@ -201,7 +198,6 @@ void chooseNextTrack() {
 
   while (!nextTrackPicked) {
 
-    // Pick next genre
     if (!stayWithinGenre)
       genre = random(8);
     else
@@ -226,8 +222,8 @@ void chooseNextTrack() {
 
 bool playedTuneHistoryContainsTrack(int genre, int track) {
   bool trackExistsInHistory = false;
-  for (int x = 0; x < 9; x++) {
-    if ((last10Genres[x] == genre) && (last10Tracks[x] == track)) {
+  for (int x = 0; x < 19; x++) {
+    if ((last20Genres[x] == genre) && (last20Tracks[x] == track)) {
       trackExistsInHistory = true;
       break;
     }
@@ -278,32 +274,36 @@ void setCurrentTune(int genre, int track) {
 }
 
 void playNextTrack() {
-  playTune(last10Genres[9], last10Tracks[9], true);
+  if (stayWithinGenre) {
+    playRandomTune(currentGenre);
+  } else {
+    playRandomTune(); 
+  }
 }
 
 void playPreviousTrack() {
 
   // shuffle the order of the history
-  for (int x = 0; x < 9; x++)
-    last10Genres[x] = last10Genres[x + 1];
-  last10Genres[9] = currentGenre;
+  for (int x = 0; x < 19; x++)
+    last20Genres[x] = last20Genres[x + 1];
+  last20Genres[19] = currentGenre;
 
-  for (int x = 0; x < 9; x++)
-    last10Tracks[x] = last10Tracks[x + 1];
-  last10Tracks[9] = currentTrack;
+  for (int x = 0; x < 19; x++)
+    last20Tracks[x] = last20Tracks[x + 1];
+  last20Tracks[19] = currentTrack;
 
   // play the tune setting changeHistory to false
-  playTune(last10Genres[0], last10Tracks[0], false);
+  playTune(last20Genres[0], last20Tracks[0], false);
 
   if (testMode)
-    showLast10Tracks();
+    showLast20Tracks();
 }
 
-void showLast10Tracks() {
-  for  (int x = 0; x < 9; x++) {
+void showLast20Tracks() {
+  for  (int x = 0; x < 19; x++) {
     Serial.print(x);
     Serial.print(":");
-    Serial.print(last10Tracks[x]);
+    Serial.print(last20Tracks[x]);
     Serial.print(" ");
   }
   Serial.println("");
