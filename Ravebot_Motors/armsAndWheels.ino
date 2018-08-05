@@ -1,4 +1,9 @@
-int readPs2Var;
+/* ************************** ARMS (you can't do much if you've got no arms) ************************** */
+
+bool rightArmUp = false;
+bool rightArmDown = false;
+bool leftArmUp = false;
+bool leftArmDown = false;
 
 void doMyArms() {
   int rightUp = digitalRead(A5);
@@ -13,11 +18,13 @@ void doMyArms() {
     sendRArmMotorValue(-80);
     delay(100);
     sendRArmMotorValue(0);
+    rightArmUp = true;
   } else if (rightDown==0) {
     sendRArmMotorValue(80);
     delay(100);
     sendRArmMotorValue(0);
-  } else if (ps2.readButton(PS2_LEFT_2) == 0) {
+    rightArmDown = true;
+  } else if ((ps2.readButton(PS2_LEFT_2) == 0) && robotSwitchedOn && robotManualMode) {
     if (ps2.readButton(PS2_UP) == 0) {
       sendRArmMotorValue(120);
     } else if (ps2.readButton(PS2_DOWN) == 0) {
@@ -34,11 +41,13 @@ void doMyArms() {
     sendLArmMotorValue(80);
     delay(100);
     sendLArmMotorValue(0);
+    leftArmUp = true;
   } else if (leftDown==0) {
     sendLArmMotorValue(-80);
     delay(100);
     sendLArmMotorValue(0);
-  } else if (ps2.readButton(PS2_LEFT_2) == 0) {
+    leftArmDown = true;
+  } else if ((ps2.readButton(PS2_LEFT_2) == 0) && robotSwitchedOn && robotManualMode) {
     if (ps2.readButton(PS2_CROSS) == 0) {
       sendLArmMotorValue(120);
     } else if (ps2.readButton(PS2_TRIANGLE) == 0) {
@@ -47,7 +56,6 @@ void doMyArms() {
       sendLArmMotorValue(0);
     }
   }
-  
 }    
 
 int rArmMotorValue = 0;
@@ -56,6 +64,8 @@ void sendRArmMotorValue(int newValue) {
   {
     rArmMotorValue = newValue;
     ST1.motor(2, rArmMotorValue);
+    rightArmUp = false;
+    rightArmDown = false;
   }
 }
 
@@ -65,6 +75,26 @@ void sendLArmMotorValue(int newValue) {
   {
     lArmMotorValue = newValue;
     ST1.motor(1, lArmMotorValue);
+    leftArmUp = false;
+    leftArmDown = false;
+  }
+}
+
+/* ************************** WHEELS!! ************************** */
+
+void doMyWheels() {
+  
+  if (ps2.readButton(PS2_LEFT_2) == 0) {
+    
+    int readPs2Var=-(ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)-128)/4;
+    sendLWheelMotorValue(readPs2Var);
+
+    readPs2Var=-(ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)-128)/4;
+    sendRWheelMotorValue(readPs2Var);
+    
+  } else {
+    sendLWheelMotorValue(0);
+    sendRWheelMotorValue(0);
   }
 }
 
@@ -83,22 +113,6 @@ void sendLWheelMotorValue(int newValue) {
   {
     lWheelMotorValue = newValue;
     ST2.motor(1, lWheelMotorValue);
-  }
-}
-
-void doMyWheels() {
-  
-  if (ps2.readButton(PS2_LEFT_2) == 0) {
-    
-    readPs2Var=-(ps2.readButton(PS2_JOYSTICK_LEFT_Y_AXIS)-128)/4;
-    sendLWheelMotorValue(readPs2Var);
-
-    readPs2Var=-(ps2.readButton(PS2_JOYSTICK_RIGHT_Y_AXIS)-128)/4;
-    sendRWheelMotorValue(readPs2Var);
-    
-  } else {
-    sendLWheelMotorValue(0);
-    sendRWheelMotorValue(0);
   }
 }
 

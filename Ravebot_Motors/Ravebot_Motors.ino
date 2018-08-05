@@ -150,7 +150,6 @@ void loop()
   if (robotSwitchedOn) {
     if (robotManualMode) {
       doServos();
-      doMyArms();
     } else {
       if (currentBar != 0)
         doDancing();
@@ -158,6 +157,7 @@ void loop()
     doKeypad();
     doArcadeBtn();
   }
+  doMyArms();
   doMyWheels();  
 }
 

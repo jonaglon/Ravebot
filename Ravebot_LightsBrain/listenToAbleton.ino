@@ -107,11 +107,11 @@ void checkForMixStart() {
     Serial.println(nextMixStart);
   } */
     
-  if ((currentBar+1 == nextMixStart) && nextMixDuration == 0) {
-    doImmediateMix();
-  } else if (currentBar+1 == nextMixStart) {
+  //if ((currentBar+1 == nextMixStart) && nextMixDuration == 0) {
+  //  doImmediateMix();
+  //} else if (currentBar+1 == nextMixStart) {
     startNewMix();
-  }
+  //}
 }
 
 void checkForMixEnd() {
