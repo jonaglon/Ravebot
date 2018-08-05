@@ -7,7 +7,7 @@ void doMixing() {
 
   // Now do the actual mixing
   int crossfaderValue = (127 * percentThroughMix) / 256;
-  if ((crossfaderValue > 63) && currentTune.playOut)
+  if (((crossfaderValue > 63) && currentTune.playOut) || nextMixDuration == 0)
     crossfaderValue = 63;
 
   if (deckASelected) {
@@ -20,11 +20,6 @@ void doMixing() {
 // Percent through mix is actually 0-255.
 void setPercentThroughMix() {
   int percentThroughCalc = 0;
-
-  if (nextMixDuration == 0) {
-    percentThroughMix = 0;
-    return;
-  }
 
   int beatsIntoMix = ((currentBar - nextMixStart + 1) * 4) + (sixteenBeats % 4) - 3;
 
@@ -109,34 +104,11 @@ void startNewMix() {
   sixteenBeats = 0;
   lastBeatTime = 0;
   timeyInTime = 0;
-}
 
-void doImmediateMix() {
-
-  // send stuff to ableton to start the new track
-  playAbletonTrack(nextGenre, nextTrack, !deckASelected);
-  changeLightPattern();
-
-  // tell the other arduino what you're doing
-  sendSerialToMega(2, (nextGenre * 100) + nextTrack);  
-
-  if (testMode) {
-    Serial.print("JUST IMM STARTED: ");
-    Serial.print(nextGenre);
-    Serial.print("/");
-    Serial.println(nextTrack);
+  if (nextMixDuration == 0) {      
+    setCrossfader(63);
   }
 
-  updateGenreAndTrackHistory(nextGenre, nextTrack);
-
-  // change the current track in this program
-  mixCurrentBar = -1;
-  sixteenBeats = 0;
-  lastBeatTime = 0;
-  timeyInTime = 0;
-  
-  endMixAndPickNewTune();
-  
 }
 
 void endMixAndPickNewTune() {

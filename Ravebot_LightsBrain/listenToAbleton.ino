@@ -100,24 +100,9 @@ void processMessageFromAbleton(byte note, byte velocity, int down) {
 }
 
 void checkForMixStart() {
-  /* if (testMode) {
-    Serial.print("checking for mix start. current bar:");
-    Serial.print(currentBar);
-    Serial.print("  next mix start:");
-    Serial.println(nextMixStart);
-  } */
-
-  // TODO - delete me!
-  //if ((currentBar+1 == nextMixStart) && nextMixDuration == 0) {
-  //  doImmediateMix();
-  //} else if (currentBar+1 == nextMixStart) {
-  //  startNewMix();
-  //}
-
   if (currentBar+1 == nextMixStart) {
       startNewMix();
   }
-  
 }
 
 void checkForMixEnd() {
