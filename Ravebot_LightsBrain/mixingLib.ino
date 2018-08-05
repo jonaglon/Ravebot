@@ -111,7 +111,7 @@ void startNewMix() {
   timeyInTime = 0;
 }
 
-/*void doImmediateMix() {
+void doImmediateMix() {
 
   // send stuff to ableton to start the new track
   playAbletonTrack(nextGenre, nextTrack, !deckASelected);
@@ -137,7 +137,7 @@ void startNewMix() {
   
   endMixAndPickNewTune();
   
-} */
+}
 
 void endMixAndPickNewTune() {
   if (testMode) {
