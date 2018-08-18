@@ -56,7 +56,35 @@ void doMyArms() {
       sendLArmMotorValue(0);
     }
   }
-}    
+}
+
+void moveRArm(int velocity) {
+  if (velocity > 0) {
+    if (!rightArmUp) {
+      sendRArmMotorValue(velocity);
+    }
+  } else if (velocity < 0) {
+    if (!rightArmDown) {
+      sendRArmMotorValue(velocity);
+    }
+  } else {
+    sendRArmMotorValue(0);
+  }
+}
+
+void moveLArm(int velocity) {
+  if (velocity < 0) {
+    if (!leftArmUp) {
+      sendLArmMotorValue(-velocity);
+    }
+  } else if (velocity > 0) {
+    if (!leftArmDown) {
+      sendLArmMotorValue(-velocity);    // JR TODO  - TEST this, you've kinna guessed.
+    }
+  } else {
+    sendLArmMotorValue(0);
+  }
+}
 
 int rArmMotorValue = 0;
 void sendRArmMotorValue(int newValue) {

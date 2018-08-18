@@ -44,6 +44,8 @@ void doSomethingWithPackageFromMega(int package) {
       changeOnOff(message % 2);
     else if (message < 13)
       changeManualAutomatic(message % 2);
+    else if (message < 40)
+      setDanceNumber(message % 20);
   }
   else if (function == 2)
   {
@@ -64,6 +66,10 @@ void doSomethingWithPackageFromMega(int package) {
     setEyeCoords(function, message);
   }
 
+}
+
+void setDanceNumber(int message) {
+  currentDance = message; 
 }
 
 void changeOnOff(int message) {

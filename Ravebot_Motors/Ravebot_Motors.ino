@@ -19,7 +19,6 @@
  * Arduino Mega to do listy
  * 
  * Hmmmm.
- * implement modes, have manual, automatic and off.
  * Learn to dance!
  * 
  */
@@ -209,19 +208,29 @@ struct servoInfo {
 
 servoInfo servos[13] = {
   // 20 kg red servos - 150-500 / 325 mid
-  { 130, 530, 3, 330, 330, 0, 0, 0 }, // 0 - Head - shake
-  { 360, 485, 2, 450, 450, 0, 0, 0 }, // 1 - Head - Nod
-  { 180, 330, 5, 240, 240, 0, 0, 0 }, // 2 - L claw
-  { 140, 560, 3, 350, 350, 0, 0, 0 }, // 3 - l wrist ud
+  { 130, 530, 3, 330, 330, 0, 0, 0 }, // 0 - Unused
+  { 360, 485, 2, 450, 450, 0, 0, 0 }, // 1 - Unused
+  { 180, 330, 5, 240, 240, 200, 280, 0 }, // 2 - L claw
+  { 140, 560, 3, 350, 350, 300, 400, 0 }, // 3 - l wrist ud
   { 140, 560, 4, 350, 350, 0, 0, 0 }, // 4 - R elbow
   { 140, 560, 3, 350, 350, 300, 400, 0 }, // 5 - R wrist lr
-  { 290, 445, 5, 350, 350, 0, 0, 0 }, // 6 - R claw increase to grab
-  { 140, 560, 3, 350, 350, 0, 0, 0 }, // 7 - r wrist ud
+  { 290, 445, 5, 350, 350, 310, 390, 0 }, // 6 - R claw increase to grab
+  { 140, 560, 3, 350, 350, 300, 400, 0 }, // 7 - r wrist ud
   { 140, 560, 4, 350, 350, 0, 0, 0 }, // 8 - l elbow
   { 140, 560, 3, 350, 350, 300, 400, 0 }, // 9 - l wrist lr
-  { 202, 330, 2, 330, 330, 0, 0, 0 }, // 10 - l new nod
-  { 375, 455, 1, 400, 400, 0, 0, 0 }, // 11 - l new tilt
-  { 200, 500, 3, 350, 350, 0, 0, 0 }  // 12 - l new shake
-  
+  { 202, 330, 2, 330, 330, 290, 330, 0 }, // 10 - l new nod
+  { 375, 455, 1, 400, 400, 380, 420, 0 }, // 11 - l new tilt
+  { 200, 500, 3, 350, 350, 320, 380, 0 }  // 12 - l new shake
 };
+
+int rightArmUpRightElbowUpPos = 350;
+int rightArmUpRightElbowDownPos = 350;
+int rightArmDownRightElbowUpPos = 350;
+int rightArmDownRightElbowDownPos = 350;
+
+int leftArmUpLeftElbowUpPos = 350;
+int leftArmUpLeftElbowDownPos = 350;
+int leftArmDownLeftElbowUpPos = 350;
+int leftArmDownLeftElbowDownPos = 350;
+
 

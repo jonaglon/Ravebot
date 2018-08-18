@@ -65,8 +65,13 @@ void doSomethingWithMessageFromLights(int messageFromLights) {
   }
   else if (requestFunction == 2) // this is a message to tell us what song is playing
   {
+    // If a new song is playing we should change dance
+    changeDance();
+
     currentBeat=0;
     currentBar=0;
+
+    doBeatDanceMove(); // todo - don't forget you added this so you can go to the initial position
 
     currentSegmentNum = requestMessage;
     if (robotSwitchedOn)
@@ -182,7 +187,7 @@ void checkButtonsForEyeColorAnimChange() {
 
 bool ps2Right2On = false;
 void checkButtonsSendInfoToLights() {
-  
+  // send talking signal
   if (!ps2Right2On && ps2.readButton(PS2_RIGHT_2)==0)
   {
     ps2Right2On = true;
@@ -193,22 +198,11 @@ void checkButtonsSendInfoToLights() {
     ps2Right2On = false;
     sendSerialToLights(1, 1);
   }
-
-
-  
-  /* if (!ps2Right2On && ps2.readButton(PS2_RIGHT_2)==0)
-  {
-    ps2Right2On = true;
-    sendSerialToLights(3, 0);
-  }
-  if (ps2Right2On && ps2.readButton(PS2_RIGHT_2)==1)
-  {
-    ps2Right2On = false;
-    sendSerialToLights(3, 1);
-  } */
-  
 }
 
+void sendDanceNumberToLights(int danceNumber) {
+  sendSerialToLights(1, danceNumber + 20);
+}
 
 void sendSerialToLights(int function, int message) {
 

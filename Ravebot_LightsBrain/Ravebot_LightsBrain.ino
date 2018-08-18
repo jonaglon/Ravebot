@@ -1,6 +1,6 @@
-/* __                 _           _               __ _       _     _
-  /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
-  / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
+/*   __                 _           _               __ _       _     _
+    /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
+   / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
   / _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
   \/ \_/\__,_| \_/ \___|_.__/ \___/ \__|         \____/_|\__, |_| |_|\__|___/
                                                        |___/                       */
@@ -22,6 +22,8 @@ unsigned int timeyInTime; // This is like timey but in time, counting 16384 per 
 int lastBeatLength = 1;
 int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
 unsigned long fakeBeatCount = 0;
+
+int currentDance = 0;
 
 int fakeBeatLengh = 420;
 
@@ -143,36 +145,36 @@ struct tuneInfo {
 // Genre 0, RAVE!
 tuneInfo tuneLibRave[31] = {
   {149, 68, 144, 16,  0, 16,  0, false }, //1  TripToTheMoonPt2-Acen.
-  {136, 80, 104, 16,  0, 16, 16, false},  //2  Bombscare-2BadMice. -- 16
-  {126,  0, 118,  8,  0, 16,  8, false},  //3  LFO-LFO.  -8
+  {136, 80, 104, 16,  0, 16, 16, false},  //2  Bombscare-2BadMice.
+  {126,  0, 118,  8,  0, 16,  8, false},  //3  LFO-LFO.
   {131,  0, 128,  8,  0, 16, 16, true},   //4  Infiltrate202-Altern8.
-  {122,  0, 118,  8,  0, 16, 12, true},   //5  DirtyCash-SoldOutMix.  --8
-  {122,  0, 132,  8,  0, 16, 12, true},   //6  Break4Love-Raze. --8
-  {124, 44,  96, 16,  0, 16, 12, true},   //7  IsThereAnybodyOutThere-Bassheads. --16
-  {128,  0, 119,  8,  4, 16, 16, false},  //8  PacificState-808State.   --8
+  {122,  0, 118,  8,  0, 16, 12, true},   //5  DirtyCash-SoldOutMix.
+  {122,  0, 132,  8,  0, 16, 12, true},   //6  Break4Love-Raze
+  {124, 44,  96, 16,  0, 16, 12, true},   //7  IsThereAnybodyOutThere-Bassheads.
+  {128,  0, 119,  8,  4, 16, 16, false},  //8  PacificState-808State.
   {150,  0, 163,  0,  0, 16, 16, false},  //9  OutOfSpace-Prodigy.
-  {132,  0, 122,  8,  0, 16, 16, true},   //10 Breathe-Prodigy. --8
-  {138,  0, 148, 16,  0, 16,  8, false},  //11 SmackMyBitchUp-Prodigy.  --16
+  {132,  0, 122,  8,  0, 16, 16, true},   //10 Breathe-Prodigy.
+  {138,  0, 148, 16,  0, 16,  8, false},  //11 SmackMyBitchUp-Prodigy.
   {128,  0, 116, 16,  0, 16, 16, false},  //12 BreakOfDawn-RhythmOnTheLoose.
-  {132,  0, 116, 16,  0, 16, 16, false},  //13 BlueMonday-NewOrder. --16
+  {132,  0, 116, 16,  0, 16, 16, false},  //13 BlueMonday-NewOrder.
   {132, 60, 128, 16,  0, 16,  8, false},  //14 PlayingWithKnives-BizzarreInc.
-  {120, 16, 128, 16,  0, 16, 16, false},  //15 KillerFeatTopCat-BoozooBajou  --16
+  {120, 16, 128, 16,  0, 16, 16, false},  //15 KillerFeatTopCat-BoozooBajou
   {136, 60, 128, 16,  8, 16, 16, false},  //16 LivingLegends-RaggaTwins
-  {135, 48, 132, 16,  0, 16,  0, false},  //17 FeelingForYou-Cassius  --16
-  {138,128, 206, 0,  0, 16, 16, true},   //18 DidIt-Sticky
-  {135, 72, 106, 16,  0, 16,  8, false},  //19 HowLoveBegins-HighContrastDizee  --16
-  {130, 80, 122, 16,  0, 16,  0, false},  //20 StringsOfLife-DerrickMay  --16
-  {137, 80, 112, 16,  0, 16, 16, false},  //21 SweetHarmony-Liquid  --16
+  {135, 48, 132, 16,  0, 16,  0, false},  //17 FeelingForYou-Cassius
+  {138,128, 206, 0,  0, 16, 16, true},    //18 DidIt-Sticky
+  {135, 72, 106, 16,  0, 16,  8, false},  //19 HowLoveBegins-HighContrastDizee
+  {130, 80, 122, 16,  0, 16,  0, false},  //20 StringsOfLife-DerrickMay
+  {137, 80, 112, 16,  0, 16, 16, false},  //21 SweetHarmony-Liquid
   {126,  0, 113, 16,  0, 16, 16, true},   //22 WhereLoveLives-AlisonLimerick
-  {135,  0, 110, 16,  0, 16,  0, false},  //23 DontGo-Awesome3  ---16
-  {128, 74, 118,  8,  0, 16,  8, true},   //24 GoodLife-InnerCity ---8
-  {140, 56, 136, 16,  0, 16,  8, false},  //25 OnARaggaTip-SL2  --16
-  {126, 88, 112, 16,  0, 16, 16, false},  //26 Anthem-NJoi --16
+  {135,  0, 110, 16,  0, 16,  0, false},  //23 DontGo-Awesome3
+  {128, 74, 118,  8,  0, 16,  8, true},   //24 GoodLife-InnerCity
+  {140, 56, 136, 16,  0, 16,  8, false},  //25 OnARaggaTip-SL2
+  {126, 88, 112, 16,  0, 16, 16, false},  //26 Anthem-NJoi
   {122, 64, 104,  8,  0, 16, 16, true},   //27 RhythmIsAMystery-KKlass
   {121, 60,  96, 16,  0, 16, 16, false},  //28 Chime-Orbital
-  {130, 92, 121, 0,  16, 12,  0, false }, //29 High-HyperGoGo  --16
+  {130, 92, 121, 0,  16, 12,  0, false }, //29 High-HyperGoGo
   {135, 92, 144,  8,  0, 16,  0, false }, //30 FarOut-SonzOfALoopDeLoopEra
-  {126, 34, 133, 2,  16, 16,  8, false }, //31 TakeMeAway-FinalCut  ---16
+  {126, 34, 133, 2,  16, 16,  8, false }, //31 TakeMeAway-FinalCut
 };
 
 /* tuneInfo tuneLibRave[4] = {
