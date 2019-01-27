@@ -155,7 +155,16 @@ void drawHexagon(int ledNumOffSet, int xCoord, int  yCoord, int pupilRadius, int
   }
 }
 
-
+void setLedDirectStrip(int ledNum, int rVal, int gVal, int bVal, int wVal) {
+  
+  for(int j = 0; j < 19; j++) { 
+    // return if it;s the mouth or eyes
+    if (j==5 || j==6 || j==7) {
+      return;
+    }
+    setSectionLed(j, ledNum, rVal, gVal, bVal, wVal);
+  }
+}
 
 void setSection(int section, int r, int g, int b, int w) {
   for(int j = ledSections[section]; j < ledSections[section+1]; j++) { 

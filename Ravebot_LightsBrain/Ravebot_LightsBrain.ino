@@ -18,7 +18,7 @@ bool robotManualMode = true;
 
 unsigned long timey;
 unsigned int lastBeatTime = 0;
-unsigned int timeyInTime; // This is like timey but in time, counting 16384 per beat
+int timeyInTime; // This is like timey but in time, counting 16384 per beat
 int lastBeatLength = 1;
 int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
 unsigned long fakeBeatCount = 0;
@@ -26,6 +26,10 @@ unsigned long fakeBeatCount = 0;
 int currentDance = 0;
 
 int fakeBeatLengh = 420;
+
+// twinkle additions
+int animLength=32768;
+int numLedsStrip=203;
 
 // Set by midi in to be 1-16 with beat.
 int sixteenBeats = 0;
@@ -122,10 +126,6 @@ void setTimes() {
 
   // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
   timeyInTime = ((sixteenBeats * 16384) + percentThroughBeat) + (currentBar * 65536);
-
-  //if (newTimeyInTime > timeyInTime)
-  //  timeyInTime = newTimeyInTime;
-
 }
 
 struct tuneInfo {
@@ -543,6 +543,27 @@ int ledSections[20] = {
   1302,  // 18 port right
   1441
 };
+int ledTotals[19] = {
+  203,   // 0 bottom ring
+  175,   // 1  big heart
+  85,    // 2  small heart
+  19,    // 3 underarm left
+  24,    // 4 overarm left
+  93,    // 5  eye left
+  93,    // 6  eye right 
+  18,    // 7  mouth
+  34,    // 8  tape
+  26,    // 9  tuner * 
+  4,     // 10 indiciator *
+  23,    // 11 underarm right
+  24,    // 12 overarm right
+  90,    // 13 tube bottomright *
+  90,    // 14 tube bottomleft *
+  89,    // 15 tube topleft *
+  89,    // 16 tube topright * starred sections are shifted and / or reversed
+  123,   // 17 port left  
+  139    // 18 port right
+};
 
 int numLedsInSection(int sectionNum) {
   return ledSections[sectionNum + 1] - ledSections[sectionNum];
@@ -829,5 +850,33 @@ bool pacManAnimationMask2 [8][93] = {
     1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
   },
 };
+
+struct twinkle {
+  short ledNum;
+  byte rCol;
+  byte gCol;
+  byte bCol;
+  byte rToCol;
+  byte gToCol;
+  byte bToCol;
+  int start;
+  short lengthy;
+  short widthy;
+  short fadeIn;
+  short fadeOut;
+  short speedy;
+  short sideFade;
+  bool hasTwinked;
+
+  twinkle(short aLedNum, byte aRCol, byte aGCol, byte aBCol, byte aToRCol, byte aToGCol, byte aToBCol, int aStart, short aLengthy, short aWidthy, short aFadeIn, short aFadeOut, short aSpeedy, short aSideFade, bool aHasTwinked) :
+    ledNum(aLedNum), rCol(aRCol), gCol(aGCol), bCol(aBCol), rToCol(aToRCol), gToCol(aToGCol), bToCol(aToBCol), start(aStart), lengthy(aLengthy), widthy(aWidthy), fadeIn(aFadeIn), fadeOut(aFadeOut), speedy(aSpeedy), sideFade(aSideFade), hasTwinked(aHasTwinked) {  }
+
+  twinkle() : ledNum(0), rCol(0), gCol(0), bCol(0), start(0), lengthy(0), widthy(0), fadeIn(0), fadeOut(0), speedy(0), sideFade(0), hasTwinked(0) { }
+
+};
+
+const int numTwinks = 500;
+twinkle myTwinkles[numTwinks];
+const int usedTwinkleCount[] = {0, 160, 160, 160, 100, 160, 160, 500, 0};
 
 
