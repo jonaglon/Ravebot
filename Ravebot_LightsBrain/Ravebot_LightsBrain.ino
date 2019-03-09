@@ -8,8 +8,8 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-const bool beatTestMode = false;
+const bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool beatTestMode = true;
 const bool megaAttached = false;   // JR TODO - attach this or the due won't talk to mega
 
 bool robotSwitchedOn = true;
@@ -123,9 +123,17 @@ void setTimes() {
       percentThroughBeat = 16383;
   }
 
-
   // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
   timeyInTime = ((sixteenBeats * 16384) + percentThroughBeat) + (currentBar * 65536);
+
+  if (testMode) {
+    Serial.print("%:");
+    Serial.print(percentThroughBeat);
+    Serial.print("  16:");
+    Serial.print(sixteenBeats);
+    Serial.print("  tit:");
+    Serial.println(timeyInTime);
+  }
 }
 
 struct tuneInfo {
