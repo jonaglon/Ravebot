@@ -10,7 +10,7 @@
 
 const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
 const bool beatTestMode = false;
-const bool megaAttached = false;   // JR TODO - attach this or the due won't talk to mega
+const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega
 
 bool robotSwitchedOn = true;
 bool robotManualMode = true;
@@ -22,6 +22,10 @@ unsigned int timeyInTime; // This is like timey but in time, counting 16384 per 
 int lastBeatLength = 1;
 int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
 unsigned long fakeBeatCount = 0;
+
+int animLength=262144; // used by the twinkle patterns
+int twinkleTime;
+bool rainbowTwinkleMode = false;
 
 int currentDance = 0;
 
@@ -119,12 +123,10 @@ void setTimes() {
       percentThroughBeat = 16383;
   }
 
-
   // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
   timeyInTime = ((sixteenBeats * 16384) + percentThroughBeat) + (currentBar * 65536);
 
-  //if (newTimeyInTime > timeyInTime)
-  //  timeyInTime = newTimeyInTime;
+  twinkleTime = timeyInTime % animLength;
 
 }
 
@@ -416,7 +418,34 @@ tuneInfo tuneLibHipHop[28] = {
 tuneInfo currentTune = tuneLibHipHop[0];
 tuneInfo nextTune = tuneLibHipHop[0];
 
-//
+
+struct twinkle {
+  short ledNum;
+  byte rCol;
+  byte gCol;
+  byte bCol;
+  byte rToCol;
+  byte gToCol;
+  byte bToCol;
+  int start;
+  int lengthy;
+  short widthy;
+  int fadeIn;
+  int fadeOut;
+  short speedy;
+  short sideFade;
+  bool hasTwinked;
+
+  twinkle(short aLedNum, byte aRCol, byte aGCol, byte aBCol, byte aToRCol, byte aToGCol, byte aToBCol, int aStart, int aLengthy, short aWidthy, int aFadeIn, int aFadeOut, short aSpeedy, short aSideFade, bool aHasTwinked) :
+    ledNum(aLedNum), rCol(aRCol), gCol(aGCol), bCol(aBCol), rToCol(aToRCol), gToCol(aToGCol), bToCol(aToBCol), start(aStart), lengthy(aLengthy), widthy(aWidthy), fadeIn(aFadeIn), fadeOut(aFadeOut), speedy(aSpeedy), sideFade(aSideFade), hasTwinked(aHasTwinked) {  }
+
+  twinkle() : ledNum(0), rCol(0), gCol(0), bCol(0), start(0), lengthy(0), widthy(0), fadeIn(0), fadeOut(0), speedy(0), sideFade(0), hasTwinked(0) { }
+
+};
+
+const int numTwinks = 1000;
+twinkle myTwinkles[numTwinks];
+const int usedTwinkleCount[] = {0, 0, 0, 0, 700, 600, 600, 600, 660, 660, 1000, 700}; // might be a bit wrong
 
 int eyeCoords[93][2] = {
   { 55, 107}, { 64, 106}, { 75, 104}, { 84, 98}, { 92, 93}, { 98, 85}, {103, 76}, {107, 66}, {108, 56}, {107, 45},
@@ -829,5 +858,3 @@ bool pacManAnimationMask2 [8][93] = {
     1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
   },
 };
-
-
