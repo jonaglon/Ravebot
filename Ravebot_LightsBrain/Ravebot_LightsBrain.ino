@@ -8,9 +8,9 @@
 #include<Wire.h>
 #include<FastLED.h>
 
-const bool testMode = true;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
-const bool beatTestMode = true;
-const bool megaAttached = false;   // JR TODO - attach this or the due won't talk to mega
+const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool beatTestMode = false;
+const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega
 
 bool robotSwitchedOn = true;
 bool robotManualMode = true;
@@ -18,18 +18,18 @@ bool robotManualMode = true;
 
 unsigned long timey;
 unsigned int lastBeatTime = 0;
-int timeyInTime; // This is like timey but in time, counting 16384 per beat
+unsigned int timeyInTime; // This is like timey but in time, counting 16384 per beat
 int lastBeatLength = 1;
 int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
 unsigned long fakeBeatCount = 0;
 
+int animLength=262144; // used by the twinkle patterns
+int twinkleTime;
+bool rainbowTwinkleMode = false;
+
 int currentDance = 0;
 
 int fakeBeatLengh = 420;
-
-// twinkle additions
-int animLength=32768;
-int numLedsStrip=203;
 
 // Set by midi in to be 1-16 with beat.
 int sixteenBeats = 0;
@@ -126,14 +126,8 @@ void setTimes() {
   // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
   timeyInTime = ((sixteenBeats * 16384) + percentThroughBeat) + (currentBar * 65536);
 
-  if (testMode) {
-    Serial.print("%:");
-    Serial.print(percentThroughBeat);
-    Serial.print("  16:");
-    Serial.print(sixteenBeats);
-    Serial.print("  tit:");
-    Serial.println(timeyInTime);
-  }
+  twinkleTime = timeyInTime % animLength;
+
 }
 
 struct tuneInfo {
@@ -424,7 +418,34 @@ tuneInfo tuneLibHipHop[28] = {
 tuneInfo currentTune = tuneLibHipHop[0];
 tuneInfo nextTune = tuneLibHipHop[0];
 
-//
+
+struct twinkle {
+  short ledNum;
+  byte rCol;
+  byte gCol;
+  byte bCol;
+  byte rToCol;
+  byte gToCol;
+  byte bToCol;
+  int start;
+  int lengthy;
+  short widthy;
+  int fadeIn;
+  int fadeOut;
+  short speedy;
+  short sideFade;
+  bool hasTwinked;
+
+  twinkle(short aLedNum, byte aRCol, byte aGCol, byte aBCol, byte aToRCol, byte aToGCol, byte aToBCol, int aStart, int aLengthy, short aWidthy, int aFadeIn, int aFadeOut, short aSpeedy, short aSideFade, bool aHasTwinked) :
+    ledNum(aLedNum), rCol(aRCol), gCol(aGCol), bCol(aBCol), rToCol(aToRCol), gToCol(aToGCol), bToCol(aToBCol), start(aStart), lengthy(aLengthy), widthy(aWidthy), fadeIn(aFadeIn), fadeOut(aFadeOut), speedy(aSpeedy), sideFade(aSideFade), hasTwinked(aHasTwinked) {  }
+
+  twinkle() : ledNum(0), rCol(0), gCol(0), bCol(0), start(0), lengthy(0), widthy(0), fadeIn(0), fadeOut(0), speedy(0), sideFade(0), hasTwinked(0) { }
+
+};
+
+const int numTwinks = 1000;
+twinkle myTwinkles[numTwinks];
+const int usedTwinkleCount[] = {0, 0, 0, 0, 700, 600, 600, 600, 660, 660, 1000, 700}; // might be a bit wrong
 
 int eyeCoords[93][2] = {
   { 55, 107}, { 64, 106}, { 75, 104}, { 84, 98}, { 92, 93}, { 98, 85}, {103, 76}, {107, 66}, {108, 56}, {107, 45},
@@ -550,27 +571,6 @@ int ledSections[20] = {
   1179,  // 17 port left
   1302,  // 18 port right
   1441
-};
-int ledTotals[19] = {
-  203,   // 0 bottom ring
-  175,   // 1  big heart
-  85,    // 2  small heart
-  19,    // 3 underarm left
-  24,    // 4 overarm left
-  93,    // 5  eye left
-  93,    // 6  eye right 
-  18,    // 7  mouth
-  34,    // 8  tape
-  26,    // 9  tuner * 
-  4,     // 10 indiciator *
-  23,    // 11 underarm right
-  24,    // 12 overarm right
-  90,    // 13 tube bottomright *
-  90,    // 14 tube bottomleft *
-  89,    // 15 tube topleft *
-  89,    // 16 tube topright * starred sections are shifted and / or reversed
-  123,   // 17 port left  
-  139    // 18 port right
 };
 
 int numLedsInSection(int sectionNum) {
@@ -858,33 +858,3 @@ bool pacManAnimationMask2 [8][93] = {
     1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
   },
 };
-
-struct twinkle {
-  short ledNum;
-  byte rCol;
-  byte gCol;
-  byte bCol;
-  byte rToCol;
-  byte gToCol;
-  byte bToCol;
-  int start;
-  short lengthy;
-  short widthy;
-  short fadeIn;
-  short fadeOut;
-  short speedy;
-  short sideFade;
-  bool hasTwinked;
-
-  twinkle(short aLedNum, byte aRCol, byte aGCol, byte aBCol, byte aToRCol, byte aToGCol, byte aToBCol, int aStart, short aLengthy, short aWidthy, short aFadeIn, short aFadeOut, short aSpeedy, short aSideFade, bool aHasTwinked) :
-    ledNum(aLedNum), rCol(aRCol), gCol(aGCol), bCol(aBCol), rToCol(aToRCol), gToCol(aToGCol), bToCol(aToBCol), start(aStart), lengthy(aLengthy), widthy(aWidthy), fadeIn(aFadeIn), fadeOut(aFadeOut), speedy(aSpeedy), sideFade(aSideFade), hasTwinked(aHasTwinked) {  }
-
-  twinkle() : ledNum(0), rCol(0), gCol(0), bCol(0), start(0), lengthy(0), widthy(0), fadeIn(0), fadeOut(0), speedy(0), sideFade(0), hasTwinked(0) { }
-
-};
-
-const int numTwinks = 500;
-twinkle myTwinkles[numTwinks];
-const int usedTwinkleCount[] = {0, 160, 160, 160, 100, 160, 160, 500, 0};
-
-
