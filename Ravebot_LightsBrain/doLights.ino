@@ -19,6 +19,7 @@ void doLights() {
     doPatternBlobs();
   } else  {
     doTwinkles();
+    //sectionsInTime();
   }
   doFace();
   LEDS.show();

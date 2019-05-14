@@ -78,10 +78,33 @@ void changeOnOff(int message) {
     robotSwitchedOn = false;
     tempMainVolume = mainVolume;
     setMainVolume(0);
-    setSectionLed(10, 0, 200,  0, 0, 0);
-    setSectionLed(10, 1, 0, 0, 0, 0);
-    setSectionLed(10, 2, 0, 0, 0, 0);
-    setSectionLed(10, 3, 0, 0, 0, 0);
+
+    setSectionLed(5, 24, 50, 50, 50, 0);
+    setSectionLed(5, 50, 50, 50, 50, 0);
+    setSectionLed(5, 68, 50, 50, 50, 0);
+    setSectionLed(5, 81, 50, 50, 50, 0);
+    setSectionLed(5, 90, 50, 50, 50, 0);
+    setSectionLed(5, 92, 50, 50, 50, 0);
+    setSectionLed(5, 86, 50, 50, 50, 0);
+    setSectionLed(5, 75, 50, 50, 50, 0);
+    setSectionLed(5, 60, 50, 50, 50, 0);
+    setSectionLed(5, 38, 50, 50, 50, 0);
+    setSectionLed(5, 8, 50, 50, 50, 0);
+
+    setSectionLed(6, 24, 50, 50, 50, 0);
+    setSectionLed(6, 50, 50, 50, 50, 0);
+    setSectionLed(6, 68, 50, 50, 50, 0);
+    setSectionLed(6, 81, 50, 50, 50, 0);
+    setSectionLed(6, 90, 50, 50, 50, 0);
+    setSectionLed(6, 92, 50, 50, 50, 0);
+    setSectionLed(6, 86, 50, 50, 50, 0);
+    setSectionLed(6, 75, 50, 50, 50, 0);
+    setSectionLed(6, 60, 50, 50, 50, 0);
+    setSectionLed(6, 38, 50, 50, 50, 0);
+    setSectionLed(6, 8, 50, 50, 50, 0);
+
+
+    
     sendSerialToMega(2,0); // stops robot dancing and shows 0 on display
   } else {
     robotSwitchedOn = true;

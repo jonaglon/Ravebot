@@ -24,7 +24,7 @@ int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 pa
 unsigned long fakeBeatCount = 0;
 
 int animLength=262144; // used by the twinkle patterns
-int twinkleTime;
+//int timeyInTime;
 bool rainbowTwinkleMode = false;
 
 int currentDance = 0;
@@ -88,7 +88,7 @@ void setup() {
   // Make random more random
   randomSeed(analogRead(0));
 
-  LEDS.addLeds<WS2811_PORTD, 5>(rgbwLeds, 488); // Hardcoded to ports:25,26,27,28,14,15
+  LEDS.addLeds<WS2811_PORTD, 6>(rgbwLeds, 488); // Hardcoded to ports:25,26,27,28,14,15
   LEDS.setBrightness(128); // 128 good max, 255 actual /max
 
   setMainVolume(mainVolume);
@@ -117,17 +117,28 @@ void setTimes() {
   if (timey > (lastBeatTime + lastBeatLength)) {
     percentThroughBeat = 16383;
   } else {
-    //percentThroughBeat = (((timey-lastBeatTime)*16384)/lastBeatLength)%16384;   // 16384 is a beat length
     percentThroughBeat = (((timey - lastBeatTime) * 16384) / lastBeatLength);
     if (percentThroughBeat > 16383)
       percentThroughBeat = 16383;
   }
 
   // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
-  timeyInTime = ((sixteenBeats * 16384) + percentThroughBeat) + (currentBar * 65536);
+  timeyInTime = (sixteenBeats * 16384) + percentThroughBeat; // Note: this wont work for anim lengths > 262144, you'll need to use bar.
 
-  twinkleTime = timeyInTime % animLength;
+  if (timeyInTime > animLength)
+    timeyInTime = animLength;
 
+  if (testMode) {
+    Serial.print("tit:");
+    Serial.print(timeyInTime);
+    Serial.print("  16b:");
+    Serial.print(sixteenBeats);
+    Serial.print("  percentThroughBeat:");
+    Serial.print(percentThroughBeat);
+    Serial.print("  currentBar:");
+    Serial.println(currentBar);
+  }
+    
 }
 
 struct tuneInfo {
@@ -443,9 +454,9 @@ struct twinkle {
 
 };
 
-const int numTwinks = 1000;
+const int numTwinks = 2000;
 twinkle myTwinkles[numTwinks];
-const int usedTwinkleCount[] = {0, 0, 0, 0, 700, 600, 600, 600, 660, 660, 1000, 700}; // might be a bit wrong
+const int usedTwinkleCount[] = {0, 0, 0, 0, 0, 2000, 600, 600, 660, 660, 1000, 700}; // might be a bit wrong
 
 int eyeCoords[93][2] = {
   { 55, 107}, { 64, 106}, { 75, 104}, { 84, 98}, { 92, 93}, { 98, 85}, {103, 76}, {107, 66}, {108, 56}, {107, 45},

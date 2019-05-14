@@ -19,35 +19,49 @@ void doTwinkles() {
     
     int twinkLength = myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut;
 
-    if ((twinkleTime > (myTwinkles[twinky].start)) && (twinkleTime < (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn))) {
+    if ((timeyInTime > (myTwinkles[twinky].start)) && (timeyInTime < (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn))) {
       setLedsFadeIn(newLedNum, twinky, false);
-    } else if (((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn) > animLength) && (twinkleTime < ((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn) % animLength))) {
+    } else if (((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn) > animLength) && (timeyInTime < ((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn) % animLength))) {
       setLedsFadeIn(newLedNum, twinky, true);
-    } else if ((twinkleTime >= (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn)) && (twinkleTime < (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy))) {
+    } else if ((timeyInTime >= (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn)) && (timeyInTime < (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy))) {
       setLedsOnFull(newLedNum, twinky, false);
-    } else if (((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy) > animLength) && (twinkleTime < ((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy) % animLength))) {
+    } else if (((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy) > animLength) && (timeyInTime < ((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy) % animLength))) {
       setLedsOnFull(newLedNum, twinky, true);
-    } else if ((twinkleTime >= (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy)) && (twinkleTime < (myTwinkles[twinky].start + twinkLength)) ) {
+    } else if ((timeyInTime >= (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy)) && (timeyInTime < (myTwinkles[twinky].start + twinkLength)) ) {
       setLedsFadeOut(newLedNum, twinky, false);
-    } else if (((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut) > animLength) && (twinkleTime < ((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut) % animLength))) {
+    } else if (((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut) > animLength) && (timeyInTime < ((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut) % animLength))) {
       setLedsFadeOut(newLedNum, twinky, true);
-    } else if ((twinkleTime >= (((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut) % animLength))) && myTwinkles[twinky].hasTwinked) {
+    } else if ((timeyInTime >= (((myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut) % animLength))) && myTwinkles[twinky].hasTwinked) {
       if (testMode) {
         Serial.print("RESET tw:");
-        Serial.print(twinky);
-        Serial.print(" oldl:");
-        Serial.print(myTwinkles[twinky].ledNum);
+        //Serial.print(twinky);
+        //Serial.print(" oldl:");
+        //Serial.print(myTwinkles[twinky].ledNum);
       }
       resetTwink(twinky);
       if (testMode) {
-        Serial.print("  newl:");
+        Serial.print("  led:");
         Serial.print(myTwinkles[twinky].ledNum);
-        Serial.print("  twinkleT:");
-        Serial.print(twinkleTime);
-        Serial.print("  stt:");
+        Serial.print("  timeyInTime:");
+        Serial.print(timeyInTime);
+        Serial.print("  start:");
         Serial.println(myTwinkles[twinky].start);
+        Serial.print("  fadeIn:");
+        Serial.println(myTwinkles[twinky].fadeIn);
+        Serial.print("  lengthy:");
+        Serial.println(myTwinkles[twinky].lengthy);
+        Serial.print("  fadeOut:");
+        Serial.println(myTwinkles[twinky].fadeOut);
+        Serial.print("  animLength:");
+        Serial.println(animLength);
+        Serial.print("  hasTwinked:");
+        Serial.println(myTwinkles[twinky].hasTwinked);
       }
     }
+
+    // JR TODO - THIS is to show time, remove me when ready x
+    setLedDirect(sixteenBeats, 200, 200, 200, 0, false);  
+    
   }
 }
 
@@ -110,16 +124,16 @@ void setLedsFadeIn(int ledNum, int twinky, bool rolledOver) {
 
   int percentThroughFade = 0;
   if (rolledOver) {
-    percentThroughFade = (((twinkleTime + animLength) - myTwinkles[twinky].start) * 100) / myTwinkles[twinky].fadeIn;
+    percentThroughFade = (((timeyInTime + animLength) - myTwinkles[twinky].start) * 100) / myTwinkles[twinky].fadeIn;
   } else {
-    percentThroughFade = ((twinkleTime - myTwinkles[twinky].start) * 100) / myTwinkles[twinky].fadeIn;
+    percentThroughFade = ((timeyInTime - myTwinkles[twinky].start) * 100) / myTwinkles[twinky].fadeIn;
   }
 
   int percentThroughPatternCalc = 0;
   if (rolledOver) {
-    percentThroughPatternCalc = ((twinkleTime + animLength) - myTwinkles[twinky].start) * 100;
+    percentThroughPatternCalc = ((timeyInTime + animLength) - myTwinkles[twinky].start) * 100;
   } else {
-    percentThroughPatternCalc = (twinkleTime - myTwinkles[twinky].start) * 100;
+    percentThroughPatternCalc = (timeyInTime - myTwinkles[twinky].start) * 100;
   }
   int percentThroughPattern = percentThroughPatternCalc / (myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut);
   
@@ -132,7 +146,7 @@ void setLedsFadeIn(int ledNum, int twinky, bool rolledOver) {
   if (rgbwLeds[ledNum].b > newBlue) { newBlue = rgbwLeds[ledNum].b; }
 
   if (testMode)
-    showTestTwink('S' ,rolledOver, twinkleTime, twinky, myTwinkles[twinky].ledNum, percentThroughFade, percentThroughPattern, newRed, newGreen, newBlue);
+    showTestTwink('S' ,rolledOver, timeyInTime, twinky, myTwinkles[twinky].ledNum, percentThroughFade, percentThroughPattern, newRed, newGreen, newBlue);
   
   for (int ledToLight = 0; ledToLight < myTwinkles[twinky].widthy; ledToLight++) {
     int minusFade = myTwinkles[twinky].sideFade * ledToLight;
@@ -154,9 +168,9 @@ void setLedsOnFull(int ledNum, int twinky, bool rolledOver) {
 
   int percentThroughFade = 0;
   if (rolledOver) {
-    percentThroughFade = ((twinkleTime + animLength) - myTwinkles[twinky].start) * 100;
+    percentThroughFade = ((timeyInTime + animLength) - myTwinkles[twinky].start) * 100;
   } else {
-    percentThroughFade = (twinkleTime - myTwinkles[twinky].start) * 100;
+    percentThroughFade = (timeyInTime - myTwinkles[twinky].start) * 100;
   }
   int percentThroughPattern = percentThroughFade / (myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut);
 
@@ -169,7 +183,7 @@ void setLedsOnFull(int ledNum, int twinky, bool rolledOver) {
   if (rgbwLeds[ledNum].b > newBlue) { newBlue = rgbwLeds[ledNum].b; }
 
   if (testMode)
-    showTestTwink('M' ,rolledOver, twinkleTime, twinky, myTwinkles[twinky].ledNum, percentThroughFade, percentThroughPattern, newRed, newGreen, newBlue);
+    showTestTwink('M' ,rolledOver, timeyInTime, twinky, myTwinkles[twinky].ledNum, percentThroughFade, percentThroughPattern, newRed, newGreen, newBlue);
 
   for (int ledToLight = 0; ledToLight < myTwinkles[twinky].widthy; ledToLight++) {
     int minusFade = myTwinkles[twinky].sideFade * ledToLight;
@@ -183,8 +197,8 @@ void setLedsOnFull(int ledNum, int twinky, bool rolledOver) {
       setLedDirect(offsetMinus, newRed-minusFade, newGreen-minusFade, newBlue-minusFade, 0, false);
     }
   }
-  if (!myTwinkles[twinky].hasTwinked)
-    myTwinkles[twinky].hasTwinked = true;
+  //if (!myTwinkles[twinky].hasTwinked)
+  //  myTwinkles[twinky].hasTwinked = true;
 }
 
 
@@ -193,16 +207,16 @@ void setLedsFadeOut(int ledNum, int twinky, bool rolledOver) {
   int start = (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy);
   int endy = (myTwinkles[twinky].start + myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut);
   if (rolledOver) {
-    percentThroughFade = 100 - quickAbsolute((((twinkleTime + animLength) - start) * 100) / (endy-start));
+    percentThroughFade = 100 - quickAbsolute((((timeyInTime + animLength) - start) * 100) / (endy-start));
   } else {
-    percentThroughFade = 100 - quickAbsolute(((twinkleTime - start) * 100) / (endy-start));
+    percentThroughFade = 100 - quickAbsolute(((timeyInTime - start) * 100) / (endy-start));
   }
 
   int percentThroughPatternCalc = 0;
   if (rolledOver) {
-    percentThroughPatternCalc = ((twinkleTime + animLength) - myTwinkles[twinky].start) * 100;
+    percentThroughPatternCalc = ((timeyInTime + animLength) - myTwinkles[twinky].start) * 100;
   } else {
-    percentThroughPatternCalc = (twinkleTime - myTwinkles[twinky].start) * 100;
+    percentThroughPatternCalc = (timeyInTime - myTwinkles[twinky].start) * 100;
   }
   int percentThroughPattern = (percentThroughPatternCalc / (myTwinkles[twinky].fadeIn + myTwinkles[twinky].lengthy + myTwinkles[twinky].fadeOut));
 
@@ -215,7 +229,7 @@ void setLedsFadeOut(int ledNum, int twinky, bool rolledOver) {
   if (rgbwLeds[ledNum].b > newBlue) { newBlue = rgbwLeds[ledNum].b; }
 
   if (testMode)
-    showTestTwink('E' ,rolledOver, twinkleTime, twinky, myTwinkles[twinky].ledNum, percentThroughFade, percentThroughPattern, newRed, newGreen, newBlue);
+    showTestTwink('E' ,rolledOver, timeyInTime, twinky, myTwinkles[twinky].ledNum, percentThroughFade, percentThroughPattern, newRed, newGreen, newBlue);
 
   for (int ledToLight = 0; ledToLight < myTwinkles[twinky].widthy; ledToLight++) {
     int minusFade = myTwinkles[twinky].sideFade * ledToLight;
@@ -237,23 +251,19 @@ void setLedsFadeOut(int ledNum, int twinky, bool rolledOver) {
 
 int findNewStart(int newTwinkleLength) {
   int newRandom = random(0, (animLength - newTwinkleLength));
-  return ((twinkleTime + newRandom) % animLength);
+  return ((timeyInTime + newRandom) % animLength);
 }
 
 int findNewStartInTime() {
-  int randomTime = random(32);
-  return 16384*randomTime;
+  int randomTime = random(16);
+  int newTime = randomTime*16384;
+  return newTime;
 }
 
 int findNewStartInTime2() {
-  int randomTing = random(3);
-  if (randomTing == 0) {
-    int randomTime = random(8);
-    return 65536*randomTime;
-  } else {
-    int randomTime = random(32);
-    return 16384*randomTime;
-  }
+  int randomTime = random(16);
+  int multiplyValue = 16384;
+  return randomTime*multiplyValue;
 }
 
 int findLengthInTime() {
@@ -282,10 +292,10 @@ void setupTwinkle1(int twinky) {
   myTwinkles[twinky].rToCol =  random(240);
   myTwinkles[twinky].gToCol =  random(150);
   myTwinkles[twinky].bToCol =  random(220);
-  myTwinkles[twinky].lengthy = 65536;
+  myTwinkles[twinky].lengthy = findLengthInTime();
   myTwinkles[twinky].fadeIn =  0;
   myTwinkles[twinky].fadeOut = 0;
-  myTwinkles[twinky].start = findNewStartInTime2();
+  myTwinkles[twinky].start = findNewStartInTime();
   myTwinkles[twinky].widthy =  1;
   myTwinkles[twinky].speedy = 0;
   myTwinkles[twinky].sideFade = 0;
@@ -404,14 +414,14 @@ void setupTwinkle7(int twinky) {
 }
 
 
-void showTestTwink(char state ,bool rolledOver, int twinkleTime, int twinky, int ledNum, int percentThroughFade, int percentThroughPattern, int newRed, int newGreen, int newBlue) {
+void showTestTwink(char state ,bool rolledOver, int timeyInTime, int twinky, int ledNum, int percentThroughFade, int percentThroughPattern, int newRed, int newGreen, int newBlue) {
     if (rolledOver)
       Serial.print(".");
     else
       Serial.print(" ");
     Serial.print(state);
     Serial.print("  tt:");
-    Serial.print(twinkleTime);
+    Serial.print(timeyInTime);
     Serial.print("  tit:");
     Serial.print(timeyInTime);
     Serial.print("  tw:");
@@ -428,7 +438,5 @@ void showTestTwink(char state ,bool rolledOver, int twinkleTime, int twinky, int
     Serial.print(newBlue);
     Serial.print("   g:");
     Serial.println(newGreen);
-
-  
 }
  
