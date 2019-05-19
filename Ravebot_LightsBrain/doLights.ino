@@ -1,5 +1,5 @@
 int currentPattern = 1;
-int numPatterns = 5;
+int numPatterns = 11;
 
 void doLights() {
 
@@ -15,8 +15,11 @@ void doLights() {
   } else if (currentPattern == 4) {
     horizontalRainbow(false, false, 80);
     sectionsInTime();
-  } else {
+  } else if (currentPattern == 4) {
     doPatternBlobs();
+  } else  {
+    doTwinkles();
+    //sectionsInTime();
   }
   doFace();
   LEDS.show();
@@ -29,6 +32,11 @@ void changeLightPattern() {
     newPattern = random(numPatterns);
   }
   currentPattern = newPattern;
+
+  // if it's a twinkle call the setup code
+  if (currentPattern > 4) {
+    setupNewTwinklePattern(currentPattern);
+  }
 }
 
 /////////////////////
@@ -511,4 +519,3 @@ void doTalkingLights() {
     }
   }  
 }
-
