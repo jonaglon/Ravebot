@@ -1,250 +1,831 @@
-/* __                 _           _               __ _       _     _  
-  /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
- / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
-/ _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
-\/ \_/\__,_| \_/ \___|_.__/ \___/ \__|         \____/_|\__, |_| |_|\__|___/
-     
-                                                       
+/*   __                 _           _               __ _       _     _
+    /__\ __ ___   _____| |__   ___ | |_            / /(_) __ _| |__ | |_ ___
+   / \/// _` \ \ / / _ \ '_ \ / _ \| __|  _____   / / | |/ _` | '_ \| __/ __|
+  / _  \ (_| |\ V /  __/ |_) | (_) | |_  |_____| / /__| | (_| | | | | |_\__ \
+  \/ \_/\__,_| \_/ \___|_.__/ \___/ \__|         \____/_|\__, |_| |_|\__|___/
                                                        |___/                       */
 #include<Arduino.h>
 #include<Wire.h>
 #include<FastLED.h>
 
+const bool testMode = false;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ;
+const bool beatTestMode = true;
+const bool megaAttached = true;   // JR TODO - attach this or the due won't talk to mega
+
+bool robotSwitchedOn = true;
+bool robotManualMode = true;
+
+
 unsigned long timey;
-int ticky=0;
+unsigned int lastBeatTime = 0;
+unsigned int timeyInTime; // This is like timey but in time, counting 16384 per beat
+int lastBeatLength = 1;
+int percentThroughBeat = 0;  // Not really a percent, beat divides into 16384 parts
+unsigned long fakeBeatCount = 0;
 
-// Set by midi in to be 1-16 with beat.
-short sixteenth = 0;
+int currentDance = 0;
 
-int mainVolume = 80; // 127 actual max but we won't exceed 100.
+int fakeBeatLengh = 420;
+
+// Set by midi in to be 1-16 with beat...
+int sixteenBeats = 0;
+
+int mainVolume = 40; // 127 actual max but we won't exceed 100.
+int tempMainVolume = 40; // 127 actual max but we won't exceed 100.
 int currentBar = 0;
+int mixCurrentBar = 0; // This counts from the start of a mix
 int currentGenre = 0;
 int currentTrack = 0;
 int dropCountdown = 0;
 
 bool robotTalking = false;
 unsigned long robotTalkingOnTime;
+unsigned long robotTalkingOffTime;
 
-const int numLeds = 671;
-const int numLedsAdj = (numLeds * 4) / 3;
-CRGB rgbwLeds[numLedsAdj];
+const int numLeds = 1443;
+CRGB rgbwLeds[2440]; // 488 * 5
+
+// LED Intensity
+int ledIntensity = 10;
+byte wheelR;
+byte wheelG;
+byte wheelB;
+
+int leftEyeX = 0;
+int leftEyeY = 0;
+int rightEyeX = 0;
+int rightEyeY = 0;
+
+// MIXING VARS
+int nextTrack = 0;
+int nextGenre = 0;
+int nextMixDuration = 0;
+int nextMixStart = 0;
+int abletonBpm = 0;
+bool stayWithinGenre = true;
+bool currentlyMixing = false;
+bool deckASelected = true;
+int currentMixerPosition = 0;
+int percentThroughMix = 0;  // not really % through, it's 0-256
+int last20Genres[20] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+int last20Tracks[20] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
 void setup() {
+
   delay(500);
 
-  // Talk to Ableton via midi over USB, or debug.
-  Serial.begin(9600);
+  // Talk to Ableton using midi over USB, or debug.
+  Serial.begin(115200);
 
-  // Listen to the other arduino
-  Serial2.begin(57600);
-  // Talk to the other arduino
-  Serial3.begin(9600);
+  // Communicate with the Mega
+  Serial1.begin(28800); // rx for receiving
+  Serial1.begin(28800); // tx for sending
 
-  // Make random more random?!
+  // Make random more random
   randomSeed(analogRead(0));
 
-  pinMode(12, OUTPUT); // rgb LED Setup
-  LEDS.addLeds<WS2812B, 12>(rgbwLeds, numLedsAdj);
-  LEDS.setBrightness(64); // 255 max
+  LEDS.addLeds<WS2811_PORTD, 5>(rgbwLeds, 488); // Hardcoded to ports:25,26,27,28,14,15
+  LEDS.setBrightness(128); // 128 good max, 255 actual /max
 
   setMainVolume(mainVolume);
+
+  // JR TODO remove me
+  playTune(0, 0, true);
 }
 
-void loop()
-{
+void loop() {
   timey = millis();
 
-  //listenToAbleton();
+  listenToAbleton();
 
-  //receiveFromMega();
+  setTimes();
 
-  doLights();
+  if (robotSwitchedOn)
+    doLights();
+
+  receiveFromMega();
+
+  checkForTurnRobotVoiceDown();
+}
+
+void setTimes() {
+
+  if (timey > (lastBeatTime + lastBeatLength)) {
+    percentThroughBeat = 16383;
+  } else {
+    //percentThroughBeat = (((timey-lastBeatTime)*16384)/lastBeatLength)%16384;   // 16384 is a beat length
+    percentThroughBeat = (((timey - lastBeatTime) * 16384) / lastBeatLength);
+    if (percentThroughBeat > 16383)
+      percentThroughBeat = 16383;
+  }
+
+
+  // this is a number to be used in animations, it counts up from the start of a tune, 16384 per beat.
+  timeyInTime = ((sixteenBeats * 16384) + percentThroughBeat) + (currentBar * 65536);
+
+  //if (newTimeyInTime > timeyInTime)
+  //  timeyInTime = newTimeyInTime;
 
 }
 
-
-
-
-/* ************************************************************** *
- *                                                               
- *                            LED PATTERNS
- *  
- * ************************************************************** */
-
-int tapePattern[224][2] = {
-  {4,6}, {4,5}, {4,4}, {4,0}, {4,1}, {4,2}, {4,7}, {4,10}, {4,9}, {4,8}, 
-  {4, 3}, {3,83}, {3,82}, {3,81}, {3,80}, {3,79}, {3,78}, {3,77}, {3,76}, {3,75},   
-  {3,74}, {3,73}, {3,72}, {3,71}, {3,70}, {3,69}, {3,68}, {3,67}, {3,66}, {3,65},   
-  {3,64}, {3,63}, {3,62}, {3,61}, {3,60}, {3,59}, {3,58}, {3,57}, {3,56}, {3,55},   
-  {3,54}, {3,53}, {3,52}, {3,51}, {3,50}, {3,49}, {3,48}, {3,47}, {3,46}, {3,45},   
-  {3,44}, {3,43}, {3,42}, {3,41}, {3,40}, {3,39}, {3,38}, {3,37}, {3,36}, {3,35},   
-  {3,34}, {3,33}, {3,32}, {3,31}, {3,30}, {3,29}, {3,28}, {3,27}, {3,26}, {3,25},   
-  {3,24}, {3,23}, {3,22}, {3,21}, {3,20}, {3,19}, {3,18}, {3,17}, {3,16}, {3,15},   
-  {3,14}, {3,13}, {3,12}, {3,11}, {3,10}, {3, 9}, {3, 8}, {3, 7}, {3, 6}, {3, 5},   
-  {3, 4}, {3, 3}, {3, 2}, {3, 1}, {3, 0}, {5, 0}, {5, 1}, {5, 2}, {5, 3}, {5, 4},   
-  {5, 5}, {5, 6}, {5, 7}, {5, 8}, {5, 9}, {5,10}, {5,11}, {5,12}, {5,13}, {5,14}, 
-  {5,15}, {5,16}, {5,17}, {5,18}, {5,19}, {5,20}, {5,21}, {5,22}, {5,23}, {5,24}, 
-  {5,25}, {5,26}, {5,27}, {5,28}, {5,29}, {5,30}, {5,31}, {0,16}, {0,15}, {0,14}, 
-  {0,13}, {0,12}, {0,11}, {0,10}, {0, 9}, {0, 8}, {0, 7}, {0, 6}, {0, 5}, {0, 4}, 
-  {0, 3}, {0, 2}, {0, 1}, {0, 0}, {0,31}, {0,30}, {0,29}, {0,28}, {0,27}, {0,26}, 
-  {0,25}, {0,24}, {0,23}, {0,22}, {0,21}, {0,20}, {0,19}, {0,18}, {0,17}, {0,44}, 
-  {0,43}, {0,42}, {0,41}, {0,40}, {0,39}, {0,38}, {0,37}, {0,36}, {0,35}, {0,34}, 
-  {0,33}, {0,32}, {0,31}, {0,55}, {0,54}, {0,53}, {0,52}, {0,51}, {0,50}, {0,49},
-  {0,48}, {0,47}, {0,46}, {0,45}, {0,64}, {0,63}, {0,62}, {0,61}, {0,60}, {0,59},
-  {0,58}, {0,57}, {0,56}, {0,71}, {0,70}, {0,69}, {0,68}, {0,67}, {0,66}, {0,65},
-  {0,78}, {0,77}, {0,76}, {0,75}, {0,74}, {0,73}, {0,72}, {0,83}, {0,82}, {0,81},
-  {0,80}, {0,79}, {0,78}, {1, 7}, {1,10}, {1, 9}, {1, 8}, {1, 3}, {1, 0}, {1, 1}, {1, 2}, {1, 6}, {1, 5}, {1, 4} };
-
-int sweepPatterns[270][5] = {
-{  0, 27,  2,  8,  6}, {  1, 30,  2, 10,  3}, {  2, 33,  3, 13,  2}, {  3, 36,  4, 17,  1}, {  4, 38,  6, 21,  1}, {  5, 39,  8, 24,  1}, {  6, 40, 10, 28,  2}, {  7, 41, 12, 31,  3},{  8, 41, 15, 34,  6},{  9, 41, 18, 36,  9},
-{ 10, 40, 20, 38, 12}, { 11, 39, 22, 39, 15}, { 12, 38, 24, 39, 19}, { 13, 36, 27, 39, 23}, { 14, 33, 28, 38, 27}, { 15, 30, 29, 36, 30}, { 16, 27, 29, 34, 32}, { 17, 25, 29, 31, 35},{ 18, 23, 28, 28, 37},{ 19, 21, 27, 24, 38},
-{ 20, 19, 24, 21, 38}, { 21, 17, 22, 17, 38}, { 22, 16, 20, 13, 37}, { 23, 15, 18, 10, 35}, { 24, 15, 15,  8, 32}, { 25, 15, 12,  5, 30}, { 26, 16, 10,  3, 27}, { 27, 17,  8,  2, 23},{ 28, 19,  6,  2, 19},{ 29, 21,  4,  2, 15},
-{ 30, 23,  3,  3, 12}, { 31, 25,  2,  5,  9}, { 32, 27,  5, 10,  8}, { 33, 30,  5, 13, 00}, { 34, 33,  6, 17,  5}, { 35, 36,  8, 21,  5}, { 36, 37, 10, 24,  5}, { 37, 38, 12, 28, 00},{ 38, 38, 15, 31,  8},{ 39, 38, 18, 34, 11},
-{ 40, 37, 20, 35, 15}, { 41, 36, 23, 35, 19}, { 42, 33, 24, 35, 23}, { 43, 30, 26, 34, 27}, { 44, 27, 26, 31, 30}, { 45, 25, 26, 28, 32}, { 46, 23, 24, 24, 34}, { 47, 21, 23, 21, 34},{ 48, 19, 20, 17, 34},{ 49, 18, 18, 13, 32},
-{ 50, 18, 15, 10, 30}, { 51, 18, 12,  8, 27}, { 52, 19, 10,  6, 23}, { 53, 21,  8,  6, 19}, { 54, 23, 06,  6, 15}, { 55, 25,  5,  8, 11}, { 56, 27,  7, 13, 11}, { 57, 30,  8, 16,  8},{ 58, 33,  9, 21,  8},{ 59, 36, 12, 25,  8},
-{ 60, 36, 15, 28, 11}, { 61, 36, 18, 31, 15}, { 62, 33, 21, 32, 19}, { 63, 30, 23, 31, 24}, { 64, 27, 23, 28, 28}, { 65, 25, 23, 25, 30}, { 66, 22, 21, 21, 30}, { 67, 21, 18, 16, 30},{ 68, 20, 15, 13, 28},{ 69, 21, 12, 10, 24},
-{ 70, 22,  9,  9, 19}, { 71, 25,  8, 10, 15}, { 72, 27,  9, 15, 14}, { 73, 30, 10, 19, 11}, { 74, 33, 12, 23, 11}, { 75, 33, 15, 26, 14}, { 76, 33, 18, 28, 17}, { 77, 30, 20, 28, 22},{ 78, 27, 21, 26, 25},{ 79, 25, 20, 23, 27},
-{ 80, 23, 18, 19, 27}, { 81, 22, 15, 15, 25}, { 82, 23, 12, 13, 22}, { 83, 25, 10, 13, 17}, { 84, 25, 13, 17, 19}, { 85, 25, 15, 19, 22}, { 86, 25, 17, 21, 23}, { 87, 27, 11, 17, 15},{ 88, 27, 13, 19, 17},{ 89, 27, 15, 21, 19},
-{ 90, 27, 17, 23, 22}, { 91, 27, 19, 25, 23}, { 92, 30, 13, 21, 15}, { 93, 30, 15, 23, 17}, { 94, 30, 17, 25, 19}, { 95,  0, 64, 81, 52}, { 96,  0, 62, 80, 51}, { 97,  0, 60, 78, 49},{ 98,  0, 58, 76, 47},{ 99,  0, 57, 74, 45},
-{100,  0, 55, 72, 43}, {101,  0, 53, 71, 42}, {102,  0, 51, 69, 40}, {103,  0, 50, 67, 38}, {104,  0, 48, 63, 36}, {105,  0, 46, 64, 34}, {106,  0, 44, 62, 33}, {107,  0, 43, 60, 31},{108,  0, 41, 58, 29},{109,  0, 39, 57, 28},
-{110,  0, 38, 55, 27}, {111,  0, 36, 53, 25}, {112,  0, 34, 52, 23}, {113, 27, 71, 73, 72}, {114, 30, 71, 75, 69}, {115, 33, 72, 78, 68}, {116, 36, 73, 82, 67}, {117, 38, 75, 86, 67},{118, 39, 77, 89, 67},{119, 40, 79, 93, 68},
-{120, 41, 81, 96, 69}, {121, 41, 84, 99, 72}, {122, 41, 87,101, 75}, {123, 40, 89,103, 78}, {124, 39, 91,104, 81}, {125, 38, 93,104, 85}, {126, 36, 96,104, 89}, {127, 33, 97,103, 93},{128, 30, 98,101, 96},{129, 27, 98, 99, 98},
-{130, 25, 98, 96,101}, {131, 23, 97, 93,103}, {132, 21, 96, 89,104}, {133, 19, 93, 86,104}, {134, 17, 91, 82,104}, {135, 16, 89, 78,103}, {136, 15, 87, 75,101}, {137, 15, 84, 73, 98},{138, 15, 81, 70, 96},{139, 16, 79, 68, 93},
-{140, 17, 77, 67, 89}, {141, 19, 75, 67, 85}, {142, 21, 73, 67, 81}, {143, 23, 72, 68, 78}, {144, 25, 71, 70, 75}, {145, 27, 74, 75, 74}, {146, 30, 74, 78, 72}, {147, 33, 75, 82, 71},{148, 36, 77, 86, 71},{149, 37, 79, 89, 71},
-{150, 38, 81, 93, 72}, {151, 38, 84, 96, 74}, {152, 38, 87, 99, 77}, {153, 37, 89,100, 81}, {154, 36, 92,100, 85}, {155, 33, 93,100, 89}, {156, 30, 95, 99, 93}, {157, 27, 95, 96, 96},{158, 25, 95, 93, 98},{159, 23, 93, 89,100},
-{160, 21, 92, 86,100}, {161, 19, 89, 82,100}, {162, 18, 87, 78, 98}, {163, 18, 84, 75, 96}, {164, 18, 81, 73, 93}, {165, 19, 79, 71, 89}, {166, 21, 77, 71, 85}, {167, 23, 75, 71, 81},{168, 25, 74, 73, 77},{169, 27, 76, 78, 77},
-{170, 30, 77, 81, 74}, {171, 33, 78, 86, 74}, {172, 36, 81, 90, 74}, {173, 36, 84, 93, 77}, {174, 36, 87, 96, 81}, {175, 33, 90, 97, 85}, {176, 30, 92, 96, 90}, {177, 27, 92, 93, 94},{178, 25, 92, 90, 96},{179, 23, 90, 86, 96},
-{180, 21, 87, 81, 96}, {181, 20, 84, 78, 94}, {182, 21, 81, 75, 90}, {183, 23, 78, 74, 85}, {184, 25, 77, 75, 81}, {185, 27, 78, 80, 80}, {186, 30, 79, 84, 77}, {187, 33, 81, 88, 77},{188, 33, 84, 91, 80},{189, 33, 87, 93, 83},
-{190, 30, 89, 93, 88}, {191, 27, 90, 91, 91}, {192, 25, 89, 88, 93}, {193, 23, 87, 84, 93}, {194, 23, 84, 80, 91}, {195, 23, 81, 78, 88}, {196, 25, 79, 78, 83}, {197, 25, 82, 82, 85},{198, 25, 84, 84, 88},{199, 25, 86, 86, 89},
-{200, 27, 80, 82, 81}, {201, 27, 82, 84, 83}, {202, 27, 84, 86, 85}, {203, 27, 86, 88, 88}, {204, 27, 88, 90, 89}, {205, 30, 82, 86, 81}, {206, 30, 84, 88, 83}, {207, 30, 86, 90, 85},{208, 29, 00, 70, 64},{209, 27, 00, 68, 66},
-{210, 26, 00, 66, 67}, {211, 24, 00, 65, 69}, {212, 22, 00, 63, 71}, {213, 20, 00, 61, 73}, {214, 18, 00, 59, 75}, {215, 17, 00, 57, 77}, {216, 15, 00, 56, 79}, {217,  0, 62, 54, 79},{218,  0, 60, 53, 77},{219,  0, 59, 51, 75},
-{220,  0, 57, 49, 74}, {221,  0, 55, 47, 72}, {222,  0, 53, 46, 70}, {223,  0, 52, 44, 68}, {224,  0, 50, 42, 67}, {225,  0, 48, 41, 65}, {226,  0, 46, 39, 63}, {227,  0, 45, 37, 61},{228,  0, 43, 35, 60},{229,  0, 41, 34, 58},
-{230,  0, 40, 32, 56}, {231,  0, 38, 30, 54}, {232, 13, 36, 29, 53}, {233, 15, 00, 29, 51}, {234, 17, 00, 30, 50}, {235, 18, 00, 32, 48}, {236, 20, 00, 34, 46}, {237, 22, 00, 36, 44},{238, 24, 00, 37, 43},{239, 26, 00, 39, 41},
-{240, 27, 00, 41, 39}, {241, 29, 00, 43, 00}, {242,  0, 74, 53,105}, {243,  0, 76, 55,107}, {244,  0, 78, 57,109}, {245,  0, 80, 59,111}, {246,  0, 26,  1, 55}, {247,  0, 27,  3, 56},{248,  0, 29,  5, 58},{249,  0, 31,  7, 60},
-{250,  0, 32,  8, 61}, {251,  0, 34, 10, 63}, {252,  0, 36, 12, 65}, {253,  0, 37, 13, 67}, {254,  0, 39, 15, 68}, {255,  0, 41, 17, 70}, {256,  0, 43, 19, 75}, {257,  0, 44, 20, 74},{258,  0, 46, 22, 75},{259,  0, 48, 24, 77},
-{260,  0, 49, 25, 79}, {261,  0, 51, 27, 80}, {262,  0, 53, 29, 82}, {263,  0, 55, 30, 84}, {264,  0, 57, 32, 86}, {265,  0, 58, 34, 88}, {266,  0, 60, 35, 90}, {267,  0, 62, 37, 91},{268,  0, 64, 39, 93},{269,  0, 65, 40, 95}};
- 
-
-boolean rightEyeQuartAnim [4][95] = {
-{ 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 
-  1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 
-  1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 
-  0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 
-  0, 0, 0, 0, 0 },
-{ 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 
-  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 
-  0, 0, 1, 1, 0 },
-{ 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 
-  1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 
-  1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 
-  1, 1, 0, 1, 1 },
-{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 
-  1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 
-  1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-  0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 
-  0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 
-  1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 
-  1, 1, 0, 0, 0 }
-};
-
 struct tuneInfo {
-  int bpm;
-  int drop1;
-  int drop2;
-  int tuneLength;
-  tuneInfo(int aBpm, int aDrop1, int aDrop2, int aTuneLength) : bpm(aBpm), drop1(aDrop1), drop2(aDrop2), tuneLength(aTuneLength) { 
+  byte bpm;
+  byte drop;
+  byte tuneLength;
+  byte maxFadeIn;
+  byte minFadeOut;
+  byte maxFadeOut;
+  byte shortMixEnd; // Tune best end is where the tune should finish if the mix length is less than 8 bars.
+  bool playOut;
+  tuneInfo(byte aBpm, byte aDrop, byte aTuneLength, byte aMaxFadeIn, byte aMinFadeOut, byte aMaxFadeOut, byte aShortMixEnd, bool aPlayOut) :
+    bpm(aBpm), drop(aDrop), tuneLength(aTuneLength), maxFadeIn(aMaxFadeIn), minFadeOut(aMinFadeOut), maxFadeOut(aMaxFadeOut), shortMixEnd(aShortMixEnd), playOut(aPlayOut) {
   }
 };
 
-tuneInfo tunesLibrary[5][10] = {
- {{103,  5, 69, 123},  // Moma said knock you out        // 0, 1   Hip-hop
-  {101,  5, 25,  81},  // Lets get ill
-  { 95,  2, 49, 108},  // Dre California
-  { 93,  9, 49, 113},  // No Diggidy
-  {100,  5, 25,  54},  // Like it raw
-  {162,  7, 65, 143},  // Bigger than hip hop
-  { 93,  3, 61,  73},  // Close to me snoop
-  {160,  9, 81, 153},  // Coolio Gansters paradise
-  {100,  5, 47 , 89},  // HipHopHooray
-  {108,  4, 34,  96}}, // Jump Around 
-  
- {{102,  9, 97, 137},  // Aphex Ageopolis  
-  {103,  7, 83, 111},  // Whitetown I could never
-  { 96,  9, 53,  76},  // DM Big L 
-  {117,  9, 29,  75},  // Air Remember
-  { 86, 13, 69,  77},  // DM Zero7
-  { 92,  9, 33,  52},  // BOC Roygbiv 
-  {127,  5, 33, 125},  // Royksop Remind me
-  {105, 10, 38, 116},  // Chakka Aint nobody
-  {140, 41, 93, 129},  // FOTC The humans are dead
-  { 87,  5, 49,  89}}, // Roos Manuva Again and again
-
- {{ 86,  9,  0,  51},  // Tenor Saw Ring the Alarm
-  {102, 49, 61, 119},  // Toots Funky Kingston
-  { 80,  0,  0,  79},  // WayneSmith - UnderMeSleng Teng
-  { 86,  0,  0,  67},  // Sis Nancy Bam Bam
-  { 83,  0,  0, 77},  // Althea&Donna Strictly Roots
-  { 77, 27,  0, 52},  // Damian Marley Welcome To Jamrock
-  {147, 13, 59, 147}, // Tanya S - It's a pity
-  { 88,  0,  0,  72}, // Marcia G - Feel like jumping
-  { 82,  0,  0,  72}, // Cant stop now, MajorLazer
-  {000,  0,  0, 000}}, 
- 
- {{160,  0,  0, 113}, // Kim Wilde - Kids in America
-  {126,  0,  0,  81}, //Kylie - cant get you out
-  {112,  0,  0, 101}, //Hall&Oates - I can't go for that
-  { 97,  0,  0,  63}, //George Michael - Faith
-  {122, 49, 87, 107}, //DeeLite - Groove is in the heart
-  {126,  0,  0, 103}, //Euritmics - sweet dreams
-  {126, 39,  0,  97}, //PaulSimon&Dylan Stuck in the middle
-  {164,  9, 65, 136}, //Martha&Muffins Echo Beach
-  {199,  0,  0, 111}, //TheCoral - DreamingOfYou
-  {000,  0,  0, 000}},
-
- {{133, 29, 53, 120}, // A rinky dinky
-  {136,  5, 45,  93}, // Israelites mix
-  {108, 57,  0,  83}, // Kelis - Trick Me
-  {150,  9, 25, 125}, // Dubbleedge - Lips to the floor
-  {134, 17,105, 121}, // Zero Emit Collect
-  {125, 29, 71, 103}, // Dizee Bonkers
-  {115, 21, 57,  84}, // RizzleKicks - DownWithTheTrumpets
-  {168, 29, 93, 173}, // OneTime
-  {000,  0,  0, 000},
-  {000,  0,  0, 000}}    
+// Genre 0, RAVE!
+tuneInfo tuneLibRave[31] = {
+  {149, 68, 144, 16,  0, 16,  0, false }, //1  TripToTheMoonPt2-Acen.
+  {136, 80, 104, 16,  0, 16, 16, false},  //2  Bombscare-2BadMice.
+  {126,  0, 118,  8,  0, 16,  8, false},  //3  LFO-LFO.
+  {131,  0, 128,  8,  0, 16, 16, true},   //4  Infiltrate202-Altern8.
+  {122,  0, 118,  8,  0, 16, 12, true},   //5  DirtyCash-SoldOutMix.
+  {122,  0, 132,  8,  0, 16, 12, true},   //6  Break4Love-Raze
+  {124, 44,  96, 16,  0, 16, 12, true},   //7  IsThereAnybodyOutThere-Bassheads.
+  {128,  0, 119,  8,  4, 16, 16, false},  //8  PacificState-808State.
+  {150,  0, 163,  0,  0, 16, 16, false},  //9  OutOfSpace-Prodigy.
+  {132,  0, 122,  8,  0, 16, 16, true},   //10 Breathe-Prodigy.
+  {138,  0, 148, 16,  0, 16,  8, false},  //11 SmackMyBitchUp-Prodigy.
+  {128,  0, 116, 16,  0, 16, 16, false},  //12 BreakOfDawn-RhythmOnTheLoose.
+  {132,  0, 116, 16,  0, 16, 16, false},  //13 BlueMonday-NewOrder.
+  {132, 60, 128, 16,  0, 16,  8, false},  //14 PlayingWithKnives-BizzarreInc.
+  {120, 16, 128, 16,  0, 16, 16, false},  //15 KillerFeatTopCat-BoozooBajou
+  {136, 60, 128, 16,  8, 16, 16, false},  //16 LivingLegends-RaggaTwins
+  {135, 48, 132, 16,  0, 16,  0, false},  //17 FeelingForYou-Cassius
+  {138,128, 206, 0,  0, 16, 16, true},    //18 DidIt-Sticky
+  {135, 72, 106, 16,  0, 16,  8, false},  //19 HowLoveBegins-HighContrastDizee
+  {130, 80, 122, 16,  0, 16,  0, false},  //20 StringsOfLife-DerrickMay
+  {137, 80, 112, 16,  0, 16, 16, false},  //21 SweetHarmony-Liquid
+  {126,  0, 113, 16,  0, 16, 16, true},   //22 WhereLoveLives-AlisonLimerick
+  {135,  0, 110, 16,  0, 16,  0, false},  //23 DontGo-Awesome3
+  {128, 74, 118,  8,  0, 16,  8, true},   //24 GoodLife-InnerCity
+  {140, 56, 136, 16,  0, 16,  8, false},  //25 OnARaggaTip-SL2
+  {126, 88, 112, 16,  0, 16, 16, false},  //26 Anthem-NJoi
+  {122, 64, 104,  8,  0, 16, 16, true},   //27 RhythmIsAMystery-KKlass
+  {121, 60,  96, 16,  0, 16, 16, false},  //28 Chime-Orbital
+  {130, 92, 121, 0,  16, 12,  0, false }, //29 High-HyperGoGo
+  {135, 92, 144,  8,  0, 16,  0, false }, //30 FarOut-SonzOfALoopDeLoopEra
+  {126, 34, 133, 2,  16, 16,  8, false }, //31 TakeMeAway-FinalCut
 };
 
-/* 
+/* tuneInfo tuneLibRave[4] = {
+  {149, 68, 16, 4,  0, 4, 4, false }, //1  TripToTheMoonPt2-Acen.
+  {136, 80, 16, 4,  0, 4, 4, false},  //2  Bombscare-2BadMice.
+  {126,  0, 16, 4,  0, 4, 4, false},  //3  LFO-LFO.
+  {131,  0, 16, 4,  0, 4, 4, true}   //4  Infiltrate202-Altern8.
+  }; */
 
- {{000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000},
-  {000,  0,  0, 000}}, 
-};   */ 
-  
+// Genre 1, Disco
+tuneInfo tuneLibDisco[28] = {
+  {125,  0, 101,  8,  4,  8,  8, false},  // 1 ILoveTheNightlife - Alecia Bridges
+  {110,  0, 128,  8,  4, 16, 16, true},   // 2 LastNightADjSavedMyLife-Indeep
+  {134,  0, 149,  8,  0, 16, 16, true},   // 3 LayAllYourLoveOnMe-Abba
+  {121,  0, 157,  8,  4, 16, 14, false},  // 4 HotStuff-DonnaSummer
+  {128,  0, 110,  8,  4,  8, 14, true},   // 5 RingMyBell-AnitaWard
+  {128,  0, 209, 16,  0, 16, 16, true},   // 6 EverybodyDance-Chic
+  {111,  0, 100,  8,  0, 16, 16, true},   // 7 GoodTimes-Chic
+  {102,  0, 112,  8,  4,  8,  8, true},   // 8 ThinkingOfYou-SisSledge
+  {117,  0, 104,  8,  0,  8 , 8, true},   // 9 SheCantLoveYou-Chemise
+  {112,  0, 130,  8,  0, 16, 16, true},   // 10 Automatic-PointerSisters
+  {105,  0, 120,  8,  0,  8,  8, true},   // 11 StayinAlive-BeeGees
+  {114,  0, 101,  4,  4,  8,  8, false},  // 12 BestOfMyLove-TheEmotions
+  {125,  0,  95,  4,  0, 16, 16, true},   // 13 ILoveTheNightlife-AliciaBridges
+  {110,  0,  96,  8,  0, 16, 16, true},   // 14 NightFever-BeeGees
+  {111,  0, 102,  8,  0, 16,  4, true},   // 15 GiveMeTheNight-GeorgeBenson
+  {118,  0, 135,  8,  0,  8,  8, true},   // 16 YesSirICanBoogie-Baccara
+  {129,  0, 149,  8,  0,  8,  8, true},   // 17 LayAllYourLoveOnMe-Abba
+  {116,  0,  96, 16,  4, 16, 16, false},  // 18 HesTheGreatestDancer-SisSledge
+  {108,  0,  80,  8,  0,  8,  8, true},   // 19 FeelLikeIDo-Disclosure
+  {108,  0, 108,  8,  8,  8,  8, true},   // 20 TakeAChanceOnMe-Abba
+  { 92,  0, 100,  8,  0,  8,  8, true},   // 21 StrawberryLetter23-TheBrothersJohnson
+  {126,  0, 105,  8,  0,  8,  8, true},   // 22 DaddyCool-BoneyM
+  {126,  0, 112,  8,  0,  8,  0, false},  // 23 IFeelLove-DonnaSummer
+  {131,  0, 112,  8,  0,  8,  8, true},   // 24 DiscoInferno-TheTrammps
+  {118,  0, 112, 16,  4, 16, 16, true},   // 25 LeFreak-Chic
+  {118,  0, 141,  8,  0,  8,  8, true},   // 26 BoogieWonderland-EarthWindAndFire
+  {132,  0, 154, 16,  4,  8,  4, false},  // 27 Shame-EvelynChampageKing
+  {123,  0,  98,  8,  4 ,  8,  8, false},  // 28 DISCO-Ottowan
+};
+
+
+// Genre 2, Reggae
+tuneInfo tuneLibReggae[28] = {
+  {170,  0, 132,  8,  0, 16, 16, false},  //1 RingTheAlarm-TenorSaw
+  {102,  0, 118,  8,  0,  8,  8, false},  //2 FunkyKingston-Toots
+  {164,  0, 164,  8,  0, 16, 16, false},  //3 UnderMeSlengTeng-WayneSmith
+  {162,  0, 126,  8,  0, 16, 16, true},   //4 BamBam-SisNancy
+  {162,  0, 156,  8,  4, 16, 16, true},   //5 StrictlyRoots-Althea&Donna
+  {156,  0, 134,  0,  6, 10, 10, true},   //6 WelcomeToJamrock-DamianMarley
+  {148,  0, 150,  0,  4, 16, 16, true},   //7 ItsAPity-TanyaStevens
+  {172,  0, 144,  8,  4,  8,  8, true},   //8 FeelLikeJumping-MarciaG
+  {164,  0, 164,  8,  0, 16,  0, false},  //9 CantStopNow-MajorLazer
+  {148,  0, 106,  8,  0, 16, 16, true},   //10 PressureDrop-Toots
+  {104,  0, 100,  4,  0, 16, 16, true},   //11 CouldYouBeLoved-BobMarley
+  { 92,  0, 100,  8,  0, 16, 16, true},   //12 DidYouReallyKnow-MungoHiFi
+  {131,  0, 129,  0,  0,  8,  8, true},   //13 ThingsInLife-BarryBrown
+  {180,  0, 140,  8,  4,  8,  8, false},  //14 StandUp-MrBenn
+  { 96,  0, 120,  8,  4, 16, 16, false},  //15 LongTime-MrBenn
+  {161,  0, 148,  8,  8, 12, 12, true},   //16 YouthDemCold-RichieSpice
+  { 93,  0, 102,  0,  4, 12,  8, true},   //17 HavingAParty-LeeScratchPerry
+  {138,  0, 160,  8,  4,  8,  8, true},   //18 Behold-Culture
+  {144,  0,  78,  0,  4,  8,  8, true},   //19 SunIsShining-BobMarley
+  {128,  0,  88,  8,  0,  8,  8, false},  //20 RoadBlock-GeneralLevy
+  {174,  0,  88,  8,  0, 16, 16, true},   //21 HereICome-BarringtonLevy
+  {161,  0, 124,  0,  0,  8,  8, true},   //22 JohnnyTooBad-Slickers
+  {161,  0, 124,  8,  0,  8,  8, true},   //23 DoubleBarrel-DaveAndAnsellCollins
+  {102,  0, 124,  0,  0,  4,  4, true},   //24 LoveOfTheCommonPeople-NickyThomas
+  {178,  0, 156,  8,  4,  8,  8, false},  //25 DayIntoNight-Katalyst
+  {143,  0, 156,  8,  0,  8,  8, true},   //26 ThatVeryNight-HollieCook
+  {144,  0, 126,  4,  4,  8,  8, true},   //27 PoliceInHelicopter-JohnHolt
+  {142,  0, 132,  4,  4,  8,  8, true},   //28 GanjaSmuggling-EekAMouse
+};
+
+// Genre 3, Rock&Pop
+tuneInfo tuneLibRockAndPop[28] = {
+  { 82,  0,  66,  8,  0,  4,  4, true},  //1 KidsInAmerica-KimWilde
+  {130,  0, 120, 16,  0, 16,  8, false}, //2 CantGetYouOut-Kylie
+  {112,  0, 102,  8,  0,  8,  8, true},  //3 ICantGoForThat-Hall&Oates
+  { 98,  0,  63,  0,  0,  0,  0, true},  //4 Faith-GeorgeMichael
+  {122, 44, 102,  4,  4, 12,  8, true},  //5 GrooveIsInTheHeart-DeeLite
+  {128,  0, 110,  4,  0,  8,  8, true},  //6 SweetDreams-Euritmics
+  {126, 37, 100,  4,  0,  8,  8, true},  //7 StuckInTheMiddle-SteelersWheel
+  {164,  0,  68,  4,  0,  4,  8, true},  //8 Martha&Muffins Echo Beach
+  {103,  0,  58,  2,  0,  2,  2, true},  //9 DreamingOfYou-TheCoral
+  {100,  0,  58,  0,  0,  2,  2, true},  //10 BlisterInTheSun-VoilentFemmes
+  {116,  0,  99,  4,  4,  8,  4, true},  //11 ALittleRespect-Erasure
+  { 99,  0, 102,  4,  0,  8,  4, true},  //12 Superstition-StevieWonder
+  {114,  0, 104,  0,  0,  4,  4, true},  //13 Kiss-Prince
+  {112, 26, 114, 16,  0, 16,  8, false}, //14 WatchOutForThis-MajorLazer
+  {134,  0, 138,  8,  0,  8,  8, true},  //15 YouCantTouchThis-MCHammer
+  {112,  0,  83,  1,  4,  8,  8, true},  //16 Crazy-GnarlesBarkley
+  {170,  0, 166, 16,  0,  2,  2, true},  //17 CostaDelEssex-Someone  **
+  {110, 18,  87,  4,  4,  8,  8, true},  //18 IWantToBreakFree-Queen
+  {145,  0, 123,  1,  4,  8,  6, true},  //19 CallMe-Blondie
+  {131,  0, 116,  8,  0,  8,  8, true},  //20 RockTheCasbah-TheClash
+  {118,  0, 34,   0,  0,  8,  8, true},  //21 Minder
+  { 90,  0, 78,   2,  0,  8,  4, true},  //22 SummerDay-SoomT
+  { 94,  0, 56,   8,  0,  2,  2, true},  //23 Mutha'uckas-FlightOfTheChonchordes
+  { 90,  0, 77,   8,  0,  8,  4, true},  //24 GetUrFreakOn-MissyElliot
+  { 86,  0, 44,   4,  4,  8,  8, true},  //25 HitTheRoadJack - RayCharles
+  { 86,  0, 44,   2,  1,  2,  2, false},  //26 Crash-ThePrimitives
+  {119,  0, 124,  8,  4,  8,  8, true},  //27 OnceInALifetime-TalkingHeads
+  { 85,  0,  54,  2,  0,  2,  2, true},  //28 BoysDontCry-TheCure
+};
+
+// Genre 4, Easy
+tuneInfo tuneLibEasy[28] = {
+  {122,  0, 134,  8,  2,  4,  4, false},  //1 BackToMyRoots - RichieHavens
+  {104,  0,  59,  4,  0,  4,  4, true},   //2 Think - Aretha
+  {100,  0, 182,  8,  4,  8,  8, false},  //3 As - Wonder
+  {174,  0, 158,  4,  0,  8 , 8, true},   //4 Roady - FatFreddyNextmen
+  {132,  0,  88,  2,  2,  4,  4, true},   //5 Beggin - FrankieValli
+  { 98,  0,  72,  1,  4,  8,  2, true},   //6 IGotAWoman - RayCharles
+  {156,  0, 144,  2,  2,  8,  6, true},   //7 MilkAndHoney-PrinceFatty
+  {126,  0, 122,  2,  4,  4,  4, true},   //8 BackToBlack - Amy
+  {132,  0, 166,  4,  4,  4,  4, true},   //9 MasterBlaster-StevieWonder
+  {109,  0, 116,  8,  0,  8,  8, true},   //10 AllNightLong - LionelRichie
+  { 96,  0,  96,  4,  0,  6,  6, true},   //11 INeedADollar-AloeBlacc
+  {122,  0, 124,  4,  0,  8,  8, true},   //12 GotToGiveItUp-MarvinGaye
+  {139, 37, 124,  4,  0,  8,  8, true},   //13 TheHumansAreDead-FOTC
+  {175,  0, 176,  8,  0,  8,  8, false},  //14 AgainAndAgain-RootsManuva
+  {116,  0, 134,  8,  0,  6,  6, true},   //15 JamacianBoy-LoneRanger
+  {171,  0, 186,  8,  0,  8,  8, true},   //16 TheLook-Metronomy
+  {129,  0, 124,  4,  0,  8,  8, false},  //17 ReadyForTheFloor-HotChip
+  {170,  0, 104, 16,  0,  8,  4, true},   //18 Rogbiv-Boa   rdsOfCanada
+  {102,  0, 136,  8,  0,  8,  8, false},  //19 Ageopolis-AphexTwin
+  {103,  0, 110,  8,  0,  8,  8, false},  //20 ICouldNeverBeYourMan-WhiteTown
+  {154,  0, 140,  8,  0, 16,  0, true},   //21 Bigger than hip hop-DedPrez
+  { 95,  0, 140,  8,  4,  8,  8, false},  //22 PutItOn-Danger Mouse/BigL
+  {118,  0,  74,  8,  0,  8,  8, false},  //23 Air-Remember
+  {172,  0, 136,  0,  0,  8,  8, true},   //24 Somersault-DangerMouse/Zero7/MFDoom
+  { 93,  0,  96,  8,  0,  8,  8, false},  //25 MySound-SkarraMucci
+  { 90,  0,  82,  4,  2,  6,  4, false},  //26 TheSong-SkarraMucchi
+  {102,  0,  74,  8,  2,  6,  6, true},  //27 IfYouWantMeToStay-SlyAndTheFamilyStone
+  {102,  0,  82,  8,  4,  8,  8, true},   //28 Rocksteady-Aretha
+};
+
+// bpm drp len mxIn mnOut mxOut bestEnd playOut */
+// Genre 5, Dance
+tuneInfo tuneLibDance[28] = {
+  {134, 30, 124,  8 , 0, 16,  8, false},  //1 A rinky dinky
+  {110, 58,  88,  8,  0, 16, 16 , true},  //2 Kelis - Trick Me
+  {150,  0, 132, 16,  0,  4,  4, false},  //3 Dubbleedge - Lips to the floor
+  {134,106, 168, 16,  0, 16, 12, false},  //4 Zero Emit Collect
+  {126, 72,  92,  0,  2, 10, 10, false},  //5 Dizee Bonkers
+  {118,  0,  88,  8,  0,  8,  8, true},   //6 DownWithTheTrumpets-RizzleKicks
+  {112, 85, 104,  8,  0,  8,  8, true},   //7 PraiseYou-FatBoySlim
+  {132,  0, 162, 16,  0,  8,  8, true},   //8 WileOut - DJ Zinc - DownWithTheTrumpets
+  {146,  0, 170, 16,  0, 12, 10, false},  //9 Aphex - Polynomial C - ????????????????????
+  {124,  0, 189,  2,  2,  8,  8, false},  //10 Aphex WindowLicker
+  {122,  0, 155,  8,  4, 16,  8, false},  //11 OverAndOver-HotChip
+  {142,  0, 124,  4,  4, 16, 16, false},  //12 Omen - Prodigy
+  {128,  0, 108,  8,  0, 16, 16, false},  //13 DibbyDibbySound-MajorLazer
+  {132,  0, 120,  8,  0, 16, 16, false},  //14 ClintEastwood-EdCaseGorillaz
+  {128,  0, 104,  8,  0,  8,  8, true},   //15 AllAboutThatBass-MeganTrainor -- move to rock pop
+  {126,  0, 109,  8,  0,  9,  8, false},  //16 WeDontCare-AudioBullys - ????????????????????
+  {128,  0, 108,  8,  0, 12, 12, false},  //17 TooOriginal-MajorLazer
+  {140,  0, 117, 16,  0, 16, 12, true},   //18 BasslineJunkie-DizzeeRascal
+  {140,  0, 161, 16,  0, 16, 16, false},  //19 FeelLikeJumping-KraftyKuts
+  {173,  0, 139,  8,  0, 11,  8, false},  //20 TotallyAddictedToBass-SonicBoomSix
+  {152,  0, 150,  8,  0,  4,  4, true},   //21 TheRockerfellerSkank-FatboySlim
+  {152,  0, 136,  8,  0,  8,  8, true},   //22 InForTheKill-LaRoux
+  {130,  0, 144,  8,  0,  8,  8, true},   //23 HeyBoyHeyGirl-ChemicalBrothers
+  {126,  0, 112,  8,  0,  8,  4, false},  //24 LikeAG6-FarEastMovement
+  {124,  0, 112, 16,  0, 16,  0, false},  //25 ButIFeelGood-GrooveArmada
+  {116,  0, 128,  8,  0,  8,  8, false},  //26 UptownFunk-MarkRonson
+  {137,  0, 114,  0,  1,  1,  1, true},   //27 DaftPunkIsPlayingAtMyHouse-LCDSoundSystem
+  {114,  0, 116, 16,  4, 16, 16, false},  //28 DaFunk-DaftPunk
+};
+
+/*
+  //  bpm drop tuneLength maxFadeIn minFadeOut maxFadeOut dropOffset  */
+
+// Genre 6, Drum&Bass
+tuneInfo tuneLibDrumAndBass[27] = {
+  {176,  0, 208, 32,  2, 32, 32, false},  //1 Girls-DJHypeAndPotential
+  {176,  0, 192, 32,  2, 32, 32, false},  //2 DuppyMan-ChaseAndStatusCapleton
+  {180,  0, 204, 32,  2, 32, 32, false},  //3 PullUp-ResonatGenLevy
+  {176,  0, 196, 32,  2, 32, 32, false},  //4 GoldDigger-HighContrast
+  {177,  0, 192, 32,  2, 32, 32, false},  //5 ShakeUrBody-ShyFX
+  {174,  0, 144, 32,  2, 32, 32, false},  //6 KingOfTheBeats2016-Aphrodite
+  {180,  0, 184, 32,  2, 32, 32, false},  //7 LastNight-BennyPage
+  {176,  0, 208, 32,  2, 32, 16, false},  //8 TurnDownTheLights-BennyPage
+  {175,  0, 152, 32,  2, 32, 32, false},  //9 PassTheKutchie-BennyPage
+  {175,  0, 184, 32,  2, 32, 32, false},  //10 PassMeTheRizla-Deekline
+  {176,  0, 192, 32,  2, 32, 32, false},  //11 CryingOut-BennyPageSerialKillazMix
+  {176,  0, 160, 32,  2, 32, 32, false},  //12 ProfessionalGangaSmoker-GenLevy
+  {175,  0, 160, 32,  2, 32, 32, false},  //13 TopRankSkank-BennyPage
+  {176,  0, 200, 32,  2, 32, 32, false},  //14 BamBam-SerialKillaz
+  {176,  0, 184, 32,  2, 32, 32, false},  //15 NoNoNo-SerialKillaz
+  {175,  0, 176, 32,  2, 32, 32, false},  //16 RaggaTip-EdSolo
+  {174,  0, 192, 32,  2, 32, 32, false},  //17 KissKissBangBang-HighContrast
+  {174,  0, 192, 32,  2, 32, 16, false},  //18 Deep-TC
+  {177,  0, 132, 24,  2, 32, 32, false},  //19 GoldDust-ShyFXMix
+  {177,  0, 184, 32,  2, 32,  8, false},  //20 BlazingFire-BennyPage
+  {175,  0, 176, 32,  2, 32, 32, false},  //21 HitTheRoadJack-DeeklineEdSoloGala
+  {176,  0, 160, 32,  2, 32, 32, false},  //22 Incredible-MBeat
+  {174,  0, 176, 32,  2, 32, 32, false},  //23 Workout-AndyC
+  {174,  0, 168, 32,  2, 32, 32, false},  //24 RemindMe-HighContrast
+  {174,  0, 168, 32,  2, 32, 32, false},  //25 PassOutDCBreaks-TinyTempah
+  {170,  0, 136, 16,  2, 32, 32, false},  //26 OriginalNuttah-ShyFX
+  {180,  0, 128, 32,  2, 32, 32, false},  //27 HandsUp-DjHype
+};
+
+// Genre 7, HipHop
+tuneInfo tuneLibHipHop[28] = {
+  {101,  0,  80,  4,  0, 16, 16, false},  //1 Lets get ill
+  { 90,  0, 108,  4,  0, 16,  8, false},  //2 No Diggidy
+  { 97,  0,  66,  8,  4, 16, 16, true},   //3 ShimmyShimmyYa-ODB
+  {104,  0, 114,  4,  4, 16,  8, false},  //4 Moma said knock you out
+  { 93,  0,  70,  8,  0,  8,  8, false},  //5 InDaClub-50Cent
+  { 95,  0, 100,  8,  0, 16, 16, false},  //6 DropItLikeItsCloseToMe-Snoop
+  { 98,  0, 100,  4,  0,  8,  8, false},  //7 OPP-NaughtyByNature
+  {100,  0, 102,  8,  0, 16,  4, true},   //8 HipHopHooray
+  {108,  0,  88,  8,  0,  8,  8, false},  //9 JumpAround-HouseOfPain
+  {102,  0,  86,  8,  0,  8,  8, true},   //10 InsazlleInTheBazzle-CyprusHazzle
+  {108,  0,  98,  4,  2,  8,  8, false},  //11 KingKunta-KendrickLamar
+  { 95,  0,  82,  8,  0,  8,  8, false},  //12 GinAndJuice-Snoop
+  {106,  0,  96,  8,  0,  8,  8, false},  //13 HotInHere-Nelly
+  {120,  0, 115,  8,  0,  8,  8, true},   //14 GravelPit-WuTangClan
+  { 98,  0,  80,  8,  0,  8,  0, false},  //15 TheOnlyOne-DangermouseJemini
+  { 93,  0, 100,  8,  0,  8,  8, false},  //16 FamilyAffair-MaryJBlige
+  { 93,  0,  60,  8,  0,  8,  8, true},   //17 HitsFromTheBong-CypressHill
+  { 96,  0,  96,  8,  0,  8,  8, false},  //18 Regulate-WarrenG
+  {102,  0,  88,  8,  0,  8,  8, true},   //19 GetBusy-SeanPaul
+  { 96,  0,  80,  8,  2,  8,  8, false},  //20 GoldDigger-Kanye
+  { 92,  0,  80,  4,  4,  8,  8, false},  //21 Breathe-BluCantrell
+  {102,  0,  80,  4,  0,  4,  4, false},  //22 NoLie-SeanPaul
+  { 95,  0, 100,  8,  0,  8,  8, true},   //23 MsJackson-Outkast
+  { 95,  0,  86,  4,  0,  8,  8, true},   //24 XGonGiveItToYa-DMX
+  {134,  0, 124,  8,  0,  8,  8, true},   //25 ForgotAboutDre-DreEminem
+  { 93,  0, 104,  8,  0,  8,  8, false},  //26 StillDRE-DrDre
+  { 98,  0, 102,  4,  0,  8,  8, true},   //27 X-Xzibit
+  { 98,  0, 100,  4,  0,  8,  8, true},   //27 X-Xzibit
+};
+
+
+tuneInfo currentTune = tuneLibHipHop[0];
+tuneInfo nextTune = tuneLibHipHop[0];
+
+//
+
+int eyeCoords[93][2] = {
+  { 55, 107}, { 64, 106}, { 75, 104}, { 84, 98}, { 92, 93}, { 98, 85}, {103, 76}, {107, 66}, {108, 56}, {107, 45},
+  {103, 35}, { 98, 27}, { 92, 18}, { 84, 12}, { 75,  7}, { 64,  3}, { 55,  2}, { 45,  3}, { 35,  7}, { 26, 12},
+  { 18, 18}, { 12, 27}, {  7, 35}, {  4, 45}, {  3, 56}, {  4, 66}, {  7, 76}, { 12, 85}, { 18, 93}, { 26, 98},
+  { 35, 104}, { 45, 106}, { 55, 98}, { 66, 97}, { 76, 92}, { 85, 86}, { 91, 77}, { 96, 66}, { 97, 55}, { 96, 44},
+  { 91, 35}, { 84, 26}, { 76, 18}, { 66, 14}, { 55, 13}, { 45, 14}, { 34, 18}, { 26, 26}, { 18, 35}, { 14, 44},
+  { 12, 55}, { 14, 66}, { 18, 77}, { 25, 85}, { 34, 92}, { 44, 97}, { 55, 88}, { 67, 86}, { 77, 78}, { 85, 68},
+  { 87, 55}, { 85, 43}, { 77, 33}, { 67, 25}, { 55, 23}, { 43, 25}, { 32, 33}, { 25, 43}, { 23, 55}, { 25, 68},
+  { 32, 78}, { 43, 86}, { 55, 78}, { 66, 75}, { 74, 67}, { 77, 55}, { 75, 44}, { 67, 36}, { 55, 33}, { 44, 36},
+  { 36, 44}, { 33, 55}, { 35, 67}, { 43, 75}, { 55, 68}, { 64, 64}, { 67, 55}, { 64, 47}, { 55, 43}, { 46, 47},
+  { 43, 55}, { 46, 64}, { 55, 55}
+};   //
+int armCoords[24][2] = {
+  { 0,  6}, { 0, 13}, { 0, 19}, { 0, 25}, { 0, 31}, { 0, 38}, { 0, 44}, { 0, 50}, { 0, 57}, { 0, 62},
+  { 0, 69}, { 0, 75}, { 0, 82}, { 0, 88}, { 0, 94}, { 0, 100}, { 0, 106}, { 0, 113}, { 0, 119}, { 0, 125},
+  { 0, 131}, { 0, 138}, { 0, 144}, { 0, 150}
+};
+int horizCoords[26][2] = {
+  {  7, 0}, { 13, 0}, { 20, 0}, { 27, 0}, { 33, 0}, { 40, 0}, { 47, 0}, { 53, 0}, { 60, 0}, { 67, 0},
+  { 73, 0}, { 80, 0}, { 87, 0}, { 93, 0}, {100, 0}, {107, 0}, {113, 0}, {120, 0}, {127, 0}, {133, 0},
+  {140, 0}, {147, 0}, {153, 0}, {160, 0}, {167, 0}, {173, 0}
+};
+int tapeCoords[34][2] = {
+  { 00,  7}, { 00, 13}, { 00, 20}, { 00, 27}, { 00, 33}, { 00, 40}, { 00, 47}, { 00, 53}, { 00, 60}, {  4, 60},
+  { 10, 60}, { 17, 60}, { 24, 60}, { 30, 60}, { 36, 60}, { 44, 60}, { 50, 60}, { 57, 60}, { 64, 60}, { 70, 60},
+  { 77, 60}, { 84, 60}, { 90, 60}, { 97, 60}, {104, 60}, {104, 60}, {104, 53}, {104, 47}, {104, 40}, {104, 33},
+  {104, 27}, {104, 20}, {104, 13}, {104,  7}
+};
+int tubeCoords[90][2] = {
+  {100, 197}, {108, 197}, {113, 196}, {122, 194}, {129, 191}, {137, 188}, {143, 186}, {150, 181}, {157, 178}, {162, 172},
+  {167, 168}, {172, 163}, {177, 158}, {183, 152}, {187, 145}, {190, 138}, {193, 131}, {195, 124}, {197, 118}, {198, 111},
+  {198, 105}, {198, 98}, {197, 92}, {196, 84}, {195, 78}, {194, 72}, {193, 65}, {190, 59}, {188, 52}, {183, 46},
+  {179, 40}, {175, 34}, {170, 29}, {166, 26}, {161, 22}, {156, 18}, {149, 16}, {143, 11}, {138,  8}, {134,  5},
+  {128,  4}, {122,  3}, {116,  2}, {112,  2}, {105,  1}, {100,  0}, { 93,  1}, { 87,  2}, { 79,  4}, { 71,  8},
+  { 63, 10}, { 58, 12}, { 50, 16}, { 44, 20}, { 38, 23}, { 33, 28}, { 29, 32}, { 24, 36}, { 20, 42}, { 16, 48},
+  { 12, 74}, {  8, 59}, {  5, 67}, {  3, 74}, {  2, 82}, {  2, 88}, {  1, 94}, {  0, 100}, {  1, 108}, {  2, 114},
+  {  3, 119}, {  5, 127}, {  6, 134}, {  8, 140}, { 12, 146}, { 15, 154}, { 19, 158}, { 23, 162}, { 27, 166}, { 30, 170},
+  { 37, 175}, { 42, 179}, { 48, 182}, { 55, 185}, { 62, 189}, { 69, 193}, { 77, 194}, { 83, 196}, { 88, 197}, { 95, 198}
+};
+int binCoords[203][2] = {  // 3               // 5                             // 8                  // 0
+  {230, 460}, {238, 459}, {245, 459}, {251, 458}, {258, 458}, {266, 458}, {272, 457}, {277, 455}, {285, 453}, {292, 450},
+  {299, 447}, {305, 444}, {324, 439}, {329, 436}, {335, 432}, {340, 430}, {347, 425}, {352, 421}, {357, 416}, {360, 410}, // 20
+  {365, 406}, {370, 402}, {375, 400}, {380, 394}, {385, 386}, {390, 382}, {394, 378}, {398, 373}, {402, 396}, {406, 363},
+  {410, 359}, {414, 352}, {418, 348}, {421, 342}, {424, 336}, {425, 331}, {429, 322}, {433, 317}, {435, 311}, {438, 305}, // 40
+  {440, 296}, {442, 288}, {443, 283}, {444, 277}, {445, 269}, {446, 261}, {448, 253}, {448, 248}, {449, 239}, {449, 230},
+  {450, 225}, {449, 219}, {448, 212}, {447, 205}, {446, 198}, {446, 191}, {445, 188}, {443, 178}, {440, 170}, {438, 166}, // 60
+  {436, 161}, {434, 155}, {432, 147}, {429, 140}, {426, 135}, {424, 130}, {420, 122}, {416, 114}, {413, 108}, {409, 103},
+  {405, 100}, {402, 94}, {398, 87}, {394, 82}, {390, 77}, {385, 73}, {380, 69}, {375, 63}, {368, 56}, {364, 51}, // 80
+  {357, 48}, {352, 45}, {346, 42}, {341, 39}, {335, 34}, {331, 31}, {325, 28}, {319, 25}, {313, 22}, {306, 20},
+  {300, 18}, {294, 16}, {285, 14}, {279, 13}, {273, 12}, {266, 10}, {259,  9}, {251,  7}, {245,  5}, {238,  5}, // 100
+  {232,  5}, {225,  6}, {221,  7}, {214,  8}, {208,  9}, {200, 10}, {192, 12}, {184, 13}, {174, 13}, {168, 14},
+  {162, 16}, {154, 18}, {148, 22}, {141, 25}, {137, 27}, {132, 29}, {125, 32}, {118, 36}, {112, 39}, {106, 42}, // 120
+  {101, 46}, { 97, 48}, { 91, 53}, { 85, 59}, { 80, 65}, { 75, 70}, { 71, 75}, { 65, 78}, { 60, 85}, { 56, 92},
+  { 52, 98}, { 48, 101}, { 45, 107}, { 40, 112}, { 36, 119}, { 32, 127}, { 28, 134}, { 26, 138}, { 24, 144}, { 21, 152}, // 140
+  { 18, 158}, { 17, 164}, { 15, 171}, { 14, 178}, { 13, 186}, { 12, 192}, { 11, 198}, { 10, 206}, {  9, 214}, {  9, 221},
+  {  8, 228}, {  9, 235}, {  9, 244}, {  9, 249}, { 10, 254}, { 11, 260}, { 12, 268}, { 13, 275}, { 15, 282}, { 16, 288}, // 160
+  { 17, 292}, { 18, 302}, { 21, 308}, { 22, 312}, { 25, 318}, { 28, 322}, { 31, 330}, { 34, 336}, { 36, 342}, { 39, 346},
+  { 43, 352}, { 45, 360}, { 49, 366}, { 53, 370}, { 60, 376}, { 65, 379}, { 68, 386}, { 71, 392}, { 78, 399}, { 82, 402}, // 180
+  { 88, 405}, { 93, 408}, { 98, 412}, {103, 418}, {108, 423}, {112, 427}, {119, 430}, {125, 433}, {132, 436}, {137, 439},
+  {144, 440}, {151, 442}, {156, 445}, {162, 447}, {168, 450}, {175, 452}, {182, 454}, {188, 456}, {195, 457}, {204, 458}, // 200
+  {212, 459}, {217, 460}, {222, 460}
+};
+int bigHeartCoords[175][2] = {      // 3        // 4                             // 7                  // 9
+  { 48, 267}, { 45, 273}, { 42, 280}, { 37, 287}, { 33, 295}, { 28, 303}, { 26, 309}, { 23, 317}, { 20, 325}, { 17, 333},
+  { 15, 338}, { 14, 344}, { 12, 352}, { 10, 359}, {  9, 365}, {  8, 372}, {  7, 378}, {  6, 385}, {  8, 392}, {  9, 401},
+  { 10, 409}, { 12, 416}, { 15, 423}, { 18, 430}, { 21, 438}, { 23, 443}, { 27, 451}, { 30, 456}, { 34, 463}, { 40, 469},
+  { 35, 473}, { 52, 478}, { 57, 482}, { 63, 484}, { 68, 487}, { 74, 489}, { 80, 493}, { 86, 495}, { 94, 497}, {100, 498},
+  {107, 499}, {115, 499}, {120, 500}, {125, 500}, {132, 500}, {138, 499}, {144, 499}, {153, 499}, {158, 498}, {165, 497}, // 49
+  {172, 497}, {178, 496}, {185, 495}, {192, 493}, {200, 491}, {206, 489}, {212, 487}, {218, 485}, {225, 482}, {232, 479},
+  {238, 475}, {244, 472}, {252, 470}, {258, 468}, {265, 466}, {270, 463}, {276, 459}, {282, 456}, {287, 454}, {292, 450}, // 69
+  {298, 455}, {303, 458}, {309, 462}, {315, 466}, {322, 470}, {328, 473}, {334, 476}, {340, 479}, {348, 481}, {354, 484},
+  {361, 485}, {367, 488}, {373, 490}, {379, 491}, {386, 493}, {393, 494}, {401, 496}, {408, 497}, {414, 498}, {421, 499}, // 89
+  {428, 499}, {434, 497}, {441, 495}, {448, 492}, {454, 490}, {462, 488}, {468, 487}, {475, 484}, {482, 481}, {488, 478},
+  {494, 472}, {500, 469}, {506, 467}, {512, 466}, {518, 463}, {522, 460}, {529, 456}, {535, 452}, {540, 448}, {547, 442}, // 109
+  {550, 438}, {555, 432}, {560, 428}, {563, 420}, {566, 412}, {568, 406}, {570, 401}, {572, 395}, {573, 388}, {574, 380},
+  {574, 376}, {573, 369}, {572, 363}, {572, 358}, {571, 352}, {569, 345}, {566, 338}, {564, 328}, {562, 322}, {559, 315}, // 129
+  {556, 308}, {553, 300}, {551, 292}, {549, 287}, {546, 278}, {545, 273}, {542, 268}, {539, 261}, {536, 254}, {533, 248},
+  {531, 243}, {528, 238}, {526, 231}, {523, 225}, {521, 220}, {490, 230}, {490, 230}, {385, 63}, {380, 58}, {375, 52}, // 149
+  {370, 44}, {364, 43}, {358, 39}, {352, 33}, {346, 30}, {341, 25}, {334, 21}, {329, 17}, {323, 12}, {318,  9},
+  {309,  6}, {300,  8}, {294, 12}, {289, 14}, {283, 18}, {278, 22}, {272, 26}, {268, 30}, {263, 35}, {258, 40}, // 169
+  {251, 45}, {246, 49}, {239, 54}, {232, 60}, {228, 65}
+};
+int smHeartCoords[85][2] = {        // 3        // 4                             // 7                  // 9
+  { 00, 00}, { 00, 00}, { 00, 00}, { 24,  6}, { 22, 12}, { 19, 18}, { 17, 26}, { 14, 32}, { 11, 38}, {  9, 44},
+  {  8, 49}, {  7, 56}, {  4, 62}, {  3, 68}, {  3, 76}, {  4, 85}, {  5, 92}, {  5, 98}, {  6, 104}, {  9, 112},
+  { 12, 120}, { 14, 125}, { 18, 128}, { 20, 134}, { 24, 139}, { 29, 144}, { 36, 148}, { 40, 153}, { 48, 158}, { 57, 162},
+  { 61, 163}, { 67, 164}, { 73, 165}, { 80, 165}, { 87, 164}, { 95, 163}, {102, 162}, {109, 159}, {115, 155}, {119, 152},
+  {125, 150}, {132, 147}, {139, 143}, {145, 140}, {150, 138}, {145, 140}, {164, 144}, {170, 148}, {176, 152}, {182, 158},
+  {188, 160}, {194, 163}, {203, 165}, {209, 168}, {217, 169}, {224, 169}, {232, 168}, {238, 167}, {246, 164}, {252, 162},
+  {258, 160}, {265, 153}, {270, 148}, {275, 145}, {282, 140}, {287, 133}, {290, 126}, {292, 118}, {294, 112}, {296, 106},
+  {297, 98}, {298, 92}, {298, 85}, {295, 78}, {294, 70}, {294, 65}, {293, 60}, {292, 54}, {290, 48}, {288, 42},
+  {286, 37}, {282, 28}, {278, 21}, {273, 15}, {269,  9}
+};
+int portRCoords[19][2] = {          // 3        // 4                             // 7                  // 9
+  { 12, 80}, { 22, 90}, { 38, 96}, { 54, 96}, { 70, 95}, { 82, 87}, { 92, 75}, { 98, 62}, { 98, 48}, { 95, 32},
+  { 88, 20}, { 75, 10}, { 60,  3}, { 40,  3}, { 26,  8}, { 12, 18}, {  5, 32}, {  2, 50}, {  5, 65}
+};
+int portLCoords[19][2] = {          // 3        // 4                             // 7                  // 9
+  { 82, 87}, { 70, 95}, { 54, 96}, { 38, 96}, { 22, 90}, { 12, 80}, {  5, 65}, {  2, 50}, {  5, 32}, { 12, 18},
+  { 26,  8}, { 40,  3}, { 60,  3}, { 75, 10}, { 88, 20}, { 95, 32}, { 98, 48}, { 98, 62}, { 92, 75}
+};
+
+
+int ledSections[20] = {
+  0,     // 0  bottom ring *
+  203,   // 1  big heart
+  378,   // 2  small heart
+  463,   // 3 underarm left
+  482,   // 4 overarm left
+  506,   // 5  eye left
+  599,   // 6  eye right
+  692,   // 7  mouth
+  710,   // 8  tape
+  744,   // 9  tuner *
+  770,   // 10 indiciator *
+  774,   // 11 underarm right
+  797,   // 12 overarm right
+  821,   // 13 tube bottomright *
+  911,   // 14 tube bottomleft *
+  1001,  // 15 tube topleft *
+  1090,  // 16 tube topright * starred sections are shifted and / or reversed
+  1179,  // 17 port left
+  1302,  // 18 port right
+  1441
+};
+
+int numLedsInSection(int sectionNum) {
+  return ledSections[sectionNum + 1] - ledSections[sectionNum];
+}
+
+int ledPosOffset[19][2] = {
+  { 70, 90},    // 00 bottomRing
+  { 0, 945},    // 01 bigHeart
+  { 150, 1224},    // 02 smallHeart
+  { 612, 1400},    // 03 underarm left
+  { 612, 1210},    // 04 overarm left
+  { 384, 1550},    // 05 eyeLeft
+  { 110, 1550},    // 06 rightEye
+  { 246, 1536},    // 07 mouth
+  { 250, 1600},    // 08 tape
+  { 239, 1710},    // 09 tuner
+  { 180, 1714},    // 10 indicator
+  { 1, 1400},    // 11 underArm right
+  { 1, 1240},    // 12 overArm right
+  { 315, 800},    // 13 tubeBottomright
+  { 80, 800},    // 14 tubeBottomleft
+  { 80, 1020},    // 15 tubeTopleft
+  { 315, 1020},    // 16 tubeTopright
+  { 50, 555},    // 17 port left
+  { 490, 555},    // 18 port right
+};
+
+int eyeSmileyLeds[26] = {
+  34, 35, 39, 40, 41, 42, 43, 44, 45, 46,
+  47, 48, 49, 53, 54, 57, 58, 61, 62, 63,
+  64, 65, 66, 67, 70, 71
+};
+int eyeHeartLeds[56] = {
+  4,  5,  6, 16, 26, 27, 28, 34, 35, 36,
+  37, 38, 43, 44, 45, 50, 51, 52, 53, 54,
+  57, 58, 59, 60, 61, 62, 63, 64, 65, 66,
+  67, 68, 69, 70, 71, 72, 73, 74, 75, 76,
+  77, 78, 79, 80, 81, 82, 83, 84, 85, 86,
+  87, 88, 89, 90, 91, 92
+};
+
+bool pacManAnimationMask [16][93] = {
+  { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,      // 9    - frame 0
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 9    - frame 1
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,      // 9    - frame 2
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0,      // 59
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,      // 9    - frame 3
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 0, 0, 0, 0,      // 39
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0,      // 59
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 0, 0, 0, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,      // 9    - frame 4
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 0, 0, 0, 0, 0,      // 39
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0,      // 59
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 0, 0, 0, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,      // 9    - frame 5
+    0, 0, 0, 0, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 0, 0, 0, 0, 0, 0,      // 39
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0,      // 59
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 0, 0, 0, 0, 0, 1, 1,      // 79
+    1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,      // 9    - frame 6
+    0, 0, 0, 0, 0, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 0, 0, 0, 0, 0, 0,      // 39
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 59
+    0, 0, 0, 0, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 0, 0, 0, 0, 0, 1, 1,      // 79
+    1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,      // 9    - frame 7
+    0, 0, 0, 0, 0, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 0, 0, 0, 0, 0, 0,      // 39
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 59
+    0, 0, 0, 0, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 0, 0, 0, 0, 0, 1, 1,      // 79
+    1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 0, 0, 0, 0, 0, 0, 0, 0,      // 9    - frame 8
+    0, 0, 0, 0, 0, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 0, 0, 0, 0, 0, 0,      // 39
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 59
+    0, 0, 0, 0, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 0, 0, 0, 0, 0, 1, 1,      // 79
+    1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 0, 0, 0, 0, 0, 0, 0,      // 9    - frame 9
+    0, 0, 0, 0, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 0, 0, 0, 0, 0, 0,      // 39
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0,      // 59
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 0, 0, 0, 0, 0, 1, 1,      // 79
+    1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,      // 9    - frame 10
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 0, 0, 0, 0, 0,      // 39
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 0,      // 59
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 0, 0, 0, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,      // 9    - frame 11
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 0, 0, 0, 0,      // 39
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0,      // 59
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 0, 0, 0, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,      // 9    - frame 12
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0,      // 59
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 9    - frame 13
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,      // 9    - frame 14
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,      // 9    - frame 15
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 0, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 0
+  },
+};
+
+bool pacManAnimationMask2 [8][93] = {
+  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 9    - frame 0
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 9    - frame 1
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 79
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1,      // 9    - frame 2
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 69
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 79
+    0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 9    - frame 3
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0,      // 49
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 69
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 79
+    1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 9    - frame 4
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 0, 0, 0, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0,      // 49
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    0, 1, 1, 1, 1, 1, 1, 1, 0, 1,      // 69
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 9    - frame 5
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 0, 0, 0, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 0, 0, 0,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    0, 1, 1, 1, 1, 1, 1, 1, 1, 0,      // 59
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 1, 0, 1, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 9    - frame 6
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 0, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 0,      // 59
+    0, 0, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 0, 0, 0, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1
+  },
+  { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 9    - frame 7
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 19
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 29
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 39
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 49
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 59
+    1, 1, 1, 1, 1, 1, 1, 1, 1, 1,      // 69
+    1, 1, 1, 1, 0, 0, 0, 1, 1, 1,      // 79
+    1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0
+  },
+};
