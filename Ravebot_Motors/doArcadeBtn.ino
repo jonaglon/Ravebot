@@ -1,24 +1,12 @@
 int ledValue;
 
 void doArcadeBtn() {
-
   readArcadeSwitches();
-
-  for (int switchNum = 0; switchNum < 14; switchNum++) {
-    if (digitalRead(switchPins[switchNum]) == 0) {
-      ledValue = 0; //4095;
-    }
-    else {
-      ledValue = 4095; //((timey + (switchNum*400)) % 1024);
-    }
-    ledPwm.setPWM(switchNum, 0, ledValue);
-  }
+  switchPressedButtonToFullBrightness();
 }
 
 bool messageSent[14] = {false, false, false, false, false, false, false, false, false, false, false, false, false, false};
-
 void readArcadeSwitches() {
-
   for (int switchNum = 0; switchNum < 14; switchNum++) { 
     if (digitalRead(switchPins[switchNum]) == 0 && !messageSent[switchNum])
     {
@@ -32,10 +20,20 @@ void readArcadeSwitches() {
   }
 }
 
+void switchPressedButtonToFullBrightness() {
+  for (int switchNum = 0; switchNum < 14; switchNum++) {
+    if (digitalRead(switchPins[switchNum]) == 0) {
+      ledValue = 4095;
+    }
+    else {
+      ledValue = 0;
+    }
+    ledPwm.setPWM(switchNum, 0, ledValue);
+  }
+}
+
 void switchOffArcadeButtons() {
   for (int switchNum = 0; switchNum < 14; switchNum++) { 
     ledPwm.setPWM(switchNum, 0, 0);
-  }
-  
+  }  
 }
-

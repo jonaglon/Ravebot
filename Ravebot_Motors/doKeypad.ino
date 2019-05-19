@@ -87,7 +87,7 @@ int get7SegmentNumber(int actualNumber) {
 void changeNumber(int newNumber) {
   currentSegmentNum = ((currentSegmentNum % 100) * 10) + newNumber;
 
-  if (testMode) {
+  if (testoMode) {
     Serial.print("currentSegmentNum:");
     Serial.println(currentSegmentNum);
     Serial.print(" %");
@@ -97,7 +97,7 @@ void changeNumber(int newNumber) {
 
 
 void resetNumber() {
-  if (testMode)
+  if (testoMode)
     Serial.println("RESET");
 
   currentSegmentNum=0;
@@ -127,6 +127,3 @@ void sevenSegTest2(int seg) {
   sevenSegCount++;
 }
 */
-
-
-
